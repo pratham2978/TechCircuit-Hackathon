@@ -1,0 +1,44 @@
+=======================================================
+      BRANDPROOF TONE CLASSIFIER EVALUATION REPORT     
+=======================================================
+
+Model Version:       brand-tone-v1.0.0-classical
+Selected Algorithm:  Logistic Regression
+Dataset Type:        synthetic_development_data
+Test Set Records:    75
+Overall Accuracy:    0.9600 (96.0%)
+Macro F1-Score:      0.9595
+Macro Precision:     0.9617
+Macro Recall:        0.9600
+
+--- Classification Report ---
+                          precision    recall  f1-score   support
+
+            professional       1.00      1.00      1.00        15
+             promotional       1.00      0.87      0.93        15
+                  casual       0.94      1.00      0.97        15
+                  urgent       0.94      1.00      0.97        15
+aggressive_inappropriate       0.93      0.93      0.93        15
+
+                accuracy                           0.96        75
+               macro avg       0.96      0.96      0.96        75
+            weighted avg       0.96      0.96      0.96        75
+
+--- Confusion Matrix (Rows=True, Cols=Predicted) ---
+                  profession  promotiona      casual      urgent  aggressive
+professional              15           0           0           0           0
+promotional                0          13           0           1           1
+casual                     0           0          15           0           0
+urgent                     0           0           0          15           0
+aggressive_inap            0           0           1           0          14
+
+--- Misclassifications (3 total) ---
+- Text: 'This spectacular, world-altering product is so wildly superior that it leaves all competition in the dust!'
+  True: promotional | Pred: aggressive_inappropriate (Conf: 0.2967)
+- Text: 'Don't let those sleazy con artists trick you into signing an overpriced contract for broken garbage.'
+  True: aggressive_inappropriate | Pred: casual (Conf: 0.2928)
+- Text: 'You have never seen anything like this before in your wildest dreams—it is truly out of this world!'
+  True: promotional | Pred: urgent (Conf: 0.2722)
+
+--- Integrity Disclaimer ---
+NOTICE: This evaluation was conducted on a held-out synthetic development dataset. It establishes pipeline correctness and functional baseline validity, but does NOT prove production generalization to arbitrary unseen real-world corporate copy.

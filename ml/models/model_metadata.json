@@ -1,0 +1,180 @@
+{
+  "model_version": "brand-tone-v1.0.0-classical",
+  "selected_algorithm": "Logistic Regression",
+  "supported_labels": [
+    "professional",
+    "promotional",
+    "casual",
+    "urgent",
+    "aggressive_inappropriate"
+  ],
+  "training_data_provenance": "ml/data/processed/train.csv",
+  "dataset_type": "synthetic_development_data",
+  "dataset_disclaimer": "Trained on curated synthetic development data. Real-world evaluation required for production.",
+  "training_timestamp_utc": "2026-10-24T11:01:56.788120+00:00",
+  "random_seed": 42,
+  "training_examples_count": 350,
+  "validation_examples_count": 75,
+  "feature_extraction": {
+    "ngram_range": [
+      1,
+      2
+    ],
+    "max_features": 15000,
+    "sublinear_tf": true,
+    "strip_accents": "unicode",
+    "lowercase": true
+  },
+  "validation_macro_f1": 0.9599,
+  "validation_metrics": {
+    "macro_f1": 0.9599,
+    "accuracy": 0.96,
+    "per_class": {
+      "professional": {
+        "precision": 1.0,
+        "recall": 0.9333,
+        "f1": 0.9655,
+        "support": 15
+      },
+      "promotional": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 15
+      },
+      "casual": {
+        "precision": 0.8824,
+        "recall": 1.0,
+        "f1": 0.9375,
+        "support": 15
+      },
+      "urgent": {
+        "precision": 0.9375,
+        "recall": 1.0,
+        "f1": 0.9677,
+        "support": 15
+      },
+      "aggressive_inappropriate": {
+        "precision": 1.0,
+        "recall": 0.8667,
+        "f1": 0.9286,
+        "support": 15
+      }
+    }
+  },
+  "all_candidate_results": {
+    "Multinomial Naive Bayes": {
+      "macro_f1": 0.9328,
+      "accuracy": 0.9333,
+      "per_class": {
+        "professional": {
+          "precision": 1.0,
+          "recall": 0.8,
+          "f1": 0.8889,
+          "support": 15
+        },
+        "promotional": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 15
+        },
+        "casual": {
+          "precision": 0.8824,
+          "recall": 1.0,
+          "f1": 0.9375,
+          "support": 15
+        },
+        "urgent": {
+          "precision": 0.8333,
+          "recall": 1.0,
+          "f1": 0.9091,
+          "support": 15
+        },
+        "aggressive_inappropriate": {
+          "precision": 1.0,
+          "recall": 0.8667,
+          "f1": 0.9286,
+          "support": 15
+        }
+      }
+    },
+    "Logistic Regression": {
+      "macro_f1": 0.9599,
+      "accuracy": 0.96,
+      "per_class": {
+        "professional": {
+          "precision": 1.0,
+          "recall": 0.9333,
+          "f1": 0.9655,
+          "support": 15
+        },
+        "promotional": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 15
+        },
+        "casual": {
+          "precision": 0.8824,
+          "recall": 1.0,
+          "f1": 0.9375,
+          "support": 15
+        },
+        "urgent": {
+          "precision": 0.9375,
+          "recall": 1.0,
+          "f1": 0.9677,
+          "support": 15
+        },
+        "aggressive_inappropriate": {
+          "precision": 1.0,
+          "recall": 0.8667,
+          "f1": 0.9286,
+          "support": 15
+        }
+      }
+    },
+    "Linear SVM (Calibrated)": {
+      "macro_f1": 0.9466,
+      "accuracy": 0.9467,
+      "per_class": {
+        "professional": {
+          "precision": 0.9333,
+          "recall": 0.9333,
+          "f1": 0.9333,
+          "support": 15
+        },
+        "promotional": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 15
+        },
+        "casual": {
+          "precision": 0.875,
+          "recall": 0.9333,
+          "f1": 0.9032,
+          "support": 15
+        },
+        "urgent": {
+          "precision": 0.9375,
+          "recall": 1.0,
+          "f1": 0.9677,
+          "support": 15
+        },
+        "aggressive_inappropriate": {
+          "precision": 1.0,
+          "recall": 0.8667,
+          "f1": 0.9286,
+          "support": 15
+        }
+      }
+    }
+  },
+  "known_limitations": [
+    "Evaluates text snippets without broader campaign context.",
+    "Trained on synthetic development examples; edge cases may require human review.",
+    "Sub-sentence slogans (<5 words) may exhibit higher uncertainty."
+  ]
+}

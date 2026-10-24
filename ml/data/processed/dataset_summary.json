@@ -1,0 +1,51 @@
+{
+  "raw_path": "C:\\Users\\Praveen\\Documents\\Hackathon Project\\Inkloom AI\\ml\\data\\raw\\dataset.csv",
+  "initial_records": 500,
+  "valid_records": 500,
+  "rejected_records": 0,
+  "rejection_reasons": {},
+  "exact_duplicates_removed": 0,
+  "final_clean_records": 500,
+  "class_distribution": {
+    "professional": 100,
+    "promotional": 100,
+    "casual": 100,
+    "urgent": 100,
+    "aggressive_inappropriate": 100
+  },
+  "splits": {
+    "train": {
+      "path": "C:\\Users\\Praveen\\Documents\\Hackathon Project\\Inkloom AI\\ml\\data\\processed\\train.csv",
+      "count": 350,
+      "class_distribution": {
+        "promotional": 70,
+        "casual": 70,
+        "aggressive_inappropriate": 70,
+        "professional": 70,
+        "urgent": 70
+      }
+    },
+    "val": {
+      "path": "C:\\Users\\Praveen\\Documents\\Hackathon Project\\Inkloom AI\\ml\\data\\processed\\val.csv",
+      "count": 75,
+      "class_distribution": {
+        "casual": 15,
+        "aggressive_inappropriate": 15,
+        "urgent": 15,
+        "promotional": 15,
+        "professional": 15
+      }
+    },
+    "test": {
+      "path": "C:\\Users\\Praveen\\Documents\\Hackathon Project\\Inkloom AI\\ml\\data\\processed\\test.csv",
+      "count": 75,
+      "class_distribution": {
+        "professional": 15,
+        "casual": 15,
+        "aggressive_inappropriate": 15,
+        "promotional": 15,
+        "urgent": 15
+      }
+    }
+  }
+}

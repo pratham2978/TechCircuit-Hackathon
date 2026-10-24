@@ -1,0 +1,13 @@
+# BrandProof ML Module Dependencies
+# Note: Uses standard, stable scientific Python packages running locally on CPU.
+# Zero external cloud AI SDKs or inference APIs required.
+
+scikit-learn>=1.5.0,<1.7.0
+numpy>=1.26.0,<2.2.0
+pandas>=2.2.0,<2.3.0
+joblib>=1.4.0,<1.5.0
+scipy>=1.13.0,<1.15.0
+
+# Testing & Quality
+pytest>=8.0.0
+pytest-cov>=5.0.0

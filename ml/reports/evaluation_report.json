@@ -1,0 +1,105 @@
+{
+  "evaluation_timestamp": "2026-10-24 11:02:47.018119+00:00",
+  "model_version": "brand-tone-v1.0.0-classical",
+  "selected_algorithm": "Logistic Regression",
+  "dataset_type": "synthetic_development_data",
+  "dataset_disclaimer": "NOTICE: This evaluation was conducted on a held-out synthetic development dataset. It establishes pipeline correctness and functional baseline validity, but does NOT prove production generalization to arbitrary unseen real-world corporate copy.",
+  "test_records_count": 75,
+  "accuracy": 0.96,
+  "macro_f1": 0.9595,
+  "macro_precision": 0.9617,
+  "macro_recall": 0.96,
+  "per_class_metrics": {
+    "professional": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "support": 15
+    },
+    "promotional": {
+      "precision": 1.0,
+      "recall": 0.8667,
+      "f1_score": 0.9286,
+      "support": 15
+    },
+    "casual": {
+      "precision": 0.9375,
+      "recall": 1.0,
+      "f1_score": 0.9677,
+      "support": 15
+    },
+    "urgent": {
+      "precision": 0.9375,
+      "recall": 1.0,
+      "f1_score": 0.9677,
+      "support": 15
+    },
+    "aggressive_inappropriate": {
+      "precision": 0.9333,
+      "recall": 0.9333,
+      "f1_score": 0.9333,
+      "support": 15
+    }
+  },
+  "confusion_matrix": {
+    "professional": {
+      "professional": 15,
+      "promotional": 0,
+      "casual": 0,
+      "urgent": 0,
+      "aggressive_inappropriate": 0
+    },
+    "promotional": {
+      "professional": 0,
+      "promotional": 13,
+      "casual": 0,
+      "urgent": 1,
+      "aggressive_inappropriate": 1
+    },
+    "casual": {
+      "professional": 0,
+      "promotional": 0,
+      "casual": 15,
+      "urgent": 0,
+      "aggressive_inappropriate": 0
+    },
+    "urgent": {
+      "professional": 0,
+      "promotional": 0,
+      "casual": 0,
+      "urgent": 15,
+      "aggressive_inappropriate": 0
+    },
+    "aggressive_inappropriate": {
+      "professional": 0,
+      "promotional": 0,
+      "casual": 1,
+      "urgent": 0,
+      "aggressive_inappropriate": 14
+    }
+  },
+  "misclassifications_count": 3,
+  "misclassifications": [
+    {
+      "test_index": 8,
+      "text": "This spectacular, world-altering product is so wildly superior that it leaves all competition in the dust!",
+      "ground_truth": "promotional",
+      "predicted": "aggressive_inappropriate",
+      "confidence": 0.2967
+    },
+    {
+      "test_index": 18,
+      "text": "Don't let those sleazy con artists trick you into signing an overpriced contract for broken garbage.",
+      "ground_truth": "aggressive_inappropriate",
+      "predicted": "casual",
+      "confidence": 0.2928
+    },
+    {
+      "test_index": 29,
+      "text": "You have never seen anything like this before in your wildest dreams\u2014it is truly out of this world!",
+      "ground_truth": "promotional",
+      "predicted": "urgent",
+      "confidence": 0.2722
+    }
+  ]
+}
