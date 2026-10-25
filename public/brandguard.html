@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BrandGuard by Inkloom AI — Complete Governance Platform</title>
+  <link rel="icon" type="image/png" sizes="136x136" href="data:image/png;base64,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">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/brandguard.css">
+</head>
+<body>
+
+  <!-- TOP SYSTEM STATUS & ROLE SWITCHER -->
+  <div class="top-bar">
+    <div style="display: flex; align-items: center; gap: 16px;">
+      <span class="status-pill"><span class="dot"></span> DB: SQLite Sync (Local Persistent)</span>
+      <span class="status-pill"><span class="dot cyan"></span> Local ML: scikit-learn (TF-IDF + LogReg)</span>
+      <span style="color: var(--ink-dim);">|</span>
+      <span id="sys-org-badge" style="color: var(--lime); font-weight: 600;">Org: Inkloom AI</span>
+    </div>
+    
+    <!-- DEMO QUICK SWITCHER -->
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span style="font-size: 11px; text-transform: uppercase; color: var(--ink-dim); font-weight: 700;">Demo Switch:</span>
+      <button class="btn btn-sm" onclick="switchRole('admin@inkloom.ai')">Admin</button>
+      <button class="btn btn-sm" onclick="switchRole('manager@inkloom.ai')">Manager</button>
+      <button class="btn btn-sm" onclick="switchRole('creator@inkloom.ai')">Creator</button>
+      <button class="btn btn-sm" onclick="switchRole('reviewer@inkloom.ai')">Reviewer</button>
+      <button class="btn btn-sm" style="border-color: #f87171; color: #f87171;" onclick="switchRole('admin@nexuscorp.com')" title="Test Cross-Org Isolation">Nexus Corp</button>
+      <span style="color: var(--ink-dim); margin: 0 2px;">|</span>
+      <button class="btn btn-sm btn-primary" onclick="showAuthModal('register')" style="font-weight: 700;">+ Register</button>
+      <button class="btn btn-sm" onclick="showAuthModal('login')">Sign In</button>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <a href="/" class="brand-logo" title="Back to Homepage">
+      <svg viewBox="0 0 40 40" fill="none">
+        <rect width="40" height="40" rx="8" fill="#1b1713"/>
+        <path d="M20 6L32 12V22C32 29.5 26.8 36.2 20 38C13.2 36.2 8 29.5 8 22V12L20 6Z" fill="#c6f432"/>
+        <path d="M16 20L19 23L25 17" stroke="#121802" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div>
+        <div class="brand-title">BRANDGUARD<span>BY INKLOOM AI</span></div>
+      </div>
+    </a>
+
+    <div class="user-controls">
+      <!-- WORKSPACE SELECTOR -->
+      <select id="workspace-select" class="form-select" style="width: auto; padding: 6px 12px; font-weight: 600;" onchange="handleWorkspaceChange(this.value)">
+        <!-- Populated via JS -->
+      </select>
+
+      <!-- ACTIVE USER INFO -->
+      <div id="user-info-card" style="display: flex; align-items: center; gap: 10px;">
+        <span id="current-user-name" style="font-weight: 600;">Loading...</span>
+        <span id="current-user-role" class="role-badge">ADMIN</span>
+        <button class="btn btn-sm btn-danger" onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- NAVIGATION TABS -->
+  <nav class="nav-tabs">
+    <button class="tab-btn active" data-tab="dashboard" onclick="switchTab('dashboard')">
+      📊 Health Dashboard
+    </button>
+    <button class="tab-btn" data-tab="workspaces" onclick="switchTab('workspaces')">
+      🏢 Workspaces & Guidelines
+    </button>
+    <button class="tab-btn" data-tab="rules" onclick="switchTab('rules')">
+      📜 Rule Governance <span id="pending-rules-badge" class="tab-badge" style="display:none;">0</span>
+    </button>
+    <button class="tab-btn" data-tab="claims" onclick="switchTab('claims')">
+      ⚖️ Claim Ledger
+    </button>
+    <button class="tab-btn" data-tab="studio" onclick="switchTab('studio')">
+      ✍️ Content Studio & Review
+    </button>
+    <button class="tab-btn" data-tab="queue" onclick="switchTab('queue')">
+      📥 Reviewer Queue <span id="queue-count-badge" class="tab-badge" style="display:none;">0</span>
+    </button>
+    <button class="tab-btn" data-tab="passport" onclick="switchTab('passport')">
+      🛡️ Brand Passport & WCAG
+    </button>
+    <button class="tab-btn" data-tab="audit" onclick="switchTab('audit')">
+      🔍 Audit Trail
+    </button>
+  </nav>
+
+  <!-- MAIN APP CONTAINER -->
+  <main class="app-container">
+
+    <!-- TAB 1: GUIDELINE HEALTH DASHBOARD -->
+    <section id="view-dashboard" class="view-section active">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Guideline Health Dashboard</h2>
+          <p class="section-desc">Real-time metrics computed strictly from authoritative SQLite database records.</p>
+        </div>
+        <button class="btn btn-primary" onclick="loadDashboard()">🔄 Refresh Metrics</button>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-label">Approved Rules</span>
+          <span id="stat-approved-rules" class="stat-value" style="color: var(--lime);">--</span>
+          <span class="stat-desc">Active governance rules</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Pending Rules</span>
+          <span id="stat-pending-rules" class="stat-value" style="color: var(--warning);">--</span>
+          <span class="stat-desc">Extracted from guidelines</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Total Claims</span>
+          <span id="stat-total-claims" class="stat-value">--</span>
+          <span class="stat-desc">In marketing ledger</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Verified Claims</span>
+          <span id="stat-verified-claims" class="stat-value" style="color: #6ee7b7;">--</span>
+          <span class="stat-desc">Substantiated with evidence</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Needs Verification</span>
+          <span id="stat-needs-verification" class="stat-value" style="color: #fcd34d;">--</span>
+          <span class="stat-desc">Unbacked or unverified</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Expired Claims</span>
+          <span id="stat-expired-claims" class="stat-value" style="color: #fca5a5;">--</span>
+          <span class="stat-desc">Past validity date</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">High Severity Findings</span>
+          <span id="stat-high-findings" class="stat-value" style="color: var(--danger);">--</span>
+          <span class="stat-desc">Critical brand issues</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Approval Ratio</span>
+          <span id="stat-approval-ratio" class="stat-value">--</span>
+          <span id="stat-approval-counts" class="stat-desc">-- Approvals / -- Rejections</span>
+        </div>
+      </div>
+
+      <!-- RECENT REVIEWS TABLE -->
+      <div class="card">
+        <div class="card-title">
+          <span>Recent Content Reviews</span>
+          <span style="font-size: 13px; color: var(--ink-muted);">Surfaced from persistent review history</span>
+        </div>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Review ID</th>
+                <th>Content Title</th>
+                <th>Author</th>
+                <th>Predicted Tone</th>
+                <th>Findings Count</th>
+                <th>Status</th>
+                <th>Timestamp</th>
+              </tr>
+            </thead>
+            <tbody id="dashboard-reviews-tbody">
+              <tr><td colspan="7" style="text-align:center; color: var(--ink-dim);">Loading reviews...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: WORKSPACES & GUIDELINES -->
+    <section id="view-workspaces" class="view-section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Brand Workspaces & Constitution Compiler</h2>
+          <p class="section-desc">Manage brand identity parameters and ingest PDF/DOCX brand guidelines.</p>
+        </div>
+        <button class="btn btn-primary" onclick="openNewWorkspaceModal()">+ New Brand Workspace</button>
+      </div>
+
+      <div class="studio-grid">
+        <!-- LEFT: UPLOAD GUIDELINE -->
+        <div class="card">
+          <h3 class="card-title">Upload Brand Guideline Document</h3>
+          <p style="color: var(--ink-muted); font-size: 14px; margin-bottom: 16px;">
+            The <strong>Constitution Compiler</strong> deterministically parses PDFs & DOCXs, extracts modal requirement patterns ("must", "never", "avoid"), categorizes candidate rules, and saves exact source excerpts.
+          </p>
+
+          <form id="upload-guideline-form" onsubmit="handleGuidelineUpload(event)">
+            <div class="form-group">
+              <label class="form-label">Select Guideline File (PDF or DOCX):</label>
+              <input type="file" id="guideline-file-input" class="form-input" accept=".pdf,.docx" required>
+            </div>
+            
+            <div style="display: flex; gap: 12px; align-items: center; margin-top: 18px;">
+              <button type="submit" id="btn-upload-guideline" class="btn btn-primary">⚡ Ingest & Compile Rules</button>
+              <a href="/sample-brand-guidelines.pdf" download class="btn" style="border-style: dashed;">📥 Download Sample PDF</a>
+            </div>
+          </form>
+
+          <div id="upload-result-box" style="margin-top: 20px; display: none;"></div>
+        </div>
+
+        <!-- RIGHT: WORKSPACE CONFIGURATION -->
+        <div class="card">
+          <h3 class="card-title">Active Workspace Configuration</h3>
+          <div id="active-workspace-details" style="display: flex; flex-direction: column; gap: 12px;">
+            <div>
+              <span style="color: var(--ink-dim); font-size: 12px; text-transform: uppercase;">Brand Name</span>
+              <div id="ws-detail-name" style="font-size: 18px; font-weight: 700;">--</div>
+            </div>
+            <div>
+              <span style="color: var(--ink-dim); font-size: 12px; text-transform: uppercase;">Industry</span>
+              <div id="ws-detail-industry" style="color: var(--ink-muted);">--</div>
+            </div>
+            <div>
+              <span style="color: var(--ink-dim); font-size: 12px; text-transform: uppercase;">Approved Terminology</span>
+              <div id="ws-detail-approved-terms" style="color: var(--lime); font-family: var(--font-mono); font-size: 13px;">--</div>
+            </div>
+            <div>
+              <span style="color: var(--ink-dim); font-size: 12px; text-transform: uppercase;">Prohibited Terminology</span>
+              <div id="ws-detail-prohibited-terms" style="color: var(--danger); font-family: var(--font-mono); font-size: 13px;">--</div>
+            </div>
+            <div>
+              <span style="color: var(--ink-dim); font-size: 12px; text-transform: uppercase;">Brand Color Palette</span>
+              <div id="ws-detail-colors" style="display: flex; gap: 8px; margin-top: 6px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INGESTED DOCUMENTS TABLE -->
+      <div class="card">
+        <h3 class="card-title">Ingested Guideline Documents</h3>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Document Title</th>
+                <th>File Format</th>
+                <th>Extracted Paragraphs</th>
+                <th>Compiled Rules</th>
+                <th>Upload Date</th>
+              </tr>
+            </thead>
+            <tbody id="documents-tbody">
+              <tr><td colspan="5" style="text-align:center; color: var(--ink-dim);">No documents uploaded yet.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: RULE GOVERNANCE -->
+    <section id="view-rules" class="view-section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Rule Governance & Candidate Review</h2>
+          <p class="section-desc">Candidate rules extracted by the Constitution Compiler begin as pending. Brand Managers review and approve them before they govern content.</p>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <select id="rules-filter-status" class="form-select" onchange="loadRules()">
+            <option value="">All Statuses</option>
+            <option value="candidate" selected>Candidate Rules (Needs Approval)</option>
+            <option value="approved">Approved Rules</option>
+            <option value="rejected">Rejected Rules</option>
+          </select>
+          <select id="rules-filter-category" class="form-select" onchange="loadRules()">
+            <option value="">All Categories</option>
+            <option value="Tone of Voice">Tone of Voice</option>
+            <option value="Required Terminology">Required Terminology</option>
+            <option value="Prohibited Terminology">Prohibited Terminology</option>
+            <option value="Approved Messaging">Approved Messaging</option>
+            <option value="Claims and Evidence">Claims and Evidence</option>
+            <option value="Visual Identity">Visual Identity</option>
+            <option value="Accessibility">Accessibility</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="rules-list-container" style="display: flex; flex-direction: column; gap: 14px;">
+        <!-- Populated via JS -->
+      </div>
+    </section>
+
+    <!-- TAB 4: CLAIM LEDGER & EVIDENCE -->
+    <section id="view-claims" class="view-section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Claim Ledger & Evidence Verification</h2>
+          <p class="section-desc">Authoritative repository of marketing claims with supporting substantiation, validity ranges, and expiration tracking.</p>
+        </div>
+        <button class="btn btn-primary" onclick="openNewClaimModal()">+ Add Marketing Claim</button>
+      </div>
+
+      <div class="card">
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>Claim Text</th>
+                <th>Category</th>
+                <th>Evidence Reference</th>
+                <th>Validity Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="claims-tbody">
+              <tr><td colspan="6" style="text-align:center; color: var(--ink-dim);">Loading claims...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: CONTENT STUDIO & REVIEW -->
+    <section id="view-studio" class="view-section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Content Studio & Deep Review Engine</h2>
+          <p class="section-desc">Creators draft multi-channel copy and run instant local compliance reviews against approved brand rules, claims, and local ML tone models.</p>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <button class="btn" onclick="saveDraft(false)">💾 Save Draft</button>
+          <button class="btn btn-primary" onclick="runComplianceReview()">🛡️ Run Deep Compliance Review</button>
+        </div>
+      </div>
+
+      <div class="studio-grid">
+        <!-- LEFT: DRAFT EDITOR -->
+        <div>
+          <div class="card">
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 12px; margin-bottom: 14px;">
+              <div>
+                <label class="form-label">Campaign / Content Title:</label>
+                <input type="text" id="draft-title" class="form-input" placeholder="e.g. Q4 BrandGuard Launch Announcement" value="Q4 BrandGuard Launch Announcement">
+              </div>
+              <div>
+                <label class="form-label">Channel:</label>
+                <select id="draft-channel" class="form-select">
+                  <option value="Social Media">Social Media</option>
+                  <option value="Email Newsletter">Email Newsletter</option>
+                  <option value="Landing Page">Landing Page</option>
+                  <option value="Press Release">Press Release</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Content Body:</label>
+              <textarea id="draft-content" class="form-textarea" style="min-height: 240px; font-size: 15px; line-height: 1.6;" placeholder="Write or paste your marketing copy here...">BrandGuard by Inkloom AI is the best cheap solution that provides 100% guaranteed flawless compliance and cuts review turnaround by 80% without any setup.</textarea>
+            </div>
+
+            <!-- REVISION & SUBMIT BAR -->
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 10px; border-top: 1px solid var(--border);">
+              <span id="draft-revision-badge" class="badge badge-info">Revision: v1 (Draft)</span>
+              <button class="btn btn-sm btn-primary" onclick="submitDraftForReview()">🚀 Submit for Reviewer Approval</button>
+            </div>
+          </div>
+
+          <!-- SIDE-BY-SIDE REVISION DIFF -->
+          <div id="diff-section" class="card" style="display: none;">
+            <h3 class="card-title">Revision History & Side-by-Side Diff</h3>
+            <div id="diff-output" class="diff-container">
+              <div class="diff-box">
+                <h4>Previous Snapshot (v1)</h4>
+                <div id="diff-v1-text"></div>
+              </div>
+              <div class="diff-box">
+                <h4>Current Working Version</h4>
+                <div id="diff-v2-text"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: REVIEW RESULTS & LOCAL ML FINDINGS -->
+        <div>
+          <!-- LOCAL ML TONE BADGE -->
+          <div id="ml-tone-card" class="card" style="background: var(--bg-subtle);">
+            <div class="card-title">
+              <span>Local ML Tone Analysis</span>
+              <span class="badge badge-info" style="font-family: var(--font-mono);">scikit-learn local</span>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <div id="predicted-tone-badge" style="font-size: 20px; font-weight: 800; color: var(--lime);">No Review Run Yet</div>
+                <div id="predicted-tone-desc" style="color: var(--ink-muted); font-size: 13px; margin-top: 4px;">Run review to predict copy tone using genuine local model</div>
+              </div>
+              <div id="predicted-tone-conf" style="text-align: right; font-family: var(--font-mono); font-size: 14px; color: var(--cyan);">--%</div>
+            </div>
+          </div>
+
+          <!-- STRUCTURED FINDINGS -->
+          <div class="card">
+            <div class="card-title">
+              <span>Compliance Findings (<span id="findings-count">0</span>)</span>
+              <span id="findings-summary-pill" class="badge badge-info">Ready</span>
+            </div>
+            
+            <div id="findings-container" class="findings-list">
+              <div style="text-align: center; color: var(--ink-dim); padding: 30px 0;">
+                Click "Run Deep Compliance Review" to scan text against approved brand rules and claims.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 6: REVIEWER WORKFLOW QUEUE -->
+    <section id="view-queue" class="view-section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Reviewer Approval Queue</h2>
+          <p class="section-desc">Review submitted marketing drafts, inspect violations, and grant approvals, request revisions, or apply Manager Policy Exceptions.</p>
+        </div>
+        <button class="btn btn-primary" onclick="loadWorkflowQueue()">🔄 Refresh Queue</button>
+      </div>
+
+      <div class="card">
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Channel</th>
+                <th>Status</th>
+                <th>Submission Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="queue-tbody">
+              <tr><td colspan="6" style="text-align:center; color: var(--ink-dim);">Loading queue...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- WORKFLOW DECISION MODAL / PANEL -->
+      <div id="decision-panel" class="card" style="display: none; border-color: var(--lime);">
+        <h3 class="card-title" style="color: var(--lime);">Evaluate Submission: <span id="decision-draft-title"></span></h3>
+        <p id="decision-draft-preview" style="background: rgba(0,0,0,0.3); padding: 12px; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 13px; margin-bottom: 14px;"></p>
+        
+        <div class="form-group">
+          <label class="form-label">Reviewer Comments / Guidance:</label>
+          <textarea id="decision-comments" class="form-textarea" placeholder="Add specific feedback for the creator..."></textarea>
+        </div>
+
+        <div class="form-group" style="display: flex; align-items: center; gap: 8px;">
+          <input type="checkbox" id="decision-exception-check" onchange="toggleExceptionRationale(this.checked)">
+          <label for="decision-exception-check" class="form-label" style="margin-bottom:0; cursor:pointer;">
+            Grant Brand Manager Policy Exception (Override flagged findings with auditable rationale)
+          </label>
+        </div>
+
+        <div id="exception-rationale-group" class="form-group" style="display: none;">
+          <label class="form-label" style="color: var(--warning);">Required Policy Exception Rationale:</label>
+          <input type="text" id="decision-exception-rationale" class="form-input" placeholder="e.g. Legal exception granted for limited pilot campaign #204">
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 18px;">
+          <button class="btn btn-primary" onclick="submitDecision('APPROVED')">✅ Approve for Publishing</button>
+          <button class="btn" style="border-color: var(--warning); color: var(--warning);" onclick="submitDecision('CHANGES_REQUESTED')">✏️ Request Changes</button>
+          <button class="btn btn-danger" onclick="submitDecision('REJECTED')">❌ Reject Submission</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 7: BRAND PASSPORT & WCAG -->
+    <section id="view-passport" class="view-section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Brand Passport & WCAG 2.1 Accessibility</h2>
+          <p class="section-desc">Compiled organization-wide brand passport summarizing active rules, claims, and interactive WCAG contrast calculator.</p>
+        </div>
+        <button class="btn btn-primary" onclick="loadBrandPassport()">🔄 Refresh Passport</button>
+      </div>
+
+      <div class="studio-grid">
+        <!-- LEFT: BRAND SUMMARY -->
+        <div class="card">
+          <h3 class="card-title">Brand Identity Passport</h3>
+          <div id="passport-summary" style="display: flex; flex-direction: column; gap: 16px;">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+
+        <!-- RIGHT: WCAG 2.1 CONTRAST CHECKER -->
+        <div class="card">
+          <h3 class="card-title">WCAG 2.1 Accessibility Contrast Checker</h3>
+          <p style="color: var(--ink-muted); font-size: 13px; margin-bottom: 14px;">
+            Calculates exact relative luminance and contrast ratio according to W3C WCAG 2.1 formulas: <code>(L1 + 0.05) / (L2 + 0.05)</code>.
+          </p>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+            <div>
+              <label class="form-label">Foreground (Text) Hex:</label>
+              <input type="text" id="wcag-fg" class="form-input" value="#c6f432" onchange="calculateContrast()">
+            </div>
+            <div>
+              <label class="form-label">Background Hex:</label>
+              <input type="text" id="wcag-bg" class="form-input" value="#27231e" onchange="calculateContrast()">
+            </div>
+          </div>
+
+          <!-- CONTRAST PREVIEW BOX -->
+          <div id="contrast-preview-box" style="padding: 24px; border-radius: var(--radius-md); text-align: center; margin-bottom: 16px; transition: all 0.2s;">
+            <div style="font-size: 22px; font-weight: 800;">BrandGuard Contrast Preview</div>
+            <div style="font-size: 14px; margin-top: 4px;">Testing text readability against background</div>
+          </div>
+
+          <div id="contrast-results-card" class="stat-card" style="background: var(--bg-subtle);">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <span class="stat-label">Contrast Ratio</span>
+                <div id="contrast-ratio-val" style="font-size: 28px; font-weight: 800; color: var(--lime);">--:1</div>
+              </div>
+              <div style="text-align: right;">
+                <span id="wcag-aa-badge" class="badge">AA: --</span>
+                <span id="wcag-aaa-badge" class="badge" style="margin-top: 4px;">AAA: --</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 8: AUDIT TRAIL -->
+    <section id="view-audit" class="view-section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Security & Governance Audit Trail</h2>
+          <p class="section-desc">Tamper-evident log tracking guideline uploads, candidate rule approvals, claim modifications, and reviewer publishing decisions.</p>
+        </div>
+        <button class="btn btn-primary" onclick="loadAuditTrail()">🔄 Refresh Audit Trail</button>
+      </div>
+
+      <div class="card">
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Event ID</th>
+                <th>Action</th>
+                <th>Actor Email</th>
+                <th>Target Type</th>
+                <th>Details & Rationale</th>
+                <th>Timestamp</th>
+              </tr>
+            </thead>
+            <tbody id="audit-tbody">
+              <tr><td colspan="6" style="text-align:center; color: var(--ink-dim);">Loading audit trail...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL: ADD CLAIM -->
+  <div id="modal-add-claim" class="modal-overlay">
+    <div class="modal-content">
+      <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 16px;">Add Authoritative Marketing Claim</h3>
+      <form id="form-add-claim" onsubmit="handleCreateClaim(event)">
+        <div class="form-group">
+          <label class="form-label">Claim Text:</label>
+          <input type="text" id="new-claim-text" class="form-input" placeholder="e.g. Cuts review turnaround time by 80%" required>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">Category:</label>
+            <select id="new-claim-category" class="form-select">
+              <option value="Performance">Performance</option>
+              <option value="Cost Efficiency">Cost Efficiency</option>
+              <option value="Compliance">Compliance</option>
+              <option value="Security">Security</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Validity Expiration Date:</label>
+            <input type="date" id="new-claim-validity" class="form-input" value="2027-12-31" required>
+          </div>
+        </div>
+        
+        <h4 style="font-size: 14px; font-weight: 700; margin: 14px 0 8px; color: var(--cyan);">Attached Evidence Reference</h4>
+        <div class="form-group">
+          <label class="form-label">Evidence Title:</label>
+          <input type="text" id="new-claim-evidence-title" class="form-input" placeholder="e.g. Q3 2025 Customer Benchmark Study">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Source Name & Supporting Excerpt:</label>
+          <input type="text" id="new-claim-evidence-source" class="form-input" placeholder="e.g. Internal Analytics Team - Measured 80% decrease across 40 brands">
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+          <button type="button" class="btn" onclick="closeModal('modal-add-claim')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save to Ledger</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD WORKSPACE -->
+  <div id="modal-add-workspace" class="modal-overlay">
+    <div class="modal-content">
+      <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 16px;">Create New Brand Workspace</h3>
+      <form id="form-add-workspace" onsubmit="handleCreateWorkspace(event)">
+        <div class="form-group">
+          <label class="form-label">Workspace / Brand Name:</label>
+          <input type="text" id="new-ws-name" class="form-input" placeholder="e.g. Acme Corp Enterprise" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Industry:</label>
+          <input type="text" id="new-ws-industry" class="form-input" placeholder="e.g. Cloud Infrastructure" value="Technology">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Approved Terminology (comma separated):</label>
+          <input type="text" id="new-ws-approved" class="form-input" value="BrandGuard, Inkloom AI, cost-effective">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Prohibited Terminology (comma separated):</label>
+          <input type="text" id="new-ws-prohibited" class="form-input" value="cheap, 100% guaranteed, flawless">
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+          <button type="button" class="btn" onclick="closeModal('modal-add-workspace')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create Workspace</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- AUTH MODAL: SIGN IN & REGISTER -->
+  <div id="modal-login" class="modal-overlay" style="z-index: 500;">
+    <div class="modal-content" style="max-width: 500px; text-align: center; position: relative;">
+      <!-- Close Button -->
+      <button type="button" onclick="closeModal('modal-login')" style="position: absolute; top: 14px; right: 16px; background: none; border: none; font-size: 20px; color: var(--ink-dim); cursor: pointer;" title="Close">&times;</button>
+
+      <div style="display: flex; justify-content: center; margin-bottom: 12px;">
+        <svg viewBox="0 0 40 40" fill="none" style="width: 44px; height: 44px;">
+          <rect width="40" height="40" rx="8" fill="#1b1713"/>
+          <path d="M20 6L32 12V22C32 29.5 26.8 36.2 20 38C13.2 36.2 8 29.5 8 22V12L20 6Z" fill="#c6f432"/>
+          <path d="M16 20L19 23L25 17" stroke="#121802" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <!-- Tab Switcher -->
+      <div style="display: flex; gap: 8px; border-bottom: 1px solid var(--border); margin-bottom: 18px; padding-bottom: 6px;">
+        <button id="auth-tab-login" type="button" class="btn btn-sm" style="flex: 1; border-color: var(--lime); color: var(--lime); font-weight: 700;" onclick="switchAuthTab('login')">
+          🔑 Sign In
+        </button>
+        <button id="auth-tab-register" type="button" class="btn btn-sm" style="flex: 1; font-weight: 700;" onclick="switchAuthTab('register')">
+          ✨ Register New Account
+        </button>
+      </div>
+
+      <!-- PANEL 1: SIGN IN -->
+      <div id="auth-panel-login">
+        <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 4px;">Sign in to BrandGuard</h2>
+        <p style="color: var(--ink-muted); font-size: 13px; margin-bottom: 16px;">Role-Based Access Control & Enterprise Governance</p>
+
+        <form id="form-login" onsubmit="handleManualLogin(event)" style="text-align: left;">
+          <div class="form-group">
+            <label class="form-label">Email Address:</label>
+            <input type="email" id="login-email" class="form-input" placeholder="e.g. manager@inkloom.ai" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password:</label>
+            <input type="password" id="login-password" class="form-input" placeholder="••••••••" value="password123" required>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 10px; margin-top: 8px;">Sign In to Workspace</button>
+        </form>
+
+        <div style="position: relative; margin: 18px 0; text-align: center;">
+          <hr style="border: 0; border-top: 1px solid var(--border);">
+          <span style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: var(--card); padding: 0 10px; font-size: 12px; color: var(--ink-dim);">or quick login as demo role</span>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <button class="btn btn-sm" style="width: 100%; justify-content: flex-start; gap: 10px;" onclick="quickLoginRole('admin@inkloom.ai')">
+            <span class="role-badge admin" style="font-size: 10px;">Admin</span>
+            <span style="font-size: 12px; font-weight: 600;">Alex Vance (Inkloom AI Admin)</span>
+          </button>
+          <button class="btn btn-sm" style="width: 100%; justify-content: flex-start; gap: 10px;" onclick="quickLoginRole('manager@inkloom.ai')">
+            <span class="role-badge" style="font-size: 10px;">Manager</span>
+            <span style="font-size: 12px; font-weight: 600;">Marcus Sterling (Brand Manager)</span>
+          </button>
+          <button class="btn btn-sm" style="width: 100%; justify-content: flex-start; gap: 10px;" onclick="quickLoginRole('creator@inkloom.ai')">
+            <span class="role-badge creator" style="font-size: 10px;">Creator</span>
+            <span style="font-size: 12px; font-weight: 600;">Sam Taylor (Content Creator)</span>
+          </button>
+          <button class="btn btn-sm" style="width: 100%; justify-content: flex-start; gap: 10px;" onclick="quickLoginRole('reviewer@inkloom.ai')">
+            <span class="role-badge reviewer" style="font-size: 10px;">Reviewer</span>
+            <span style="font-size: 12px; font-weight: 600;">Elena Rostova (Compliance Reviewer)</span>
+          </button>
+          <button class="btn btn-sm" style="width: 100%; justify-content: flex-start; gap: 10px; border-color: #f87171;" onclick="quickLoginRole('admin@nexuscorp.com')">
+            <span class="role-badge admin" style="font-size: 10px;">Tenant</span>
+            <span style="font-size: 12px; font-weight: 600; color: #f87171;">Nexus Corp Admin (Isolated Org)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- PANEL 2: REGISTER -->
+      <div id="auth-panel-register" style="display: none;">
+        <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 4px;">Create an Account</h2>
+        <p style="color: var(--ink-muted); font-size: 13px; margin-bottom: 16px;">Register with any Enterprise role to test governance</p>
+
+        <form id="form-register" onsubmit="handleManualRegister(event)" style="text-align: left;">
+          <div class="form-group">
+            <label class="form-label">Full Name:</label>
+            <input type="text" id="register-name" class="form-input" placeholder="e.g. Rachel Adams" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address:</label>
+            <input type="email" id="register-email" class="form-input" placeholder="e.g. rachel@inkloom.ai" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password:</label>
+            <input type="password" id="register-password" class="form-input" placeholder="Minimum 4 characters" required minlength="4">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Select Your Role:</label>
+            <select id="register-role" class="form-select" required style="width: 100%;">
+              <option value="brand_manager">Brand Manager — Governance, Rule Approvals & Guidelines</option>
+              <option value="creator">Content Creator — Studio, AI Tone Inference & Drafts</option>
+              <option value="reviewer">Compliance Reviewer — Reviewer Queue & Decisions</option>
+              <option value="admin">Enterprise Admin — Full System & Workspaces Control</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Organization Name:</label>
+            <input type="text" id="register-org" class="form-input" placeholder="e.g. Inkloom AI" value="Inkloom AI">
+            <span style="font-size: 11px; color: var(--ink-dim); display: block; margin-top: 4px;">Enter an existing organization or new company name to create an isolated workspace.</span>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 10px; margin-top: 12px; font-weight: 700;">Complete Registration & Sign In</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div id="toast-container"></div>
+
+  <script src="/brandguard.js?v=10"></script>
+</body>
+</html>
