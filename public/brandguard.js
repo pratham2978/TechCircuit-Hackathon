@@ -415,7 +415,7 @@ async function handleGuidelineUpload(event) {
 
   const btn = document.getElementById('btn-upload-guideline');
   btn.disabled = true;
-  btn.textContent = '⏳ Compiling Constitution...';
+  btn.textContent = 'Compiling Constitution...';
 
   const formData = new FormData();
   formData.append('guideline_file', fileInput.files[0]);
@@ -432,7 +432,7 @@ async function handleGuidelineUpload(event) {
       box.className = 'card';
       box.style.borderColor = 'var(--lime)';
       box.innerHTML = `
-        <h4 style="color: var(--lime); margin-bottom: 6px;">🎉 Constitution Compiled Successfully</h4>
+        <h4 style="color: var(--lime); margin-bottom: 6px;">Constitution Compiled Successfully</h4>
         <p style="font-size: 13px;">Extracted <strong>${extractedCount}</strong> candidate requirements with modal keywords and page/section references.</p>
         <button class="btn btn-sm btn-primary" style="margin-top: 10px;" onclick="switchTab('rules')">Review & Approve Candidate Rules →</button>
       `;
@@ -444,7 +444,7 @@ async function handleGuidelineUpload(event) {
     showToast(err.message || 'Guideline ingestion failed', 'error');
   } finally {
     btn.disabled = false;
-    btn.textContent = '⚡ Ingest & Compile Rules';
+    btn.textContent = 'Ingest & Compile Rules';
   }
 }
 
@@ -462,7 +462,7 @@ async function loadDocuments() {
       const displayName = doc.original_name || doc.filename;
       const ext = displayName.split('.').pop().toUpperCase();
       tr.innerHTML = `
-        <td style="font-weight: 600;">📄 ${escapeHtml(displayName)}</td>
+        <td style="font-weight: 600;"><span style="display:inline-flex;align-items:center;gap:6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> ${escapeHtml(displayName)}</span></td>
         <td style="text-transform: uppercase; font-family: var(--font-mono); font-size: 12px;"><span class="badge badge-info">${ext}</span></td>
         <td>${doc.page_count || 1} pages</td>
         <td><span class="badge badge-pending">${doc.total_rules_count || 0} Rules (${doc.approved_rules_count || 0} Approved)</span></td>
@@ -519,7 +519,7 @@ async function loadRules() {
           </div>
           <div style="font-size: 15px; font-weight: 600; margin-bottom: 6px;">${escapeHtml(ruleDisplayTitle)}</div>
           ${rule.description && rule.description !== rule.title ? `<div style="font-size: 13px; color: var(--ink-muted); margin-bottom: 8px;">${escapeHtml(rule.description)}</div>` : ''}
-          ${rule.replacement_or_guidance ? `<div style="font-size: 12px; color: var(--lime); margin-bottom: 8px;">💡 Guidance: ${escapeHtml(rule.replacement_or_guidance)}</div>` : ''}
+          ${rule.replacement_or_guidance ? `<div style="font-size: 12px; color: var(--lime); margin-bottom: 8px;">Guidance: ${escapeHtml(rule.replacement_or_guidance)}</div>` : ''}
           <div class="citation-box">
             <strong>Source Citation:</strong> "${escapeHtml(ruleCitation)}"
             <br><span style="color: var(--ink-muted); font-size: 11px;">Document: ${escapeHtml(docName)}</span>
@@ -527,12 +527,12 @@ async function loadRules() {
         </div>
         ${isCandidate && canManageRules ? `
           <div style="display: flex; gap: 8px; flex-shrink: 0;">
-            <button class="btn btn-sm btn-primary" onclick="approveRule(${rule.id})">✅ Approve Rule</button>
-            <button class="btn btn-sm btn-danger" onclick="rejectRule(${rule.id})">❌ Reject</button>
+            <button class="btn btn-sm btn-primary" onclick="approveRule(${rule.id})">Approve Rule</button>
+            <button class="btn btn-sm btn-danger" onclick="rejectRule(${rule.id})">Reject</button>
           </div>
         ` : `
           <span style="font-size: 12px; color: var(--ink-dim); flex-shrink: 0;">
-            ${rule.status === 'approved' ? `✅ Approved by ${escapeHtml(rule.approved_by || 'Admin')}` : rule.status === 'rejected' ? `❌ Rejected` : `Decided by ${escapeHtml(rule.reviewed_by || 'Manager')}`}
+            ${rule.status === 'approved' ? `Approved by ${escapeHtml(rule.approved_by || 'Admin')}` : rule.status === 'rejected' ? `Rejected` : `Decided by ${escapeHtml(rule.reviewed_by || 'Manager')}`}
           </span>
         `}
       `;
@@ -588,7 +588,7 @@ async function loadClaims() {
 
       const evidenceSummary = (claim.evidence && claim.evidence.length > 0)
         ? `<strong>${escapeHtml(claim.evidence[0].evidence_title || 'Study')}</strong><br><span style="color:var(--ink-dim);font-size:12px;">${escapeHtml(claim.evidence[0].source_name || '')}</span>`
-        : `<span style="color: var(--warning); font-size: 12px;">⚠️ No evidence attached</span>`;
+        : `<span style="color: var(--warning); font-size: 12px;">No evidence attached</span>`;
 
       const tr = document.createElement('tr');
       tr.innerHTML = `
@@ -697,7 +697,7 @@ function renderFindings(findings) {
   if (!findings || findings.length === 0) {
     container.innerHTML = `
       <div style="text-align: center; color: var(--lime); padding: 30px 0;">
-        ✨ <strong>No Violations Found!</strong> Content fully aligns with approved brand guidelines, tone parameters, and marketing claims.
+        <strong>No Violations Found</strong> — Content fully aligns with approved brand guidelines, tone parameters, and marketing claims.
       </div>
     `;
     return;
@@ -723,7 +723,7 @@ function renderFindings(findings) {
       ${f.matched_text ? `<div class="finding-quote">"${escapeHtml(f.matched_text)}"</div>` : ''}
       ${citation}
       ${f.suggested_correction ? `
-        <div class="finding-suggestion">💡 <strong>Suggested Replacement:</strong> "${escapeHtml(f.suggested_correction)}"</div>
+        <div class="finding-suggestion"><strong>Suggested Replacement:</strong> "${escapeHtml(f.suggested_correction)}"</div>
         <div style="display: flex; gap: 8px; margin-top: 10px;">
           <button class="btn btn-sm btn-primary" onclick="acceptCorrection('${escapeHtml(f.matched_text)}', '${escapeHtml(f.suggested_correction)}')">Accept Suggestion</button>
         </div>
@@ -950,7 +950,7 @@ async function loadBrandPassport() {
       <div style="border-bottom: 1px solid var(--border); padding-bottom: 14px;">
         <span style="color: var(--ink-dim); font-size: 11px; text-transform: uppercase; font-weight: 700;">Preferred Voice & Tone</span>
         <div style="font-weight: 600; font-size: 15px; margin-top: 2px;">${escapeHtml(ws.preferred_tone || 'Professional, Confident, Authoritative')}</div>
-        ${ml.accuracy ? `<div style="font-size: 12px; color: var(--cyan); margin-top: 4px;">🤖 Local Tone Classifier: ${ml.name || 'scikit-learn'} (${Math.round(ml.accuracy * 100)}% test accuracy)</div>` : ''}
+        ${ml.accuracy ? `<div style="font-size: 12px; color: var(--cyan); margin-top: 4px;">Local Tone Classifier: ${ml.name || 'scikit-learn'} (${Math.round(ml.accuracy * 100)}% test accuracy)</div>` : ''}
       </div>
 
       <div style="border-bottom: 1px solid var(--border); padding-bottom: 14px;">
