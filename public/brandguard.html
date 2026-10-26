@@ -1,56 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BrandGuard by Inkloom AI — Complete Governance Platform</title>
-  <link rel="icon" type="image/png" sizes="136x136" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAACICAYAAAA8uqNSAAASkklEQVR42u1dfYxdxXX/nevrj7V31zbeNdjxrsHEkBCDu0YmjhpkuyWlFa1EEBRUNYoipPyRVlGUSKHtH/mQosagJn+VfkkVqRIRESwgaRIC2ICDqzjrsMawicAYLK/NGq93vV/v+a13n+/pH+/d++bOm/s9931450jr8XlnZu7cc849c+bMF23u7WYQQAyAAIipC/LvGlP3uay5XnYAWAHv1YSUpfdFC6eMSkoWYMGAgRAwCmLAKIgBoyAGjIIYMApiwCiIAaMgBoyCGFg0CkKoBNAq/wgpJFyRcgQ9TspSPZygXBidLMV7cfb2pk0pQ/lQPlv620tU4V+tekYttM5CATnkDj9OqIaQA+hpcGLpJ531k/SuuutX4My1R1Ka+hzp9yB6Tu23/BpEkgVpDk5eWwPys/uzn85xn+cpfkh+ic4p34eER6bihyUKrfHysHyTZOCaRWCAJRwKHBH0LDgF0SlhfhWOZHTK4f3i4l73pKA7OT+frl/fzY1wdljh3rQstFVjFc33KVXWUQwr+jiVT9KmKcd8L18+au/3Jo3tt5rqxScYVXDKURNFjA7ceqlJo5tWTys+CNe+IHb8X1QdXSdO8fO7jqnO57mjCuIGvW9OOOdYv9IHafMueFG5J95KtZzaaYlfkufgCAMUDuurr1KcA+gc5bs0GHfbSjHbnwYPHcVwQHA17ZeHjPUJo9vW+YxZ4U+1gFXSVafNzGIYByy8MYHgQE1nMKxqGlZeRecIelB5iHSul0zc5+ui11b5kvAFxHt/kuicoX2V/6nbl/b93BZFxkFars9tYf+oWZYgzXPj9g5WlBeLJnnpTgCOnL32LHiqUZbTuPZxilFhxYIoVFA1T9c2X2PV6puRmE4fhIP6Lj1praeMX445w04jrvk6rb5TiYU+P98dUWp+hj2/YT6Ir54ElZqYjJ4RYBQzg0g2B4XJhAkf9nU7stcrd0t+ugP/HIFnSVj98nJ5MOD4ZumTPT8p3fEsXbb6GdJMfVh5rk0LqOge/7naPqIQN0Bd3uMfB7efFeXt+lk/UiU+OoVoNEm/WHXVkuppgeVJ8iUSl09ItzTUz6hf6BVansLpnsGngPK+z79eYlaC9su/CHGQZH1mO/TtcftgOe3tXIo9Wzuw56ZVePVEEa++W8KFwkJsXyuuzyXGg6Lb74A9myTtCqfw3e9Z5EWbe7uZFM9bbHjvKht7burA7q2rsLN/Rd13dXRkDofeLeKVEyWMF8tany+fcpCovFNdP5oTf2hzbxejXS1CxlS0FCqlCIKjI3OJLUu7pvWjGIU7m2gEookemC1j/VGWIim4lqWiLOW659c1J0P7GUIPmTP/PY8kjgVhJhAtPkuRRlnysixp4khaLIjrg4i+ztWQ9lQtxZ6t+SpFlGVxfZZ245/DlU1TbeaDyBMBzbEUrWRZcrcg/b3dbIl9JvtjIK4miXQSfAR5BXWj6T2rbOzV6FM0zLK8W8J4odx0/inpYtylv7eLSRHr84d9gqbwGoh7K4sZvZ029mxd2XKWIq1leeXdSxgvlGPzIyqWG8W/JPynfjEOIq8VkCyOF48R6Nwgeu8qG3u3dmB3mytFHJ/lQqEcyR9GxbLH4p8bkSVh2YRUP7NQnxjFDvJB5JVHzZi1bFWfoj19FkeYHWqTUYwYCXQ1uN18iqt9NESbe7tC5vdUEznZ6O7MgAwPDHQvOkuR1rI8fWwmMf9Z6VNGl7elqUTh4I2g8sH0ylxYSBhWRa/CLdctN8oRATv7V2BsphwcCg2RDyWQr7i8w4I31xew8QMRG0OElFgcA7mrC7i2zkAqz77yBpJBcvnEpRPgWRqrdiYHVcfD5KlbGpwUOAXkt0h1poeBSIiQB2eQn4zb4hkfuewCo3C68pQiAxHGg0P5T0G7AJ1oeci43QqfrzEg+jmm3KubgtF23Mha5Wt3V7boi5QGjWoMxPE/QuQFCPGrFJHXKm4HH2vox4nC6WlxMuqR0YIEyEuTfOxWWmFqIK7t4BzmwtWpTZLG5ZnGOVDIQBzbQanlgIT5bfnbzXNFW8ZTEgz4PAz98lHRbUTuk4jhHWcobyCdBWmUfGxmjlx6RtJ0MIUsl0+dGtkn80ESTooiYElhVHnbH+WEtzhZxq0IembcyD6ZDxLCTzE6bZH/ELOk8rTVe/lZcigZ4Xv/9eAGko1iECEf1iC/ho5iknjZBuKNYljzqKVuFMPCKtWwLZ6+JWkBA2fKQDcWJL4FYfivxGAN/A+i2yTd8kBSn4WAPkqmIyM9DwtSWrkWv//EX+FM/x2YWtsPh5agq3AeG8++gZvfeQG9Y+9kfsaF9TfjnZvvxuimP8Js57Ww+ArWTI6gb2QQn/j9/6Lj0qR2C0K+GXAFfzkG/xFOd6ug/p4ulpfBi9seVMvk86B/4y968ZfbOrUx8ugdX8D/ffrv4CxZGpjntuP78ScH98G6spC4fmfJUrz8p/+AN7ffH5jHurKAPz78OHYOPqHtvX4+XMC3n7+g5m/1LDf3MqAs8nGPsLDFw0gqGiRprHROSN50HfDin38bw7feG5nvze33Y2z9x/DZZ/4+0ZdeWrkWz973r/hww7ZIJXpt91cwec31+LNffVOvBVHxj/x7mHTIx2Lm6r0w0anD8fJ5aZL8mpTj8J1fjqUcLny4YRt+ec93Ez3jl/d8N1I5RBi+9V4cvvPLWn2QRHJIkaKaWuKqL5JWl8lpNXMg3VceAFEIXU41MO/8tR/H4K6HE5c7ff2n8MbAQ7HyvjHwEE5f/6nEzxjc9TDOX/txTVYkBv8VKZBAftXUYuFmKdc7FnFfyhF0sTwi6HKqgXFvhfgD0YJ/UGs+3e3zW5EY/JdSR7ghLEl5q3ZXHUkapcB9FiQ4PyLoSlwD496/cXfqshfXbcFEz42heSZ6bsTFdVua0j7ZB0nKXyupPKq45R2/6/VBkHyH5DjSlNcwpC109maqYyJC+BMZlAMAC27tSikx2W9r4AAAABJRU5ErkJggg==">
+  <title>BrandGuard — Enterprise Brand Governance Platform</title>
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2l9 3v7c0 5-4 8-9 10-5-2-9-5-9-10V5z' fill='%23e98a2e'/%3E%3Ccircle cx='9' cy='11' r='2' fill='%2322d3ee'/%3E%3Ccircle cx='15' cy='11' r='2' fill='%2322d3ee'/%3E%3C/svg%3E">
+  <link rel="alternate icon" type="image/png" sizes="128x128" href="/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="/brandguard.css">
 </head>
+
 <body>
 
-  <!-- TOP SYSTEM STATUS & ROLE SWITCHER -->
+  <!-- TOP SYSTEM BAR & PERSONA SWITCHER -->
   <div class="top-bar">
-    <div style="display: flex; align-items: center; gap: 16px;">
-      <span class="status-pill"><span class="dot"></span> DB: SQLite Sync (Local Persistent)</span>
-      <span class="status-pill"><span class="dot cyan"></span> Local ML: scikit-learn (TF-IDF + LogReg)</span>
-      <span style="color: var(--ink-dim);">|</span>
-      <span id="sys-org-badge" style="color: var(--lime); font-weight: 600;">Org: Inkloom AI</span>
+    <div class="top-bar-left">
+      <span class="tenant-indicator">
+        <span class="tenant-dot"></span>
+        <span id="sys-org-badge">Org: Inkloom AI</span>
+      </span>
     </div>
-    
+
     <!-- DEMO QUICK SWITCHER -->
-    <div style="display: flex; align-items: center; gap: 8px;">
-      <span style="font-size: 11px; text-transform: uppercase; color: var(--ink-dim); font-weight: 700;">Demo Switch:</span>
-      <button class="btn btn-sm" onclick="switchRole('admin@inkloom.ai')">Admin</button>
-      <button class="btn btn-sm" onclick="switchRole('manager@inkloom.ai')">Manager</button>
-      <button class="btn btn-sm" onclick="switchRole('creator@inkloom.ai')">Creator</button>
-      <button class="btn btn-sm" onclick="switchRole('reviewer@inkloom.ai')">Reviewer</button>
-      <button class="btn btn-sm" style="border-color: #f87171; color: #f87171;" onclick="switchRole('admin@nexuscorp.com')" title="Test Cross-Org Isolation">Nexus Corp</button>
-      <span style="color: var(--ink-dim); margin: 0 2px;">|</span>
-      <button class="btn btn-sm btn-primary" onclick="showAuthModal('register')" style="font-weight: 700;">+ Register</button>
-      <button class="btn btn-sm" onclick="showAuthModal('login')">Sign In</button>
+    <div class="demo-switcher">
+      <span class="demo-label">Demo Persona:</span>
+      <div class="demo-btn-group">
+        <button class="btn btn-xs demo-btn" onclick="switchRole('admin@inkloom.ai')">Admin</button>
+        <button class="btn btn-xs demo-btn" onclick="switchRole('manager@inkloom.ai')">Manager</button>
+        <button class="btn btn-xs demo-btn" onclick="switchRole('creator@inkloom.ai')">Creator</button>
+        <button class="btn btn-xs demo-btn" onclick="switchRole('reviewer@inkloom.ai')">Reviewer</button>
+        <button class="btn btn-xs demo-btn demo-btn-tenant" onclick="switchRole('admin@nexuscorp.com')" title="Test Cross-Org Isolation">Nexus Corp</button>
+      </div>
+      <div class="top-bar-divider"></div>
+      <button class="btn btn-xs btn-primary" onclick="showAuthModal('register')">+ Register</button>
+      <button class="btn btn-xs btn-ghost" onclick="showAuthModal('login')">Sign In</button>
     </div>
   </div>
 
   <!-- NAVBAR -->
   <header class="navbar">
-    <a href="/" class="brand-logo" title="Back to Homepage">
-      <svg viewBox="0 0 40 40" fill="none">
-        <rect width="40" height="40" rx="8" fill="#1b1713"/>
-        <path d="M20 6L32 12V22C32 29.5 26.8 36.2 20 38C13.2 36.2 8 29.5 8 22V12L20 6Z" fill="#c6f432"/>
-        <path d="M16 20L19 23L25 17" stroke="#121802" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <div>
-        <div class="brand-title">BRANDGUARD<span>BY INKLOOM AI</span></div>
-      </div>
-    </a>
+    <div class="navbar-left">
+      <a href="/" class="brand-logo" title="Back to Homepage">
+        <svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true">
+          <path d="M12 2l9 3v7c0 5-4 8-9 10-5-2-9-5-9-10V5z" fill="#e98a2e" />
+          <circle cx="9" cy="11" r="2" fill="#22d3ee" />
+          <circle cx="15" cy="11" r="2" fill="#22d3ee" />
+        </svg>
+        <span class="brand-title">BRANDGUARD</span>
+      </a>
+    </div>
 
     <div class="user-controls">
       <!-- WORKSPACE SELECTOR -->
-      <select id="workspace-select" class="form-select" style="width: auto; padding: 6px 12px; font-weight: 600;" onchange="handleWorkspaceChange(this.value)">
+      <select id="workspace-select" class="form-select" style="width: auto; padding: 6px 12px; font-weight: 600;"
+        onchange="handleWorkspaceChange(this.value)">
         <!-- Populated via JS -->
       </select>
 
@@ -64,30 +73,58 @@
   </header>
 
   <!-- NAVIGATION TABS -->
-  <nav class="nav-tabs">
+  <nav class="nav-tabs" aria-label="BrandGuard navigation">
     <button class="tab-btn active" data-tab="dashboard" onclick="switchTab('dashboard')">
-      📊 Health Dashboard
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M18 20V10M12 20V4M6 20v-6" />
+      </svg>
+      Health Dashboard
     </button>
     <button class="tab-btn" data-tab="workspaces" onclick="switchTab('workspaces')">
-      🏢 Workspaces & Guidelines
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M3 21h18M3 7v14M21 7v14M7 3h10v18H7zM10 8h1M10 12h1M10 16h1" />
+      </svg>
+      Workspaces & Guidelines
     </button>
     <button class="tab-btn" data-tab="rules" onclick="switchTab('rules')">
-      📜 Rule Governance <span id="pending-rules-badge" class="tab-badge" style="display:none;">0</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
+      </svg>
+      Rule Governance <span id="pending-rules-badge" class="tab-badge" style="display:none;">0</span>
     </button>
     <button class="tab-btn" data-tab="claims" onclick="switchTab('claims')">
-      ⚖️ Claim Ledger
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 3v18M6 8l6-5 6 5M3 13l3-5 3 5a3 3 0 0 1-6 0zm12 0l3-5 3 5a3 3 0 0 1-6 0z" />
+      </svg>
+      Claim Ledger
     </button>
     <button class="tab-btn" data-tab="studio" onclick="switchTab('studio')">
-      ✍️ Content Studio & Review
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 20h9M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+      </svg>
+      Content Studio & Review
     </button>
     <button class="tab-btn" data-tab="queue" onclick="switchTab('queue')">
-      📥 Reviewer Queue <span id="queue-count-badge" class="tab-badge" style="display:none;">0</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M22 12h-6l-2 3h-4l-2-3H2" />
+        <path
+          d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" />
+      </svg>
+      Reviewer Queue <span id="queue-count-badge" class="tab-badge" style="display:none;">0</span>
     </button>
     <button class="tab-btn" data-tab="passport" onclick="switchTab('passport')">
-      🛡️ Brand Passport & WCAG
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      </svg>
+      Brand Passport & WCAG
     </button>
     <button class="tab-btn" data-tab="audit" onclick="switchTab('audit')">
-      🔍 Audit Trail
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="11" cy="11" r="8" />
+        <path d="m21 21-4.35-4.35" />
+      </svg>
+      Audit Trail
     </button>
   </nav>
 
@@ -101,7 +138,13 @@
           <h2 class="section-title">Guideline Health Dashboard</h2>
           <p class="section-desc">Real-time metrics computed strictly from authoritative SQLite database records.</p>
         </div>
-        <button class="btn btn-primary" onclick="loadDashboard()">🔄 Refresh Metrics</button>
+        <button class="btn btn-primary" onclick="loadDashboard()">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+            <path d="M21 3v5h-5" />
+          </svg>
+          Refresh Metrics
+        </button>
       </div>
 
       <div class="stats-grid">
@@ -167,7 +210,9 @@
               </tr>
             </thead>
             <tbody id="dashboard-reviews-tbody">
-              <tr><td colspan="7" style="text-align:center; color: var(--ink-dim);">Loading reviews...</td></tr>
+              <tr>
+                <td colspan="7" style="text-align:center; color: var(--ink-dim);">Loading reviews...</td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -189,7 +234,8 @@
         <div class="card">
           <h3 class="card-title">Upload Brand Guideline Document</h3>
           <p style="color: var(--ink-muted); font-size: 14px; margin-bottom: 16px;">
-            The <strong>Constitution Compiler</strong> deterministically parses PDFs & DOCXs, extracts modal requirement patterns ("must", "never", "avoid"), categorizes candidate rules, and saves exact source excerpts.
+            The <strong>Constitution Compiler</strong> deterministically parses PDFs & DOCXs, extracts modal requirement
+            patterns ("must", "never", "avoid"), categorizes candidate rules, and saves exact source excerpts.
           </p>
 
           <form id="upload-guideline-form" onsubmit="handleGuidelineUpload(event)">
@@ -197,10 +243,20 @@
               <label class="form-label">Select Guideline File (PDF or DOCX):</label>
               <input type="file" id="guideline-file-input" class="form-input" accept=".pdf,.docx" required>
             </div>
-            
+
             <div style="display: flex; gap: 12px; align-items: center; margin-top: 18px;">
-              <button type="submit" id="btn-upload-guideline" class="btn btn-primary">⚡ Ingest & Compile Rules</button>
-              <a href="/sample-brand-guidelines.pdf" download class="btn" style="border-style: dashed;">📥 Download Sample PDF</a>
+              <button type="submit" id="btn-upload-guideline" class="btn btn-primary">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12" />
+                </svg>
+                Ingest & Compile Rules
+              </button>
+              <a href="/sample-brand-guidelines.pdf" download class="btn" style="border-style: dashed;">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
+                </svg>
+                Download Sample PDF
+              </a>
             </div>
           </form>
 
@@ -220,15 +276,20 @@
               <div id="ws-detail-industry" style="color: var(--ink-muted);">--</div>
             </div>
             <div>
-              <span style="color: var(--ink-dim); font-size: 12px; text-transform: uppercase;">Approved Terminology</span>
-              <div id="ws-detail-approved-terms" style="color: var(--lime); font-family: var(--font-mono); font-size: 13px;">--</div>
+              <span style="color: var(--ink-dim); font-size: 12px; text-transform: uppercase;">Approved
+                Terminology</span>
+              <div id="ws-detail-approved-terms"
+                style="color: var(--lime); font-family: var(--font-mono); font-size: 13px;">--</div>
             </div>
             <div>
-              <span style="color: var(--ink-dim); font-size: 12px; text-transform: uppercase;">Prohibited Terminology</span>
-              <div id="ws-detail-prohibited-terms" style="color: var(--danger); font-family: var(--font-mono); font-size: 13px;">--</div>
+              <span style="color: var(--ink-dim); font-size: 12px; text-transform: uppercase;">Prohibited
+                Terminology</span>
+              <div id="ws-detail-prohibited-terms"
+                style="color: var(--danger); font-family: var(--font-mono); font-size: 13px;">--</div>
             </div>
             <div>
-              <span style="color: var(--ink-dim); font-size: 12px; text-transform: uppercase;">Brand Color Palette</span>
+              <span style="color: var(--ink-dim); font-size: 12px; text-transform: uppercase;">Brand Color
+                Palette</span>
               <div id="ws-detail-colors" style="display: flex; gap: 8px; margin-top: 6px;"></div>
             </div>
           </div>
@@ -250,7 +311,9 @@
               </tr>
             </thead>
             <tbody id="documents-tbody">
-              <tr><td colspan="5" style="text-align:center; color: var(--ink-dim);">No documents uploaded yet.</td></tr>
+              <tr>
+                <td colspan="5" style="text-align:center; color: var(--ink-dim);">No documents uploaded yet.</td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -262,7 +325,8 @@
       <div class="section-header">
         <div>
           <h2 class="section-title">Rule Governance & Candidate Review</h2>
-          <p class="section-desc">Candidate rules extracted by the Constitution Compiler begin as pending. Brand Managers review and approve them before they govern content.</p>
+          <p class="section-desc">Candidate rules extracted by the Constitution Compiler begin as pending. Brand
+            Managers review and approve them before they govern content.</p>
         </div>
         <div style="display: flex; gap: 10px;">
           <select id="rules-filter-status" class="form-select" onchange="loadRules()">
@@ -294,7 +358,8 @@
       <div class="section-header">
         <div>
           <h2 class="section-title">Claim Ledger & Evidence Verification</h2>
-          <p class="section-desc">Authoritative repository of marketing claims with supporting substantiation, validity ranges, and expiration tracking.</p>
+          <p class="section-desc">Authoritative repository of marketing claims with supporting substantiation, validity
+            ranges, and expiration tracking.</p>
         </div>
         <button class="btn btn-primary" onclick="openNewClaimModal()">+ Add Marketing Claim</button>
       </div>
@@ -313,7 +378,9 @@
               </tr>
             </thead>
             <tbody id="claims-tbody">
-              <tr><td colspan="6" style="text-align:center; color: var(--ink-dim);">Loading claims...</td></tr>
+              <tr>
+                <td colspan="6" style="text-align:center; color: var(--ink-dim);">Loading claims...</td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -325,11 +392,24 @@
       <div class="section-header">
         <div>
           <h2 class="section-title">Content Studio & Deep Review Engine</h2>
-          <p class="section-desc">Creators draft multi-channel copy and run instant local compliance reviews against approved brand rules, claims, and local ML tone models.</p>
+          <p class="section-desc">Creators draft multi-channel copy and run instant local compliance reviews against
+            approved brand rules, claims, and local ML tone models.</p>
         </div>
         <div style="display: flex; gap: 10px;">
-          <button class="btn" onclick="saveDraft(false)">💾 Save Draft</button>
-          <button class="btn btn-primary" onclick="runComplianceReview()">🛡️ Run Deep Compliance Review</button>
+          <button class="btn" onclick="saveDraft(false)">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+              <polyline points="17 21 17 13 7 13 7 21" />
+              <polyline points="7 3 7 8 15 8" />
+            </svg>
+            Save Draft
+          </button>
+          <button class="btn btn-primary" onclick="runComplianceReview()">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+            Run Deep Compliance Review
+          </button>
         </div>
       </div>
 
@@ -340,7 +420,8 @@
             <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 12px; margin-bottom: 14px;">
               <div>
                 <label class="form-label">Campaign / Content Title:</label>
-                <input type="text" id="draft-title" class="form-input" placeholder="e.g. Q4 BrandGuard Launch Announcement" value="Q4 BrandGuard Launch Announcement">
+                <input type="text" id="draft-title" class="form-input"
+                  placeholder="e.g. Q4 BrandGuard Launch Announcement" value="Q4 BrandGuard Launch Announcement">
               </div>
               <div>
                 <label class="form-label">Channel:</label>
@@ -355,13 +436,22 @@
 
             <div class="form-group">
               <label class="form-label">Content Body:</label>
-              <textarea id="draft-content" class="form-textarea" style="min-height: 240px; font-size: 15px; line-height: 1.6;" placeholder="Write or paste your marketing copy here...">BrandGuard by Inkloom AI is the best cheap solution that provides 100% guaranteed flawless compliance and cuts review turnaround by 80% without any setup.</textarea>
+              <textarea id="draft-content" class="form-textarea"
+                style="min-height: 240px; font-size: 15px; line-height: 1.6;"
+                placeholder="Write or paste your marketing copy here...">BrandGuard by Inkloom AI is the best cheap solution that provides 100% guaranteed flawless compliance and cuts review turnaround by 80% without any setup.</textarea>
             </div>
 
             <!-- REVISION & SUBMIT BAR -->
-            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 10px; border-top: 1px solid var(--border);">
+            <div
+              style="display: flex; justify-content: space-between; align-items: center; padding-top: 10px; border-top: 1px solid var(--border);">
               <span id="draft-revision-badge" class="badge badge-info">Revision: v1 (Draft)</span>
-              <button class="btn btn-sm btn-primary" onclick="submitDraftForReview()">🚀 Submit for Reviewer Approval</button>
+              <button class="btn btn-sm btn-primary" onclick="submitDraftForReview()">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <line x1="22" y1="2" x2="11" y2="13" />
+                  <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                </svg>
+                Submit for Reviewer Approval
+              </button>
             </div>
           </div>
 
@@ -391,10 +481,13 @@
             </div>
             <div style="display: flex; align-items: center; justify-content: space-between;">
               <div>
-                <div id="predicted-tone-badge" style="font-size: 20px; font-weight: 800; color: var(--lime);">No Review Run Yet</div>
-                <div id="predicted-tone-desc" style="color: var(--ink-muted); font-size: 13px; margin-top: 4px;">Run review to predict copy tone using genuine local model</div>
+                <div id="predicted-tone-badge" style="font-size: 20px; font-weight: 800; color: var(--lime);">No Review
+                  Run Yet</div>
+                <div id="predicted-tone-desc" style="color: var(--ink-muted); font-size: 13px; margin-top: 4px;">Run
+                  review to predict copy tone using genuine local model</div>
               </div>
-              <div id="predicted-tone-conf" style="text-align: right; font-family: var(--font-mono); font-size: 14px; color: var(--cyan);">--%</div>
+              <div id="predicted-tone-conf"
+                style="text-align: right; font-family: var(--font-mono); font-size: 14px; color: var(--cyan);">--%</div>
             </div>
           </div>
 
@@ -404,7 +497,7 @@
               <span>Compliance Findings (<span id="findings-count">0</span>)</span>
               <span id="findings-summary-pill" class="badge badge-info">Ready</span>
             </div>
-            
+
             <div id="findings-container" class="findings-list">
               <div style="text-align: center; color: var(--ink-dim); padding: 30px 0;">
                 Click "Run Deep Compliance Review" to scan text against approved brand rules and claims.
@@ -420,9 +513,16 @@
       <div class="section-header">
         <div>
           <h2 class="section-title">Reviewer Approval Queue</h2>
-          <p class="section-desc">Review submitted marketing drafts, inspect violations, and grant approvals, request revisions, or apply Manager Policy Exceptions.</p>
+          <p class="section-desc">Review submitted marketing drafts, inspect violations, and grant approvals, request
+            revisions, or apply Manager Policy Exceptions.</p>
         </div>
-        <button class="btn btn-primary" onclick="loadWorkflowQueue()">🔄 Refresh Queue</button>
+        <button class="btn btn-primary" onclick="loadWorkflowQueue()">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+            <path d="M21 3v5h-5" />
+          </svg>
+          Refresh Queue
+        </button>
       </div>
 
       <div class="card">
@@ -439,7 +539,9 @@
               </tr>
             </thead>
             <tbody id="queue-tbody">
-              <tr><td colspan="6" style="text-align:center; color: var(--ink-dim);">Loading queue...</td></tr>
+              <tr>
+                <td colspan="6" style="text-align:center; color: var(--ink-dim);">Loading queue...</td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -447,12 +549,16 @@
 
       <!-- WORKFLOW DECISION MODAL / PANEL -->
       <div id="decision-panel" class="card" style="display: none; border-color: var(--lime);">
-        <h3 class="card-title" style="color: var(--lime);">Evaluate Submission: <span id="decision-draft-title"></span></h3>
-        <p id="decision-draft-preview" style="background: rgba(0,0,0,0.3); padding: 12px; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 13px; margin-bottom: 14px;"></p>
-        
+        <h3 class="card-title" style="color: var(--lime);">Evaluate Submission: <span id="decision-draft-title"></span>
+        </h3>
+        <p id="decision-draft-preview"
+          style="background: rgba(0,0,0,0.3); padding: 12px; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 13px; margin-bottom: 14px;">
+        </p>
+
         <div class="form-group">
           <label class="form-label">Reviewer Comments / Guidance:</label>
-          <textarea id="decision-comments" class="form-textarea" placeholder="Add specific feedback for the creator..."></textarea>
+          <textarea id="decision-comments" class="form-textarea"
+            placeholder="Add specific feedback for the creator..."></textarea>
         </div>
 
         <div class="form-group" style="display: flex; align-items: center; gap: 8px;">
@@ -464,13 +570,31 @@
 
         <div id="exception-rationale-group" class="form-group" style="display: none;">
           <label class="form-label" style="color: var(--warning);">Required Policy Exception Rationale:</label>
-          <input type="text" id="decision-exception-rationale" class="form-input" placeholder="e.g. Legal exception granted for limited pilot campaign #204">
+          <input type="text" id="decision-exception-rationale" class="form-input"
+            placeholder="e.g. Legal exception granted for limited pilot campaign #204">
         </div>
 
         <div style="display: flex; gap: 12px; margin-top: 18px;">
-          <button class="btn btn-primary" onclick="submitDecision('APPROVED')">✅ Approve for Publishing</button>
-          <button class="btn" style="border-color: var(--warning); color: var(--warning);" onclick="submitDecision('CHANGES_REQUESTED')">✏️ Request Changes</button>
-          <button class="btn btn-danger" onclick="submitDecision('REJECTED')">❌ Reject Submission</button>
+          <button class="btn btn-primary" onclick="submitDecision('APPROVED')">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            Approve for Publishing
+          </button>
+          <button class="btn" style="border-color: var(--warning); color: var(--warning);"
+            onclick="submitDecision('CHANGES_REQUESTED')">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 20h9M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+            </svg>
+            Request Changes
+          </button>
+          <button class="btn btn-danger" onclick="submitDecision('REJECTED')">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+            Reject Submission
+          </button>
         </div>
       </div>
     </section>
@@ -480,9 +604,16 @@
       <div class="section-header">
         <div>
           <h2 class="section-title">Brand Passport & WCAG 2.1 Accessibility</h2>
-          <p class="section-desc">Compiled organization-wide brand passport summarizing active rules, claims, and interactive WCAG contrast calculator.</p>
+          <p class="section-desc">Compiled organization-wide brand passport summarizing active rules, claims, and
+            interactive WCAG contrast calculator.</p>
         </div>
-        <button class="btn btn-primary" onclick="loadBrandPassport()">🔄 Refresh Passport</button>
+        <button class="btn btn-primary" onclick="loadBrandPassport()">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+            <path d="M21 3v5h-5" />
+          </svg>
+          Refresh Passport
+        </button>
       </div>
 
       <div class="studio-grid">
@@ -498,7 +629,8 @@
         <div class="card">
           <h3 class="card-title">WCAG 2.1 Accessibility Contrast Checker</h3>
           <p style="color: var(--ink-muted); font-size: 13px; margin-bottom: 14px;">
-            Calculates exact relative luminance and contrast ratio according to W3C WCAG 2.1 formulas: <code>(L1 + 0.05) / (L2 + 0.05)</code>.
+            Calculates exact relative luminance and contrast ratio according to W3C WCAG 2.1 formulas:
+            <code>(L1 + 0.05) / (L2 + 0.05)</code>.
           </p>
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
@@ -513,12 +645,13 @@
           </div>
 
           <!-- CONTRAST PREVIEW BOX -->
-          <div id="contrast-preview-box" style="padding: 24px; border-radius: var(--radius-md); text-align: center; margin-bottom: 16px; transition: all 0.2s;">
+          <div id="contrast-preview-box"
+            style="padding: 24px; border-radius: var(--radius-md); text-align: center; margin-bottom: 16px; transition: all 0.2s;">
             <div style="font-size: 22px; font-weight: 800;">BrandGuard Contrast Preview</div>
             <div style="font-size: 14px; margin-top: 4px;">Testing text readability against background</div>
           </div>
 
-          <div id="contrast-results-card" class="stat-card" style="background: var(--bg-subtle);">
+          <div id="contrast-results-card" class="contrast-metrics-panel" style="background: var(--bg-subtle);">
             <div style="display: flex; justify-content: space-between; align-items: center;">
               <div>
                 <span class="stat-label">Contrast Ratio</span>
@@ -539,9 +672,16 @@
       <div class="section-header">
         <div>
           <h2 class="section-title">Security & Governance Audit Trail</h2>
-          <p class="section-desc">Tamper-evident log tracking guideline uploads, candidate rule approvals, claim modifications, and reviewer publishing decisions.</p>
+          <p class="section-desc">Tamper-evident log tracking guideline uploads, candidate rule approvals, claim
+            modifications, and reviewer publishing decisions.</p>
         </div>
-        <button class="btn btn-primary" onclick="loadAuditTrail()">🔄 Refresh Audit Trail</button>
+        <button class="btn btn-primary" onclick="loadAuditTrail()">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+            <path d="M21 3v5h-5" />
+          </svg>
+          Refresh Audit Trail
+        </button>
       </div>
 
       <div class="card">
@@ -558,7 +698,9 @@
               </tr>
             </thead>
             <tbody id="audit-tbody">
-              <tr><td colspan="6" style="text-align:center; color: var(--ink-dim);">Loading audit trail...</td></tr>
+              <tr>
+                <td colspan="6" style="text-align:center; color: var(--ink-dim);">Loading audit trail...</td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -574,7 +716,8 @@
       <form id="form-add-claim" onsubmit="handleCreateClaim(event)">
         <div class="form-group">
           <label class="form-label">Claim Text:</label>
-          <input type="text" id="new-claim-text" class="form-input" placeholder="e.g. Cuts review turnaround time by 80%" required>
+          <input type="text" id="new-claim-text" class="form-input"
+            placeholder="e.g. Cuts review turnaround time by 80%" required>
         </div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
           <div class="form-group">
@@ -591,15 +734,18 @@
             <input type="date" id="new-claim-validity" class="form-input" value="2027-12-31" required>
           </div>
         </div>
-        
-        <h4 style="font-size: 14px; font-weight: 700; margin: 14px 0 8px; color: var(--cyan);">Attached Evidence Reference</h4>
+
+        <h4 style="font-size: 14px; font-weight: 700; margin: 14px 0 8px; color: var(--cyan);">Attached Evidence
+          Reference</h4>
         <div class="form-group">
           <label class="form-label">Evidence Title:</label>
-          <input type="text" id="new-claim-evidence-title" class="form-input" placeholder="e.g. Q3 2025 Customer Benchmark Study">
+          <input type="text" id="new-claim-evidence-title" class="form-input"
+            placeholder="e.g. Q3 2025 Customer Benchmark Study">
         </div>
         <div class="form-group">
           <label class="form-label">Source Name & Supporting Excerpt:</label>
-          <input type="text" id="new-claim-evidence-source" class="form-input" placeholder="e.g. Internal Analytics Team - Measured 80% decrease across 40 brands">
+          <input type="text" id="new-claim-evidence-source" class="form-input"
+            placeholder="e.g. Internal Analytics Team - Measured 80% decrease across 40 brands">
         </div>
 
         <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
@@ -621,7 +767,8 @@
         </div>
         <div class="form-group">
           <label class="form-label">Industry:</label>
-          <input type="text" id="new-ws-industry" class="form-input" placeholder="e.g. Cloud Infrastructure" value="Technology">
+          <input type="text" id="new-ws-industry" class="form-input" placeholder="e.g. Cloud Infrastructure"
+            value="Technology">
         </div>
         <div class="form-group">
           <label class="form-label">Approved Terminology (comma separated):</label>
@@ -644,30 +791,47 @@
   <div id="modal-login" class="modal-overlay" style="z-index: 500;">
     <div class="modal-content" style="max-width: 500px; text-align: center; position: relative;">
       <!-- Close Button -->
-      <button type="button" onclick="closeModal('modal-login')" style="position: absolute; top: 14px; right: 16px; background: none; border: none; font-size: 20px; color: var(--ink-dim); cursor: pointer;" title="Close">&times;</button>
+      <button type="button" onclick="closeModal('modal-login')"
+        style="position: absolute; top: 14px; right: 16px; background: none; border: none; font-size: 20px; color: var(--ink-dim); cursor: pointer;"
+        title="Close">&times;</button>
 
       <div style="display: flex; justify-content: center; margin-bottom: 12px;">
-        <svg viewBox="0 0 40 40" fill="none" style="width: 44px; height: 44px;">
-          <rect width="40" height="40" rx="8" fill="#1b1713"/>
-          <path d="M20 6L32 12V22C32 29.5 26.8 36.2 20 38C13.2 36.2 8 29.5 8 22V12L20 6Z" fill="#c6f432"/>
-          <path d="M16 20L19 23L25 17" stroke="#121802" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg viewBox="0 0 24 24" style="width: 44px; height: 44px;" aria-hidden="true">
+          <path d="M12 2l9 3v7c0 5-4 8-9 10-5-2-9-5-9-10V5z" fill="#e98a2e" />
+          <circle cx="9" cy="11" r="2" fill="#22d3ee" />
+          <circle cx="15" cy="11" r="2" fill="#22d3ee" />
         </svg>
       </div>
 
       <!-- Tab Switcher -->
-      <div style="display: flex; gap: 8px; border-bottom: 1px solid var(--border); margin-bottom: 18px; padding-bottom: 6px;">
-        <button id="auth-tab-login" type="button" class="btn btn-sm" style="flex: 1; border-color: var(--lime); color: var(--lime); font-weight: 700;" onclick="switchAuthTab('login')">
-          🔑 Sign In
+      <div
+        style="display: flex; gap: 8px; border-bottom: 1px solid var(--border); margin-bottom: 18px; padding-bottom: 6px;">
+        <button id="auth-tab-login" type="button" class="btn btn-sm"
+          style="flex: 1; border-color: var(--lime); color: var(--lime); font-weight: 700;"
+          onclick="switchAuthTab('login')">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </svg>
+          Sign In
         </button>
-        <button id="auth-tab-register" type="button" class="btn btn-sm" style="flex: 1; font-weight: 700;" onclick="switchAuthTab('register')">
-          ✨ Register New Account
+        <button id="auth-tab-register" type="button" class="btn btn-sm" style="flex: 1; font-weight: 700;"
+          onclick="switchAuthTab('register')">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+            <circle cx="8.5" cy="7" r="4" />
+            <line x1="20" y1="8" x2="20" y2="14" />
+            <line x1="23" y1="11" x2="17" y2="11" />
+          </svg>
+          Register New Account
         </button>
       </div>
 
       <!-- PANEL 1: SIGN IN -->
       <div id="auth-panel-login">
         <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 4px;">Sign in to BrandGuard</h2>
-        <p style="color: var(--ink-muted); font-size: 13px; margin-bottom: 16px;">Role-Based Access Control & Enterprise Governance</p>
+        <p style="color: var(--ink-muted); font-size: 13px; margin-bottom: 16px;">Role-Based Access Control & Enterprise
+          Governance</p>
 
         <form id="form-login" onsubmit="handleManualLogin(event)" style="text-align: left;">
           <div class="form-group">
@@ -676,35 +840,44 @@
           </div>
           <div class="form-group">
             <label class="form-label">Password:</label>
-            <input type="password" id="login-password" class="form-input" placeholder="••••••••" value="password123" required>
+            <input type="password" id="login-password" class="form-input" placeholder="••••••••" value="password123"
+              required>
           </div>
-          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 10px; margin-top: 8px;">Sign In to Workspace</button>
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 10px; margin-top: 8px;">Sign In to
+            Workspace</button>
         </form>
 
         <div style="position: relative; margin: 18px 0; text-align: center;">
           <hr style="border: 0; border-top: 1px solid var(--border);">
-          <span style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: var(--card); padding: 0 10px; font-size: 12px; color: var(--ink-dim);">or quick login as demo role</span>
+          <span
+            style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: var(--card); padding: 0 10px; font-size: 12px; color: var(--ink-dim);">or
+            quick login as demo role</span>
         </div>
 
         <div style="display: flex; flex-direction: column; gap: 6px;">
-          <button class="btn btn-sm" style="width: 100%; justify-content: flex-start; gap: 10px;" onclick="quickLoginRole('admin@inkloom.ai')">
-            <span class="role-badge admin" style="font-size: 10px;">Admin</span>
+          <button class="btn btn-sm" style="width: 100%; justify-content: flex-start; gap: 10px;"
+            onclick="quickLoginRole('admin@inkloom.ai')">
+            <span class="role-badge admin" style="font-size: 11px;">Admin</span>
             <span style="font-size: 12px; font-weight: 600;">Alex Vance (Inkloom AI Admin)</span>
           </button>
-          <button class="btn btn-sm" style="width: 100%; justify-content: flex-start; gap: 10px;" onclick="quickLoginRole('manager@inkloom.ai')">
-            <span class="role-badge" style="font-size: 10px;">Manager</span>
+          <button class="btn btn-sm" style="width: 100%; justify-content: flex-start; gap: 10px;"
+            onclick="quickLoginRole('manager@inkloom.ai')">
+            <span class="role-badge" style="font-size: 11px;">Manager</span>
             <span style="font-size: 12px; font-weight: 600;">Marcus Sterling (Brand Manager)</span>
           </button>
-          <button class="btn btn-sm" style="width: 100%; justify-content: flex-start; gap: 10px;" onclick="quickLoginRole('creator@inkloom.ai')">
-            <span class="role-badge creator" style="font-size: 10px;">Creator</span>
+          <button class="btn btn-sm" style="width: 100%; justify-content: flex-start; gap: 10px;"
+            onclick="quickLoginRole('creator@inkloom.ai')">
+            <span class="role-badge creator" style="font-size: 11px;">Creator</span>
             <span style="font-size: 12px; font-weight: 600;">Sam Taylor (Content Creator)</span>
           </button>
-          <button class="btn btn-sm" style="width: 100%; justify-content: flex-start; gap: 10px;" onclick="quickLoginRole('reviewer@inkloom.ai')">
-            <span class="role-badge reviewer" style="font-size: 10px;">Reviewer</span>
+          <button class="btn btn-sm" style="width: 100%; justify-content: flex-start; gap: 10px;"
+            onclick="quickLoginRole('reviewer@inkloom.ai')">
+            <span class="role-badge reviewer" style="font-size: 11px;">Reviewer</span>
             <span style="font-size: 12px; font-weight: 600;">Elena Rostova (Compliance Reviewer)</span>
           </button>
-          <button class="btn btn-sm" style="width: 100%; justify-content: flex-start; gap: 10px; border-color: #f87171;" onclick="quickLoginRole('admin@nexuscorp.com')">
-            <span class="role-badge admin" style="font-size: 10px;">Tenant</span>
+          <button class="btn btn-sm" style="width: 100%; justify-content: flex-start; gap: 10px; border-color: #f87171;"
+            onclick="quickLoginRole('admin@nexuscorp.com')">
+            <span class="role-badge admin" style="font-size: 11px;">Tenant</span>
             <span style="font-size: 12px; font-weight: 600; color: #f87171;">Nexus Corp Admin (Isolated Org)</span>
           </button>
         </div>
@@ -713,7 +886,8 @@
       <!-- PANEL 2: REGISTER -->
       <div id="auth-panel-register" style="display: none;">
         <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 4px;">Create an Account</h2>
-        <p style="color: var(--ink-muted); font-size: 13px; margin-bottom: 16px;">Register with any Enterprise role to test governance</p>
+        <p style="color: var(--ink-muted); font-size: 13px; margin-bottom: 16px;">Register with any Enterprise role to
+          test governance</p>
 
         <form id="form-register" onsubmit="handleManualRegister(event)" style="text-align: left;">
           <div class="form-group">
@@ -726,7 +900,8 @@
           </div>
           <div class="form-group">
             <label class="form-label">Password:</label>
-            <input type="password" id="register-password" class="form-input" placeholder="Minimum 4 characters" required minlength="4">
+            <input type="password" id="register-password" class="form-input" placeholder="Minimum 4 characters" required
+              minlength="4">
           </div>
           <div class="form-group">
             <label class="form-label">Select Your Role:</label>
@@ -740,9 +915,13 @@
           <div class="form-group">
             <label class="form-label">Organization Name:</label>
             <input type="text" id="register-org" class="form-input" placeholder="e.g. Inkloom AI" value="Inkloom AI">
-            <span style="font-size: 11px; color: var(--ink-dim); display: block; margin-top: 4px;">Enter an existing organization or new company name to create an isolated workspace.</span>
+            <span
+              style="font-size: 12px; color: var(--ink-dim); display: block; margin-top: 4px; line-height: 1.4;">Enter
+              an existing organization or new company name to create an isolated workspace.</span>
           </div>
-          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 10px; margin-top: 12px; font-weight: 700;">Complete Registration & Sign In</button>
+          <button type="submit" class="btn btn-primary"
+            style="width: 100%; padding: 10px; margin-top: 12px; font-weight: 700;">Complete Registration & Sign
+            In</button>
         </form>
       </div>
 
@@ -754,4 +933,5 @@
 
   <script src="/brandguard.js?v=10"></script>
 </body>
+
 </html>
