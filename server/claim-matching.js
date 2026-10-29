@@ -52,11 +52,27 @@ function extractPercentagesAndNumbers(text) {
 function matchClaims(contentText, approvedClaims = []) {
   const findings = [];
   const now = new Date();
+  const thirtyDaysMs = 30 * 24 * 60 * 60 * 1000;
 
-  // Pattern detection for claims: percentages, superlatives, performance statements
-  const claimRegex = /(\d+(\.\d+)?%\s+[\w\s]{4,35}|#\d+\s+[\w\s]{4,25}|clinically proven|fastest growing|world's first|cuts\s+[\w\s]{4,30}\s+by\s+\d+%|guarantees?\s+[\w\s]{4,25})/gi;
+  // Fix 4: Expanded claim detection patterns
+  const claimRegex = /(\d+(\.\d+)?%\s+[\w\s]{4,35}|#[1-5]\b[\w\s]{0,30}|\d+\s*[x\u00d7]\s+[\w\s]{4,25}|clinically\s+proven|fastest[\s-]+growing|world['']?s\s+first|industry[\s-]+leading|best[\s-]+in[\s-]+class|the\s+best\b[\w\s]{0,25}|only\b[\w\s]{4,30}that|best\s+\w+[\w\s]{0,20}|faster\s+than\s+any|better\s+than\s+any|cuts\s+[\w\s]{4,30}\s+by\s+\d+%|guarantees?\s+[\w\s]{4,25}|zero\s+\w+[\w\s]{0,20}|flawless[\w\s]{0,20}|seamless[\w\s]{0,20})/gi;
   let match;
   let findingCount = 1;
+
+  // Helper: build evidence card object from a matched claim record
+  function buildEvidenceCard(claim, computedStatus) {
+    return {
+      claim_id: claim.claim_code,
+      claim_title: claim.claim_title || claim.claim_text,
+      source: claim.evidence_source || null,
+      doc_reference: claim.source_reference || null,
+      owner: claim.owner || null,
+      valid_from: claim.valid_from || null,
+      valid_to: claim.valid_to || null,
+      approval_status: computedStatus,
+      policy_exception: claim.policy_exception_reason || null
+    };
+  }
 
   while ((match = claimRegex.exec(contentText)) !== null) {
     const claimPhrase = match[0].trim();
@@ -96,17 +112,29 @@ function matchClaims(contentText, approvedClaims = []) {
         claim_id: null,
         evidence_reference: 'None - Unsubstantiated Assertion',
         suggested_correction: `Provide verified substantiating study in the Claim Ledger or soften claim phrasing.`,
-        verification_status: 'NEEDS_VERIFICATION'
+        verification_status: 'NEEDS_VERIFICATION',
+        evidence_card: null
       });
+
     } else {
       // Evaluate evidence validity and expiry
+      let computedStatus = 'verified';
       let isExpired = false;
+      let isExpiringSoon = false;
       if (bestMatch.valid_to) {
         const expiry = new Date(bestMatch.valid_to);
-        if (!isNaN(expiry.getTime()) && expiry < now) {
-          isExpired = true;
+        if (!isNaN(expiry.getTime())) {
+          if (expiry < now) {
+            isExpired = true;
+            computedStatus = 'expired';
+          } else if (expiry - now <= 30 * 24 * 60 * 60 * 1000) {
+            isExpiringSoon = true;
+            computedStatus = 'expiring_soon';
+          }
         }
       }
+
+      const evidenceCard = buildEvidenceCard(bestMatch, computedStatus);
 
       if (isExpired) {
         findings.push({
@@ -121,7 +149,24 @@ function matchClaims(contentText, approvedClaims = []) {
           claim_id: bestMatch.claim_code,
           evidence_reference: `${bestMatch.evidence_source || 'Evidence on file'} (Expired on ${bestMatch.valid_to})`,
           suggested_correction: `Renew evidence study for ${bestMatch.claim_code} or request an authorized policy exception.`,
-          verification_status: 'EXPIRED'
+          verification_status: 'EXPIRED',
+          evidence_card: evidenceCard
+        });
+      } else if (isExpiringSoon) {
+        findings.push({
+          finding_id: `CLM-FIND-${findingCount++}`,
+          category: 'Claims and Evidence',
+          severity: 'MEDIUM',
+          explanation: `Claim "${claimPhrase}" (${bestMatch.claim_code}) is verified but its evidence expires on ${bestMatch.valid_to} — within 30 days. Schedule renewal before that date.`,
+          matched_text: claimPhrase,
+          start_offset: startIndex,
+          end_offset: endIndex,
+          rule_id: null,
+          claim_id: bestMatch.claim_code,
+          evidence_reference: `${bestMatch.evidence_source || 'Evidence on file'} (Expires ${bestMatch.valid_to})`,
+          suggested_correction: `Renew evidence for ${bestMatch.claim_code} before ${bestMatch.valid_to}.`,
+          verification_status: 'EXPIRING_SOON',
+          evidence_card: evidenceCard
         });
       } else if (bestMatch.approval_status !== 'approved') {
         findings.push({
@@ -136,7 +181,8 @@ function matchClaims(contentText, approvedClaims = []) {
           claim_id: bestMatch.claim_code,
           evidence_reference: bestMatch.evidence_source || 'Pending Review',
           suggested_correction: `Awaiting Brand Manager approval for ${bestMatch.claim_code}.`,
-          verification_status: 'NEEDS_VERIFICATION'
+          verification_status: 'NEEDS_VERIFICATION',
+          evidence_card: buildEvidenceCard(bestMatch, 'needs_verification')
         });
       } else {
         // Successfully verified claim
@@ -152,7 +198,8 @@ function matchClaims(contentText, approvedClaims = []) {
           claim_id: bestMatch.claim_code,
           evidence_reference: `${bestMatch.evidence_source || 'Verified Source'} (Valid through ${bestMatch.valid_to || 'Indefinite'})`,
           suggested_correction: null,
-          verification_status: 'VERIFIED'
+          verification_status: 'VERIFIED',
+          evidence_card: evidenceCard
         });
       }
     }

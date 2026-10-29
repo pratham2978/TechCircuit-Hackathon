@@ -400,7 +400,7 @@ async function runTestSuite() {
     });
 
     // ----------------------------------------------------
-    // PHASE 6: GUIDELINE HEALTH DASHBOARD
+    // PHASE 6: GUIDELINE HEALTH DASHBOARD & REVIEWER DISMISSALS
     // ----------------------------------------------------
     await it('Phase 6.1: Guideline Health Dashboard - Metrics accurately computed from live database records', async () => {
       const dashRes = await request('GET', '/api/dashboard', null, { Authorization: `Bearer ${adminToken}` });
@@ -410,10 +410,51 @@ async function runTestSuite() {
       assert.ok(dashRes.json.metrics.total_approvals >= 1);
       assert.ok(dashRes.json.metrics.guideline_freshness);
       assert.ok(dashRes.json.recent_reviews.length > 0);
+
+      // Spec #2: Rule health array present and correctly tracks flagged rules
+      assert.ok(Array.isArray(dashRes.json.rule_health), 'Rule health array present');
+      assert.ok(dashRes.json.rule_health.length >= 3, 'Health metrics computed for all rules');
+      assert.ok(dashRes.json.rule_health.some(r => r.needs_clarification === true), 'Seeded rule flagged with Needs Clarification');
+    });
+
+    await it('Phase 6.2: Reviewer Dismissals - Reject requires a valid reason; returns 400 without one', async () => {
+      // Find an open finding
+      const openFindingRes = await request('POST', '/api/review/run', {
+        content_text: 'Brandguard is the cheap way to ensure 100% guaranteed safety.',
+        workspace_id: 1
+      }, { Authorization: `Bearer ${creatorToken}` });
+
+      const testFinding = openFindingRes.json.findings[0];
+      assert.ok(testFinding && testFinding.id, 'Finding generated with ID');
+
+      // Attempt reject without dismiss_reason -> must return 400
+      const rejectWithoutReason = await request('POST', `/api/review/findings/${testFinding.id}/reject`, {}, { Authorization: `Bearer ${creatorToken}` });
+      assert.strictEqual(rejectWithoutReason.status, 400, 'Rejection without reason returns 400');
+      assert.ok(rejectWithoutReason.json.error.includes('dismissal reason is required'));
+
+      // Attempt reject with invalid reason -> 400
+      const rejectWithInvalidReason = await request('POST', `/api/review/findings/${testFinding.id}/reject`, {
+        dismiss_reason: 'i_dont_like_it'
+      }, { Authorization: `Bearer ${creatorToken}` });
+      assert.strictEqual(rejectWithInvalidReason.status, 400);
+
+      // Valid reject with reason -> 200
+      const validReject = await request('POST', `/api/review/findings/${testFinding.id}/reject`, {
+        dismiss_reason: 'false_positive',
+        dismiss_note: 'Compliant in this promotional headline'
+      }, { Authorization: `Bearer ${creatorToken}` });
+      assert.strictEqual(validReject.status, 200);
+      assert.strictEqual(validReject.json.dismiss_reason, 'false_positive');
+
+      // Duplicate reject on same finding -> 409 Conflict
+      const repeatReject = await request('POST', `/api/review/findings/${testFinding.id}/reject`, {
+        dismiss_reason: 'false_positive'
+      }, { Authorization: `Bearer ${creatorToken}` });
+      assert.strictEqual(repeatReject.status, 409, 'Duplicate dismiss returns 409 Conflict');
     });
 
     // ----------------------------------------------------
-    // PHASE 7: ACCESSIBILITY & BRAND ASSET CHECKS
+    // PHASE 7: ACCESSIBILITY & BRAND ASSET CHECKS (Improvement #3)
     // ----------------------------------------------------
     await it('Phase 7.1: Accessibility - Computes WCAG 2.1 contrast ratios and Flesch readability', async () => {
       const { getContrastRatio, analyzeReadability } = require('../server/accessibility');
@@ -425,6 +466,62 @@ async function runTestSuite() {
       // Readability
       const readResult = analyzeReadability('The quick brown fox jumps over the lazy dog.');
       assert.ok(readResult.score >= 70, 'Calculated Flesch reading score');
+    });
+
+    await it('Phase 7.2: Image & Accessibility Checks - Off-brand image with missing alt text emits >= 2 explained findings (WCAG 1.1.1 & off-palette)', async () => {
+      const { execSync } = require('child_process');
+      const testImgPath = path.join(__dirname, 'test-off-palette.png');
+
+      // Generate a test solid bright-red PNG image (off brand palette: #27231e, #f7f4ee, #c6f432, #22d3ee)
+      execSync(`python -c "from PIL import Image; Image.new('RGB', (64, 64), (255, 0, 0)).save(r'${testImgPath}')"`);
+
+      const boundary = '----WebKitFormBoundaryImageAuditTest';
+      const fileBuffer = fs.readFileSync(testImgPath);
+
+      // Upload without alt_text -> must produce WCAG 1.1.1 finding + off-palette finding
+      const payload = createMultipartFormData(boundary, {
+        workspace_id: '1',
+        alt_text: '' // empty alt text -> triggers WCAG 1.1.1 finding
+      }, {
+        name: 'image',
+        filename: 'test-off-palette.png',
+        contentType: 'image/png',
+        content: fileBuffer
+      });
+
+      const res = await request('POST', '/api/images/check', payload, {
+        Authorization: `Bearer ${creatorToken}`,
+        'Content-Type': `multipart/form-data; boundary=${boundary}`,
+        'Content-Length': payload.length
+      });
+
+      // Cleanup test file
+      if (fs.existsSync(testImgPath)) fs.unlinkSync(testImgPath);
+
+      assert.strictEqual(res.status, 200);
+      assert.strictEqual(res.json.success, true);
+      assert.ok(res.json.findings.length >= 2, 'At least 2 explained findings produced (off-palette + missing alt)');
+
+      // Verify WCAG 1.1.1 alt text finding
+      const altFinding = res.json.findings.find(f => f.rule_id === 'WCAG-1.1.1');
+      assert.ok(altFinding, 'Detected missing alt text citing WCAG 1.1.1');
+      assert.strictEqual(altFinding.severity, 'HIGH');
+
+      // Verify off-palette finding
+      const paletteFinding = res.json.findings.find(f => f.rule_id === 'RULE-PALETTE-01');
+      assert.ok(paletteFinding, 'Detected off-palette color citing RULE-PALETTE-01');
+      assert.strictEqual(paletteFinding.severity, 'MEDIUM');
+      assert.ok(paletteFinding.color_data.min_lab_distance > 25.0, 'CIELAB color distance verified');
+
+      // Verify HTML <img> without alt in Content Studio review
+      const reviewWithImg = await request('POST', '/api/review/run', {
+        content_text: 'Check out our new campaign banner: <img src="banner.png"> with BrandGuard.',
+        workspace_id: 1
+      }, { Authorization: `Bearer ${creatorToken}` });
+
+      const htmlImgFinding = reviewWithImg.json.findings.find(f => f.rule_id === 'WCAG-1.1.1');
+      assert.ok(htmlImgFinding, 'Detected HTML <img> without alt attribute');
+      assert.strictEqual(htmlImgFinding.severity, 'HIGH');
     });
 
     // ----------------------------------------------------

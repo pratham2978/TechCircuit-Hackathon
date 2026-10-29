@@ -3,6 +3,7 @@ const fs = require('fs');
 const { spawn } = require('child_process');
 
 const SCRIPT_PATH = path.join(__dirname, '..', 'ml', 'predict.py');
+const MODEL_PATH = path.join(__dirname, '..', 'ml', 'artifacts', 'tone_model.joblib');
 const METRICS_PATH = path.join(__dirname, '..', 'ml', 'reports', 'evaluation_metrics.json');
 
 async function predictTone(text) {
@@ -16,12 +17,38 @@ async function predictTone(text) {
     };
   }
 
+  // Fix 3: Graceful degradation — check model artifact exists before spawning Python
+  if (!fs.existsSync(MODEL_PATH)) {
+    return {
+      predicted_tone: null,
+      confidence: null,
+      probabilities: {},
+      model_version: 'v1.0-local-sklearn',
+      status: 'unavailable',
+      error: 'ML model artifact not found. Run: python ml/train.py'
+    };
+  }
+
   return new Promise((resolve) => {
     const pythonCmd = process.env.PYTHON_CMD || (process.platform === 'win32' ? 'python' : 'python3');
-    const pyProcess = spawn(pythonCmd, [SCRIPT_PATH, text], {
-      cwd: path.join(__dirname, '..', 'ml'),
-      env: { ...process.env, PYTHONIOENCODING: 'utf-8' }
-    });
+    let pyProcess;
+
+    try {
+      pyProcess = spawn(pythonCmd, [SCRIPT_PATH, text], {
+        cwd: path.join(__dirname, '..', 'ml'),
+        env: { ...process.env, PYTHONIOENCODING: 'utf-8' }
+      });
+    } catch (spawnErr) {
+      // Fix 3: Python binary not found — return unavailable, don't crash the review scan
+      return resolve({
+        predicted_tone: null,
+        confidence: null,
+        probabilities: {},
+        model_version: 'v1.0-local-sklearn',
+        status: 'unavailable',
+        error: `Could not launch Python process: ${spawnErr.message}`
+      });
+    }
 
     let stdoutData = '';
     let stderrData = '';
@@ -29,11 +56,12 @@ async function predictTone(text) {
     const timer = setTimeout(() => {
       pyProcess.kill();
       resolve({
-        predicted_tone: 'Professional',
-        confidence: 0.5,
+        predicted_tone: null,
+        confidence: null,
         probabilities: {},
         model_version: 'v1.0-local-sklearn-timeout-fallback',
-        status: 'timeout'
+        status: 'unavailable',
+        error: 'Python tone classification timed out after 15s'
       });
     }, 15000);
 
@@ -53,20 +81,20 @@ async function predictTone(text) {
           resolve(result);
         } catch (e) {
           resolve({
-            predicted_tone: 'Professional',
-            confidence: 0.5,
+            predicted_tone: null,
+            confidence: null,
             error: `Failed to parse ML response: ${e.message}`,
             model_version: 'v1.0-local-sklearn',
-            status: 'parse_error'
+            status: 'unavailable'
           });
         }
       } else {
         resolve({
-          predicted_tone: 'Professional',
-          confidence: 0.5,
+          predicted_tone: null,
+          confidence: null,
           error: stderrData || `Python process exited with code ${code}`,
           model_version: 'v1.0-local-sklearn',
-          status: 'process_error'
+          status: 'unavailable'
         });
       }
     });

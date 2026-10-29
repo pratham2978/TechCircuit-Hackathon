@@ -7,10 +7,11 @@ router.use(authenticate);
 
 function evaluateClaimRecord(claim) {
   const now = new Date();
+  const thirtyDaysMs = 30 * 24 * 60 * 60 * 1000;
   const hasEvidence = !!(claim.evidence_source && claim.evidence_source.trim());
   const hasRef = !!(claim.source_reference && claim.source_reference.trim());
 
-  if (!hasEvidence || !hasRef) {
+  if (!hasEvidence && !hasRef) {
     return {
       status: 'needs_verification',
       badge: 'Needs Verification',
@@ -20,12 +21,21 @@ function evaluateClaimRecord(claim) {
 
   if (claim.valid_to) {
     const expiry = new Date(claim.valid_to);
-    if (!isNaN(expiry.getTime()) && expiry < now) {
-      return {
-        status: 'expired',
-        badge: 'Expired Evidence',
-        reason: `Evidence expired on ${claim.valid_to}. Requires renewal or authorized policy exception.`
-      };
+    if (!isNaN(expiry.getTime())) {
+      if (expiry < now) {
+        return {
+          status: 'expired',
+          badge: 'Expired Evidence',
+          reason: `Evidence expired on ${claim.valid_to}. Requires renewal or authorized policy exception.`
+        };
+      }
+      if (expiry - now <= thirtyDaysMs) {
+        return {
+          status: 'expiring_soon',
+          badge: 'Expiring Soon',
+          reason: `Evidence expires on ${claim.valid_to} (within 30 days). Renew promptly.`
+        };
+      }
     }
   }
 
@@ -52,7 +62,7 @@ function evaluateClaimRecord(claim) {
   };
 }
 
-// GET /api/claims - List claims in user's organization with dynamic status calculation
+// GET /api/claims - List claims with dynamic status + full evidence card data
 router.get('/', (req, res) => {
   try {
     const db = getDb();
@@ -60,7 +70,9 @@ router.get('/', (req, res) => {
       SELECT c.*,
         (SELECT source_name FROM claim_evidence WHERE claim_id = c.id LIMIT 1) as evidence_source,
         (SELECT doc_reference FROM claim_evidence WHERE claim_id = c.id LIMIT 1) as source_reference,
-        (SELECT title FROM claim_evidence WHERE claim_id = c.id LIMIT 1) as evidence_title
+        (SELECT title FROM claim_evidence WHERE claim_id = c.id LIMIT 1) as evidence_title,
+        (SELECT supporting_excerpt FROM claim_evidence WHERE claim_id = c.id LIMIT 1) as evidence_excerpt,
+        (SELECT expiration_date FROM claim_evidence WHERE claim_id = c.id LIMIT 1) as evidence_expiry
       FROM claim_ledger c
       WHERE c.organization_id = ?
       ORDER BY c.id DESC
@@ -72,7 +84,24 @@ router.get('/', (req, res) => {
         ...c,
         computed_status: evaluation.status,
         status_badge: evaluation.badge,
-        status_reason: evaluation.reason
+        status_reason: evaluation.reason,
+        // Evidence card data for UI rendering
+        evidence_card: {
+          claim_id: c.claim_code,
+          claim_title: c.claim_title,
+          source: c.evidence_source || null,
+          doc_reference: c.source_reference || null,
+          evidence_title: c.evidence_title || null,
+          evidence_excerpt: c.evidence_excerpt || null,
+          owner: c.owner,
+          valid_from: c.valid_from,
+          valid_to: c.valid_to,
+          evidence_expiry: c.evidence_expiry || c.valid_to,
+          approval_status: evaluation.status,
+          status_badge: evaluation.badge,
+          status_reason: evaluation.reason,
+          policy_exception: c.policy_exception_reason || null
+        }
       };
     });
 

@@ -204,6 +204,8 @@ function initSchema(db) {
       suggested_correction TEXT,
       verification_status TEXT DEFAULT 'HIGH',
       status TEXT DEFAULT 'open',
+      dismiss_reason TEXT,
+      dismiss_note TEXT,
       created_at TEXT DEFAULT (datetime('now')),
       FOREIGN KEY (draft_id) REFERENCES content_drafts(id) ON DELETE CASCADE
     );
@@ -249,6 +251,9 @@ function initSchema(db) {
       FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE
     );
   `);
+
+  try { db.exec("ALTER TABLE review_findings ADD COLUMN dismiss_reason TEXT;"); } catch (e) {}
+  try { db.exec("ALTER TABLE review_findings ADD COLUMN dismiss_note TEXT;"); } catch (e) {}
 }
 
 function logAudit(eventType, entityType, entityId, user, details = {}, orgId = null) {

@@ -31,6 +31,7 @@ app.use('/api/content', require('./routes/content'));
 app.use('/api/review', require('./routes/review'));
 app.use('/api/workflow', require('./routes/workflow'));
 app.use('/api/dashboard', require('./routes/dashboard'));
+app.use('/api/images', require('./routes/images'));
 app.use('/api/passport', require('./routes/passport'));
 app.use('/api/audit', require('./routes/audit'));
 
@@ -64,13 +65,33 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
-// Error handling middleware
+// Fix 8: Clean global error handler — no raw stack traces leaked to client
 app.use((err, req, res, next) => {
-  console.error('Server Error:', err);
-  const status = err.status || (err.message && err.message.includes('Invalid file type') ? 400 : 500);
+  const isDev = process.env.NODE_ENV !== 'production';
+
+  // Determine HTTP status
+  let status = err.status || err.statusCode || 500;
+  if (err.message) {
+    if (err.message.includes('Invalid file type') || err.message.includes('required') || err.message.includes('cannot be empty')) {
+      status = 400;
+    } else if (err.message.includes('LIMIT_FILE_SIZE') || err.message.includes('too large')) {
+      status = 413;
+    } else if (err.message.includes('Unauthorized') || err.message.includes('session')) {
+      status = 401;
+    } else if (err.message.includes('already') || err.message.includes('Conflict')) {
+      status = 409;
+    }
+  }
+
+  // Log full error server-side only
+  console.error(`[ERROR] ${req.method} ${req.path} — ${err.message}`);
+  if (isDev && err.stack) console.error(err.stack);
+
   res.status(status).json({
     success: false,
-    error: err.message || 'Internal Server Error'
+    error: err.message || 'Internal Server Error',
+    // Only expose stack trace in development
+    ...(isDev && err.stack ? { stack: err.stack.split('\n').slice(0, 5).join('\n') } : {})
   });
 });
 

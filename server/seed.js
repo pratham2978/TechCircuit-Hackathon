@@ -264,6 +264,7 @@ All promotional campaigns offering trial audits must include the required wordin
 
   // 8. Seed Initial Content Draft
   const draftCount = db.prepare('SELECT COUNT(*) as count FROM content_drafts').get().count;
+  let seededDraftId = 1;
   if (draftCount === 0) {
     const samplePost = `Meet Brandguard, the cheap way to protect your brand! Our tool offers 100% guaranteed error prevention and is the #1 fastest growing creative guardrail tool in the world. Cuts brand review cycles by 80%. Try it now!`;
     const draftRes = db.prepare(`
@@ -271,10 +272,69 @@ All promotional campaigns offering trial audits must include the required wordin
       VALUES (?, ?, ?, ?, ?, ?, ?, 1, 'DRAFT')
     `).run(org1Id, ws1Id, 'Spring Launch Campaign Post', 'Social Media Post', samplePost, 'Instagram / LinkedIn', 'Sam Taylor');
 
+    seededDraftId = draftRes.lastInsertRowid;
     db.prepare(`
       INSERT INTO content_revisions (draft_id, version_num, content_text, diff_summary, author_id)
       VALUES (?, 1, ?, 'Initial Draft', 'Sam Taylor')
-    `).run(draftRes.lastInsertRowid, samplePost);
+    `).run(seededDraftId, samplePost);
+  }
+
+  // 9. Seed Guideline Health: Seed historical review findings so one rule is flagged on first load (Spec #2)
+  // Flags "Needs clarification" on RULE-002 (≥ 5 firings and ≥ 40% dismissed, or ≥ 2 rule_unclear reasons)
+  const findingsCount = db.prepare('SELECT COUNT(*) as count FROM review_findings').get().count;
+  if (findingsCount === 0) {
+    const insFinding = db.prepare(`
+      INSERT INTO review_findings (
+        review_id, draft_id, revision_id, category, severity, explanation,
+        matched_text, start_offset, end_offset, rule_id, claim_id,
+        evidence_reference, suggested_correction, verification_status, status,
+        dismiss_reason, dismiss_note, created_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now', '-1 day'))
+    `);
+
+    // 6 firings for RULE-002, 3 dismissed (2 rule_unclear, 1 ok_in_context) -> 50% dismissal rate & 2 rule_unclear -> FLAGGED
+    insFinding.run(
+      1, seededDraftId, 1, 'Brand Identity', 'MEDIUM',
+      'Wordmark capitalization violation: "Brandguard"',
+      'Brandguard', 5, 15, 'RULE-002', null,
+      'Section 1.0 - Brand Identity', 'BrandGuard', 'HIGH',
+      'rejected', 'rule_unclear', 'Rule does not clarify if social handles are exempt'
+    );
+    insFinding.run(
+      1, seededDraftId, 1, 'Brand Identity', 'MEDIUM',
+      'Wordmark capitalization violation: "Brandguard"',
+      'Brandguard', 5, 15, 'RULE-002', null,
+      'Section 1.0 - Brand Identity', 'BrandGuard', 'HIGH',
+      'rejected', 'rule_unclear', 'Unclear whether lowercase is permissible in code/urls'
+    );
+    insFinding.run(
+      1, seededDraftId, 1, 'Brand Identity', 'MEDIUM',
+      'Wordmark capitalization violation: "Brandguard"',
+      'Brandguard', 5, 15, 'RULE-002', null,
+      'Section 1.0 - Brand Identity', 'BrandGuard', 'HIGH',
+      'rejected', 'ok_in_context', 'Approved for casual meme format'
+    );
+    insFinding.run(
+      1, seededDraftId, 1, 'Brand Identity', 'MEDIUM',
+      'Wordmark capitalization violation: "Brandguard"',
+      'Brandguard', 5, 15, 'RULE-002', null,
+      'Section 1.0 - Brand Identity', 'BrandGuard', 'HIGH',
+      'resolved', null, null
+    );
+    insFinding.run(
+      1, seededDraftId, 1, 'Brand Identity', 'MEDIUM',
+      'Wordmark capitalization violation: "Brandguard"',
+      'Brandguard', 5, 15, 'RULE-002', null,
+      'Section 1.0 - Brand Identity', 'BrandGuard', 'HIGH',
+      'open', null, null
+    );
+    insFinding.run(
+      1, seededDraftId, 1, 'Brand Identity', 'MEDIUM',
+      'Wordmark capitalization violation: "Brandguard"',
+      'Brandguard', 5, 15, 'RULE-002', null,
+      'Section 1.0 - Brand Identity', 'BrandGuard', 'HIGH',
+      'open', null, null
+    );
   }
 }
 
