@@ -214,6 +214,16 @@ class SuggestCorrectionRequest(BaseModel):
 
 # --- System Status Endpoints ---
 
+@app.get("/")
+def root():
+    return {
+        "service": "BrandGuard AI Backend",
+        "status": "online",
+        "version": "1.1.0",
+        "docs": "/docs",
+        "health": "/health"
+    }
+
 @app.get("/health")
 @app.get("/api/health")
 def health_check():
