@@ -25,7 +25,7 @@
   --info: #3b82f6;
   --info-bg: rgba(59, 130, 246, 0.12);
 
-  --font: 'Bricolage Grotesque', system-ui, -apple-system, sans-serif;
+  --font: 'Figtree', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
   --radius-sm: 6px;
   --radius-md: 10px;
@@ -720,17 +720,17 @@ body {
 
 .toast.success {
   border-color: rgba(198, 244, 50, 0.6);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 12px rgba(198, 244, 50, 0.12);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
 }
 
 .toast.error {
   border-color: rgba(239, 68, 68, 0.6);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 12px rgba(239, 68, 68, 0.12);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
 }
 
 .toast.info {
   border-color: rgba(34, 211, 238, 0.6);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 12px rgba(34, 211, 238, 0.12);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
 }
 
 @keyframes slideIn {
@@ -818,7 +818,7 @@ body {
 .mascot-launcher .mascot-robot-svg {
   width: 56px;
   height: auto;
-  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 8px rgba(198, 244, 50, 0.25));
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.55));
   display: block;
 }
 
@@ -872,10 +872,9 @@ body {
   position: fixed;
   z-index: 8995;
   border-radius: 8px;
-  box-shadow:
-    0 0 0 4px #c6f432,
-    0 0 0 6px rgba(198, 244, 50, 0.4),
-    0 0 24px rgba(198, 244, 50, 0.25);
+  outline: 2px solid var(--lime);
+  outline-offset: 3px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
   pointer-events: none;
   transition: top 0.35s cubic-bezier(0.4, 0, 0.2, 1),
               left 0.35s cubic-bezier(0.4, 0, 0.2, 1),
@@ -1088,4 +1087,263 @@ body {
     transition: none !important;
     animation: none !important;
   }
+}
+
+
+/* ==========================================================================
+   IMPECCABLE VISUAL REFINEMENT & RESTRAINED STYLING
+   ========================================================================== */
+
+/* Typography & Headings */
+h1, h2, h3, h4 {
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+
+.section-title {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.section-desc {
+  color: var(--ink-muted);
+  font-size: 14px;
+  margin-top: 4px;
+  line-height: 1.5;
+}
+
+/* Restrained Judge Banner */
+.judge-banner {
+  background: var(--card);
+  border: 1px solid var(--border);
+  
+  border-radius: var(--radius-md);
+  padding: 20px 24px;
+  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.4);
+}
+
+.judge-banner-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .judge-banner-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.judge-banner-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.judge-badge-icon {
+  color: var(--lime);
+  flex-shrink: 0;
+}
+
+.judge-banner-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.judge-banner-desc {
+  font-size: 13.5px;
+  color: var(--ink-muted);
+  line-height: 1.55;
+  margin-bottom: 14px;
+}
+
+.judge-persona-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.judge-persona-group .btn {
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  color: var(--ink-muted);
+}
+
+.judge-persona-group .btn:hover {
+  color: var(--ink);
+  border-color: var(--ink-dim);
+  background: var(--card-hover);
+}
+
+.judge-persona-group .btn-primary {
+  background: var(--lime);
+  border-color: var(--lime);
+  color: #121802;
+  font-weight: 600;
+}
+
+.judge-persona-group .btn-primary:hover {
+  background: #d4f54a;
+  color: #121802;
+}
+
+.judge-note {
+  font-size: 12px;
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.06);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(251, 191, 36, 0.18);
+  line-height: 1.45;
+}
+
+.judge-trust-card {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  font-size: 12.5px;
+}
+
+.judge-trust-title {
+  font-weight: 700;
+  color: var(--cyan);
+  margin-bottom: 8px;
+  letter-spacing: 0.02em;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.judge-trust-list {
+  padding-left: 16px;
+  color: var(--ink-muted);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.judge-trust-list li {
+  margin-bottom: 4px;
+}
+
+/* Modal Close Button */
+.modal-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--ink-dim);
+  font-size: 20px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px;
+  border-radius: 4px;
+  transition: color 0.15s;
+}
+
+.modal-close-btn:hover {
+  color: var(--ink);
+}
+
+/* Solid Non-Gradient Finding Cards with Restrained Accents */
+.finding-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  position: relative;
+  transition: border-color 0.15s ease;
+}
+
+.finding-card.high {
+  border-color: rgba(239, 68, 68, 0.35);
+  
+  background: var(--card);
+}
+
+.finding-card.medium {
+  border-color: rgba(245, 158, 11, 0.35);
+  
+  background: var(--card);
+}
+
+.finding-card.low {
+  border-color: rgba(59, 130, 246, 0.35);
+  
+  background: var(--card);
+}
+
+/* Refined Stat Cards */
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: none;
+  transition: border-color 0.15s ease;
+}
+
+.stat-card:hover {
+  border-color: #3d342b;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+  margin: 2px 0;
+}
+
+.stat-desc {
+  font-size: 12px;
+  color: var(--ink-dim);
+}
+
+/* Clean Form Focus & Accessible Rings */
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--lime);
+  box-shadow: 0 0 0 1px var(--lime);
+}
+
+/* Nav Tabs Restraint */
+.tab-btn {
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.tab-btn:hover {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.tab-btn.active {
+  color: var(--lime);
+  border-bottom-color: var(--lime);
+  background: rgba(198, 244, 50, 0.03);
 }

@@ -435,11 +435,11 @@ async function loadDashboard() {
             <td><span style="font-size: 12px; color: var(--ink-muted);">${escapeHtml(topReasonLabel)}</span></td>
             <td>
               ${isFlagged
-                ? '<span class="badge badge-danger" style="font-size: 10px; font-weight:700;">⚠️ Needs Clarification</span>'
-                : '<span class="badge badge-verified" style="font-size: 10px;">✓ Healthy</span>'}
+                ? '<span class="badge badge-danger" style="font-size: 10px; font-weight:700;">Needs Clarification</span>'
+                : '<span class="badge badge-verified" style="font-size: 10px;">Healthy</span>'}
             </td>
             <td>
-              <button class="btn btn-sm btn-primary" style="padding: 3px 8px; font-size: 11px;" onclick="openEditRuleModal(${rh.id})">${isFlagged ? '✏️ Clarify Rule' : 'Edit'}</button>
+              <button class="btn btn-sm btn-primary" style="padding: 3px 8px; font-size: 11px;" onclick="openEditRuleModal(${rh.id})">${isFlagged ? 'Clarify Rule' : 'Edit'}</button>
             </td>
           `;
           ruleHealthTbody.appendChild(tr);
@@ -709,7 +709,7 @@ async function loadClaims() {
       const evSource = ec.source || ec.source_name;
       const evidenceSummary = evTitle
         ? `<strong>${escapeHtml(evTitle)}</strong><br><span style="color:var(--ink-dim);font-size:12px;">${escapeHtml(evSource || '')}</span>${ec.doc_reference ? `<br><span style="font-family:var(--font-mono);font-size:10px;color:var(--ink-dim);">${escapeHtml(ec.doc_reference)}</span>` : ''}`
-        : `<span style="color: var(--warning); font-size: 12px;">⚠️ No evidence attached</span>`;
+        : `<span style="color: var(--warning); font-size: 12px;">No evidence attached</span>`;
 
       const reasonTooltip = claim.status_reason ? `title="${escapeHtml(claim.status_reason)}"` : '';
 
@@ -883,10 +883,10 @@ function renderFindings(findings) {
     // API-based accept button when finding persisted server-side (has .id)
     const hasApiAccept = f.id && f.matched_text && f.suggested_correction;
     const acceptBtn = hasApiAccept
-      ? `<button class="btn btn-sm btn-primary" onclick="acceptFindingById(${f.id})" id="accept-btn-${f.id}">✅ Accept Suggestion</button>`
+      ? `<button class="btn btn-sm btn-primary" onclick="acceptFindingById(${f.id})" id="accept-btn-${f.id}">Accept Suggestion</button>`
       : (f.suggested_correction ? `<button class="btn btn-sm btn-primary" onclick="acceptCorrection('${escapeHtml(f.matched_text||'')}', '${escapeHtml(f.suggested_correction)}')">Accept Suggestion</button>` : '');
     const dismissBtn = f.id
-      ? `<button class="btn btn-sm" style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3);" onclick="openDismissModal(${f.id})" id="dismiss-btn-${f.id}">❌ Dismiss Finding</button>`
+      ? `<button class="btn btn-sm" style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3);" onclick="openDismissModal(${f.id})" id="dismiss-btn-${f.id}">Dismiss Finding</button>`
       : '';
 
     card.innerHTML = `
@@ -900,7 +900,7 @@ function renderFindings(findings) {
       ${citation}
       ${evidenceCardHtml}
       ${f.suggested_correction ? `
-        <div class="finding-suggestion">💡 <strong>Suggested Replacement:</strong> "${escapeHtml(f.suggested_correction)}"</div>
+        <div class="finding-suggestion"><strong>Suggested Replacement:</strong> "${escapeHtml(f.suggested_correction)}"</div>
         <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">${acceptBtn} ${dismissBtn}</div>
       ` : ''}
     `;
@@ -920,11 +920,11 @@ async function acceptFindingById(findingId) {
       runComplianceReview();
     } else {
       showToast(res.error || 'Could not apply suggestion', 'error');
-      if (btn) { btn.disabled = false; btn.textContent = '✅ Accept Suggestion'; }
+      if (btn) { btn.disabled = false; btn.textContent = 'Accept Suggestion'; }
     }
   } catch (err) {
     showToast(err.message || 'Accept failed', 'error');
-    if (btn) { btn.disabled = false; btn.textContent = '✅ Accept Suggestion'; }
+    if (btn) { btn.disabled = false; btn.textContent = 'Accept Suggestion'; }
   }
 }
 
@@ -1815,7 +1815,7 @@ async function handleImageAudit(event) {
   try {
     const res = await apiFetch('/api/images/check', 'POST', formData);
     btn.disabled = false;
-    btn.textContent = '🔍 Run Image & Accessibility Audit';
+    btn.textContent = 'Run Image & Accessibility Audit';
 
     if (res && res.success) {
       renderImageFindings(res);
@@ -1825,7 +1825,7 @@ async function handleImageAudit(event) {
     }
   } catch (err) {
     btn.disabled = false;
-    btn.textContent = '🔍 Run Image & Accessibility Audit';
+    btn.textContent = 'Run Image & Accessibility Audit';
     showToast(err.message || 'Audit request failed', 'error');
   }
 }
@@ -1841,7 +1841,7 @@ function renderImageFindings(data) {
   countBadge.textContent = data.findings ? data.findings.length : 0;
   if (data.findings.length === 0) {
     summaryPill.className = 'badge badge-verified';
-    summaryPill.textContent = '✓ 100% Brand & WCAG Compliant';
+    summaryPill.textContent = '100% Brand & WCAG Compliant';
   } else {
     summaryPill.className = 'badge badge-danger';
     summaryPill.textContent = `${data.summary.high || 0} Critical / ${data.summary.medium || 0} Warning`;
@@ -1858,7 +1858,7 @@ function renderImageFindings(data) {
         <span style="width:16px; height:16px; border-radius:4px; background:${c.hex}; display:inline-block; border:1px solid rgba(255,255,255,0.3);"></span>
         <span style="font-family:var(--font-mono); font-weight:600;">${c.hex}</span>
         <span style="color:var(--ink-muted);">${c.coverage_pct}%</span>
-        ${c.is_off_palette ? '<span style="color:#f87171; font-weight:700;">⚠️ Off-Palette</span>' : '<span style="color:var(--lime);">✓ Palette</span>'}
+        ${c.is_off_palette ? '<span style="color:#f87171; font-weight:700;">Off-Palette</span>' : '<span style="color:var(--lime);">Palette Compliant</span>'}
       `;
       colorsBar.appendChild(swatch);
     });
@@ -1871,7 +1871,7 @@ function renderImageFindings(data) {
   if (!data.findings || data.findings.length === 0) {
     container.innerHTML = `
       <div style="text-align: center; color: var(--lime); padding: 30px 0;">
-        ✨ <strong>No Violations Found!</strong> Image palette strictly adheres to brand guidelines and passes all WCAG 2.1 accessibility criteria.
+        <strong>No Violations Found</strong> Image palette strictly adheres to brand guidelines and passes all WCAG 2.1 accessibility criteria.
       </div>
     `;
     return;
@@ -1890,7 +1890,7 @@ function renderImageFindings(data) {
       <p style="font-size:13px; color:var(--ink-muted); margin-bottom:6px;">${escapeHtml(f.explanation)}</p>
       ${f.matched_text ? `<div class="finding-quote">"${escapeHtml(f.matched_text)}"</div>` : ''}
       <div class="citation-box"><strong>Cited Standard:</strong> ${escapeHtml(f.evidence_reference || '')}</div>
-      ${f.suggested_correction ? `<div class="finding-suggestion">💡 <strong>Guidance:</strong> ${escapeHtml(f.suggested_correction)}</div>` : ''}
+      ${f.suggested_correction ? `<div class="finding-suggestion"><strong>Guidance:</strong> ${escapeHtml(f.suggested_correction)}</div>` : ''}
     `;
     container.appendChild(card);
   });
