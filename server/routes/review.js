@@ -90,12 +90,46 @@ router.post('/findings/:id/accept', (req, res) => {
       return res.status(404).json({ success: false, error: 'Finding not found in your organization.' });
     }
 
-    if (!finding.suggested_correction) {
-      return res.status(400).json({ success: false, error: 'This finding does not have an automatic correction string.' });
+    // Fix 2: 409 Conflict guard — reject duplicate / already-processed clicks
+    if (finding.status !== 'open') {
+      return res.status(409).json({
+        success: false,
+        error: `Finding #${finding.id} is already "${finding.status}". No further action needed.`,
+        current_status: finding.status
+      });
+    }
+
+    if (!finding.matched_text || finding.start_offset == null || finding.end_offset == null) {
+      return res.status(400).json({ success: false, error: 'This finding does not have a span-based correction.' });
+    }
+
+    // Fix 1: Apply correction to CURRENT draft text at the correct span offset
+    const currentText = finding.content_text;
+    const { start_offset, end_offset, matched_text } = finding;
+
+    // Stale detection: verify the matched text still exists at the recorded offset
+    const slice = currentText.slice(start_offset, end_offset);
+    let newContent;
+    const replacement = finding.suggested_correction || '[approved alternative]';
+
+    if (slice.toLowerCase() === matched_text.toLowerCase()) {
+      // Exact span match — apply surgically
+      newContent = currentText.slice(0, start_offset) + replacement + currentText.slice(end_offset);
+    } else {
+      // Offset is stale (earlier edits shifted text) — try a full-string replace as fallback
+      const idx = currentText.indexOf(matched_text);
+      if (idx !== -1) {
+        newContent = currentText.slice(0, idx) + replacement + currentText.slice(idx + matched_text.length);
+      } else {
+        return res.status(409).json({
+          success: false,
+          error: `The matched text "${matched_text}" is no longer present in the draft (already fixed or overwritten). Re-run the scan to get fresh findings.`,
+          current_status: 'stale'
+        });
+      }
     }
 
     const nextVersion = finding.current_version + 1;
-    const newContent = finding.suggested_correction;
 
     db.prepare(`
       UPDATE content_drafts SET
@@ -156,6 +190,15 @@ router.post('/findings/:id/edit', (req, res) => {
       return res.status(404).json({ success: false, error: 'Finding not found in your organization.' });
     }
 
+    // Fix 2: 409 Conflict guard — reject duplicate / already-processed clicks
+    if (finding.status !== 'open') {
+      return res.status(409).json({
+        success: false,
+        error: `Finding #${finding.id} is already "${finding.status}". No further action needed.`,
+        current_status: finding.status
+      });
+    }
+
     const nextVersion = finding.current_version + 1;
 
     db.prepare(`
@@ -201,9 +244,19 @@ router.post('/findings/:id/edit', (req, res) => {
   }
 });
 
-// POST /api/review/findings/:id/reject - Dismiss finding
+// POST /api/review/findings/:id/reject - Dismiss finding (requires valid dismiss_reason)
 router.post('/findings/:id/reject', (req, res) => {
+  const { dismiss_reason, dismiss_note } = req.body;
   const db = getDb();
+
+  const VALID_DISMISS_REASONS = ['false_positive', 'rule_unclear', 'approved_exception', 'ok_in_context'];
+  if (!dismiss_reason || !VALID_DISMISS_REASONS.includes(dismiss_reason)) {
+    return res.status(400).json({
+      success: false,
+      error: `A valid dismissal reason is required. Allowed values: ${VALID_DISMISS_REASONS.join(', ')}.`
+    });
+  }
+
   try {
     const finding = db.prepare(`
       SELECT f.*, d.organization_id
@@ -216,15 +269,36 @@ router.post('/findings/:id/reject', (req, res) => {
       return res.status(404).json({ success: false, error: 'Finding not found in your organization.' });
     }
 
-    db.prepare("UPDATE review_findings SET status = 'rejected' WHERE id = ?").run(req.params.id);
+    // Fix 2: 409 Conflict guard
+    if (finding.status !== 'open') {
+      return res.status(409).json({
+        success: false,
+        error: `Finding #${finding.id} is already "${finding.status}". Cannot dismiss again.`,
+        current_status: finding.status
+      });
+    }
 
-    logAudit('FINDING_REJECTED', 'review_findings', req.params.id, req.user, {
-      draft_id: finding.draft_id
+    db.prepare(`
+      UPDATE review_findings SET
+        status = 'rejected',
+        dismiss_reason = ?,
+        dismiss_note = ?
+      WHERE id = ?
+    `).run(dismiss_reason, dismiss_note || null, req.params.id);
+
+    logAudit('FINDING_DISMISSED', 'review_findings', req.params.id, req.user, {
+      draft_id: finding.draft_id,
+      rule_id: finding.rule_id,
+      claim_id: finding.claim_id,
+      dismiss_reason,
+      dismiss_note
     }, req.organizationId);
 
     res.json({
       success: true,
-      message: `Finding #${finding.id} dismissed.`
+      message: `Finding #${finding.id} dismissed with reason "${dismiss_reason}".`,
+      dismiss_reason,
+      dismiss_note: dismiss_note || null
     });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });

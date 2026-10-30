@@ -113,6 +113,14 @@
       </svg>
       Reviewer Queue <span id="queue-count-badge" class="tab-badge" style="display:none;">0</span>
     </button>
+        <button class="tab-btn" data-tab="imagechecks" onclick="switchTab('imagechecks')">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+        <circle cx="8.5" cy="8.5" r="1.5"/>
+        <polyline points="21 15 16 10 5 21"/>
+      </svg>
+      Image & WCAG Auditor
+    </button>
     <button class="tab-btn" data-tab="passport" onclick="switchTab('passport')">
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
@@ -131,11 +139,47 @@
   <!-- MAIN APP CONTAINER -->
   <main class="app-container">
 
+    <!-- JUDGE ONBOARDING & TRUST ARCHITECTURE (Section 5) -->
+    <div class="card" style="margin-bottom: 24px; border: 1px solid var(--lime); background: linear-gradient(135deg, rgba(198, 244, 50, 0.05) 0%, rgba(34, 211, 238, 0.03) 100%);">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 14px;">
+        <div style="flex: 1; min-width: 280px;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+            <span style="font-size: 18px;">👋</span>
+            <h3 style="font-size: 16px; font-weight: 800; color: var(--lime); margin: 0;">Start Here: Quick Judge Walkthrough</h3>
+          </div>
+          <p style="font-size: 13px; color: var(--ink-muted); margin-bottom: 12px; line-height: 1.5;">
+            Welcome to <strong>BrandGuard by Inkloom AI</strong>. All evaluations run 100% locally with zero external AI APIs. Use the demo persona switcher in the top bar to explore the entire governance workflow:
+          </p>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px;">
+            <button class="btn btn-sm" onclick="switchRole('manager@inkloom.ai')" style="background: rgba(255,255,255,0.06); font-size: 11px;">1. Manager: Review Rules &amp; Claims</button>
+            <button class="btn btn-sm" onclick="switchRole('creator@inkloom.ai')" style="background: rgba(255,255,255,0.06); font-size: 11px;">2. Creator: Run Studio &amp; Review</button>
+            <button class="btn btn-sm" onclick="switchRole('reviewer@inkloom.ai')" style="background: rgba(255,255,255,0.06); font-size: 11px;">3. Reviewer: Evaluate Queue</button>
+            <button class="btn btn-sm" onclick="pasteSampleDraftAndReview()" style="background: var(--lime); color: #121802; font-weight: 700; font-size: 11px;">✨ Paste Try-This Sample &amp; Review →</button>
+          <div style="font-size:11px; color:#fbbf24; background:rgba(251,191,36,0.08); padding:4px 10px; border-radius:4px; border:1px solid rgba(251,191,36,0.2); margin-top:8px;">
+            ⚡ <strong>Hosting Note:</strong> Free tier cold starts may take ~40s on first request. Database automatically seeds demo rules, claims, and users on every boot.
+          </div>
+        </div>
+        </div>
+
+        <div style="flex: 1; min-width: 280px; background: rgba(0,0,0,0.25); padding: 12px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); font-size: 12px;">
+          <div style="font-weight: 700; color: var(--cyan); margin-bottom: 6px;">🔒 Trust &amp; Compliance Guarantee:</div>
+          <ul style="padding-left: 18px; color: var(--ink-muted); margin: 0; line-height: 1.6;">
+            <li><strong>Zero Auto-Publishing:</strong> BrandGuard acts strictly as a compliance gate; human review is always required.</li>
+            <li><strong>Complete Data Isolation:</strong> Multi-tenant workspaces are strictly isolated by organization ID.</li>
+            <li><strong>Zero External AI APIs:</strong> Classification runs via local scikit-learn models &amp; deterministic rules.</li>
+            <li><em style="color: #fbbf24;">BrandGuard is a review tool and does not provide legal advice.</em></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
     <!-- TAB 1: GUIDELINE HEALTH DASHBOARD -->
     <section id="view-dashboard" class="view-section active">
       <div class="section-header">
         <div>
           <h2 class="section-title">Guideline Health Dashboard</h2>
+          <div style="font-size:12px; color:var(--cyan); margin-top:2px;">Analytics engine monitoring rule dismissals, confusion rates, and flagging ambiguous guidelines needing clarification.</div>
           <p class="section-desc">Real-time metrics computed strictly from authoritative SQLite database records.</p>
         </div>
         <button class="btn btn-primary" onclick="loadDashboard()">
@@ -148,6 +192,16 @@
       </div>
 
       <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-label">Expiring Claims (30d)</span>
+          <span id="stat-expiring-soon-claims" class="stat-value" style="color: #fbbf24;">--</span>
+          <span class="stat-desc">Need renewal soon</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Flagged Rules</span>
+          <span id="stat-flagged-rules" class="stat-value" style="color: #f87171;">--</span>
+          <span class="stat-desc">Needs clarification</span>
+        </div>
         <div class="stat-card">
           <span class="stat-label">Approved Rules</span>
           <span id="stat-approved-rules" class="stat-value" style="color: var(--lime);">--</span>
@@ -187,6 +241,59 @@
           <span class="stat-label">Approval Ratio</span>
           <span id="stat-approval-ratio" class="stat-value">--</span>
           <span id="stat-approval-counts" class="stat-desc">-- Approvals / -- Rejections</span>
+        </div>
+      </div>
+
+            <!-- IMPROVEMENT #2: GUIDELINE HEALTH MONITORING -->
+      <div class="card" style="margin-bottom: 24px;">
+        <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <span>🩺 Rule Health &amp; Clarification Alerts</span>
+            <div style="font-size: 13px; color: var(--ink-muted); margin-top: 4px;">Identifies rules with high dismissal rates or confusion flags (≥5 firings &amp; ≥40% dismissed, or ≥2 rule_unclear reasons).</div>
+          </div>
+        </div>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Rule Code</th>
+                <th>Title / Scope</th>
+                <th>Category</th>
+                <th>Times Fired</th>
+                <th>Dismissed</th>
+                <th>Dismissal Rate</th>
+                <th>Top Reason</th>
+                <th>Health Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="rule-health-tbody">
+              <tr><td colspan="9" style="text-align:center; color: var(--ink-dim);">Loading guideline health analytics...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- CLAIMS EXPIRING SOON ALERT -->
+      <div class="card" id="expiring-claims-alert-card" style="margin-bottom: 24px; display:none;">
+        <div class="card-title" style="display:flex; align-items:center; gap:8px;">
+          <span>⚠️ Claims Expiring Within 30 Days</span>
+          <span id="expiring-claims-count-badge" class="badge badge-warning">0 Expiring</span>
+        </div>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Claim ID</th>
+                <th>Claim Title</th>
+                <th>Valid Until</th>
+                <th>Owner</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="expiring-claims-tbody">
+            </tbody>
+          </table>
         </div>
       </div>
 
@@ -599,13 +706,84 @@
       </div>
     </section>
 
+        <!-- TAB: EXPLAINABLE IMAGE & ACCESSIBILITY CHECKS (Improvement #3) -->
+    <section id="view-imagechecks" class="view-section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Explainable Image &amp; Accessibility Auditor</h2>
+          <p class="section-desc">Upload PNG, JPG, or WebP creatives (up to 5 MB) to evaluate against approved brand palette colors (64×64 pixel bucketing via CIELAB distance) and WCAG 2.1 accessibility criteria.</p>
+        </div>
+      </div>
+
+      <div class="studio-grid">
+        <!-- LEFT: UPLOAD & AUDIT INPUT -->
+        <div class="card">
+          <h3 class="card-title">Upload Creative Asset</h3>
+          <form id="image-audit-form" onsubmit="handleImageAudit(event)">
+            <div class="form-group" style="margin-bottom: 14px;">
+              <label class="form-label">Creative Image File (PNG, JPG, WebP — max 5 MB):</label>
+              <input type="file" id="audit-image-file" class="form-input" accept="image/png,image/jpeg,image/webp" required style="padding: 8px;">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 14px;">
+              <label class="form-label">Alternative Text (Alt Text):</label>
+              <input type="text" id="audit-image-alt" class="form-input" placeholder="e.g. BrandGuard dashboard monitoring active compliance rules" style="width: 100%;">
+              <span style="font-size: 11px; color: var(--ink-dim); display: block; margin-top: 4px;">Enforced per WCAG 2.1 Guideline 1.1.1 (Non-text Content). Required for compliance.</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+              <div>
+                <label class="form-label">Overlay Text Color (Hex):</label>
+                <input type="text" id="audit-fg-color" class="form-input" value="#c6f432" placeholder="#c6f432">
+              </div>
+              <div>
+                <label class="form-label">Overlay Background (Hex):</label>
+                <input type="text" id="audit-bg-color" class="form-input" value="#27231e" placeholder="#27231e">
+              </div>
+            </div>
+
+            <button type="submit" id="btn-audit-image" class="btn btn-primary" style="width: 100%; padding: 10px; font-weight: 700;">🔍 Run Image &amp; Accessibility Audit</button>
+          </form>
+
+          <!-- IMAGE PREVIEW -->
+          <div id="image-preview-container" style="display: none; margin-top: 18px; text-align: center;">
+            <div style="font-size: 12px; color: var(--ink-dim); margin-bottom: 6px;">Image Preview (Resized to 64×64 for dominant color bucketing):</div>
+            <img id="audit-preview-img" style="max-height: 200px; max-width: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);" alt="Preview">
+          </div>
+        </div>
+
+        <!-- RIGHT: AUDIT FINDINGS & COLOR PALETTE BREAKDOWN -->
+        <div>
+          <!-- DOMINANT COLORS BREAKDOWN -->
+          <div class="card" id="image-colors-card" style="margin-bottom: 16px; display: none;">
+            <h3 class="card-title">Top 5 Dominant Colors (64×64 Clustering)</h3>
+            <div id="dominant-colors-bar" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;"></div>
+            <div id="palette-evaluation-note" style="font-size: 12px; color: var(--ink-muted);"></div>
+          </div>
+
+          <!-- IMAGE FINDINGS -->
+          <div class="card">
+            <div class="card-title">
+              <span>Image &amp; Accessibility Findings (<span id="image-findings-count">0</span>)</span>
+              <span id="image-findings-badge" class="badge badge-info">Awaiting Upload</span>
+            </div>
+            <div id="image-findings-container" class="findings-list">
+              <div style="text-align: center; color: var(--ink-dim); padding: 30px 0;">
+                Select an image file and click "Run Image &amp; Accessibility Audit" to inspect brand palette compliance and WCAG criteria.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- TAB 7: BRAND PASSPORT & WCAG -->
     <section id="view-passport" class="view-section">
       <div class="section-header">
         <div>
           <h2 class="section-title">Brand Passport & WCAG 2.1 Accessibility</h2>
-          <p class="section-desc">Compiled organization-wide brand passport summarizing active rules, claims, and
-            interactive WCAG contrast calculator.</p>
+          <div style="font-size:12px; color:var(--cyan); margin-top:2px;">Unified corporate compliance passport combining approved brand identity tokens, active rules, claims, and accessibility standards.</div>
+          <p class="section-desc">Compiled organization-wide brand passport summarizing active rules, claims, and interactive WCAG contrast calculator.</p>
         </div>
         <button class="btn btn-primary" onclick="loadBrandPassport()">
           <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -1014,6 +1192,66 @@
   </button>
 
   <!-- TOAST CONTAINER -->
+    <!-- DISMISS FINDING MODAL (Spec #2: Reject requires a reason) -->
+  <div id="dismiss-finding-modal" class="modal-backdrop" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:9999; justify-content:center; align-items:center;">
+    <div class="modal-box card" style="max-width:480px; width:90%; background:var(--bg-card, #1c1917); border:1px solid rgba(255,255,255,0.15); border-radius:12px; padding:24px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <h3 style="font-size:16px; font-weight:700;">Dismiss Finding</h3>
+        <button class="btn btn-sm" onclick="closeDismissModal()" style="background:transparent; border:none; color:var(--ink-muted); font-size:18px; cursor:pointer;">✕</button>
+      </div>
+      <p style="font-size:13px; color:var(--ink-muted); margin-bottom:14px;">Brand compliance requires documenting why this finding is being rejected.</p>
+      <input type="hidden" id="dismiss-finding-id">
+      <div class="form-group" style="margin-bottom:12px;">
+        <label class="form-label" style="font-size:12px; font-weight:600; display:block; margin-bottom:4px;">Dismissal Reason (Required):</label>
+        <select id="dismiss-reason-select" class="form-select" style="width:100%; padding:8px;">
+          <option value="false_positive">False Positive — Rule flagged compliant wording</option>
+          <option value="rule_unclear">Rule Unclear — Guideline is ambiguous or contradictory</option>
+          <option value="approved_exception">Approved Exception — Authorized by Brand Lead</option>
+          <option value="ok_in_context">OK in Context — Permissible in this specific channel/usage</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-bottom:16px;">
+        <label class="form-label" style="font-size:12px; font-weight:600; display:block; margin-bottom:4px;">Optional Notes:</label>
+        <textarea id="dismiss-note-input" class="form-input" rows="2" placeholder="Additional context for the brand manager..." style="width:100%; padding:8px;"></textarea>
+      </div>
+      <div style="display:flex; justify-content:flex-end; gap:8px;">
+        <button class="btn btn-sm" onclick="closeDismissModal()" style="background:rgba(255,255,255,0.08);">Cancel</button>
+        <button class="btn btn-sm btn-danger" onclick="confirmDismissFinding()">Confirm Dismissal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDIT RULE MODAL (Spec #2: Link from flagged rule to editor) -->
+  <div id="edit-rule-modal" class="modal-backdrop" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:9999; justify-content:center; align-items:center;">
+    <div class="modal-box card" style="max-width:540px; width:90%; background:var(--bg-card, #1c1917); border:1px solid rgba(255,255,255,0.15); border-radius:12px; padding:24px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <h3 style="font-size:16px; font-weight:700;">Clarify Brand Rule</h3>
+        <button class="btn btn-sm" onclick="closeEditRuleModal()" style="background:transparent; border:none; color:var(--ink-muted); font-size:18px; cursor:pointer;">✕</button>
+      </div>
+      <input type="hidden" id="edit-rule-id">
+      <div class="form-group" style="margin-bottom:10px;">
+        <label class="form-label" style="font-size:12px; font-weight:600; display:block;">Rule Code:</label>
+        <input type="text" id="edit-rule-code" class="form-input" style="width:100%;" disabled>
+      </div>
+      <div class="form-group" style="margin-bottom:10px;">
+        <label class="form-label" style="font-size:12px; font-weight:600; display:block;">Title:</label>
+        <input type="text" id="edit-rule-title" class="form-input" style="width:100%;">
+      </div>
+      <div class="form-group" style="margin-bottom:10px;">
+        <label class="form-label" style="font-size:12px; font-weight:600; display:block;">Clarified Description:</label>
+        <textarea id="edit-rule-desc" class="form-input" rows="3" style="width:100%;"></textarea>
+      </div>
+      <div class="form-group" style="margin-bottom:14px;">
+        <label class="form-label" style="font-size:12px; font-weight:600; display:block;">Guidance / Replacement:</label>
+        <input type="text" id="edit-rule-guidance" class="form-input" style="width:100%;">
+      </div>
+      <div style="display:flex; justify-content:flex-end; gap:8px;">
+        <button class="btn btn-sm" onclick="closeEditRuleModal()" style="background:rgba(255,255,255,0.08);">Cancel</button>
+        <button class="btn btn-sm btn-primary" onclick="saveEditedRule()">Save Clarification</button>
+      </div>
+    </div>
+  </div>
+
   <div id="toast-container"></div>
 
   <script src="/brandguard.js?v=12"></script>

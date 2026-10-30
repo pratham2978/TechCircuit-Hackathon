@@ -25,10 +25,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // --- ROLE-BASED ACCESS CONTROL (RBAC) ---
 const ROLE_PERMISSIONS = {
-  admin: ['dashboard', 'workspaces', 'rules', 'claims', 'studio', 'queue', 'passport', 'audit'],
-  brand_manager: ['dashboard', 'workspaces', 'rules', 'claims', 'passport'],
-  creator: ['studio', 'passport'],
-  reviewer: ['queue', 'dashboard', 'passport']
+  admin: ['dashboard', 'workspaces', 'rules', 'claims', 'studio', 'queue', 'imagechecks', 'passport', 'audit'],
+  brand_manager: ['dashboard', 'workspaces', 'rules', 'claims', 'imagechecks', 'passport'],
+  creator: ['studio', 'imagechecks', 'passport'],
+  reviewer: ['queue', 'dashboard', 'imagechecks', 'passport']
 };
 
 const DEFAULT_TAB_FOR_ROLE = {
@@ -358,6 +358,7 @@ function refreshCurrentTab() {
     case 'rules': loadRules(); break;
     case 'claims': loadClaims(); break;
     case 'queue': loadWorkflowQueue(); break;
+    case 'imagechecks': break;
     case 'passport': loadBrandPassport(); break;
     case 'audit': loadAuditTrail(); break;
   }
@@ -380,44 +381,125 @@ async function loadDashboard() {
     const highFindings = stats.high_severity_findings ?? stats.open_high_severity_findings ?? 0;
     const totalApprovals = stats.total_approvals ?? 0;
     const totalRejections = stats.total_rejections ?? 0;
+    const expiringSoon = stats.expiring_soon_claims ?? (res.claims_expiring_soon ? res.claims_expiring_soon.length : 0);
+    const flaggedRules = stats.flagged_rules_count ?? (res.rule_health ? res.rule_health.filter(r => r.needs_clarification).length : 0);
 
-    document.getElementById('stat-approved-rules').textContent = approved;
-    document.getElementById('stat-pending-rules').textContent = pending;
-    document.getElementById('stat-total-claims').textContent = totalClaims;
-    document.getElementById('stat-verified-claims').textContent = Math.max(0, verified);
-    document.getElementById('stat-needs-verification').textContent = needsVerif;
-    document.getElementById('stat-expired-claims').textContent = expired;
-    document.getElementById('stat-high-findings').textContent = highFindings;
+    const elApp = document.getElementById('stat-approved-rules'); if (elApp) elApp.textContent = approved;
+    const elPen = document.getElementById('stat-pending-rules'); if (elPen) elPen.textContent = pending;
+    const elTot = document.getElementById('stat-total-claims'); if (elTot) elTot.textContent = totalClaims;
+    const elVer = document.getElementById('stat-verified-claims'); if (elVer) elVer.textContent = Math.max(0, verified);
+    const elNee = document.getElementById('stat-needs-verification'); if (elNee) elNee.textContent = needsVerif;
+    const elExp = document.getElementById('stat-expired-claims'); if (elExp) elExp.textContent = expired;
+    const elHig = document.getElementById('stat-high-findings'); if (elHig) elHig.textContent = highFindings;
+
+    const elExpSoon = document.getElementById('stat-expiring-soon-claims');
+    if (elExpSoon) elExpSoon.textContent = expiringSoon;
+
+    const elFlagged = document.getElementById('stat-flagged-rules');
+    if (elFlagged) elFlagged.textContent = flaggedRules;
 
     const totalDecisions = totalApprovals + totalRejections;
     const ratio = totalDecisions > 0 ? Math.round((totalApprovals / totalDecisions) * 100) : 100;
-    document.getElementById('stat-approval-ratio').textContent = `${ratio}%`;
-    document.getElementById('stat-approval-counts').textContent = `${totalApprovals} Approvals / ${totalRejections} Rejections`;
+    const elRatio = document.getElementById('stat-approval-ratio'); if (elRatio) elRatio.textContent = `${ratio}%`;
+    const elAppCounts = document.getElementById('stat-approval-counts'); if (elAppCounts) elAppCounts.textContent = `${totalApprovals} Approvals / ${totalRejections} Rejections`;
+
+    // Populate Improvement #2: Rule Health Table
+    const ruleHealthTbody = document.getElementById('rule-health-tbody');
+    if (ruleHealthTbody) {
+      ruleHealthTbody.innerHTML = '';
+      const ruleHealthList = res.rule_health || [];
+      if (ruleHealthList.length === 0) {
+        ruleHealthTbody.innerHTML = '<tr><td colspan="9" style="text-align:center; color: var(--ink-dim);">No active brand rules evaluated yet.</td></tr>';
+      } else {
+        ruleHealthList.forEach(rh => {
+          const tr = document.createElement('tr');
+          const isFlagged = rh.needs_clarification;
+          if (isFlagged) tr.style.background = 'rgba(239, 68, 68, 0.08)';
+
+          const reasonMap = {
+            rule_unclear: 'Rule Unclear',
+            false_positive: 'False Positive',
+            approved_exception: 'Approved Exception',
+            ok_in_context: 'OK in Context'
+          };
+          const topReasonLabel = rh.top_reason ? (reasonMap[rh.top_reason] || rh.top_reason) : '—';
+
+          tr.innerHTML = `
+            <td style="font-family: var(--font-mono); font-weight: 600;">${escapeHtml(rh.rule_code)}</td>
+            <td style="font-weight: 600; max-width: 200px;">${escapeHtml(rh.title || 'Brand Rule')}</td>
+            <td><span class="badge badge-info" style="font-size: 11px;">${escapeHtml(rh.category || 'General')}</span></td>
+            <td style="text-align:center;">${rh.times_fired}</td>
+            <td style="text-align:center;">${rh.times_dismissed}</td>
+            <td style="text-align:center; font-weight: 600; color: ${rh.dismissal_rate >= 40 ? '#f87171' : 'inherit'};
+              ">${rh.dismissal_rate}%</td>
+            <td><span style="font-size: 12px; color: var(--ink-muted);">${escapeHtml(topReasonLabel)}</span></td>
+            <td>
+              ${isFlagged
+                ? '<span class="badge badge-danger" style="font-size: 10px; font-weight:700;">⚠️ Needs Clarification</span>'
+                : '<span class="badge badge-verified" style="font-size: 10px;">✓ Healthy</span>'}
+            </td>
+            <td>
+              <button class="btn btn-sm btn-primary" style="padding: 3px 8px; font-size: 11px;" onclick="openEditRuleModal(${rh.id})">${isFlagged ? '✏️ Clarify Rule' : 'Edit'}</button>
+            </td>
+          `;
+          ruleHealthTbody.appendChild(tr);
+        });
+      }
+    }
+
+    // Populate Improvement #2: Expiring Claims Section
+    const expAlertCard = document.getElementById('expiring-claims-alert-card');
+    const expTbody = document.getElementById('expiring-claims-tbody');
+    const expBadge = document.getElementById('expiring-claims-count-badge');
+    const expiringSoonList = res.claims_expiring_soon || [];
+
+    if (expAlertCard && expTbody) {
+      if (expiringSoonList.length > 0) {
+        expAlertCard.style.display = 'block';
+        if (expBadge) expBadge.textContent = `${expiringSoonList.length} Expiring Soon`;
+        expTbody.innerHTML = '';
+        expiringSoonList.forEach(cl => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td style="font-family: var(--font-mono); font-weight: 600;">${escapeHtml(cl.claim_code)}</td>
+            <td>${escapeHtml(cl.claim_title || 'Marketing Claim')}</td>
+            <td style="color: #fbbf24; font-weight: 600;">${escapeHtml(cl.valid_to || '')}</td>
+            <td>${escapeHtml(cl.owner || 'Compliance')}</td>
+            <td><button class="btn btn-sm btn-primary" style="padding:3px 8px; font-size:11px;" onclick="switchTab('claims')">Renew in Ledger →</button></td>
+          `;
+          expTbody.appendChild(tr);
+        });
+      } else {
+        expAlertCard.style.display = 'none';
+      }
+    }
 
     // Populate recent reviews table
     const tbody = document.getElementById('dashboard-reviews-tbody');
-    tbody.innerHTML = '';
-    const reviews = res.recent_reviews || [];
-    if (reviews.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color: var(--ink-dim);">No reviews recorded yet.</td></tr>`;
-      return;
+    if (tbody) {
+      tbody.innerHTML = '';
+      const reviews = res.recent_reviews || [];
+      if (reviews.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color: var(--ink-dim);">No reviews recorded yet.</td></tr>';
+        return;
+      }
+      reviews.forEach(rev => {
+        const tr = document.createElement('tr');
+        const revId = rev.review_id || rev.id || rev.draft_id;
+        const status = (rev.status || rev.draft_status || 'DRAFT').toUpperCase();
+        const findingsCount = rev.findings_count || 0;
+        tr.innerHTML = `
+          <td style="font-family: var(--font-mono); font-size: 12px;">REV-${revId}</td>
+          <td style="font-weight: 600;">${escapeHtml(rev.draft_title || 'Untitled Draft')}</td>
+          <td>${escapeHtml(rev.author_name || rev.author_id || 'Creator')}</td>
+          <td><span class="badge badge-info">${escapeHtml(rev.predicted_tone || rev.ml_tone_predicted || 'Professional')}</span></td>
+          <td><span class="badge ${findingsCount > 0 ? 'badge-high' : 'badge-verified'}">${findingsCount} Issues</span></td>
+          <td><span class="badge badge-${status.toLowerCase()}">${status}</span></td>
+          <td style="color: var(--ink-dim); font-size: 12px;">${new Date(rev.created_at || Date.now()).toLocaleString()}</td>
+        `;
+        tbody.appendChild(tr);
+      });
     }
-    reviews.forEach(rev => {
-      const tr = document.createElement('tr');
-      const revId = rev.review_id || rev.id || rev.draft_id;
-      const status = (rev.status || rev.draft_status || 'DRAFT').toUpperCase();
-      const findingsCount = rev.findings_count || 0;
-      tr.innerHTML = `
-        <td style="font-family: var(--font-mono); font-size: 12px;">REV-${revId}</td>
-        <td style="font-weight: 600;">${escapeHtml(rev.draft_title || 'Untitled Draft')}</td>
-        <td>${escapeHtml(rev.author_name || rev.author_id || 'Creator')}</td>
-        <td><span class="badge badge-info">${escapeHtml(rev.predicted_tone || rev.ml_tone_predicted || 'Professional')}</span></td>
-        <td><span class="badge ${findingsCount > 0 ? 'badge-high' : 'badge-verified'}">${findingsCount} Issues</span></td>
-        <td><span class="badge badge-${status.toLowerCase()}">${status}</span></td>
-        <td style="color: var(--ink-dim); font-size: 12px;">${new Date(rev.created_at || Date.now()).toLocaleString()}</td>
-      `;
-      tbody.appendChild(tr);
-    });
   } catch (err) {
     console.error('Failed to load dashboard:', err);
   }
@@ -601,21 +683,43 @@ async function loadClaims() {
     }
 
     res.claims.forEach(claim => {
-      const isExpired = claim.validity_date && new Date(claim.validity_date) < new Date();
-      let statusBadge = isExpired ? 'badge-expired' : (claim.evidence && claim.evidence.length > 0 ? 'badge-verified' : 'badge-needs_verification');
-      let statusText = isExpired ? 'EXPIRED' : (claim.evidence && claim.evidence.length > 0 ? 'VERIFIED' : 'NEEDS_VERIFICATION');
+      // Use server-computed status (EXPIRED, EXPIRING_SOON, VERIFIED, NEEDS_VERIFICATION)
+      const cs = claim.computed_status || 'needs_verification';
+      const statusClassMap = {
+        approved: 'badge-verified',
+        expired: 'badge-expired',
+        expiring_soon: 'badge-warning',
+        needs_verification: 'badge-needs_verification',
+        pending: 'badge-pending',
+        rejected: 'badge-high'
+      };
+      const statusTextMap = {
+        approved: 'VERIFIED',
+        expired: 'EXPIRED',
+        expiring_soon: 'EXPIRING SOON',
+        needs_verification: 'NEEDS VERIFICATION',
+        pending: 'PENDING',
+        rejected: 'REJECTED'
+      };
+      const statusBadge = statusClassMap[cs] || 'badge-info';
+      const statusText = statusTextMap[cs] || cs.toUpperCase();
 
-      const evidenceSummary = (claim.evidence && claim.evidence.length > 0)
-        ? `<strong>${escapeHtml(claim.evidence[0].evidence_title || 'Study')}</strong><br><span style="color:var(--ink-dim);font-size:12px;">${escapeHtml(claim.evidence[0].source_name || '')}</span>`
-        : `<span style="color: var(--warning); font-size: 12px;">No evidence attached</span>`;
+      const ec = claim.evidence_card || (claim.evidence && claim.evidence[0]) || {};
+      const evTitle = ec.evidence_title || ec.source_name || ec.source;
+      const evSource = ec.source || ec.source_name;
+      const evidenceSummary = evTitle
+        ? `<strong>${escapeHtml(evTitle)}</strong><br><span style="color:var(--ink-dim);font-size:12px;">${escapeHtml(evSource || '')}</span>${ec.doc_reference ? `<br><span style="font-family:var(--font-mono);font-size:10px;color:var(--ink-dim);">${escapeHtml(ec.doc_reference)}</span>` : ''}`
+        : `<span style="color: var(--warning); font-size: 12px;">⚠️ No evidence attached</span>`;
+
+      const reasonTooltip = claim.status_reason ? `title="${escapeHtml(claim.status_reason)}"` : '';
 
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td><span class="badge ${statusBadge}">${statusText}</span></td>
+        <td><span class="badge ${statusBadge}" ${reasonTooltip}>${statusText}</span></td>
         <td style="font-weight: 600; max-width: 300px;">${escapeHtml(claim.claim_text)}</td>
         <td><span class="badge badge-info">${escapeHtml(claim.category || 'General')}</span></td>
         <td>${evidenceSummary}</td>
-        <td style="font-family: var(--font-mono); font-size: 13px;">${claim.validity_date || 'Ongoing'}</td>
+        <td style="font-family: var(--font-mono); font-size: 13px; color: ${cs === 'expired' ? '#f87171' : cs === 'expiring_soon' ? '#fbbf24' : 'inherit'}">${claim.valid_to || 'Ongoing'}</td>
         <td>
           <button class="btn btn-sm btn-danger" onclick="deleteClaim(${claim.id})">Delete</button>
         </td>
@@ -694,9 +798,15 @@ async function runComplianceReview() {
 
     // Update Local ML Tone Badge
     const tone = res.tone_prediction || {};
-    document.getElementById('predicted-tone-badge').textContent = tone.predicted_tone || 'Standard';
-    document.getElementById('predicted-tone-conf').textContent = `${Math.round((tone.confidence || 0.85) * 100)}% Confidence`;
-    document.getElementById('predicted-tone-desc').textContent = `Local ML Model (${tone.model_version || 'v1-local'}) trained on authentic tone dataset.`;
+    if (tone.status === 'unavailable' || !tone.predicted_tone) {
+      document.getElementById('predicted-tone-badge').textContent = 'Tone check unavailable';
+      document.getElementById('predicted-tone-conf').textContent = 'ML model offline or not loaded';
+      document.getElementById('predicted-tone-desc').textContent = 'Run python ml/train.py to activate local tone classifier. Rules & claim checks still active.';
+    } else {
+      document.getElementById('predicted-tone-badge').textContent = tone.predicted_tone || 'Standard';
+      document.getElementById('predicted-tone-conf').textContent = `${Math.round((tone.confidence || 0) * 100)}% Confidence`;
+      document.getElementById('predicted-tone-desc').textContent = `Local ML Model (${tone.model_version || 'v1-local'}) trained on authentic tone dataset.`;
+    }
 
     // Render structured findings
     renderFindings(res.findings);
@@ -711,6 +821,39 @@ async function runComplianceReview() {
 }
 
 function renderFindings(findings) {
+  // Phase 2: evidence card helper
+  function buildEvidenceCardHtml(ec) {
+    if (!ec) return '';
+    const statusClassMap = {
+      expired: 'badge-expired', expiring_soon: 'badge-warning',
+      verified: 'badge-verified', approved: 'badge-verified',
+      needs_verification: 'badge-needs_verification'
+    };
+    const statusLabelMap = {
+      expired: '\uD83D\uDD34 EXPIRED', expiring_soon: '\uD83D\uDFE1 EXPIRING SOON',
+      verified: '\uD83D\uDFE2 VERIFIED', approved: '\uD83D\uDFE2 VERIFIED',
+      needs_verification: '\uD83D\uDFE0 NEEDS VERIFICATION'
+    };
+    const sc = statusClassMap[ec.approval_status] || 'badge-info';
+    const sl = statusLabelMap[ec.approval_status] || (ec.approval_status || '').toUpperCase();
+    const validToColor = ec.approval_status === 'expired' ? '#f87171' : ec.approval_status === 'expiring_soon' ? '#fbbf24' : 'inherit';
+    return `
+      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:10px 14px;margin-top:10px;font-size:12px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+          <span style="font-weight:700;color:var(--ink-bright);">\uD83D\uDCCB Evidence Record</span>
+          <span class="badge ${sc}" style="font-size:10px;">${sl}</span>
+        </div>
+        <table style="width:100%;border-collapse:collapse;color:var(--ink-muted);">
+          <tr><td style="padding:2px 8px 2px 0;font-weight:600;white-space:nowrap;">Claim ID</td><td>${escapeHtml(ec.claim_id || '\u2014')}</td></tr>
+          ${ec.claim_title ? `<tr><td style="padding:2px 8px 2px 0;font-weight:600;">Claim</td><td>${escapeHtml(ec.claim_title)}</td></tr>` : ''}
+          ${ec.source ? `<tr><td style="padding:2px 8px 2px 0;font-weight:600;">Source</td><td>${escapeHtml(ec.source)}</td></tr>` : ''}
+          ${ec.doc_reference ? `<tr><td style="padding:2px 8px 2px 0;font-weight:600;">Doc Ref</td><td style="font-family:var(--font-mono);font-size:11px;">${escapeHtml(ec.doc_reference)}</td></tr>` : ''}
+          ${ec.owner ? `<tr><td style="padding:2px 8px 2px 0;font-weight:600;">Owner</td><td>${escapeHtml(ec.owner)}</td></tr>` : ''}
+          ${ec.valid_to ? `<tr><td style="padding:2px 8px 2px 0;font-weight:600;">Valid To</td><td style="color:${validToColor};font-weight:600;">${escapeHtml(ec.valid_to)}</td></tr>` : ''}
+          ${ec.policy_exception ? `<tr><td style="padding:2px 8px 2px 0;font-weight:600;">Exception</td><td style="color:var(--warning);">${escapeHtml(ec.policy_exception)}</td></tr>` : ''}
+        </table>
+      </div>`;
+  }
   const container = document.getElementById('findings-container');
   container.innerHTML = '';
   if (!findings || findings.length === 0) {
@@ -725,31 +868,64 @@ function renderFindings(findings) {
   findings.forEach(f => {
     const card = document.createElement('div');
     card.className = `finding-card ${(f.severity || 'medium').toLowerCase()}`;
-    
+
+    // Build citation from actual rule_id / claim_id fields (Phase 1 fix)
     let citation = '';
-    if (f.related_rule_text) {
-      citation = `<div class="citation-box"><strong>Rule Cited:</strong> ${escapeHtml(f.related_rule_text)}</div>`;
-    } else if (f.related_claim_text) {
-      citation = `<div class="citation-box"><strong>Claim Reference:</strong> ${escapeHtml(f.related_claim_text)} (${f.evidence_reference || 'Evidence Required'})</div>`;
+    if (f.rule_id) {
+      citation = `<div class="citation-box"><strong>Rule Cited:</strong> ${escapeHtml(f.rule_id)} — ${escapeHtml(f.evidence_reference || '')}</div>`;
+    } else if (f.claim_id) {
+      citation = `<div class="citation-box"><strong>Claim Reference:</strong> ${escapeHtml(f.claim_id)} — ${escapeHtml(f.evidence_reference || 'Evidence Required')}</div>`;
     }
+
+    // Evidence card (Phase 2)
+    const evidenceCardHtml = buildEvidenceCardHtml(f.evidence_card);
+
+    // API-based accept button when finding persisted server-side (has .id)
+    const hasApiAccept = f.id && f.matched_text && f.suggested_correction;
+    const acceptBtn = hasApiAccept
+      ? `<button class="btn btn-sm btn-primary" onclick="acceptFindingById(${f.id})" id="accept-btn-${f.id}">✅ Accept Suggestion</button>`
+      : (f.suggested_correction ? `<button class="btn btn-sm btn-primary" onclick="acceptCorrection('${escapeHtml(f.matched_text||'')}', '${escapeHtml(f.suggested_correction)}')">Accept Suggestion</button>` : '');
+    const dismissBtn = f.id
+      ? `<button class="btn btn-sm" style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3);" onclick="openDismissModal(${f.id})" id="dismiss-btn-${f.id}">❌ Dismiss Finding</button>`
+      : '';
 
     card.innerHTML = `
       <div class="finding-header">
         <span class="finding-title">${escapeHtml(f.category)}</span>
         <span class="badge badge-${(f.severity || 'medium').toLowerCase()}">${f.severity || 'MEDIUM'}</span>
+        ${f.verification_status ? `<span class="badge badge-info" style="font-size:10px;">${escapeHtml(f.verification_status)}</span>` : ''}
       </div>
-      <p style="font-size: 13px; color: var(--ink-muted); margin-bottom: 6px;">${escapeHtml(f.explanation)}</p>
+      <p style="font-size:13px;color:var(--ink-muted);margin-bottom:6px;">${escapeHtml(f.explanation)}</p>
       ${f.matched_text ? `<div class="finding-quote">"${escapeHtml(f.matched_text)}"</div>` : ''}
       ${citation}
+      ${evidenceCardHtml}
       ${f.suggested_correction ? `
-        <div class="finding-suggestion"><strong>Suggested Replacement:</strong> "${escapeHtml(f.suggested_correction)}"</div>
-        <div style="display: flex; gap: 8px; margin-top: 10px;">
-          <button class="btn btn-sm btn-primary" onclick="acceptCorrection('${escapeHtml(f.matched_text)}', '${escapeHtml(f.suggested_correction)}')">Accept Suggestion</button>
-        </div>
+        <div class="finding-suggestion">💡 <strong>Suggested Replacement:</strong> "${escapeHtml(f.suggested_correction)}"</div>
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">${acceptBtn} ${dismissBtn}</div>
       ` : ''}
     `;
     container.appendChild(card);
   });
+}
+
+async function acceptFindingById(findingId) {
+  const btn = document.getElementById(`accept-btn-${findingId}`);
+  if (btn) { btn.disabled = true; btn.textContent = 'Applying…'; }
+  try {
+    const res = await apiFetch(`/api/review/findings/${findingId}/accept`, 'POST');
+    if (res && res.success) {
+      document.getElementById('draft-content').value = res.content_text;
+      document.getElementById('draft-revision-badge').textContent = `Revision: v${res.version} (Modified)`;
+      showToast(`Suggestion applied — revision v${res.version}`, 'success');
+      runComplianceReview();
+    } else {
+      showToast(res.error || 'Could not apply suggestion', 'error');
+      if (btn) { btn.disabled = false; btn.textContent = '✅ Accept Suggestion'; }
+    }
+  } catch (err) {
+    showToast(err.message || 'Accept failed', 'error');
+    if (btn) { btn.disabled = false; btn.textContent = '✅ Accept Suggestion'; }
+  }
 }
 
 function acceptCorrection(oldText, newText) {
@@ -1130,7 +1306,7 @@ function escapeRegex(str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-// ==========================================================================
+==================================================================
 // BRANDGUARD INTERACTIVE GAME-STYLE PRODUCT TUTORIAL CONTROLLER
 // ==========================================================================
 
@@ -1508,4 +1684,232 @@ function minimizeMascotHelp() { endTutorial(true); }
 function updateMascotContextView() {
   if (isTutorialActive) repositionTutorial();
 }
+
+=======
+
+// --- SPEC #2: DISMISS FINDING & RULE CLARIFICATION HELPERS ---
+function openDismissModal(findingId) {
+  document.getElementById('dismiss-finding-id').value = findingId;
+  document.getElementById('dismiss-reason-select').value = 'false_positive';
+  document.getElementById('dismiss-note-input').value = '';
+  const modal = document.getElementById('dismiss-finding-modal');
+  if (modal) modal.style.display = 'flex';
+}
+
+function closeDismissModal() {
+  const modal = document.getElementById('dismiss-finding-modal');
+  if (modal) modal.style.display = 'none';
+}
+
+async function confirmDismissFinding() {
+  const findingId = document.getElementById('dismiss-finding-id').value;
+  const dismiss_reason = document.getElementById('dismiss-reason-select').value;
+  const dismiss_note = document.getElementById('dismiss-note-input').value;
+
+  try {
+    const res = await apiFetch(`/api/review/findings/${findingId}/reject`, 'POST', {
+      dismiss_reason,
+      dismiss_note
+    });
+
+    if (res && res.success) {
+      closeDismissModal();
+      showToast(res.message || 'Finding dismissed', 'success');
+      runComplianceReview();
+      loadDashboard();
+    } else {
+      showToast(res.error || 'Failed to dismiss finding', 'error');
+    }
+  } catch (err) {
+    showToast(err.message || 'Action failed', 'error');
+  }
+}
+
+async function openEditRuleModal(ruleId) {
+  try {
+    const res = await apiFetch(`/api/rules/${ruleId}`);
+    if (!res || !res.success || !res.rule) {
+      showToast('Could not load rule details', 'error');
+      return;
+    }
+    const r = res.rule;
+    document.getElementById('edit-rule-id').value = r.id;
+    document.getElementById('edit-rule-code').value = r.rule_code || '';
+    document.getElementById('edit-rule-title').value = r.title || '';
+    document.getElementById('edit-rule-desc').value = r.description || '';
+    document.getElementById('edit-rule-guidance').value = r.replacement_or_guidance || '';
+
+    const modal = document.getElementById('edit-rule-modal');
+    if (modal) modal.style.display = 'flex';
+  } catch (err) {
+    showToast(err.message || 'Failed to open rule editor', 'error');
+  }
+}
+
+function closeEditRuleModal() {
+  const modal = document.getElementById('edit-rule-modal');
+  if (modal) modal.style.display = 'none';
+}
+
+async function saveEditedRule() {
+  const ruleId = document.getElementById('edit-rule-id').value;
+  const title = document.getElementById('edit-rule-title').value;
+  const description = document.getElementById('edit-rule-desc').value;
+  const replacement_or_guidance = document.getElementById('edit-rule-guidance').value;
+
+  try {
+    const res = await apiFetch(`/api/rules/${ruleId}`, 'PUT', {
+      title,
+      description,
+      replacement_or_guidance
+    });
+
+    if (res && res.success) {
+      closeEditRuleModal();
+      showToast('Rule clarification saved successfully', 'success');
+      loadDashboard();
+      if (typeof loadRules === 'function') loadRules();
+    } else {
+      showToast(res.error || 'Failed to save rule clarification', 'error');
+    }
+  } catch (err) {
+    showToast(err.message || 'Save failed', 'error');
+  }
+}
+
+
+// --- SPEC #3: EXPLAINABLE IMAGE & ACCESSIBILITY AUDIT ---
+async function handleImageAudit(event) {
+  event.preventDefault();
+  const fileInput = document.getElementById('audit-image-file');
+  if (!fileInput.files || fileInput.files.length === 0) {
+    showToast('Please select a PNG, JPG, or WebP image file.', 'error');
+    return;
+  }
+
+  const file = fileInput.files[0];
+  const altText = document.getElementById('audit-image-alt').value;
+  const fgColor = document.getElementById('audit-fg-color').value;
+  const bgColor = document.getElementById('audit-bg-color').value;
+
+  const btn = document.getElementById('btn-audit-image');
+  btn.disabled = true;
+  btn.textContent = '⏳ Analyzing 64×64 Palette & WCAG...';
+
+  // Preview image immediately
+  const previewImg = document.getElementById('audit-preview-img');
+  const previewContainer = document.getElementById('image-preview-container');
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    previewImg.src = e.target.result;
+    previewContainer.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+
+  const formData = new FormData();
+  formData.append('image', file);
+  formData.append('alt_text', altText);
+  formData.append('workspace_id', STATE.currentWorkspaceId || 1);
+  if (fgColor) formData.append('fg_color', fgColor);
+  if (bgColor) formData.append('bg_color', bgColor);
+
+  try {
+    const res = await apiFetch('/api/images/check', 'POST', formData);
+    btn.disabled = false;
+    btn.textContent = '🔍 Run Image & Accessibility Audit';
+
+    if (res && res.success) {
+      renderImageFindings(res);
+      showToast(`Image audit completed: ${res.findings.length} issue(s) identified`, res.findings.length > 0 ? 'warning' : 'success');
+    } else {
+      showToast(res.error || 'Image audit failed', 'error');
+    }
+  } catch (err) {
+    btn.disabled = false;
+    btn.textContent = '🔍 Run Image & Accessibility Audit';
+    showToast(err.message || 'Audit request failed', 'error');
+  }
+}
+
+function renderImageFindings(data) {
+  const container = document.getElementById('image-findings-container');
+  const countBadge = document.getElementById('image-findings-count');
+  const summaryPill = document.getElementById('image-findings-badge');
+  const colorsCard = document.getElementById('image-colors-card');
+  const colorsBar = document.getElementById('dominant-colors-bar');
+  const paletteNote = document.getElementById('palette-evaluation-note');
+
+  countBadge.textContent = data.findings ? data.findings.length : 0;
+  if (data.findings.length === 0) {
+    summaryPill.className = 'badge badge-verified';
+    summaryPill.textContent = '✓ 100% Brand & WCAG Compliant';
+  } else {
+    summaryPill.className = 'badge badge-danger';
+    summaryPill.textContent = `${data.summary.high || 0} Critical / ${data.summary.medium || 0} Warning`;
+  }
+
+  // Render dominant colors
+  if (data.dominant_colors && data.dominant_colors.length > 0) {
+    colorsCard.style.display = 'block';
+    colorsBar.innerHTML = '';
+    data.dominant_colors.forEach(c => {
+      const swatch = document.createElement('div');
+      swatch.style.cssText = `display:flex; align-items:center; gap:6px; background:rgba(255,255,255,0.05); padding:4px 10px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); font-size:11px;`;
+      swatch.innerHTML = `
+        <span style="width:16px; height:16px; border-radius:4px; background:${c.hex}; display:inline-block; border:1px solid rgba(255,255,255,0.3);"></span>
+        <span style="font-family:var(--font-mono); font-weight:600;">${c.hex}</span>
+        <span style="color:var(--ink-muted);">${c.coverage_pct}%</span>
+        ${c.is_off_palette ? '<span style="color:#f87171; font-weight:700;">⚠️ Off-Palette</span>' : '<span style="color:var(--lime);">✓ Palette</span>'}
+      `;
+      colorsBar.appendChild(swatch);
+    });
+
+    paletteNote.innerHTML = `Authorized Brand Palette: ${(data.palette_evaluated || []).map(p => `<code style="color:var(--lime); margin-right:4px;">${p}</code>`).join(' ')} `;
+  }
+
+  // Render findings list
+  container.innerHTML = '';
+  if (!data.findings || data.findings.length === 0) {
+    container.innerHTML = `
+      <div style="text-align: center; color: var(--lime); padding: 30px 0;">
+        ✨ <strong>No Violations Found!</strong> Image palette strictly adheres to brand guidelines and passes all WCAG 2.1 accessibility criteria.
+      </div>
+    `;
+    return;
+  }
+
+  data.findings.forEach(f => {
+    const card = document.createElement('div');
+    card.className = `finding-card ${(f.severity || 'medium').toLowerCase()}`;
+
+    card.innerHTML = `
+      <div class="finding-header">
+        <span class="finding-title">${escapeHtml(f.category)}</span>
+        <span class="badge badge-${(f.severity || 'medium').toLowerCase()}">${f.severity || 'MEDIUM'}</span>
+        <span class="badge badge-info" style="font-size:10px;">${escapeHtml(f.rule_id || 'WCAG')}</span>
+      </div>
+      <p style="font-size:13px; color:var(--ink-muted); margin-bottom:6px;">${escapeHtml(f.explanation)}</p>
+      ${f.matched_text ? `<div class="finding-quote">"${escapeHtml(f.matched_text)}"</div>` : ''}
+      <div class="citation-box"><strong>Cited Standard:</strong> ${escapeHtml(f.evidence_reference || '')}</div>
+      ${f.suggested_correction ? `<div class="finding-suggestion">💡 <strong>Guidance:</strong> ${escapeHtml(f.suggested_correction)}</div>` : ''}
+    `;
+    container.appendChild(card);
+  });
+}
+
+
+// --- JUDGE TRY-THIS SAMPLE HELPER (Section 5) ---
+function pasteSampleDraftAndReview() {
+  switchTab('studio');
+  const sampleCopy = "Brandguard by Inkloom AI is the cheap choice offering 100% guaranteed safety and is the #1 fastest growing guardrail tool. We achieve 99.4% brand compliance detection rate and cut brand review cycles by 80%. Try it today!";
+  document.getElementById('draft-content').value = sampleCopy;
+  document.getElementById('draft-title').value = "Try-This Demo: Spring Product Announcement";
+  document.getElementById('draft-revision-badge').textContent = "Revision: v1 (Draft)";
+  showToast("Try-this sample copy loaded into Content Studio!", "info");
+  setTimeout(() => {
+    runComplianceReview();
+  }, 200);
+}
+
+//
 

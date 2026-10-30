@@ -1,6 +1,7 @@
 const { getDb } = require('./db');
 const { matchClaims } = require('./claim-matching');
 const { predictTone } = require('./ml-service');
+const { scanHtmlImagesForAlt } = require('./image-checks');
 
 async function executeContentReview(draftId, revisionId, contentText, organizationId, workspaceId) {
   const db = getDb();
@@ -122,39 +123,60 @@ async function executeContentReview(draftId, revisionId, contentText, organizati
   // 5. Genuine Local ML Classification (Tone & Emotion)
   const mlResult = await predictTone(contentText);
 
-  // If local ML predicts Exaggerated or Informal and workspace preferred tone is Professional, emit a finding
-  const ws = db.prepare('SELECT preferred_tone FROM workspaces WHERE id = ?').get(workspaceId);
-  const preferredTone = ws?.preferred_tone?.toLowerCase() || 'professional';
+  // Fix 3: Only emit a tone finding if ML is available AND the tone violates policy
+  if (mlResult.status !== 'unavailable') {
+    const ws = db.prepare('SELECT preferred_tone FROM workspaces WHERE id = ?').get(workspaceId);
+    const preferredTone = ws?.preferred_tone?.toLowerCase() || 'professional';
 
-  if (mlResult.predicted_tone === 'Exaggerated' && preferredTone.includes('modest')) {
+    if (mlResult.predicted_tone === 'Exaggerated' && preferredTone.includes('modest')) {
+      findings.push({
+        finding_code: `ML-TONE-${findingCount++}`,
+        category: 'Tone of Voice',
+        severity: 'MEDIUM',
+        explanation: `Local ML tone model classified copy as "${mlResult.predicted_tone}" (confidence: ${Math.round(mlResult.confidence * 100)}%). Brand policy requires measured, modest tone.`,
+        matched_text: null,
+        start_offset: null,
+        end_offset: null,
+        rule_id: null,
+        claim_id: null,
+        evidence_reference: `ML Model (${mlResult.model_version})`,
+        suggested_correction: 'Refine hyperbolic phrasing to measured, factual value statements.',
+        verification_status: 'ML_PREDICTED'
+      });
+    } else if (mlResult.predicted_tone === 'Informal' && preferredTone.includes('professional')) {
+      findings.push({
+        finding_code: `ML-TONE-${findingCount++}`,
+        category: 'Tone of Voice',
+        severity: 'MEDIUM',
+        explanation: `Local ML tone model classified copy as "${mlResult.predicted_tone}" (confidence: ${Math.round(mlResult.confidence * 100)}%). Brand policy requires professional communications.`,
+        matched_text: null,
+        start_offset: null,
+        end_offset: null,
+        rule_id: null,
+        claim_id: null,
+        evidence_reference: `ML Model (${mlResult.model_version})`,
+        suggested_correction: 'Remove colloquial slang and adopt standard business vocabulary.',
+        verification_status: 'ML_PREDICTED'
+      });
+    }
+  }
+
+  // 5b. Accessibility Checks (WCAG 1.1.1 Non-text Content: HTML <img> tags missing alt)
+  const htmlImgFindings = scanHtmlImagesForAlt(contentText);
+  for (const hf of htmlImgFindings) {
     findings.push({
-      finding_code: `ML-TONE-${findingCount++}`,
-      category: 'Tone of Voice',
-      severity: 'MEDIUM',
-      explanation: `Local ML tone model classified copy as "${mlResult.predicted_tone}" (confidence: ${Math.round(mlResult.confidence * 100)}%). Brand policy requires measured, modest tone.`,
-      matched_text: null,
+      finding_code: hf.finding_id,
+      category: hf.category,
+      severity: hf.severity,
+      explanation: hf.explanation,
+      matched_text: hf.matched_text,
       start_offset: null,
       end_offset: null,
-      rule_id: null,
+      rule_id: hf.rule_id,
       claim_id: null,
-      evidence_reference: `ML Model (${mlResult.model_version})`,
-      suggested_correction: 'Refine hyperbolic phrasing to measured, factual value statements.',
-      verification_status: 'ML_PREDICTED'
-    });
-  } else if (mlResult.predicted_tone === 'Informal' && preferredTone.includes('professional')) {
-    findings.push({
-      finding_code: `ML-TONE-${findingCount++}`,
-      category: 'Tone of Voice',
-      severity: 'MEDIUM',
-      explanation: `Local ML tone model classified copy as "${mlResult.predicted_tone}" (confidence: ${Math.round(mlResult.confidence * 100)}%). Brand policy requires professional communications.`,
-      matched_text: null,
-      start_offset: null,
-      end_offset: null,
-      rule_id: null,
-      claim_id: null,
-      evidence_reference: `ML Model (${mlResult.model_version})`,
-      suggested_correction: 'Remove colloquial slang and adopt standard business vocabulary.',
-      verification_status: 'ML_PREDICTED'
+      evidence_reference: hf.evidence_reference,
+      suggested_correction: hf.suggested_correction,
+      verification_status: hf.verification_status
     });
   }
 
