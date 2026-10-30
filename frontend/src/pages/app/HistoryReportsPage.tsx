@@ -218,7 +218,7 @@ export const HistoryReportsPage: React.FC = () => {
             position: 'fixed',
             top: '20px',
             right: '24px',
-            backgroundColor: 'var(--color-deep-ink)',
+            backgroundColor: 'var(--text-primary)',
             color: '#FFFFFF',
             padding: '10px 18px',
             borderRadius: 'var(--radius-md)',
@@ -230,7 +230,7 @@ export const HistoryReportsPage: React.FC = () => {
             gap: '8px'
           }}
         >
-          <CheckCircle2 size={16} color="var(--color-evidence-teal)" />
+          <CheckCircle2 size={16} color="var(--info)" />
           <span>{toastMessage}</span>
         </div>
       )}
@@ -238,10 +238,10 @@ export const HistoryReportsPage: React.FC = () => {
       {/* Page Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
         <div>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 700, margin: '0 0 4px', color: 'var(--color-deep-ink)' }}>
+          <h1 style={{ fontSize: '1.75rem', fontWeight: 700, margin: '0 0 4px', color: 'var(--text-primary)' }}>
             History & Reports
           </h1>
-          <p style={{ color: 'var(--color-muted-slate)', fontSize: '0.9rem', margin: 0 }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', margin: 0 }}>
             View past reviews, approval decisions, document changes, and outstanding change requests.
           </p>
         </div>
@@ -262,7 +262,7 @@ export const HistoryReportsPage: React.FC = () => {
       <div 
         style={{ 
           display: 'flex', 
-          borderBottom: '1px solid var(--color-border-gray)', 
+          borderBottom: '1px solid var(--border)', 
           gap: '4px',
           overflowX: 'auto',
           paddingBottom: '0px'
@@ -274,8 +274,8 @@ export const HistoryReportsPage: React.FC = () => {
             padding: '10px 16px',
             fontSize: '0.86rem',
             fontWeight: activeTab === 'reviews' ? 700 : 500,
-            color: activeTab === 'reviews' ? 'var(--color-signal-coral)' : 'var(--color-muted-slate)',
-            borderBottom: activeTab === 'reviews' ? '2px solid var(--color-signal-coral)' : '2px solid transparent',
+            color: activeTab === 'reviews' ? 'var(--primary)' : 'var(--text-muted)',
+            borderBottom: activeTab === 'reviews' ? '2px solid var(--primary)' : '2px solid transparent',
             background: 'none',
             borderTop: 'none',
             borderLeft: 'none',
@@ -297,8 +297,8 @@ export const HistoryReportsPage: React.FC = () => {
             padding: '10px 16px',
             fontSize: '0.86rem',
             fontWeight: activeTab === 'passports' ? 700 : 500,
-            color: activeTab === 'passports' ? 'var(--color-signal-coral)' : 'var(--color-muted-slate)',
-            borderBottom: activeTab === 'passports' ? '2px solid var(--color-signal-coral)' : '2px solid transparent',
+            color: activeTab === 'passports' ? 'var(--primary)' : 'var(--text-muted)',
+            borderBottom: activeTab === 'passports' ? '2px solid var(--primary)' : '2px solid transparent',
             background: 'none',
             borderTop: 'none',
             borderLeft: 'none',
@@ -320,8 +320,8 @@ export const HistoryReportsPage: React.FC = () => {
             padding: '10px 16px',
             fontSize: '0.86rem',
             fontWeight: activeTab === 'versions' ? 700 : 500,
-            color: activeTab === 'versions' ? 'var(--color-signal-coral)' : 'var(--color-muted-slate)',
-            borderBottom: activeTab === 'versions' ? '2px solid var(--color-signal-coral)' : '2px solid transparent',
+            color: activeTab === 'versions' ? 'var(--primary)' : 'var(--text-muted)',
+            borderBottom: activeTab === 'versions' ? '2px solid var(--primary)' : '2px solid transparent',
             background: 'none',
             borderTop: 'none',
             borderLeft: 'none',
@@ -343,8 +343,8 @@ export const HistoryReportsPage: React.FC = () => {
             padding: '10px 16px',
             fontSize: '0.86rem',
             fontWeight: activeTab === 'health' ? 700 : 500,
-            color: activeTab === 'health' ? 'var(--color-signal-coral)' : 'var(--color-muted-slate)',
-            borderBottom: activeTab === 'health' ? '2px solid var(--color-signal-coral)' : '2px solid transparent',
+            color: activeTab === 'health' ? 'var(--primary)' : 'var(--text-muted)',
+            borderBottom: activeTab === 'health' ? '2px solid var(--primary)' : '2px solid transparent',
             background: 'none',
             borderTop: 'none',
             borderLeft: 'none',
@@ -366,8 +366,8 @@ export const HistoryReportsPage: React.FC = () => {
             padding: '10px 16px',
             fontSize: '0.86rem',
             fontWeight: activeTab === 'requests' ? 700 : 500,
-            color: activeTab === 'requests' ? 'var(--color-signal-coral)' : 'var(--color-muted-slate)',
-            borderBottom: activeTab === 'requests' ? '2px solid var(--color-signal-coral)' : '2px solid transparent',
+            color: activeTab === 'requests' ? 'var(--primary)' : 'var(--text-muted)',
+            borderBottom: activeTab === 'requests' ? '2px solid var(--primary)' : '2px solid transparent',
             background: 'none',
             borderTop: 'none',
             borderLeft: 'none',
@@ -392,7 +392,7 @@ export const HistoryReportsPage: React.FC = () => {
           {/* Search & Filter Bar */}
           <div className="card-panel" style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
             <div style={{ position: 'relative', flex: '1', minWidth: '220px', maxWidth: '380px' }}>
-              <Search size={15} color="var(--color-muted-slate)" style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }} />
+              <Search size={15} color="var(--text-muted)" style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }} />
               <input 
                 type="text" 
                 value={reviewsSearch}
@@ -402,10 +402,10 @@ export const HistoryReportsPage: React.FC = () => {
                   width: '100%', 
                   padding: '7px 12px 7px 32px', 
                   borderRadius: 'var(--radius-md)', 
-                  border: '1px solid var(--color-border-gray)', 
+                  border: '1px solid var(--border)', 
                   fontSize: '0.84rem', 
-                  backgroundColor: 'var(--color-surface-subtle)',
-                  color: 'var(--color-deep-ink)'
+                  backgroundColor: 'var(--surface-subtle)',
+                  color: 'var(--text-primary)'
                 }}
               />
             </div>
@@ -425,9 +425,9 @@ export const HistoryReportsPage: React.FC = () => {
                     borderRadius: 'var(--radius-md)',
                     fontSize: '0.74rem',
                     fontWeight: reviewsStatusFilter === f.key ? 700 : 500,
-                    backgroundColor: reviewsStatusFilter === f.key ? 'var(--color-evidence-teal)' : 'var(--color-surface-subtle)',
-                    color: reviewsStatusFilter === f.key ? '#FFFFFF' : 'var(--color-muted-slate)',
-                    border: '1px solid var(--color-border-gray)',
+                    backgroundColor: reviewsStatusFilter === f.key ? 'var(--info)' : 'var(--surface-subtle)',
+                    color: reviewsStatusFilter === f.key ? '#FFFFFF' : 'var(--text-muted)',
+                    border: '1px solid var(--border)',
                     cursor: 'pointer'
                   }}
                 >
@@ -440,9 +440,9 @@ export const HistoryReportsPage: React.FC = () => {
           {/* Review History Table */}
           {filteredReviewHistory.length === 0 ? (
             <div className="card-panel" style={{ textAlign: 'center', padding: '40px 20px' }}>
-              <History size={36} color="var(--color-muted-slate)" style={{ marginBottom: '10px', opacity: 0.7 }} />
-              <div style={{ fontWeight: 600, color: 'var(--color-deep-ink)', fontSize: '0.95rem' }}>No reviews recorded</div>
-              <p style={{ fontSize: '0.82rem', color: 'var(--color-muted-slate)', margin: '6px 0 16px' }}>
+              <History size={36} color="var(--text-muted)" style={{ marginBottom: '10px', opacity: 0.7 }} />
+              <div style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '0.95rem' }}>No reviews recorded</div>
+              <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', margin: '6px 0 16px' }}>
                 {reviewsSearch || reviewsStatusFilter !== 'ALL' 
                   ? 'No review records match your current filter settings.' 
                   : 'Start a review inside any project to generate audit history.'}
@@ -455,39 +455,39 @@ export const HistoryReportsPage: React.FC = () => {
             <div className="card-panel" style={{ padding: 0, overflow: 'hidden' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.85rem' }}>
                 <thead>
-                  <tr style={{ backgroundColor: 'var(--color-surface-subtle)', borderBottom: '1px solid var(--color-border-gray)' }}>
-                    <th style={{ padding: '12px 20px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Project & Asset</th>
-                    <th style={{ padding: '12px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Review Type</th>
-                    <th style={{ padding: '12px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Decision / Status</th>
-                    <th style={{ padding: '12px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Reviewer / Submitter</th>
-                    <th style={{ padding: '12px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Date</th>
-                    <th style={{ padding: '12px 20px', textAlign: 'right', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Action</th>
+                  <tr style={{ backgroundColor: 'var(--surface-subtle)', borderBottom: '1px solid var(--border)' }}>
+                    <th style={{ padding: '12px 20px', color: 'var(--text-primary)', fontWeight: 600 }}>Project & Asset</th>
+                    <th style={{ padding: '12px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Review Type</th>
+                    <th style={{ padding: '12px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Decision / Status</th>
+                    <th style={{ padding: '12px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Reviewer / Submitter</th>
+                    <th style={{ padding: '12px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Date</th>
+                    <th style={{ padding: '12px 20px', textAlign: 'right', color: 'var(--text-primary)', fontWeight: 600 }}>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredReviewHistory.map(item => {
                     const badgeStyles: Record<string, { label: string; class: string }> = {
-                      approved: { label: 'Approved', class: 'badge-verified' },
-                      changes_requested: { label: 'Changes Requested', class: 'badge-critical' },
-                      in_progress: { label: 'In Review', class: 'badge-expiring' },
-                      awaiting_verification: { label: 'Awaiting Sign-off', class: 'badge-expiring' },
+                      approved: { label: 'Approved', class: 'badge-success' },
+                      changes_requested: { label: 'Changes Requested', class: 'badge-danger' },
+                      in_progress: { label: 'In Review', class: 'badge-warning' },
+                      awaiting_verification: { label: 'Awaiting Sign-off', class: 'badge-warning' },
                       draft: { label: 'Draft', class: 'badge-neutral' }
                     };
                     const badge = badgeStyles[item.status] || { label: item.status, class: 'badge-neutral' };
 
                     return (
-                      <tr key={item.id} style={{ borderBottom: '1px solid var(--color-border-subtle)' }}>
+                      <tr key={item.id} style={{ borderBottom: '1px solid var(--border)' }}>
                         <td style={{ padding: '14px 20px', maxWidth: '280px' }}>
-                          <strong style={{ display: 'block', color: 'var(--color-deep-ink)', fontSize: '0.88rem' }}>
+                          <strong style={{ display: 'block', color: 'var(--text-primary)', fontSize: '0.88rem' }}>
                             {item.itemName}
                           </strong>
-                          <span style={{ fontSize: '0.74rem', color: 'var(--color-muted-slate)' }}>
+                          <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>
                             Project: {item.projectName}
                           </span>
                         </td>
 
                         <td style={{ padding: '14px 16px' }}>
-                          <span style={{ fontSize: '0.82rem', color: 'var(--color-deep-ink)' }}>
+                          <span style={{ fontSize: '0.82rem', color: 'var(--text-primary)' }}>
                             {item.reviewType}
                           </span>
                         </td>
@@ -498,11 +498,11 @@ export const HistoryReportsPage: React.FC = () => {
                           </span>
                         </td>
 
-                        <td style={{ padding: '14px 16px', color: 'var(--color-muted-slate)', fontSize: '0.8rem' }}>
+                        <td style={{ padding: '14px 16px', color: 'var(--text-muted)', fontSize: '0.8rem' }}>
                           {item.reviewerOrAuthor}
                         </td>
 
-                        <td style={{ padding: '14px 16px', fontSize: '0.78rem', color: 'var(--color-muted-slate)', whiteSpace: 'nowrap' }}>
+                        <td style={{ padding: '14px 16px', fontSize: '0.78rem', color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>
                           {item.date}
                         </td>
 
@@ -534,7 +534,7 @@ export const HistoryReportsPage: React.FC = () => {
           {/* Search bar */}
           <div className="card-panel" style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
             <div style={{ position: 'relative', flex: '1', minWidth: '220px', maxWidth: '380px' }}>
-              <Search size={15} color="var(--color-muted-slate)" style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }} />
+              <Search size={15} color="var(--text-muted)" style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }} />
               <input 
                 type="text" 
                 value={passportsSearch}
@@ -544,14 +544,14 @@ export const HistoryReportsPage: React.FC = () => {
                   width: '100%', 
                   padding: '7px 12px 7px 32px', 
                   borderRadius: 'var(--radius-md)', 
-                  border: '1px solid var(--color-border-gray)', 
+                  border: '1px solid var(--border)', 
                   fontSize: '0.84rem', 
-                  backgroundColor: 'var(--color-surface-subtle)',
-                  color: 'var(--color-deep-ink)'
+                  backgroundColor: 'var(--surface-subtle)',
+                  color: 'var(--text-primary)'
                 }}
               />
             </div>
-            <span style={{ fontSize: '0.8rem', color: 'var(--color-muted-slate)' }}>
+            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
               Showing {filteredPassports.length} of {passports.length} certified records
             </span>
           </div>
@@ -559,9 +559,9 @@ export const HistoryReportsPage: React.FC = () => {
           {/* Passports Table */}
           {filteredPassports.length === 0 ? (
             <div className="card-panel" style={{ textAlign: 'center', padding: '40px 20px' }}>
-              <Award size={36} color="var(--color-muted-slate)" style={{ marginBottom: '10px', opacity: 0.7 }} />
-              <div style={{ fontWeight: 600, color: 'var(--color-deep-ink)', fontSize: '0.95rem' }}>No Brand Passports found</div>
-              <p style={{ fontSize: '0.82rem', color: 'var(--color-muted-slate)', margin: '6px 0 16px' }}>
+              <Award size={36} color="var(--text-muted)" style={{ marginBottom: '10px', opacity: 0.7 }} />
+              <div style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '0.95rem' }}>No Brand Passports found</div>
+              <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', margin: '6px 0 16px' }}>
                 Brand Passports are generated when content is approved and certified against brand rules.
               </p>
             </div>
@@ -569,26 +569,26 @@ export const HistoryReportsPage: React.FC = () => {
             <div className="card-panel" style={{ padding: 0, overflow: 'hidden' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.85rem' }}>
                 <thead>
-                  <tr style={{ backgroundColor: 'var(--color-surface-subtle)', borderBottom: '1px solid var(--color-border-gray)' }}>
-                    <th style={{ padding: '12px 20px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Passport ID & Title</th>
-                    <th style={{ padding: '12px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Governance Score</th>
-                    <th style={{ padding: '12px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Reviewer</th>
-                    <th style={{ padding: '12px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Date Certified</th>
-                    <th style={{ padding: '12px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Checks Passed</th>
-                    <th style={{ padding: '12px 20px', textAlign: 'right', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Action</th>
+                  <tr style={{ backgroundColor: 'var(--surface-subtle)', borderBottom: '1px solid var(--border)' }}>
+                    <th style={{ padding: '12px 20px', color: 'var(--text-primary)', fontWeight: 600 }}>Passport ID & Title</th>
+                    <th style={{ padding: '12px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Governance Score</th>
+                    <th style={{ padding: '12px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Reviewer</th>
+                    <th style={{ padding: '12px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Date Certified</th>
+                    <th style={{ padding: '12px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Checks Passed</th>
+                    <th style={{ padding: '12px 20px', textAlign: 'right', color: 'var(--text-primary)', fontWeight: 600 }}>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredPassports.map(p => (
-                    <tr key={p.id} style={{ borderBottom: '1px solid var(--color-border-subtle)' }}>
+                    <tr key={p.id} style={{ borderBottom: '1px solid var(--border)' }}>
                       <td style={{ padding: '14px 20px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                          <Award size={18} color="var(--color-evidence-teal)" style={{ flexShrink: 0 }} />
+                          <Award size={18} color="var(--info)" style={{ flexShrink: 0 }} />
                           <div>
-                            <strong style={{ display: 'block', color: 'var(--color-deep-ink)', fontSize: '0.88rem' }}>
+                            <strong style={{ display: 'block', color: 'var(--text-primary)', fontSize: '0.88rem' }}>
                               {p.documentTitle}
                             </strong>
-                            <span style={{ fontSize: '0.74rem', color: 'var(--color-muted-slate)' }}>
+                            <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>
                               Passport ID: {p.id} • Author: {p.author}
                             </span>
                           </div>
@@ -596,20 +596,20 @@ export const HistoryReportsPage: React.FC = () => {
                       </td>
 
                       <td style={{ padding: '14px 16px' }}>
-                        <span className="badge badge-teal" style={{ fontSize: '0.74rem', fontWeight: 700 }}>
+                        <span className="badge badge-info" style={{ fontSize: '0.74rem', fontWeight: 700 }}>
                           {p.governanceScore}/100
                         </span>
                       </td>
 
-                      <td style={{ padding: '14px 16px', color: 'var(--color-muted-slate)', fontSize: '0.8rem' }}>
+                      <td style={{ padding: '14px 16px', color: 'var(--text-muted)', fontSize: '0.8rem' }}>
                         {p.reviewer}
                       </td>
 
-                      <td style={{ padding: '14px 16px', fontSize: '0.78rem', color: 'var(--color-muted-slate)', whiteSpace: 'nowrap' }}>
+                      <td style={{ padding: '14px 16px', fontSize: '0.78rem', color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>
                         {p.approvedAt.slice(0, 10)}
                       </td>
 
-                      <td style={{ padding: '14px 16px', fontSize: '0.8rem', color: 'var(--color-deep-ink)' }}>
+                      <td style={{ padding: '14px 16px', fontSize: '0.8rem', color: 'var(--text-primary)' }}>
                         {p.totalChecks} checks ({p.criticalIssuesResolved + p.warningsResolved} resolved)
                       </td>
 
@@ -638,10 +638,10 @@ export const HistoryReportsPage: React.FC = () => {
       {activeTab === 'versions' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {/* Document Selector */}
-          <div className="card-panel" style={{ padding: '12px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', backgroundColor: 'var(--color-surface-subtle)' }}>
+          <div className="card-panel" style={{ padding: '12px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', backgroundColor: 'var(--surface-subtle)' }}>
             <div>
-              <strong style={{ fontSize: '0.9rem', color: 'var(--color-deep-ink)' }}>Select Document to Compare:</strong>
-              <span style={{ fontSize: '0.82rem', color: 'var(--color-muted-slate)', display: 'block' }}>
+              <strong style={{ fontSize: '0.9rem', color: 'var(--text-primary)' }}>Select Document to Compare:</strong>
+              <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)', display: 'block' }}>
                 Inspect revisions between original drafts and approved versions.
               </span>
             </div>
@@ -651,10 +651,10 @@ export const HistoryReportsPage: React.FC = () => {
               style={{ 
                 padding: '6px 12px', 
                 borderRadius: 'var(--radius-md)', 
-                border: '1px solid var(--color-border-gray)', 
+                border: '1px solid var(--border)', 
                 fontSize: '0.84rem',
-                backgroundColor: 'var(--color-surface-white)',
-                color: 'var(--color-deep-ink)'
+                backgroundColor: 'var(--surface)',
+                color: 'var(--text-primary)'
               }}
             >
               {documents.map(d => (
@@ -667,14 +667,14 @@ export const HistoryReportsPage: React.FC = () => {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '20px' }}>
             {/* Left: Original Draft */}
             <div className="card-panel" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--color-border-subtle)', paddingBottom: '8px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--border)', paddingBottom: '8px' }}>
                 <div>
-                  <strong style={{ fontSize: '0.88rem', color: 'var(--color-error)' }}>ORIGINAL DRAFT (v0.9)</strong>
-                  <span style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)', display: 'block' }}>
+                  <strong style={{ fontSize: '0.88rem', color: 'var(--danger)' }}>ORIGINAL DRAFT (v0.9)</strong>
+                  <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'block' }}>
                     Author: {activeDiffDoc?.author || 'Lead Marketer'}
                   </span>
                 </div>
-                <span className="badge badge-critical" style={{ fontSize: '0.65rem' }}>
+                <span className="badge badge-danger" style={{ fontSize: '0.65rem' }}>
                   Issues Detected
                 </span>
               </div>
@@ -687,32 +687,32 @@ export const HistoryReportsPage: React.FC = () => {
                   fontFamily: 'monospace',
                   fontSize: '0.84rem',
                   lineHeight: 1.6,
-                  color: 'var(--color-deep-ink)',
+                  color: 'var(--text-primary)',
                   border: '1px solid rgba(241, 107, 80, 0.2)'
                 }}
               >
                 &quot;BrandGuard Cloud is an enterprise governance platform. Our platform is engineered to deliver{' '}
-                <mark style={{ backgroundColor: 'rgba(241, 107, 80, 0.3)', color: 'var(--color-signal-coral)', fontWeight: 700, padding: '2px 4px', borderRadius: '2px' }}>
+                <mark style={{ backgroundColor: 'rgba(241, 107, 80, 0.3)', color: 'var(--primary)', fontWeight: 700, padding: '2px 4px', borderRadius: '2px' }}>
                   guaranteed 100% uptime
                 </mark>{' '}
                 across all hybrid cloud deployments with assisted evidence verification while keeping your team in final approval control.&quot;
               </div>
 
-              <div style={{ fontSize: '0.76rem', color: 'var(--color-muted-slate)', lineHeight: 1.45 }}>
+              <div style={{ fontSize: '0.76rem', color: 'var(--text-muted)', lineHeight: 1.45 }}>
                 <strong>Flagged finding:</strong> Unqualified absolute SLA guarantee violates Master Customer Agreement standard.
               </div>
             </div>
 
             {/* Right: Verified & Approved */}
             <div className="card-panel" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--color-border-subtle)', paddingBottom: '8px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--border)', paddingBottom: '8px' }}>
                 <div>
-                  <strong style={{ fontSize: '0.88rem', color: 'var(--color-evidence-teal)' }}>VERIFIED & APPROVED (v1.0)</strong>
-                  <span style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)', display: 'block' }}>
+                  <strong style={{ fontSize: '0.88rem', color: 'var(--info)' }}>VERIFIED & Approved (v1.0)</strong>
+                  <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'block' }}>
                     Reviewer: {activeDiffDoc?.reviewer || 'Senior Reviewer'}
                   </span>
                 </div>
-                <span className="badge badge-teal" style={{ fontSize: '0.65rem' }}>
+                <span className="badge badge-info" style={{ fontSize: '0.65rem' }}>
                   Passport Certified
                 </span>
               </div>
@@ -725,18 +725,18 @@ export const HistoryReportsPage: React.FC = () => {
                   fontFamily: 'monospace',
                   fontSize: '0.84rem',
                   lineHeight: 1.6,
-                  color: 'var(--color-deep-ink)',
+                  color: 'var(--text-primary)',
                   border: '1px solid rgba(22, 124, 120, 0.2)'
                 }}
               >
                 &quot;BrandGuard Cloud is an enterprise governance platform. Our platform{' '}
-                <mark style={{ backgroundColor: 'rgba(22, 124, 120, 0.25)', color: 'var(--color-evidence-teal)', fontWeight: 700, padding: '2px 4px', borderRadius: '2px' }}>
+                <mark style={{ backgroundColor: 'rgba(22, 124, 120, 0.25)', color: 'var(--info)', fontWeight: 700, padding: '2px 4px', borderRadius: '2px' }}>
                   delivers enterprise-grade high availability
                 </mark>{' '}
                 across hybrid cloud deployments with assisted evidence verification while keeping your team in final approval control.&quot;
               </div>
 
-              <div style={{ fontSize: '0.76rem', color: 'var(--color-muted-slate)', lineHeight: 1.45 }}>
+              <div style={{ fontSize: '0.76rem', color: 'var(--text-muted)', lineHeight: 1.45 }}>
                 <strong>Approved correction:</strong> Preferred high availability terminology applied with legal disclaimer reference.
               </div>
             </div>
@@ -752,39 +752,39 @@ export const HistoryReportsPage: React.FC = () => {
           {/* Summary Metric Counters (derived from real data) */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '14px' }}>
             <div className="card-panel" style={{ padding: '16px 20px' }}>
-              <span style={{ fontSize: '0.74rem', color: 'var(--color-muted-slate)', textTransform: 'uppercase', fontWeight: 600 }}>Active Playbooks</span>
-              <strong style={{ fontSize: '1.6rem', display: 'block', color: 'var(--color-deep-ink)', margin: '4px 0' }}>
+              <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)', textTransform: 'none', fontWeight: 600 }}>Active Playbooks</span>
+              <strong style={{ fontSize: '1.6rem', display: 'block', color: 'var(--text-primary)', margin: '4px 0' }}>
                 {guidelines.length}
               </strong>
-              <span style={{ fontSize: '0.72rem', color: 'var(--color-evidence-teal)' }}>All indexed & verified</span>
+              <span style={{ fontSize: '0.72rem', color: 'var(--info)' }}>All indexed & verified</span>
             </div>
 
             <div className="card-panel" style={{ padding: '16px 20px' }}>
-              <span style={{ fontSize: '0.74rem', color: 'var(--color-muted-slate)', textTransform: 'uppercase', fontWeight: 600 }}>Enforced Rules</span>
-              <strong style={{ fontSize: '1.6rem', display: 'block', color: 'var(--color-evidence-teal)', margin: '4px 0' }}>
+              <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)', textTransform: 'none', fontWeight: 600 }}>Enforced Rules</span>
+              <strong style={{ fontSize: '1.6rem', display: 'block', color: 'var(--info)', margin: '4px 0' }}>
                 {rules.filter(r => r.status === 'approved').length}
               </strong>
-              <span style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)' }}>
+              <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
                 {rules.filter(r => r.status === 'proposed').length} proposed rules
               </span>
             </div>
 
             <div className="card-panel" style={{ padding: '16px 20px' }}>
-              <span style={{ fontSize: '0.74rem', color: 'var(--color-muted-slate)', textTransform: 'uppercase', fontWeight: 600 }}>Verified Claims</span>
-              <strong style={{ fontSize: '1.6rem', display: 'block', color: 'var(--color-evidence-teal)', margin: '4px 0' }}>
+              <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)', textTransform: 'none', fontWeight: 600 }}>Verified Claims</span>
+              <strong style={{ fontSize: '1.6rem', display: 'block', color: 'var(--info)', margin: '4px 0' }}>
                 {claims.filter(c => c.status === 'VERIFIED').length}
               </strong>
-              <span style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)' }}>
+              <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
                 {claims.filter(c => c.status === 'EXPIRING_SOON').length} expiring soon
               </span>
             </div>
 
             <div className="card-panel" style={{ padding: '16px 20px' }}>
-              <span style={{ fontSize: '0.74rem', color: 'var(--color-muted-slate)', textTransform: 'uppercase', fontWeight: 600 }}>Total Projects</span>
-              <strong style={{ fontSize: '1.6rem', display: 'block', color: 'var(--color-deep-ink)', margin: '4px 0' }}>
+              <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)', textTransform: 'none', fontWeight: 600 }}>Total Projects</span>
+              <strong style={{ fontSize: '1.6rem', display: 'block', color: 'var(--text-primary)', margin: '4px 0' }}>
                 {projects.length}
               </strong>
-              <span style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)' }}>
+              <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
                 {projects.flatMap(p => p.files).length} reviewed assets
               </span>
             </div>
@@ -792,53 +792,53 @@ export const HistoryReportsPage: React.FC = () => {
 
           {/* Rules Health Table */}
           <div className="card-panel" style={{ padding: 0, overflow: 'hidden' }}>
-            <div style={{ padding: '14px 20px', borderBottom: '1px solid var(--color-border-gray)', backgroundColor: 'var(--color-surface-subtle)' }}>
-              <strong style={{ fontSize: '0.96rem', color: 'var(--color-deep-ink)' }}>Rule Performance & Dismissal Health</strong>
-              <span style={{ display: 'block', fontSize: '0.76rem', color: 'var(--color-muted-slate)' }}>
+            <div style={{ padding: '14px 20px', borderBottom: '1px solid var(--border)', backgroundColor: 'var(--surface-subtle)' }}>
+              <strong style={{ fontSize: '0.96rem', color: 'var(--text-primary)' }}>Rule Performance & Dismissal Health</strong>
+              <span style={{ display: 'block', fontSize: '0.76rem', color: 'var(--text-muted)' }}>
                 Rules with high reviewer dismissals may indicate unclear policy definitions needing refinement.
               </span>
             </div>
 
             <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.85rem' }}>
               <thead>
-                <tr style={{ backgroundColor: 'var(--color-surface-subtle)', borderBottom: '1px solid var(--color-border-gray)' }}>
-                  <th style={{ padding: '10px 20px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Rule Name</th>
-                  <th style={{ padding: '10px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Category</th>
-                  <th style={{ padding: '10px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Severity</th>
-                  <th style={{ padding: '10px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Reviewer Dismissals</th>
-                  <th style={{ padding: '10px 20px', textAlign: 'right', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Health Status</th>
+                <tr style={{ backgroundColor: 'var(--surface-subtle)', borderBottom: '1px solid var(--border)' }}>
+                  <th style={{ padding: '10px 20px', color: 'var(--text-primary)', fontWeight: 600 }}>Rule Name</th>
+                  <th style={{ padding: '10px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Category</th>
+                  <th style={{ padding: '10px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Severity</th>
+                  <th style={{ padding: '10px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Reviewer Dismissals</th>
+                  <th style={{ padding: '10px 20px', textAlign: 'right', color: 'var(--text-primary)', fontWeight: 600 }}>Health Status</th>
                 </tr>
               </thead>
               <tbody>
                 {rules.map(rule => {
                   const isHealthy = rule.dismissalCount < 3;
                   return (
-                    <tr key={rule.id} style={{ borderBottom: '1px solid var(--color-border-subtle)' }}>
+                    <tr key={rule.id} style={{ borderBottom: '1px solid var(--border)' }}>
                       <td style={{ padding: '12px 20px' }}>
-                        <strong style={{ display: 'block', color: 'var(--color-deep-ink)', fontSize: '0.86rem' }}>
+                        <strong style={{ display: 'block', color: 'var(--text-primary)', fontSize: '0.86rem' }}>
                           {rule.title}
                         </strong>
-                        <span style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)' }}>
+                        <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
                           ID: {rule.id} • {rule.sourceDoc}
                         </span>
                       </td>
 
-                      <td style={{ padding: '12px 16px', fontSize: '0.8rem', color: 'var(--color-deep-ink)', textTransform: 'capitalize' }}>
+                      <td style={{ padding: '12px 16px', fontSize: '0.8rem', color: 'var(--text-primary)', textTransform: 'capitalize' }}>
                         {rule.category.replace('_', ' ')}
                       </td>
 
                       <td style={{ padding: '12px 16px' }}>
-                        <span className={`badge ${rule.severity === 'critical' ? 'badge-critical' : rule.severity === 'warning' ? 'badge-expiring' : 'badge-neutral'}`} style={{ fontSize: '0.65rem' }}>
+                        <span className={`badge ${rule.severity === 'critical' ? 'badge-danger' : rule.severity === 'warning' ? 'badge-warning' : 'badge-neutral'}`} style={{ fontSize: '0.65rem' }}>
                           {rule.severity}
                         </span>
                       </td>
 
-                      <td style={{ padding: '12px 16px', fontSize: '0.82rem', color: 'var(--color-muted-slate)' }}>
+                      <td style={{ padding: '12px 16px', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
                         {rule.dismissalCount} {rule.dismissalCount === 1 ? 'dismissal' : 'dismissals'}
                       </td>
 
                       <td style={{ padding: '12px 20px', textAlign: 'right' }}>
-                        <span className={`badge ${isHealthy ? 'badge-verified' : 'badge-expiring'}`} style={{ fontSize: '0.68rem' }}>
+                        <span className={`badge ${isHealthy ? 'badge-success' : 'badge-warning'}`} style={{ fontSize: '0.68rem' }}>
                           {isHealthy ? 'Healthy' : 'Needs Review'}
                         </span>
                       </td>
@@ -859,9 +859,9 @@ export const HistoryReportsPage: React.FC = () => {
           {/* Change Requests Table */}
           {changeRequests.length === 0 ? (
             <div className="card-panel" style={{ textAlign: 'center', padding: '40px 20px' }}>
-              <GitPullRequest size={36} color="var(--color-muted-slate)" style={{ marginBottom: '10px', opacity: 0.7 }} />
-              <div style={{ fontWeight: 600, color: 'var(--color-deep-ink)', fontSize: '0.95rem' }}>No change requests found</div>
-              <p style={{ fontSize: '0.82rem', color: 'var(--color-muted-slate)', margin: '6px 0 16px' }}>
+              <GitPullRequest size={36} color="var(--text-muted)" style={{ marginBottom: '10px', opacity: 0.7 }} />
+              <div style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '0.95rem' }}>No change requests found</div>
+              <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', margin: '6px 0 16px' }}>
                 No active rule exceptions, new disclaimer proposals, or expiry extension requests.
               </p>
               <button onClick={() => setShowNewRequestModal(true)} className="btn btn-primary btn-sm">
@@ -872,23 +872,23 @@ export const HistoryReportsPage: React.FC = () => {
             <div className="card-panel" style={{ padding: 0, overflow: 'hidden' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.85rem' }}>
                 <thead>
-                  <tr style={{ backgroundColor: 'var(--color-surface-subtle)', borderBottom: '1px solid var(--color-border-gray)' }}>
-                    <th style={{ padding: '12px 20px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Request Title</th>
-                    <th style={{ padding: '12px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Request Type</th>
-                    <th style={{ padding: '12px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Requested By</th>
-                    <th style={{ padding: '12px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Priority</th>
-                    <th style={{ padding: '12px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Status</th>
-                    <th style={{ padding: '12px 20px', textAlign: 'right', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Action</th>
+                  <tr style={{ backgroundColor: 'var(--surface-subtle)', borderBottom: '1px solid var(--border)' }}>
+                    <th style={{ padding: '12px 20px', color: 'var(--text-primary)', fontWeight: 600 }}>Request Title</th>
+                    <th style={{ padding: '12px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Request Type</th>
+                    <th style={{ padding: '12px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Requested By</th>
+                    <th style={{ padding: '12px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Priority</th>
+                    <th style={{ padding: '12px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Status</th>
+                    <th style={{ padding: '12px 20px', textAlign: 'right', color: 'var(--text-primary)', fontWeight: 600 }}>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {changeRequests.map(cr => (
-                    <tr key={cr.id} style={{ borderBottom: '1px solid var(--color-border-subtle)' }}>
+                    <tr key={cr.id} style={{ borderBottom: '1px solid var(--border)' }}>
                       <td style={{ padding: '14px 20px', maxWidth: '300px' }}>
-                        <strong style={{ display: 'block', color: 'var(--color-deep-ink)', fontSize: '0.88rem' }}>
+                        <strong style={{ display: 'block', color: 'var(--text-primary)', fontSize: '0.88rem' }}>
                           {cr.title}
                         </strong>
-                        <span style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)' }}>
+                        <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
                           {cr.description}
                         </span>
                       </td>
@@ -899,19 +899,19 @@ export const HistoryReportsPage: React.FC = () => {
                         </span>
                       </td>
 
-                      <td style={{ padding: '14px 16px', color: 'var(--color-muted-slate)', fontSize: '0.8rem' }}>
+                      <td style={{ padding: '14px 16px', color: 'var(--text-muted)', fontSize: '0.8rem' }}>
                         {cr.requestedBy}
                         <span style={{ display: 'block', fontSize: '0.72rem' }}>{cr.submittedAt}</span>
                       </td>
 
                       <td style={{ padding: '14px 16px' }}>
-                        <span className={`badge ${cr.priority === 'critical' ? 'badge-critical' : cr.priority === 'high' ? 'badge-expiring' : 'badge-neutral'}`} style={{ fontSize: '0.65rem', textTransform: 'capitalize' }}>
+                        <span className={`badge ${cr.priority === 'critical' ? 'badge-danger' : cr.priority === 'high' ? 'badge-warning' : 'badge-neutral'}`} style={{ fontSize: '0.65rem', textTransform: 'capitalize' }}>
                           {cr.priority}
                         </span>
                       </td>
 
                       <td style={{ padding: '14px 16px' }}>
-                        <span className={`badge ${cr.status === 'approved' ? 'badge-teal' : cr.status === 'rejected' ? 'badge-critical' : 'badge-expiring'}`} style={{ fontSize: '0.68rem', textTransform: 'capitalize' }}>
+                        <span className={`badge ${cr.status === 'approved' ? 'badge-info' : cr.status === 'rejected' ? 'badge-danger' : 'badge-warning'}`} style={{ fontSize: '0.68rem', textTransform: 'capitalize' }}>
                           {cr.status.replace('_', ' ')}
                         </span>
                       </td>
@@ -973,64 +973,64 @@ export const HistoryReportsPage: React.FC = () => {
             className="card-panel" 
             style={{ 
               maxWidth: '600px', width: '100%', 
-              backgroundColor: 'var(--color-surface-white)',
+              backgroundColor: 'var(--surface)',
               boxShadow: 'var(--shadow-xl)',
               display: 'flex', flexDirection: 'column', gap: '16px'
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--color-border-subtle)', paddingBottom: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--border)', paddingBottom: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Award size={20} color="var(--color-evidence-teal)" />
-                <strong style={{ fontSize: '1.05rem', color: 'var(--color-deep-ink)' }}>Brand Passport #{selectedPassport.id}</strong>
+                <Award size={20} color="var(--info)" />
+                <strong style={{ fontSize: '1.05rem', color: 'var(--text-primary)' }}>Brand Passport #{selectedPassport.id}</strong>
               </div>
-              <button onClick={() => setSelectedPassport(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-muted-slate)' }}>
+              <button onClick={() => setSelectedPassport(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}>
                 <X size={18} />
               </button>
             </div>
 
             <div>
-              <strong style={{ fontSize: '1.1rem', color: 'var(--color-deep-ink)', display: 'block' }}>{selectedPassport.documentTitle}</strong>
-              <span style={{ fontSize: '0.78rem', color: 'var(--color-muted-slate)' }}>
+              <strong style={{ fontSize: '1.1rem', color: 'var(--text-primary)', display: 'block' }}>{selectedPassport.documentTitle}</strong>
+              <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
                 Certified on {selectedPassport.approvedAt} by {selectedPassport.reviewer}
               </span>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
-              <div style={{ padding: '12px', backgroundColor: 'var(--color-surface-subtle)', borderRadius: 'var(--radius-md)', textAlign: 'center' }}>
-                <span style={{ fontSize: '0.7rem', color: 'var(--color-muted-slate)', textTransform: 'uppercase' }}>Governance Score</span>
-                <strong style={{ fontSize: '1.5rem', display: 'block', color: 'var(--color-evidence-teal)' }}>
+              <div style={{ padding: '12px', backgroundColor: 'var(--surface-subtle)', borderRadius: 'var(--radius-md)', textAlign: 'center' }}>
+                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'none' }}>Governance Score</span>
+                <strong style={{ fontSize: '1.5rem', display: 'block', color: 'var(--info)' }}>
                   {selectedPassport.governanceScore}%
                 </strong>
               </div>
-              <div style={{ padding: '12px', backgroundColor: 'var(--color-surface-subtle)', borderRadius: 'var(--radius-md)', textAlign: 'center' }}>
-                <span style={{ fontSize: '0.7rem', color: 'var(--color-muted-slate)', textTransform: 'uppercase' }}>Total Checks</span>
-                <strong style={{ fontSize: '1.5rem', display: 'block', color: 'var(--color-deep-ink)' }}>
+              <div style={{ padding: '12px', backgroundColor: 'var(--surface-subtle)', borderRadius: 'var(--radius-md)', textAlign: 'center' }}>
+                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'none' }}>Total Checks</span>
+                <strong style={{ fontSize: '1.5rem', display: 'block', color: 'var(--text-primary)' }}>
                   {selectedPassport.totalChecks}
                 </strong>
               </div>
-              <div style={{ padding: '12px', backgroundColor: 'var(--color-surface-subtle)', borderRadius: 'var(--radius-md)', textAlign: 'center' }}>
-                <span style={{ fontSize: '0.7rem', color: 'var(--color-muted-slate)', textTransform: 'uppercase' }}>Issues Resolved</span>
-                <strong style={{ fontSize: '1.5rem', display: 'block', color: 'var(--color-signal-coral)' }}>
+              <div style={{ padding: '12px', backgroundColor: 'var(--surface-subtle)', borderRadius: 'var(--radius-md)', textAlign: 'center' }}>
+                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'none' }}>Issues Resolved</span>
+                <strong style={{ fontSize: '1.5rem', display: 'block', color: 'var(--primary)' }}>
                   {selectedPassport.criticalIssuesResolved + selectedPassport.warningsResolved}
                 </strong>
               </div>
             </div>
 
             <div>
-              <strong style={{ fontSize: '0.84rem', color: 'var(--color-deep-ink)', display: 'block', marginBottom: '6px' }}>
+              <strong style={{ fontSize: '0.84rem', color: 'var(--text-primary)', display: 'block', marginBottom: '6px' }}>
                 Verified Supporting Evidence:
               </strong>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                 {selectedPassport.evidenceCitations.map((cite, i) => (
-                  <div key={i} style={{ padding: '8px 12px', backgroundColor: 'var(--color-surface-subtle)', borderRadius: 'var(--radius-sm)', borderLeft: '3px solid var(--color-evidence-teal)', fontSize: '0.8rem' }}>
-                    <strong style={{ display: 'block', color: 'var(--color-deep-ink)' }}>&quot;{cite.claim}&quot;</strong>
-                    <span style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)' }}>Source: {cite.source} • Owner: {cite.owner}</span>
+                  <div key={i} style={{ padding: '8px 12px', backgroundColor: 'var(--surface-subtle)', borderRadius: 'var(--radius-sm)', borderLeft: 'none', fontSize: '0.8rem' }}>
+                    <strong style={{ display: 'block', color: 'var(--text-primary)' }}>&quot;{cite.claim}&quot;</strong>
+                    <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Source: {cite.source} • Owner: {cite.owner}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div style={{ padding: '10px 12px', backgroundColor: 'var(--color-surface-subtle)', borderRadius: 'var(--radius-sm)', fontSize: '0.74rem', color: 'var(--color-muted-slate)' }}>
+            <div style={{ padding: '10px 12px', backgroundColor: 'var(--surface-subtle)', borderRadius: 'var(--radius-sm)', fontSize: '0.74rem', color: 'var(--text-muted)' }}>
               <strong>AI Disclosure: </strong>{selectedPassport.aiDisclosure}
             </div>
 
@@ -1067,26 +1067,26 @@ export const HistoryReportsPage: React.FC = () => {
             className="card-panel" 
             style={{ 
               maxWidth: '500px', width: '100%', 
-              backgroundColor: 'var(--color-surface-white)',
+              backgroundColor: 'var(--surface)',
               boxShadow: 'var(--shadow-xl)',
               display: 'flex', flexDirection: 'column', gap: '16px'
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--color-border-subtle)', paddingBottom: '12px' }}>
-              <strong style={{ fontSize: '1rem', color: 'var(--color-deep-ink)' }}>Change Request Details</strong>
-              <button onClick={() => setSelectedChangeRequest(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-muted-slate)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--border)', paddingBottom: '12px' }}>
+              <strong style={{ fontSize: '1rem', color: 'var(--text-primary)' }}>Change Request Details</strong>
+              <button onClick={() => setSelectedChangeRequest(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}>
                 <X size={18} />
               </button>
             </div>
 
             <div>
-              <strong style={{ fontSize: '1.05rem', color: 'var(--color-deep-ink)', display: 'block' }}>{selectedChangeRequest.title}</strong>
-              <span style={{ fontSize: '0.76rem', color: 'var(--color-muted-slate)' }}>
+              <strong style={{ fontSize: '1.05rem', color: 'var(--text-primary)', display: 'block' }}>{selectedChangeRequest.title}</strong>
+              <span style={{ fontSize: '0.76rem', color: 'var(--text-muted)' }}>
                 Type: {selectedChangeRequest.type} • Requested by {selectedChangeRequest.requestedBy} ({selectedChangeRequest.submittedAt})
               </span>
             </div>
 
-            <div style={{ padding: '12px', backgroundColor: 'var(--color-surface-subtle)', borderRadius: 'var(--radius-md)', fontSize: '0.84rem', color: 'var(--color-deep-ink)', lineHeight: 1.5 }}>
+            <div style={{ padding: '12px', backgroundColor: 'var(--surface-subtle)', borderRadius: 'var(--radius-md)', fontSize: '0.84rem', color: 'var(--text-primary)', lineHeight: 1.5 }}>
               {selectedChangeRequest.description}
             </div>
 
@@ -1096,7 +1096,7 @@ export const HistoryReportsPage: React.FC = () => {
             </div>
 
             {selectedChangeRequest.adminResponse && (
-              <div style={{ padding: '10px 12px', backgroundColor: 'var(--color-evidence-teal-subtle)', borderRadius: 'var(--radius-sm)', fontSize: '0.78rem', color: 'var(--color-deep-ink)' }}>
+              <div style={{ padding: '10px 12px', backgroundColor: 'var(--info-subtle)', borderRadius: 'var(--radius-sm)', fontSize: '0.78rem', color: 'var(--text-primary)' }}>
                 <strong>Admin Decision Note: </strong>{selectedChangeRequest.adminResponse}
               </div>
             )}
@@ -1125,24 +1125,24 @@ export const HistoryReportsPage: React.FC = () => {
             className="card-panel" 
             style={{ 
               maxWidth: '520px', width: '100%', 
-              backgroundColor: 'var(--color-surface-white)',
+              backgroundColor: 'var(--surface)',
               boxShadow: 'var(--shadow-xl)',
               display: 'flex', flexDirection: 'column', gap: '16px'
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--color-border-subtle)', paddingBottom: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--border)', paddingBottom: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <GitPullRequest size={18} color="var(--color-signal-coral)" />
-                <strong style={{ fontSize: '1rem', color: 'var(--color-deep-ink)' }}>Submit Change Request</strong>
+                <GitPullRequest size={18} color="var(--primary)" />
+                <strong style={{ fontSize: '1rem', color: 'var(--text-primary)' }}>Submit Change Request</strong>
               </div>
-              <button onClick={() => setShowNewRequestModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-muted-slate)' }}>
+              <button onClick={() => setShowNewRequestModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}>
                 <X size={18} />
               </button>
             </div>
 
             <form onSubmit={handleAddRequestSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               <div>
-                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--color-deep-ink)' }}>
+                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--text-primary)' }}>
                   Request Title *
                 </label>
                 <input 
@@ -1155,17 +1155,17 @@ export const HistoryReportsPage: React.FC = () => {
                     width: '100%',
                     padding: '8px 10px',
                     borderRadius: 'var(--radius-md)',
-                    border: '1px solid var(--color-border-gray)',
+                    border: '1px solid var(--border)',
                     fontSize: '0.84rem',
-                    backgroundColor: 'var(--color-surface-subtle)',
-                    color: 'var(--color-deep-ink)'
+                    backgroundColor: 'var(--surface-subtle)',
+                    color: 'var(--text-primary)'
                   }}
                 />
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--color-deep-ink)' }}>
+                  <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--text-primary)' }}>
                     Request Type
                   </label>
                   <select 
@@ -1175,10 +1175,10 @@ export const HistoryReportsPage: React.FC = () => {
                       width: '100%',
                       padding: '8px 10px',
                       borderRadius: 'var(--radius-md)',
-                      border: '1px solid var(--color-border-gray)',
+                      border: '1px solid var(--border)',
                       fontSize: '0.82rem',
-                      backgroundColor: 'var(--color-surface-subtle)',
-                      color: 'var(--color-deep-ink)'
+                      backgroundColor: 'var(--surface-subtle)',
+                      color: 'var(--text-primary)'
                     }}
                   >
                     <option value="Rule Exception">Rule Exception</option>
@@ -1188,7 +1188,7 @@ export const HistoryReportsPage: React.FC = () => {
                   </select>
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--color-deep-ink)' }}>
+                  <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--text-primary)' }}>
                     Priority
                   </label>
                   <select 
@@ -1198,10 +1198,10 @@ export const HistoryReportsPage: React.FC = () => {
                       width: '100%',
                       padding: '8px 10px',
                       borderRadius: 'var(--radius-md)',
-                      border: '1px solid var(--color-border-gray)',
+                      border: '1px solid var(--border)',
                       fontSize: '0.82rem',
-                      backgroundColor: 'var(--color-surface-subtle)',
-                      color: 'var(--color-deep-ink)'
+                      backgroundColor: 'var(--surface-subtle)',
+                      color: 'var(--text-primary)'
                     }}
                   >
                     <option value="low">Low</option>
@@ -1213,7 +1213,7 @@ export const HistoryReportsPage: React.FC = () => {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--color-deep-ink)' }}>
+                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--text-primary)' }}>
                   Reason & Description *
                 </label>
                 <textarea 
@@ -1226,10 +1226,10 @@ export const HistoryReportsPage: React.FC = () => {
                     width: '100%',
                     padding: '8px 10px',
                     borderRadius: 'var(--radius-md)',
-                    border: '1px solid var(--color-border-gray)',
+                    border: '1px solid var(--border)',
                     fontSize: '0.84rem',
-                    backgroundColor: 'var(--color-surface-subtle)',
-                    color: 'var(--color-deep-ink)'
+                    backgroundColor: 'var(--surface-subtle)',
+                    color: 'var(--text-primary)'
                   }}
                 />
               </div>

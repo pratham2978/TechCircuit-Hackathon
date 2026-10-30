@@ -2,17 +2,65 @@ import json
 import urllib.request
 import urllib.error
 from typing import Dict, List, Any, Optional
-from app.config import GEMINI_API_KEY, GEMINI_MODEL
+from app.config import GEMINI_API_KEY, GEMINI_MODEL, GROQ_API_KEY, GROQ_MODEL
 
 
 class GeminiConfigError(Exception):
-    """Raised when GEMINI_API_KEY is missing or unconfigured."""
+    """Raised when neither GROQ_API_KEY nor GEMINI_API_KEY is configured."""
     pass
 
 
 class GeminiApiError(Exception):
-    """Raised when the Gemini API returns an error or fails."""
+    """Raised when the AI API returns an error or fails."""
     pass
+
+
+def call_groq_chat(messages: List[Dict[str, str]], json_mode: bool = False, temperature: float = 0.2) -> str:
+    """Call Groq Cloud chat completions API using OpenAI-compatible standard library REST call."""
+    if not GROQ_API_KEY:
+        raise GeminiConfigError("GROQ_API_KEY is not configured on the backend server.")
+
+    endpoint = "https://api.groq.com/openai/v1/chat/completions"
+    payload: Dict[str, Any] = {
+        "model": GROQ_MODEL,
+        "messages": messages,
+        "temperature": temperature
+    }
+    if json_mode:
+        payload["response_format"] = {"type": "json_object"}
+
+    data_bytes = json.dumps(payload).encode("utf-8")
+    req = urllib.request.Request(
+        endpoint,
+        data=data_bytes,
+        headers={
+            "Authorization": f"Bearer {GROQ_API_KEY}",
+            "Content-Type": "application/json",
+            "User-Agent": "BrandGuard/1.0"
+        },
+        method="POST"
+    )
+
+    try:
+        with urllib.request.urlopen(req, timeout=60) as resp:
+            resp_body = resp.read().decode("utf-8")
+            data = json.loads(resp_body)
+            choices = data.get("choices", [])
+            if not choices:
+                raise GeminiApiError("Groq API returned no completion choices.")
+            return choices[0].get("message", {}).get("content", "")
+    except urllib.error.HTTPError as e:
+        error_msg = e.read().decode("utf-8", errors="replace")
+        try:
+            err_json = json.loads(error_msg)
+            message = err_json.get("error", {}).get("message", error_msg)
+        except Exception:
+            message = error_msg
+        raise GeminiApiError(f"Groq API returned HTTP {e.code}: {message}")
+    except urllib.error.URLError as e:
+        raise GeminiApiError(f"Network error contacting Groq API: {str(e.reason)}")
+    except Exception as e:
+        raise GeminiApiError(f"Unexpected error communicating with Groq: {str(e)}")
 
 
 SYSTEM_INSTRUCTIONS = {
@@ -184,6 +232,17 @@ def analyze_review_content(
         "}"
     )
 
+    if GROQ_API_KEY:
+        groq_messages = [
+            {"role": "system", "content": system_inst},
+            {"role": "user", "content": prompt_text}
+        ]
+        response_text = call_groq_chat(groq_messages, json_mode=True, temperature=0.2)
+        try:
+            return json.loads(response_text)
+        except json.JSONDecodeError:
+            raise GeminiApiError("Failed to parse structured JSON from Groq response.")
+
     parts.append({"text": prompt_text})
 
     payload = {
@@ -226,7 +285,7 @@ def chat_followup(
     context_notes: Optional[str] = None
 ) -> str:
     """
-    Handle multi-turn follow-up questions about a review using Gemini.
+    Handle multi-turn follow-up questions about a review using Groq or Gemini.
     conversation_history is a list of {'role': 'user' | 'model', 'text': '...'}.
     """
     system_inst = (
@@ -234,6 +293,16 @@ def chat_followup(
         "\nYou are answering a follow-up question from a user about the previous compliance findings or brand guidelines. "
         "Keep your answer clear, authoritative, and helpful, referencing specific brand rules or approved alternatives."
     )
+
+    if GROQ_API_KEY:
+        groq_messages: List[Dict[str, str]] = [{"role": "system", "content": system_inst}]
+        if context_notes:
+            groq_messages.append({"role": "system", "content": f"Context of active review & findings:\n{context_notes}"})
+        for msg in conversation_history:
+            role = "user" if msg.get("role") in ["user", "human"] else "assistant"
+            groq_messages.append({"role": role, "content": msg.get("text", "")})
+        groq_messages.append({"role": "user", "content": user_message})
+        return call_groq_chat(groq_messages, json_mode=False, temperature=0.3)
 
     contents: List[Dict[str, Any]] = []
 

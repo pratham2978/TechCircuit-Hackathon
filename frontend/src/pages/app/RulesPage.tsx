@@ -73,7 +73,7 @@ export const RulesPage: React.FC = () => {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
         <div>
           <h1 style={{ fontSize: '1.85rem', marginBottom: '4px' }}>Rules & Terminology Index</h1>
-          <p style={{ color: 'var(--color-muted-slate)', fontSize: '0.9rem' }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
             Curate approved terms, prohibited superlatives, mandatory disclaimers, and brand voice constraints.
           </p>
         </div>
@@ -103,7 +103,7 @@ export const RulesPage: React.FC = () => {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1, minWidth: '240px' }}>
-          <Search size={16} color="var(--color-muted-slate)" />
+          <Search size={16} color="var(--text-muted)" />
           <input 
             type="text" 
             placeholder="Search rules, banned terms, or alternatives..."
@@ -117,7 +117,7 @@ export const RulesPage: React.FC = () => {
           <select 
             value={selectedCategory} 
             onChange={(e) => setSelectedCategory(e.target.value)}
-            style={{ padding: '6px 12px', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border-gray)', fontSize: '0.85rem' }}
+            style={{ padding: '6px 12px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', fontSize: '0.85rem' }}
           >
             <option value="all">All Categories</option>
             <option value="brand_rules">Brand Rules</option>
@@ -130,7 +130,7 @@ export const RulesPage: React.FC = () => {
           <select 
             value={selectedType} 
             onChange={(e) => setSelectedType(e.target.value)}
-            style={{ padding: '6px 12px', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border-gray)', fontSize: '0.85rem' }}
+            style={{ padding: '6px 12px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', fontSize: '0.85rem' }}
           >
             <option value="all">All Rule Types</option>
             <option value="prohibited_term">Prohibited Terms</option>
@@ -153,45 +153,45 @@ export const RulesPage: React.FC = () => {
               flexDirection: 'column', 
               justifyContent: 'space-between',
               gap: '14px',
-              borderLeft: r.severity === 'critical' ? '4px solid var(--color-error)' : r.severity === 'warning' ? '4px solid var(--color-warning)' : '4px solid var(--color-evidence-teal)'
+              borderLeft: r.severity === 'critical' ? '4px solid var(--danger)' : r.severity === 'warning' ? '4px solid var(--warning)' : '4px solid var(--info)'
             }}
           >
             <div>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <ShieldCheck size={16} color="var(--color-evidence-teal)" />
-                  <strong style={{ fontSize: '0.95rem', color: 'var(--color-deep-ink)' }}>{r.title}</strong>
+                  <ShieldCheck size={16} color="var(--info)" />
+                  <strong style={{ fontSize: '0.95rem', color: 'var(--text-primary)' }}>{r.title}</strong>
                 </div>
-                <span className={`badge ${r.severity === 'critical' ? 'badge-critical' : r.severity === 'warning' ? 'badge-expiring' : 'badge-neutral'}`} style={{ fontSize: '0.65rem' }}>
+                <span className={`badge ${r.severity === 'critical' ? 'badge-danger' : r.severity === 'warning' ? 'badge-warning' : 'badge-neutral'}`} style={{ fontSize: '0.65rem' }}>
                   {r.severity}
                 </span>
               </div>
 
               <div style={{ display: 'flex', gap: '6px', marginBottom: '10px' }}>
                 <span className="badge badge-neutral" style={{ fontSize: '0.65rem' }}>{r.type.replace('_', ' ')}</span>
-                <span className="badge badge-teal" style={{ fontSize: '0.65rem' }}>{r.category}</span>
+                <span className="badge badge-info" style={{ fontSize: '0.65rem' }}>{r.category}</span>
               </div>
 
-              <p style={{ fontSize: '0.85rem', color: 'var(--color-deep-ink)', lineHeight: 1.5, marginBottom: '12px' }}>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-primary)', lineHeight: 1.5, marginBottom: '12px' }}>
                 {r.explanation}
               </p>
 
               {r.termOrPattern && (
-                <div style={{ padding: '8px 12px', backgroundColor: 'var(--color-warm-ivory)', borderRadius: '6px', fontSize: '0.8rem', marginBottom: '8px' }}>
-                  <span style={{ color: 'var(--color-error)', fontWeight: 600 }}>Flagged Pattern: </span>
+                <div style={{ padding: '8px 12px', backgroundColor: 'var(--bg)', borderRadius: '6px', fontSize: '0.8rem', marginBottom: '8px' }}>
+                  <span style={{ color: 'var(--danger)', fontWeight: 600 }}>Flagged Pattern: </span>
                   <code>{r.termOrPattern}</code>
                 </div>
               )}
 
               {r.preferredAlternative && (
-                <div style={{ padding: '8px 12px', backgroundColor: 'var(--color-evidence-teal-subtle)', borderRadius: '6px', fontSize: '0.8rem' }}>
-                  <span style={{ color: 'var(--color-evidence-teal)', fontWeight: 600 }}>Preferred / Required Alternative: </span>
+                <div style={{ padding: '8px 12px', backgroundColor: 'var(--info-subtle)', borderRadius: '6px', fontSize: '0.8rem' }}>
+                  <span style={{ color: 'var(--info)', fontWeight: 600 }}>Preferred / Required Alternative: </span>
                   <strong>{r.preferredAlternative}</strong>
                 </div>
               )}
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.75rem', color: 'var(--color-muted-slate)', paddingTop: '10px', borderTop: '1px solid var(--color-border-subtle)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.75rem', color: 'var(--text-muted)', paddingTop: '10px', borderTop: '1px solid var(--border)' }}>
               <span>Source: {r.sourceDoc}</span>
               <span>Dismissals: {r.dismissalCount}</span>
             </div>
@@ -219,14 +219,14 @@ export const RulesPage: React.FC = () => {
         >
           <div 
             style={{ 
-              backgroundColor: 'var(--color-surface-white)', 
+              backgroundColor: 'var(--surface)', 
               borderRadius: 'var(--radius-xl)', 
               maxWidth: '600px', 
               width: '100%', 
               padding: '28px',
               boxShadow: 'var(--shadow-lg)',
-              border: '1px solid var(--color-border-gray)',
-              color: 'var(--color-deep-ink)'
+              border: '1px solid var(--border)',
+              color: 'var(--text-primary)'
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
@@ -243,7 +243,7 @@ export const RulesPage: React.FC = () => {
                   placeholder="e.g. Prohibit Unqualified AI Performance Superlatives"
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
-                  style={{ width: '100%', padding: '8px 12px', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border-gray)', fontSize: '0.85rem' }}
+                  style={{ width: '100%', padding: '8px 12px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', fontSize: '0.85rem' }}
                 />
               </div>
 
@@ -253,7 +253,7 @@ export const RulesPage: React.FC = () => {
                   <select 
                     value={newCategory}
                     onChange={(e) => setNewCategory(e.target.value as any)}
-                    style={{ width: '100%', padding: '8px', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border-gray)', fontSize: '0.85rem' }}
+                    style={{ width: '100%', padding: '8px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', fontSize: '0.85rem' }}
                   >
                     <option value="brand_rules">Brand Rules</option>
                     <option value="terminology">Terminology</option>
@@ -268,7 +268,7 @@ export const RulesPage: React.FC = () => {
                   <select 
                     value={newType}
                     onChange={(e) => setNewType(e.target.value as any)}
-                    style={{ width: '100%', padding: '8px', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border-gray)', fontSize: '0.85rem' }}
+                    style={{ width: '100%', padding: '8px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', fontSize: '0.85rem' }}
                   >
                     <option value="prohibited_term">Prohibited Term</option>
                     <option value="approved_term">Approved Term</option>
@@ -286,7 +286,7 @@ export const RulesPage: React.FC = () => {
                   placeholder="e.g. revolutionary AI, magical, 100% bug-free"
                   value={newPattern}
                   onChange={(e) => setNewPattern(e.target.value)}
-                  style={{ width: '100%', padding: '8px 12px', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border-gray)', fontSize: '0.85rem' }}
+                  style={{ width: '100%', padding: '8px 12px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', fontSize: '0.85rem' }}
                 />
               </div>
 
@@ -297,7 +297,7 @@ export const RulesPage: React.FC = () => {
                   placeholder="e.g. enterprise-grade verified intelligence"
                   value={newAlternative}
                   onChange={(e) => setNewAlternative(e.target.value)}
-                  style={{ width: '100%', padding: '8px 12px', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border-gray)', fontSize: '0.85rem' }}
+                  style={{ width: '100%', padding: '8px 12px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', fontSize: '0.85rem' }}
                 />
               </div>
 
@@ -309,7 +309,7 @@ export const RulesPage: React.FC = () => {
                   placeholder="Explain why this rule exists and cite regulatory/brand reasons..."
                   value={newExplanation}
                   onChange={(e) => setNewExplanation(e.target.value)}
-                  style={{ width: '100%', padding: '8px 12px', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border-gray)', fontSize: '0.85rem' }}
+                  style={{ width: '100%', padding: '8px 12px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', fontSize: '0.85rem' }}
                 />
               </div>
 
@@ -319,7 +319,7 @@ export const RulesPage: React.FC = () => {
                   <select 
                     value={newSeverity}
                     onChange={(e) => setNewSeverity(e.target.value as any)}
-                    style={{ width: '100%', padding: '8px', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border-gray)', fontSize: '0.85rem' }}
+                    style={{ width: '100%', padding: '8px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', fontSize: '0.85rem' }}
                   >
                     <option value="critical">Critical (Blocks Publication)</option>
                     <option value="warning">Warning (Review Recommended)</option>
@@ -334,7 +334,7 @@ export const RulesPage: React.FC = () => {
                     placeholder="e.g. Corporate Stylebook 2026, p. 8"
                     value={newSource}
                     onChange={(e) => setNewSource(e.target.value)}
-                    style={{ width: '100%', padding: '8px', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border-gray)', fontSize: '0.85rem' }}
+                    style={{ width: '100%', padding: '8px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', fontSize: '0.85rem' }}
                   />
                 </div>
               </div>

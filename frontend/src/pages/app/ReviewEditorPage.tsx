@@ -159,12 +159,12 @@ export const ReviewEditorPage: React.FC = () => {
 
   // Status badge formatting
   const statusBadgeMap: Record<string, { label: string; className: string }> = {
-    submitted: { label: 'Submitted to Operations', className: 'badge-expiring' },
+    submitted: { label: 'Submitted to Operations', className: 'badge-warning' },
     under_review: { label: 'Under Review', className: 'badge-neutral' },
-    changes_requested: { label: 'Changes Requested', className: 'badge-critical' },
-    resubmitted: { label: 'Resubmitted to Queue', className: 'badge-expiring' },
-    approved: { label: 'Approved (Certified)', className: 'badge-verified' },
-    rejected: { label: 'Rejected', className: 'badge-critical' }
+    changes_requested: { label: 'Changes Requested', className: 'badge-danger' },
+    resubmitted: { label: 'Resubmitted to Queue', className: 'badge-warning' },
+    approved: { label: 'Approved (Certified)', className: 'badge-success' },
+    rejected: { label: 'Rejected', className: 'badge-danger' }
   };
 
   const currentStatus = submission?.status || 'submitted';
@@ -180,9 +180,9 @@ export const ReviewEditorPage: React.FC = () => {
           style={{
             padding: '12px 18px',
             backgroundColor: 'rgba(16, 185, 129, 0.12)',
-            border: '1px solid #10b981',
+            border: '1px solid var(--success)',
             borderRadius: 'var(--radius-md)',
-            color: '#065f46',
+            color: 'var(--success)',
             fontSize: '0.86rem',
             display: 'flex',
             alignItems: 'center',
@@ -190,7 +190,7 @@ export const ReviewEditorPage: React.FC = () => {
             boxShadow: 'var(--shadow-sm)'
           }}
         >
-          <CheckCircle2 size={18} color="#10b981" />
+          <CheckCircle2 size={18} color="var(--success)" />
           <strong>{toastMsg}</strong>
         </div>
       )}
@@ -223,7 +223,7 @@ export const ReviewEditorPage: React.FC = () => {
                 </span>
               )}
             </div>
-            <p style={{ margin: '3px 0 0', fontSize: '0.78rem', color: 'var(--color-muted-slate)' }}>
+            <p style={{ margin: '3px 0 0', fontSize: '0.78rem', color: 'var(--text-muted)' }}>
               Tool: <strong>{submission?.review_type?.toUpperCase() || 'LEGAL'}</strong> &nbsp;|&nbsp; File: {submission?.file_name || 'Document.pdf'} &nbsp;|&nbsp; Submitter: {submission?.submitted_by || 'Client'}
             </p>
           </div>
@@ -236,7 +236,7 @@ export const ReviewEditorPage: React.FC = () => {
             type="button"
             onClick={() => setShowDiffModal(true)}
             className="btn btn-secondary btn-sm"
-            style={{ gap: '5px', borderColor: 'var(--color-evidence-teal)', color: 'var(--color-evidence-teal)', fontWeight: 600 }}
+            style={{ gap: '5px', borderColor: 'var(--info)', color: 'var(--info)', fontWeight: 600 }}
           >
             <GitCompare size={14} />
             <span>Compare Versions (Diff)</span>
@@ -260,7 +260,7 @@ export const ReviewEditorPage: React.FC = () => {
                     type="button"
                     onClick={() => handleOpenDecision('changes_requested')}
                     className="btn btn-secondary btn-sm"
-                    style={{ gap: '5px', color: 'var(--color-signal-coral)', borderColor: 'var(--color-signal-coral)', fontWeight: 600 }}
+                    style={{ gap: '5px', color: 'var(--primary)', borderColor: 'var(--primary)', fontWeight: 600 }}
                   >
                     <Clock size={14} />
                     <span>Request Changes</span>
@@ -269,7 +269,7 @@ export const ReviewEditorPage: React.FC = () => {
                     type="button"
                     onClick={() => handleOpenDecision('rejected')}
                     className="btn btn-secondary btn-sm"
-                    style={{ gap: '5px', color: 'var(--color-error)' }}
+                    style={{ gap: '5px', color: 'var(--danger)' }}
                   >
                     <X size={14} />
                     <span>Reject</span>
@@ -278,7 +278,7 @@ export const ReviewEditorPage: React.FC = () => {
               )}
               {currentStatus === 'approved' && (
                 <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                  <span className="badge badge-verified" style={{ padding: '6px 12px', fontSize: '0.8rem', gap: '6px' }}>
+                  <span className="badge badge-success" style={{ padding: '6px 12px', fontSize: '0.8rem', gap: '6px' }}>
                     <ShieldCheck size={16} /> Certified Compliant (Approved v{submission?.approved_version_number || submission?.version_number})
                   </span>
                   <Link 
@@ -311,7 +311,7 @@ export const ReviewEditorPage: React.FC = () => {
                 <Link 
                   to="/app/passport" 
                   className="btn btn-secondary btn-sm"
-                  style={{ gap: '6px', color: 'var(--color-evidence-teal)' }}
+                  style={{ gap: '6px', color: 'var(--info)' }}
                   title="View Cryptographically Sealed Brand Passport"
                 >
                   <ShieldCheck size={16} />
@@ -336,16 +336,16 @@ export const ReviewEditorPage: React.FC = () => {
             gap: '12px'
           }}
         >
-          <Clock size={20} color="var(--color-signal-coral)" style={{ flexShrink: 0, marginTop: '2px' }} />
+          <Clock size={20} color="var(--primary)" style={{ flexShrink: 0, marginTop: '2px' }} />
           <div style={{ flex: 1, fontSize: '0.84rem' }}>
-            <strong style={{ color: 'var(--color-signal-coral)', display: 'block', fontSize: '0.9rem', marginBottom: '4px' }}>
+            <strong style={{ color: 'var(--primary)', display: 'block', fontSize: '0.9rem', marginBottom: '4px' }}>
               Operations Reviewer Requested Revisions
             </strong>
-            <p style={{ margin: '0 0 8px', color: 'var(--color-deep-ink)', lineHeight: 1.5 }}>
+            <p style={{ margin: '0 0 8px', color: 'var(--text-primary)', lineHeight: 1.5 }}>
               {decisionsList[0]?.comments || submission?.content_summary || 'Please resolve the highlighted compliance findings and resubmit your revised version.'}
             </p>
             {decisionsList[0]?.actionable_instructions && (
-              <div style={{ backgroundColor: 'white', padding: '8px 12px', borderRadius: 'var(--radius-sm)', border: '1px dashed var(--color-signal-coral)', fontSize: '0.8rem' }}>
+              <div style={{ backgroundColor: 'var(--surface)', padding: '8px 12px', borderRadius: 'var(--radius-sm)', border: '1px dashed var(--primary)', fontSize: '0.8rem' }}>
                 <strong>Actionable Instructions:</strong> {decisionsList[0].actionable_instructions}
               </div>
             )}
@@ -364,13 +364,13 @@ export const ReviewEditorPage: React.FC = () => {
         className="editor-split-grid"
       >
         {/* Left Panel: Governed Manuscript Text */}
-        <div className="card-panel" style={{ display: 'flex', flexDirection: 'column', gap: '14px', backgroundColor: 'var(--color-surface-white)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '10px', borderBottom: '1px solid var(--color-border-subtle)' }}>
+        <div className="card-panel" style={{ display: 'flex', flexDirection: 'column', gap: '14px', backgroundColor: 'var(--surface)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '10px', borderBottom: '1px solid var(--border)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Edit3 size={16} color="var(--color-evidence-teal)" />
+              <Edit3 size={16} color="var(--info)" />
               <h3 style={{ fontSize: '1rem', margin: 0 }}>Governed Manuscript Content</h3>
             </div>
-            <span style={{ fontSize: '0.75rem', color: 'var(--color-muted-slate)' }}>
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
               Active Version: v{submission?.version_number || '1.0'} &nbsp;|&nbsp; Word Count: {contentText.split(/\s+/).filter(Boolean).length}
             </span>
           </div>
@@ -383,7 +383,7 @@ export const ReviewEditorPage: React.FC = () => {
               width: '100%',
               padding: '14px',
               borderRadius: 'var(--radius-md)',
-              border: '1px solid var(--color-border-gray)',
+              border: '1px solid var(--border)',
               fontFamily: 'var(--font-mono, monospace)',
               fontSize: '0.85rem',
               lineHeight: 1.6,
@@ -394,8 +394,8 @@ export const ReviewEditorPage: React.FC = () => {
           />
 
           {currentStatus === 'changes_requested' && !isOperations && (
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--color-border-subtle)', paddingTop: '12px' }}>
-              <span style={{ fontSize: '0.76rem', color: 'var(--color-muted-slate)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--border)', paddingTop: '12px' }}>
+              <span style={{ fontSize: '0.76rem', color: 'var(--text-muted)' }}>
                 Edit text above to address reviewer instructions, then click resubmit.
               </span>
               <button 
@@ -412,17 +412,17 @@ export const ReviewEditorPage: React.FC = () => {
         </div>
 
         {/* Right Panel: Split between Findings and Decision History */}
-        <div className="card-panel" style={{ display: 'flex', flexDirection: 'column', gap: '14px', backgroundColor: 'var(--color-surface-white)', padding: '16px' }}>
+        <div className="card-panel" style={{ display: 'flex', flexDirection: 'column', gap: '14px', backgroundColor: 'var(--surface)', padding: '16px' }}>
           {/* Tab selector */}
-          <div style={{ display: 'flex', gap: '8px', borderBottom: '1px solid var(--color-border-subtle)', paddingBottom: '10px' }}>
+          <div style={{ display: 'flex', gap: '8px', borderBottom: '1px solid var(--border)', paddingBottom: '10px' }}>
             <button
               type="button"
               onClick={() => setActiveRightTab('findings')}
               style={{
                 background: 'none',
                 border: 'none',
-                borderBottom: activeRightTab === 'findings' ? '2px solid var(--color-evidence-teal)' : '2px solid transparent',
-                color: activeRightTab === 'findings' ? 'var(--color-evidence-teal)' : 'var(--color-muted-slate)',
+                borderBottom: activeRightTab === 'findings' ? '2px solid var(--info)' : '2px solid transparent',
+                color: activeRightTab === 'findings' ? 'var(--info)' : 'var(--text-muted)',
                 fontWeight: activeRightTab === 'findings' ? 700 : 500,
                 fontSize: '0.86rem',
                 padding: '6px 10px',
@@ -437,8 +437,8 @@ export const ReviewEditorPage: React.FC = () => {
               style={{
                 background: 'none',
                 border: 'none',
-                borderBottom: activeRightTab === 'history' ? '2px solid var(--color-evidence-teal)' : '2px solid transparent',
-                color: activeRightTab === 'history' ? 'var(--color-evidence-teal)' : 'var(--color-muted-slate)',
+                borderBottom: activeRightTab === 'history' ? '2px solid var(--info)' : '2px solid transparent',
+                color: activeRightTab === 'history' ? 'var(--info)' : 'var(--text-muted)',
                 fontWeight: activeRightTab === 'history' ? 700 : 500,
                 fontSize: '0.86rem',
                 padding: '6px 10px',
@@ -453,16 +453,16 @@ export const ReviewEditorPage: React.FC = () => {
           {activeRightTab === 'findings' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {findingsList.length === 0 ? (
-                <div style={{ textAlign: 'center', padding: '36px 12px', color: 'var(--color-muted-slate)' }}>
-                  <CheckCircle2 size={32} color="var(--color-success)" style={{ marginBottom: '6px' }} />
-                  <div style={{ fontWeight: 600, color: 'var(--color-deep-ink)' }}>No Outstanding Issues Detected</div>
+                <div style={{ textAlign: 'center', padding: '36px 12px', color: 'var(--text-muted)' }}>
+                  <CheckCircle2 size={32} color="var(--success)" style={{ marginBottom: '6px' }} />
+                  <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>No Outstanding Issues Detected</div>
                   <p style={{ fontSize: '0.78rem', margin: '4px 0 0' }}>All contractual and brand claims satisfy active rules.</p>
                 </div>
               ) : (
                 findingsList.map((f: any, idx: number) => {
                   const isCrit = f.severity === 'critical';
                   const isWarn = f.severity === 'warning';
-                  const borderCol = isCrit ? 'var(--color-error)' : isWarn ? 'var(--color-warning)' : 'var(--color-evidence-teal)';
+                  const borderCol = isCrit ? 'var(--danger)' : isWarn ? 'var(--warning)' : 'var(--info)';
 
                   return (
                     <div 
@@ -470,7 +470,7 @@ export const ReviewEditorPage: React.FC = () => {
                       style={{
                         padding: '12px',
                         borderLeft: `4px solid ${borderCol}`,
-                        backgroundColor: 'var(--color-surface-subtle)',
+                        backgroundColor: 'var(--surface-subtle)',
                         borderRadius: 'var(--radius-sm)',
                         display: 'flex',
                         flexDirection: 'column',
@@ -478,21 +478,21 @@ export const ReviewEditorPage: React.FC = () => {
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <strong style={{ fontSize: '0.86rem', color: 'var(--color-deep-ink)' }}>{f.title}</strong>
-                        <span className={`badge ${isCrit ? 'badge-critical' : isWarn ? 'badge-expiring' : 'badge-teal'}`} style={{ fontSize: '0.64rem' }}>
+                        <strong style={{ fontSize: '0.86rem', color: 'var(--text-primary)' }}>{f.title}</strong>
+                        <span className={`badge ${isCrit ? 'badge-danger' : isWarn ? 'badge-warning' : 'badge-info'}`} style={{ fontSize: '0.64rem' }}>
                           {f.severity}
                         </span>
                       </div>
-                      <p style={{ fontSize: '0.8rem', color: 'var(--color-deep-ink)', margin: 0, lineHeight: 1.45 }}>
+                      <p style={{ fontSize: '0.8rem', color: 'var(--text-primary)', margin: 0, lineHeight: 1.45 }}>
                         {f.explanation}
                       </p>
                       {f.ruleReference && (
-                        <div style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)' }}>
+                        <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
                           <strong>Rule:</strong> {f.ruleReference}
                         </div>
                       )}
                       {f.suggestedCorrection && (
-                        <div style={{ padding: '6px 8px', backgroundColor: 'rgba(22, 124, 120, 0.08)', borderRadius: 'var(--radius-sm)', fontSize: '0.78rem', fontStyle: 'italic', color: 'var(--color-evidence-teal)' }}>
+                        <div style={{ padding: '6px 8px', backgroundColor: 'rgba(22, 124, 120, 0.08)', borderRadius: 'var(--radius-sm)', fontSize: '0.78rem', fontStyle: 'italic', color: 'var(--info)' }}>
                           &ldquo;{f.suggestedCorrection}&rdquo;
                         </div>
                       )}
@@ -507,9 +507,9 @@ export const ReviewEditorPage: React.FC = () => {
           {activeRightTab === 'history' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {decisionsList.length === 0 ? (
-                <div style={{ textAlign: 'center', padding: '36px 12px', color: 'var(--color-muted-slate)' }}>
+                <div style={{ textAlign: 'center', padding: '36px 12px', color: 'var(--text-muted)' }}>
                   <Clock size={28} style={{ marginBottom: '6px' }} />
-                  <div style={{ fontWeight: 600, color: 'var(--color-deep-ink)' }}>No Review Decisions Yet</div>
+                  <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>No Review Decisions Yet</div>
                   <p style={{ fontSize: '0.78rem', margin: '4px 0 0' }}>Decisions rendered by Human Operations reviewers will appear here chronologically.</p>
                 </div>
               ) : (
@@ -522,8 +522,8 @@ export const ReviewEditorPage: React.FC = () => {
                       key={d.id || idx}
                       style={{
                         padding: '12px',
-                        borderLeft: `4px solid ${isApp ? '#10b981' : isChg ? 'var(--color-signal-coral)' : 'var(--color-error)'}`,
-                        backgroundColor: 'var(--color-surface-subtle)',
+                        borderLeft: `4px solid ${isApp ? 'var(--success)' : isChg ? 'var(--primary)' : 'var(--danger)'}`,
+                        backgroundColor: 'var(--surface-subtle)',
                         borderRadius: 'var(--radius-sm)',
                         display: 'flex',
                         flexDirection: 'column',
@@ -531,21 +531,21 @@ export const ReviewEditorPage: React.FC = () => {
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '6px' }}>
-                        <span className={`badge ${isApp ? 'badge-verified' : isChg ? 'badge-expiring' : 'badge-critical'}`} style={{ fontSize: '0.7rem' }}>
+                        <span className={`badge ${isApp ? 'badge-success' : isChg ? 'badge-warning' : 'badge-danger'}`} style={{ fontSize: '0.7rem' }}>
                           {d.decision.replace('_', ' ').toUpperCase()} (v{d.version_number})
                         </span>
-                        <span style={{ fontSize: '0.7rem', color: 'var(--color-muted-slate)' }}>
+                        <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
                           {d.created_at}
                         </span>
                       </div>
-                      <div style={{ fontSize: '0.76rem', color: 'var(--color-muted-slate)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <div style={{ fontSize: '0.76rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
                         <User size={12} /> {d.reviewer_name} ({d.reviewer_role})
                       </div>
-                      <p style={{ fontSize: '0.82rem', color: 'var(--color-deep-ink)', margin: '2px 0 0', lineHeight: 1.45 }}>
+                      <p style={{ fontSize: '0.82rem', color: 'var(--text-primary)', margin: '2px 0 0', lineHeight: 1.45 }}>
                         &ldquo;{d.comments}&rdquo;
                       </p>
                       {d.actionable_instructions && (
-                        <div style={{ fontSize: '0.76rem', color: 'var(--color-signal-coral)', backgroundColor: 'white', padding: '6px 8px', borderRadius: 'var(--radius-sm)', border: '1px dashed var(--color-signal-coral)' }}>
+                        <div style={{ fontSize: '0.76rem', color: 'var(--primary)', backgroundColor: 'var(--surface)', padding: '6px 8px', borderRadius: 'var(--radius-sm)', border: '1px dashed var(--primary)' }}>
                           <strong>Instructions:</strong> {d.actionable_instructions}
                         </div>
                       )}
@@ -578,7 +578,7 @@ export const ReviewEditorPage: React.FC = () => {
             style={{
               width: '100%',
               maxWidth: '540px',
-              backgroundColor: 'white',
+              backgroundColor: 'var(--surface)',
               boxShadow: 'var(--shadow-xl)',
               display: 'flex',
               flexDirection: 'column',
@@ -588,28 +588,28 @@ export const ReviewEditorPage: React.FC = () => {
           >
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
-                <span style={{ fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--color-muted-slate)' }}>
+                <span style={{ fontSize: '0.72rem', fontWeight: 700, textTransform: 'none', color: 'var(--text-muted)' }}>
                   Operations Review Decision
                 </span>
-                <h3 style={{ margin: '2px 0 0', fontSize: '1.2rem', color: 'var(--color-deep-ink)' }}>
+                <h3 style={{ margin: '2px 0 0', fontSize: '1.2rem', color: 'var(--text-primary)' }}>
                   Record Decision: {decisionType.toUpperCase()}
                 </h3>
               </div>
               <button 
                 type="button" 
                 onClick={() => setShowDecisionModal(false)}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-muted-slate)' }}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}
               >
                 <X size={18} />
               </button>
             </div>
 
-            <div style={{ padding: '8px 12px', backgroundColor: 'var(--color-surface-subtle)', borderRadius: 'var(--radius-sm)', fontSize: '0.8rem' }}>
+            <div style={{ padding: '8px 12px', backgroundColor: 'var(--surface-subtle)', borderRadius: 'var(--radius-sm)', fontSize: '0.8rem' }}>
               Target Version: <strong>v{submission.version_number}</strong> &nbsp;|&nbsp; Project: <strong>{submission.project_name}</strong>
             </div>
 
             <div>
-              <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--color-deep-ink)', marginBottom: '4px' }}>
+              <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '4px' }}>
                 Reviewer Evaluation & Notes:
               </label>
               <textarea
@@ -621,7 +621,7 @@ export const ReviewEditorPage: React.FC = () => {
                   padding: '8px 10px',
                   fontSize: '0.82rem',
                   borderRadius: 'var(--radius-sm)',
-                  border: '1px solid var(--color-border-gray)',
+                  border: '1px solid var(--border)',
                   fontFamily: 'inherit'
                 }}
               />
@@ -629,7 +629,7 @@ export const ReviewEditorPage: React.FC = () => {
 
             {decisionType === 'changes_requested' && (
               <div>
-                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--color-signal-coral)', marginBottom: '4px' }}>
+                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--primary)', marginBottom: '4px' }}>
                   Actionable Revision Instructions:
                 </label>
                 <textarea
@@ -641,7 +641,7 @@ export const ReviewEditorPage: React.FC = () => {
                     padding: '8px 10px',
                     fontSize: '0.82rem',
                     borderRadius: 'var(--radius-sm)',
-                    border: '1px solid var(--color-signal-coral)',
+                    border: '1px solid var(--primary)',
                     fontFamily: 'inherit'
                   }}
                   placeholder="Instructions for customer..."
@@ -649,7 +649,7 @@ export const ReviewEditorPage: React.FC = () => {
               </div>
             )}
 
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', borderTop: '1px solid var(--color-border-subtle)', paddingTop: '14px' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', borderTop: '1px solid var(--border)', paddingTop: '14px' }}>
               <button
                 type="button"
                 onClick={() => setShowDecisionModal(false)}
@@ -692,7 +692,7 @@ export const ReviewEditorPage: React.FC = () => {
             style={{
               width: '100%',
               maxWidth: '540px',
-              backgroundColor: 'white',
+              backgroundColor: 'var(--surface)',
               boxShadow: 'var(--shadow-xl)',
               display: 'flex',
               flexDirection: 'column',
@@ -702,28 +702,28 @@ export const ReviewEditorPage: React.FC = () => {
           >
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
-                <span style={{ fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--color-evidence-teal)' }}>
+                <span style={{ fontSize: '0.72rem', fontWeight: 700, textTransform: 'none', color: 'var(--info)' }}>
                   Submit Revised Version
                 </span>
-                <h3 style={{ margin: '2px 0 0', fontSize: '1.2rem', color: 'var(--color-deep-ink)' }}>
+                <h3 style={{ margin: '2px 0 0', fontSize: '1.2rem', color: 'var(--text-primary)' }}>
                   Resubmit to Operations Review Queue
                 </h3>
               </div>
               <button 
                 type="button" 
                 onClick={() => setShowResubmitModal(false)}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-muted-slate)' }}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}
               >
                 <X size={18} />
               </button>
             </div>
 
-            <p style={{ fontSize: '0.82rem', color: 'var(--color-deep-ink)', margin: 0 }}>
+            <p style={{ fontSize: '0.82rem', color: 'var(--text-primary)', margin: 0 }}>
               Your revised manuscript will be assigned a new version number (e.g. v1.1) and returned to the BrandGuard Operations queue for reviewer re-evaluation.
             </p>
 
             <div>
-              <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--color-deep-ink)', marginBottom: '4px' }}>
+              <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '4px' }}>
                 Revision Notes & Audit Justification:
               </label>
               <textarea
@@ -735,14 +735,14 @@ export const ReviewEditorPage: React.FC = () => {
                   padding: '8px 10px',
                   fontSize: '0.82rem',
                   borderRadius: 'var(--radius-sm)',
-                  border: '1px solid var(--color-border-gray)',
+                  border: '1px solid var(--border)',
                   fontFamily: 'inherit'
                 }}
                 placeholder="Explain the changes made in this revision to address reviewer feedback..."
               />
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', borderTop: '1px solid var(--color-border-subtle)', paddingTop: '14px' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', borderTop: '1px solid var(--border)', paddingTop: '14px' }}>
               <button
                 type="button"
                 onClick={() => setShowResubmitModal(false)}

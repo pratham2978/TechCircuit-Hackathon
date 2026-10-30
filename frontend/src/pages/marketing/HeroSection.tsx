@@ -72,21 +72,21 @@ export const HeroSection: React.FC = () => {
             fontSize: 'clamp(2.4rem, 4vw, 3.4rem)', 
             lineHeight: 1.15, 
             marginBottom: '20px',
-            color: 'var(--color-deep-ink)',
+            color: 'var(--text-primary)',
             fontFamily: 'var(--font-display)',
             fontWeight: 700,
             letterSpacing: '-0.03em'
           }}
         >
           Every claim accountable. <br />
-          <span style={{ color: 'var(--color-signal-coral)' }}>Every asset on-brand.</span>
+          <span style={{ color: 'var(--primary)' }}>Every asset on-brand.</span>
         </h1>
 
         <p 
           style={{ 
             fontSize: '1.15rem', 
             lineHeight: 1.6, 
-            color: 'var(--color-muted-slate)', 
+            color: 'var(--text-muted)', 
             marginBottom: '32px',
             maxWidth: '540px'
           }}
@@ -118,21 +118,21 @@ export const HeroSection: React.FC = () => {
             flexWrap: 'wrap', 
             gap: '20px', 
             paddingTop: '20px', 
-            borderTop: '1px solid var(--color-border-gray)',
+            borderTop: '1px solid var(--border)',
             fontSize: '0.85rem',
-            color: 'var(--color-deep-ink)'
+            color: 'var(--text-primary)'
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Lock size={15} color="var(--color-evidence-teal)" />
+            <Lock size={15} color="var(--info)" />
             <span>Company Tenant Isolation</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <CheckCircle2 size={15} color="var(--color-success)" />
+            <CheckCircle2 size={15} color="var(--success)" />
             <span>Human-in-the-Loop Signoff</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Layers size={15} color="var(--color-signal-coral)" />
+            <Layers size={15} color="var(--primary)" />
             <span>Immutable Brand Passport</span>
           </div>
         </div>
@@ -155,8 +155,8 @@ export const HeroSection: React.FC = () => {
           style={{ 
             width: '100%', 
             maxWidth: '560px',
-            backgroundColor: 'var(--color-surface-white)',
-            border: '1px solid var(--color-border-gray)',
+            backgroundColor: 'var(--surface)',
+            border: '1px solid var(--border)',
             boxShadow: isHovered ? 'var(--shadow-lg)' : 'var(--shadow-md)',
             padding: '28px',
             borderRadius: 'var(--radius-xl)',
@@ -179,17 +179,17 @@ export const HeroSection: React.FC = () => {
               display: 'flex', 
               alignItems: 'center', 
               justifyContent: 'space-between',
-              borderBottom: '1px solid var(--color-border-subtle)',
+              borderBottom: '1px solid var(--border)',
               paddingBottom: '14px'
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <FileText size={18} color="var(--color-evidence-teal)" />
-              <strong style={{ fontSize: '0.95rem', color: 'var(--color-deep-ink)' }}>
+              <FileText size={18} color="var(--info)" />
+              <strong style={{ fontSize: '0.95rem', color: 'var(--text-primary)' }}>
                 Enterprise Cloud Migration Brief
               </strong>
             </div>
-            <span className="badge badge-expiring" style={{ fontSize: '0.7rem' }}>
+            <span className="badge badge-warning" style={{ fontSize: '0.7rem' }}>
               In Review
             </span>
           </div>
@@ -199,11 +199,11 @@ export const HeroSection: React.FC = () => {
             style={{ 
               fontSize: '0.92rem', 
               lineHeight: 1.65, 
-              color: 'var(--color-deep-ink)',
+              color: 'var(--text-primary)',
               padding: '14px',
-              backgroundColor: 'var(--color-surface-subtle)',
+              backgroundColor: 'var(--surface-subtle)',
               borderRadius: 'var(--radius-md)',
-              border: '1px solid var(--color-border-subtle)',
+              border: '1px solid var(--border)',
               userSelect: 'text'
             }}
           >
@@ -212,10 +212,10 @@ export const HeroSection: React.FC = () => {
               <mark 
                 style={{ 
                   backgroundColor: 'rgba(241, 107, 80, 0.18)', 
-                  color: 'var(--color-error)',
+                  color: 'var(--danger)',
                   padding: '2px 6px',
                   borderRadius: '4px',
-                  borderBottom: '2px solid var(--color-error)',
+                  borderBottom: '2px solid var(--danger)',
                   fontWeight: 600
                 }}
               >
@@ -228,9 +228,9 @@ export const HeroSection: React.FC = () => {
           {/* 3. Finding severity and explanation (Elevation Layer) */}
           <div 
             style={{ 
-              backgroundColor: 'var(--color-warm-ivory)', 
-              border: '1px solid var(--color-border-gray)',
-              borderLeft: '4px solid var(--color-error)',
+              backgroundColor: 'var(--bg)', 
+              border: '1px solid var(--border)',
+              borderLeft: 'none',
               borderRadius: 'var(--radius-md)',
               padding: '16px',
               boxShadow: 'var(--shadow-sm)'
@@ -238,33 +238,33 @@ export const HeroSection: React.FC = () => {
           >
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <AlertTriangle size={16} color="var(--color-error)" />
-                <strong style={{ fontSize: '0.88rem', color: 'var(--color-error)' }}>
+                <AlertTriangle size={16} color="var(--danger)" />
+                <strong style={{ fontSize: '0.88rem', color: 'var(--danger)' }}>
                   Finding #CLM-101: Absolute SLA Prohibited
                 </strong>
               </div>
-              <span className="badge badge-critical" style={{ fontSize: '0.68rem' }}>
+              <span className="badge badge-danger" style={{ fontSize: '0.68rem' }}>
                 Critical
               </span>
             </div>
 
-            <p style={{ color: 'var(--color-deep-ink)', fontSize: '0.85rem', lineHeight: 1.5, marginBottom: '12px' }}>
+            <p style={{ color: 'var(--text-primary)', fontSize: '0.85rem', lineHeight: 1.5, marginBottom: '12px' }}>
               Corporate Claim Ledger limits maximum availability quote to 99.99%. Absolute 100% statements create binding legal exposure.
             </p>
 
             {/* 4. Approved alternative */}
             <div 
               style={{ 
-                backgroundColor: 'var(--color-surface-white)', 
+                backgroundColor: 'var(--surface)', 
                 padding: '10px 14px', 
                 borderRadius: '6px', 
-                border: '1px solid var(--color-border-gray)',
+                border: '1px solid var(--border)',
                 marginBottom: '12px',
                 fontSize: '0.84rem'
               }}
             >
-              <span style={{ color: 'var(--color-evidence-teal)', fontWeight: 700 }}>Approved Alternative: </span>
-              <span style={{ fontWeight: 500, color: 'var(--color-deep-ink)' }}>
+              <span style={{ color: 'var(--info)', fontWeight: 700 }}>Approved Alternative: </span>
+              <span style={{ fontWeight: 500, color: 'var(--text-primary)' }}>
                 "engineered for 99.99% target uptime under enterprise SLA"
               </span>
             </div>
@@ -276,7 +276,7 @@ export const HeroSection: React.FC = () => {
                 alignItems: 'center', 
                 gap: '6px', 
                 fontSize: '0.8rem', 
-                color: 'var(--color-evidence-teal)',
+                color: 'var(--info)',
                 fontWeight: 600,
                 marginBottom: '8px'
               }}
@@ -293,14 +293,14 @@ export const HeroSection: React.FC = () => {
                 alignItems: 'center', 
                 justifyContent: 'space-between', 
                 fontSize: '0.78rem', 
-                color: 'var(--color-muted-slate)',
-                borderTop: '1px solid var(--color-border-subtle)',
+                color: 'var(--text-muted)',
+                borderTop: '1px solid var(--border)',
                 paddingTop: '8px',
                 marginTop: '4px'
               }}
             >
-              <span>Owner: <strong style={{ color: 'var(--color-deep-ink)' }}>DevOps Legal</strong></span>
-              <span>Human Reviewer: <strong style={{ color: 'var(--color-deep-ink)' }}>Elena Rostova</strong></span>
+              <span>Owner: <strong style={{ color: 'var(--text-primary)' }}>DevOps Legal</strong></span>
+              <span>Human Reviewer: <strong style={{ color: 'var(--text-primary)' }}>Elena Rostova</strong></span>
             </div>
           </div>
 
@@ -311,15 +311,15 @@ export const HeroSection: React.FC = () => {
               alignItems: 'center', 
               justifyContent: 'space-between', 
               paddingTop: '8px',
-              borderTop: '1px solid var(--color-border-subtle)',
+              borderTop: '1px solid var(--border)',
               fontSize: '0.82rem'
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--color-muted-slate)' }}>
-              <UserCheck size={15} color="var(--color-evidence-teal)" />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-muted)' }}>
+              <UserCheck size={15} color="var(--info)" />
               <span>Awaiting final reviewer authorization</span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--color-evidence-teal)', fontWeight: 700 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--info)', fontWeight: 700 }}>
               <Award size={16} />
               <span>Brand Passport #BP-9921 Pending</span>
             </div>

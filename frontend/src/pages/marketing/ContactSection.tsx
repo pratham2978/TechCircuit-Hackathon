@@ -69,7 +69,7 @@ export const ContactSection: React.FC = () => {
       id="contact"
       style={{ 
         padding: '84px 24px', 
-        backgroundColor: 'var(--color-warm-ivory)' 
+        backgroundColor: 'var(--bg)' 
       }}
     >
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
@@ -77,7 +77,7 @@ export const ContactSection: React.FC = () => {
           <h2 style={{ fontSize: '2.2rem', marginBottom: '16px' }}>
             Request an enterprise governance evaluation
           </h2>
-          <p style={{ color: 'var(--color-muted-slate)', fontSize: '1.05rem', lineHeight: 1.6 }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', lineHeight: 1.6 }}>
             Speak with our brand governance engineers. We will review your existing brand guidelines, claim structure, and team approval hierarchies.
           </p>
         </div>
@@ -85,7 +85,7 @@ export const ContactSection: React.FC = () => {
         <div 
           className="card-panel"
           style={{ 
-            backgroundColor: 'var(--color-surface-white)', 
+            backgroundColor: 'var(--surface)', 
             borderRadius: 'var(--radius-xl)', 
             padding: '36px',
             boxShadow: 'var(--shadow-md)' 
@@ -98,7 +98,7 @@ export const ContactSection: React.FC = () => {
                   width: '56px', 
                   height: '56px', 
                   borderRadius: '50%', 
-                  backgroundColor: 'var(--color-success-subtle)', 
+                  backgroundColor: 'var(--success-subtle)', 
                   display: 'flex', 
                   alignItems: 'center', 
                   justifyContent: 'center',
@@ -106,10 +106,10 @@ export const ContactSection: React.FC = () => {
                   border: '1px solid rgba(40, 125, 88, 0.25)'
                 }}
               >
-                <CheckCircle2 size={32} color="var(--color-success)" />
+                <CheckCircle2 size={32} color="var(--success)" />
               </div>
               <h3 style={{ fontSize: '1.5rem', marginBottom: '12px' }}>Inquiry Registered & Routed to Operations Inbox</h3>
-              <p style={{ color: 'var(--color-muted-slate)', maxWidth: '480px', margin: '0 auto 24px', lineHeight: 1.6 }}>
+              <p style={{ color: 'var(--text-muted)', maxWidth: '480px', margin: '0 auto 24px', lineHeight: 1.6 }}>
                 Thank you, <strong>{formData.name}</strong>. Your enterprise governance inquiry (Reference <code>{submissionId || 'INB-2026'}</code>) has been safely stored in the database and queued in the <strong>BrandGuard Operations Admin Inbox</strong>.
               </p>
               <button 
@@ -160,12 +160,12 @@ export const ContactSection: React.FC = () => {
                         width: '100%', 
                         padding: '10px 14px', 
                         borderRadius: 'var(--radius-md)',
-                        border: errors.name ? '1px solid var(--color-error)' : '1px solid var(--color-border-gray)',
-                        backgroundColor: 'var(--color-surface-subtle)'
+                        border: errors.name ? '1px solid var(--danger)' : '1px solid var(--border)',
+                        backgroundColor: 'var(--surface-subtle)'
                       }}
                     />
                   </div>
-                  {errors.name && <span style={{ color: 'var(--color-error)', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>{errors.name}</span>}
+                  {errors.name && <span style={{ color: 'var(--danger)', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>{errors.name}</span>}
                 </div>
 
                 <div>
@@ -182,11 +182,11 @@ export const ContactSection: React.FC = () => {
                       width: '100%', 
                       padding: '10px 14px', 
                       borderRadius: 'var(--radius-md)',
-                      border: errors.email ? '1px solid var(--color-error)' : '1px solid var(--color-border-gray)',
-                      backgroundColor: 'var(--color-surface-subtle)'
+                      border: errors.email ? '1px solid var(--danger)' : '1px solid var(--border)',
+                      backgroundColor: 'var(--surface-subtle)'
                     }}
                   />
-                  {errors.email && <span style={{ color: 'var(--color-error)', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>{errors.email}</span>}
+                  {errors.email && <span style={{ color: 'var(--danger)', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>{errors.email}</span>}
                 </div>
               </div>
 
@@ -205,11 +205,11 @@ export const ContactSection: React.FC = () => {
                       width: '100%', 
                       padding: '10px 14px', 
                       borderRadius: 'var(--radius-md)',
-                      border: errors.company ? '1px solid var(--color-error)' : '1px solid var(--color-border-gray)',
-                      backgroundColor: 'var(--color-surface-subtle)'
+                      border: errors.company ? '1px solid var(--danger)' : '1px solid var(--border)',
+                      backgroundColor: 'var(--surface-subtle)'
                     }}
                   />
-                  {errors.company && <span style={{ color: 'var(--color-error)', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>{errors.company}</span>}
+                  {errors.company && <span style={{ color: 'var(--danger)', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>{errors.company}</span>}
                 </div>
 
                 <div>
@@ -224,8 +224,8 @@ export const ContactSection: React.FC = () => {
                       width: '100%', 
                       padding: '10px 14px', 
                       borderRadius: 'var(--radius-md)',
-                      border: '1px solid var(--color-border-gray)',
-                      backgroundColor: 'var(--color-surface-subtle)'
+                      border: '1px solid var(--border)',
+                      backgroundColor: 'var(--surface-subtle)'
                     }}
                   >
                     <option value="1-10 reviewers">1-10 copywriters & reviewers</option>
@@ -250,17 +250,17 @@ export const ContactSection: React.FC = () => {
                     width: '100%', 
                     padding: '10px 14px', 
                     borderRadius: 'var(--radius-md)',
-                    border: errors.message ? '1px solid var(--color-error)' : '1px solid var(--color-border-gray)',
-                    backgroundColor: 'var(--color-surface-subtle)',
+                    border: errors.message ? '1px solid var(--danger)' : '1px solid var(--border)',
+                    backgroundColor: 'var(--surface-subtle)',
                     resize: 'vertical'
                   }}
                 />
-                {errors.message && <span style={{ color: 'var(--color-error)', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>{errors.message}</span>}
+                {errors.message && <span style={{ color: 'var(--danger)', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>{errors.message}</span>}
               </div>
 
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
-                <span style={{ fontSize: '0.75rem', color: 'var(--color-muted-slate)', display: 'flex', alignItems: 'center', gap: '5px' }}>
-                  <ShieldCheck size={14} color="var(--color-evidence-teal)" />
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  <ShieldCheck size={14} color="var(--info)" />
                   <span>Encrypted submission stored in database. Operations review queued.</span>
                 </span>
 

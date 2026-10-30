@@ -32,7 +32,7 @@ export const InsightsPage: React.FC = () => {
       {/* Header */}
       <div>
         <h1 style={{ fontSize: '1.85rem', marginBottom: '4px' }}>Guideline Health & Analytics</h1>
-        <p style={{ color: 'var(--color-muted-slate)', fontSize: '0.9rem' }}>
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
           Data-driven policy refinement: Analyze frequent violations, reviewer dismissal patterns, and ambiguous rules.
         </p>
       </div>
@@ -41,17 +41,17 @@ export const InsightsPage: React.FC = () => {
       <div 
         style={{ 
           padding: '10px 14px', 
-          backgroundColor: 'var(--color-warm-ivory)', 
+          backgroundColor: 'var(--bg)', 
           borderRadius: 'var(--radius-md)', 
-          border: '1px solid var(--color-border-gray)',
+          border: '1px solid var(--border)',
           fontSize: '0.8rem',
-          color: 'var(--color-muted-slate)',
+          color: 'var(--text-muted)',
           display: 'flex',
           alignItems: 'center',
           gap: '8px'
         }}
       >
-        <Info size={15} color="var(--color-evidence-teal)" />
+        <Info size={15} color="var(--info)" />
         <span>
           <strong>Demonstration Telemetry:</strong> Metrics are aggregated from the local demonstration store to showcase organizational feedback loops.
         </span>
@@ -60,41 +60,41 @@ export const InsightsPage: React.FC = () => {
       {/* Analytics Summary Cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '20px' }}>
         <div className="card-panel">
-          <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-muted-slate)' }}>MOST DISMISSED POLICY</span>
-          <div style={{ fontSize: '1.25rem', fontWeight: 700, marginTop: '6px', color: 'var(--color-deep-ink)' }}>
+          <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-muted)' }}>MOST DISMISSED POLICY</span>
+          <div style={{ fontSize: '1.25rem', fontWeight: 700, marginTop: '6px', color: 'var(--text-primary)' }}>
             Unqualified AI Hyperbole
           </div>
-          <span style={{ fontSize: '0.75rem', color: 'var(--color-warning)' }}>
+          <span style={{ fontSize: '0.75rem', color: 'var(--warning)' }}>
             8 dismissals • Potential ambiguity in definition
           </span>
         </div>
 
         <div className="card-panel">
-          <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-muted-slate)' }}>TOP DISMISSAL REASON</span>
-          <div style={{ fontSize: '1.25rem', fontWeight: 700, marginTop: '6px', color: 'var(--color-evidence-teal)' }}>
+          <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-muted)' }}>TOP DISMISSAL REASON</span>
+          <div style={{ fontSize: '1.25rem', fontWeight: 700, marginTop: '6px', color: 'var(--info)' }}>
             ok_in_context (52%)
           </div>
-          <span style={{ fontSize: '0.75rem', color: 'var(--color-muted-slate)' }}>
+          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
             Specialized technical collateral usage
           </span>
         </div>
 
         <div className="card-panel">
-          <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-muted-slate)' }}>HUMAN USEFULNESS RATING</span>
-          <div style={{ fontSize: '1.25rem', fontWeight: 700, marginTop: '6px', color: 'var(--color-success)' }}>
+          <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-muted)' }}>HUMAN USEFULNESS RATING</span>
+          <div style={{ fontSize: '1.25rem', fontWeight: 700, marginTop: '6px', color: 'var(--success)' }}>
             88% Favorable
           </div>
-          <span style={{ fontSize: '0.75rem', color: 'var(--color-muted-slate)' }}>
+          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
             {usefulFeedbackCount} Useful vs {wrongFeedbackCount} Flagged Wrong
           </span>
         </div>
 
         <div className="card-panel">
-          <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-muted-slate)' }}>CLAIMS AT RISK</span>
-          <div style={{ fontSize: '1.25rem', fontWeight: 700, marginTop: '6px', color: 'var(--color-signal-coral)' }}>
+          <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-muted)' }}>CLAIMS AT RISK</span>
+          <div style={{ fontSize: '1.25rem', fontWeight: 700, marginTop: '6px', color: 'var(--primary)' }}>
             2 Expiring / Unverified
           </div>
-          <span style={{ fontSize: '0.75rem', color: 'var(--color-muted-slate)' }}>
+          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
             Require source evidentiary renewal
           </span>
         </div>
@@ -106,7 +106,7 @@ export const InsightsPage: React.FC = () => {
         <div className="card-panel">
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
             <h3 style={{ fontSize: '1.1rem' }}>Policies Frequently Dismissed by Reviewers</h3>
-            <span style={{ fontSize: '0.75rem', color: 'var(--color-muted-slate)' }}>Candidate for clarification</span>
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Candidate for clarification</span>
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -115,7 +115,7 @@ export const InsightsPage: React.FC = () => {
                 key={r.id}
                 style={{ 
                   padding: '14px', 
-                  backgroundColor: 'var(--color-warm-ivory)', 
+                  backgroundColor: 'var(--bg)', 
                   borderRadius: 'var(--radius-md)',
                   display: 'flex',
                   alignItems: 'center',
@@ -124,14 +124,14 @@ export const InsightsPage: React.FC = () => {
                 }}
               >
                 <div>
-                  <strong style={{ fontSize: '0.9rem', color: 'var(--color-deep-ink)' }}>{r.title}</strong>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--color-muted-slate)' }}>
+                  <strong style={{ fontSize: '0.9rem', color: 'var(--text-primary)' }}>{r.title}</strong>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
                     Category: {r.category} • Severity: {r.severity}
                   </div>
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <span className="badge badge-expiring" style={{ fontSize: '0.7rem' }}>
+                  <span className="badge badge-warning" style={{ fontSize: '0.7rem' }}>
                     {r.dismissalCount} Dismissals
                   </span>
                   <Link 
@@ -151,7 +151,7 @@ export const InsightsPage: React.FC = () => {
         {/* Right: Dismissal Categorization Breakdown */}
         <div className="card-panel">
           <h3 style={{ fontSize: '1.1rem', marginBottom: '16px' }}>Reviewer Justification Breakdown</h3>
-          <p style={{ fontSize: '0.82rem', color: 'var(--color-muted-slate)', marginBottom: '16px' }}>
+          <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '16px' }}>
             When reviewers bypass a flagged finding, they submit a structured rationale. This data feeds back into the Brand Manager playbook refinement cycle.
           </p>
 
@@ -161,8 +161,8 @@ export const InsightsPage: React.FC = () => {
                 <strong>ok_in_context (Specialized Context)</strong>
                 <span>52%</span>
               </div>
-              <div style={{ height: '8px', backgroundColor: 'var(--color-border-subtle)', borderRadius: '4px', overflow: 'hidden' }}>
-                <div style={{ width: '52%', height: '100%', backgroundColor: 'var(--color-evidence-teal)' }} />
+              <div style={{ height: '8px', backgroundColor: 'var(--border)', borderRadius: '4px', overflow: 'hidden' }}>
+                <div style={{ width: '52%', height: '100%', backgroundColor: 'var(--info)' }} />
               </div>
             </div>
 
@@ -171,8 +171,8 @@ export const InsightsPage: React.FC = () => {
                 <strong>rule_unclear (Ambiguous Guideline Text)</strong>
                 <span>28%</span>
               </div>
-              <div style={{ height: '8px', backgroundColor: 'var(--color-border-subtle)', borderRadius: '4px', overflow: 'hidden' }}>
-                <div style={{ width: '28%', height: '100%', backgroundColor: 'var(--color-warning)' }} />
+              <div style={{ height: '8px', backgroundColor: 'var(--border)', borderRadius: '4px', overflow: 'hidden' }}>
+                <div style={{ width: '28%', height: '100%', backgroundColor: 'var(--warning)' }} />
               </div>
             </div>
 
@@ -181,8 +181,8 @@ export const InsightsPage: React.FC = () => {
                 <strong>approved_exception (Executive Waiver)</strong>
                 <span>12%</span>
               </div>
-              <div style={{ height: '8px', backgroundColor: 'var(--color-border-subtle)', borderRadius: '4px', overflow: 'hidden' }}>
-                <div style={{ width: '12%', height: '100%', backgroundColor: 'var(--color-signal-coral)' }} />
+              <div style={{ height: '8px', backgroundColor: 'var(--border)', borderRadius: '4px', overflow: 'hidden' }}>
+                <div style={{ width: '12%', height: '100%', backgroundColor: 'var(--primary)' }} />
               </div>
             </div>
 
@@ -191,8 +191,8 @@ export const InsightsPage: React.FC = () => {
                 <strong>false_positive (Algorithmic Parse Error)</strong>
                 <span>8%</span>
               </div>
-              <div style={{ height: '8px', backgroundColor: 'var(--color-border-subtle)', borderRadius: '4px', overflow: 'hidden' }}>
-                <div style={{ width: '8%', height: '100%', backgroundColor: 'var(--color-error)' }} />
+              <div style={{ height: '8px', backgroundColor: 'var(--border)', borderRadius: '4px', overflow: 'hidden' }}>
+                <div style={{ width: '8%', height: '100%', backgroundColor: 'var(--danger)' }} />
               </div>
             </div>
           </div>

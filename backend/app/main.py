@@ -14,6 +14,7 @@ import base64
 import re
 from datetime import datetime, timedelta
 from sqlalchemy import func, text
+from sqlalchemy.orm import Session
 from typing import Optional, List, Dict, Any
 from fastapi import FastAPI, HTTPException, Request, Response, Depends, UploadFile, File, Form
 from fastapi.responses import JSONResponse
@@ -32,6 +33,7 @@ from app.config import (
 from app.database import engine, get_db, test_database_connection, SessionLocal
 from app.init_db import init_database
 from app.models import (
+    UserModel,
     ProjectModel,
     ProjectFileModel,
     ReviewSessionModel,
@@ -44,7 +46,17 @@ from app.models import (
     GuidelineChunkModel,
     ContentVersionModel,
     CorrectionRecordModel,
-    InboxSubmissionModel
+    InboxSubmissionModel,
+    ReviewSubmissionModel,
+    ReviewDecisionModel
+)
+from app.auth import (
+    get_current_user,
+    require_role,
+    verify_company_access,
+    create_access_token,
+    verify_password,
+    hash_password
 )
 from app.rag_service import (
     retrieve_governance_context,
@@ -106,8 +118,10 @@ CONVERSATION_SESSIONS: Dict[str, List[Dict[str, Any]]] = {}
 # --- Request & Response Models ---
 
 class AnalyzeRequest(BaseModel):
-    project_id: str
-    review_type: str  # "legal" | "promotions" | "content" | "images" | "videos"
+    project_id: Optional[str] = "default-project"
+    projectName: Optional[str] = None
+    review_type: Optional[str] = None
+    reviewType: Optional[str] = None
     content: Optional[str] = ""
     instructions: Optional[str] = ""
     file_name: Optional[str] = None
@@ -115,6 +129,12 @@ class AnalyzeRequest(BaseModel):
     media_mime_type: Optional[str] = None
     conversation_id: Optional[str] = None
     company_id: Optional[str] = "acme-global-brands"
+
+    def get_project_id(self) -> str:
+        return self.project_id or self.projectName or "default-project"
+
+    def get_review_type(self) -> str:
+        return self.review_type or self.reviewType or "content"
 
 
 class ChatFollowupRequest(BaseModel):
@@ -283,17 +303,19 @@ def run_review_analysis(req: AnalyzeRequest):
     Execute AI review analysis on the provided content or media using Gemini 2.5 Flash.
     Persists review history in PostgreSQL / database.
     """
-    conv_id = req.conversation_id or f"{req.project_id}:{req.review_type}"
+    effective_project_id = req.get_project_id()
+    effective_review_type = req.get_review_type()
+    conv_id = req.conversation_id or f"{effective_project_id}:{effective_review_type}"
 
     # Validation: for image review, ensure media or description is provided
-    if req.review_type == "images" and not req.media_data and not req.content and not req.instructions:
+    if effective_review_type == "images" and not req.media_data and not req.content and not req.instructions:
         raise HTTPException(
             status_code=400,
             detail="Image & Design Review requires an uploaded image or specific design instructions."
         )
 
     # Validation: for video review, ensure video metadata or file is provided
-    if req.review_type == "videos" and not req.media_data and not req.content and not req.instructions:
+    if effective_review_type == "videos" and not req.media_data and not req.content and not req.instructions:
         raise HTTPException(
             status_code=400,
             detail="Video Review requires an uploaded video file or script to inspect."
@@ -304,12 +326,12 @@ def run_review_analysis(req: AnalyzeRequest):
         query_text = f"{req.instructions or ''} {req.content or ''} {req.file_name or ''}"
         retrieved_context = retrieve_governance_context(
             company_id=clean_company_id,
-            review_type=req.review_type,
+            review_type=effective_review_type,
             query_text=query_text
         )
 
         analysis_result = analyze_review_content(
-            review_type=req.review_type,
+            review_type=effective_review_type,
             content=req.content or "",
             instructions=req.instructions,
             media_data=req.media_data,
@@ -363,11 +385,11 @@ def run_review_analysis(req: AnalyzeRequest):
             session_rec = db.query(ReviewSessionModel).filter(ReviewSessionModel.id == conv_id).first()
             if not session_rec:
                 # Ensure project exists
-                proj = db.query(ProjectModel).filter(ProjectModel.id == req.project_id).first()
+                proj = db.query(ProjectModel).filter(ProjectModel.id == effective_project_id).first()
                 if not proj:
                     proj = ProjectModel(
-                        id=req.project_id,
-                        name=req.project_id.replace("proj-", "").replace("-", " ").title(),
+                        id=effective_project_id,
+                        name=effective_project_id.replace("proj-", "").replace("-", " ").title(),
                         owner="Sarah Chen"
                     )
                     db.add(proj)
@@ -375,8 +397,8 @@ def run_review_analysis(req: AnalyzeRequest):
 
                 session_rec = ReviewSessionModel(
                     id=conv_id,
-                    project_id=req.project_id,
-                    review_type=req.review_type
+                    project_id=effective_project_id,
+                    review_type=effective_review_type
                 )
                 db.add(session_rec)
                 db.commit()

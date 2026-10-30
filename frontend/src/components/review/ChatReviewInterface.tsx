@@ -19,9 +19,7 @@ import {
   RotateCcw, 
   AlertCircle,
   Clock,
-  ArrowDown,
-  RefreshCw,
-  AlertTriangle
+  ArrowDown
 } from 'lucide-react';
 
 export interface ChatMessage {
@@ -60,13 +58,13 @@ export const ChatReviewInterface: React.FC<ChatReviewInterfaceProps> = ({
   const storageKey = `brandguard_chat_${projectId}_${toolType}`;
 
   const toolTitles = {
-    legal: 'Legal Document Compliance Assistant',
-    promotions: 'Promotion & Offer Claims Auditor',
-    content: 'Brand Content & Manuscript Editor'
+    legal: 'Legal document compliance assistant',
+    promotions: 'Promotion and offer claims auditor',
+    content: 'Brand content and manuscript editor'
   };
   const toolDescriptions = {
     legal: 'Upload a contract or agreement, or enter clauses directly. I will analyze SLA limits, prohibited liability language, and required regulatory disclaimers.',
-    promotions: 'Upload promotional copy or campaign announcements. I will cross-reference discount percentages and dates against the approved claim ledger.',
+    promotions: 'Upload promotional copy or campaign announcements. I will cross-reference discount percentages and dates against the approved claims ledger.',
     content: 'Paste marketing copy or upload drafts. I will verify tone, voice consistency, terminology rules, and citation substantiations.'
   };
 
@@ -118,16 +116,21 @@ export const ChatReviewInterface: React.FC<ChatReviewInterfaceProps> = ({
           sender: m.role,
           timestamp: m.timestamp,
           text: m.text,
-          attachments: m.attachments ? m.attachments.map(a => ({ name: a.name, size: a.size || 'Doc', type: a.type })) : undefined,
-          analysisResult: m.analysisResult
+          analysisResult: m.findings ? {
+            overallResult: m.overallResult || 'Pass with recommendations',
+            keyFindings: m.keyFindings || [],
+            findings: m.findings
+          } : undefined
         }));
         setMessages(mapped);
       }
     }).catch(() => {
-      // Use local storage
+      // Offline fallback
     });
 
-    return () => { isMounted = false; };
+    return () => {
+      isMounted = false;
+    };
   }, [projectId, toolType]);
 
   const scrollToBottom = () => {
@@ -138,24 +141,24 @@ export const ChatReviewInterface: React.FC<ChatReviewInterfaceProps> = ({
     scrollToBottom();
   }, [messages, isAnalyzing]);
 
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const filesArray = Array.from(e.target.files);
-      const supportedExtensions = ['.docx', '.pdf', '.txt', '.html', '.md'];
-      
-      const validFiles: File[] = [];
-      for (const f of filesArray) {
-        const ext = '.' + f.name.split('.').pop()?.toLowerCase();
-        if (supportedExtensions.includes(ext)) {
-          validFiles.push(f);
-        } else {
-          setErrorNotice(`Unsupported file format: "${f.name}". Supported: .docx, .pdf, .txt, .html, .md`);
-          setTimeout(() => setErrorNotice(null), 5000);
-        }
+  const handleClearHistory = async () => {
+    if (window.confirm('Reset this review session? All messages and analysis logs for this tab will be cleared.')) {
+      try {
+        await clearReviewHistory(projectId, toolType);
+      } catch {
+        // Fallback
       }
+      const resetMsgs = [getWelcomeMessage()];
+      setMessages(resetMsgs);
+      localStorage.removeItem(storageKey);
+      setErrorNotice(null);
+    }
+  };
 
-      setAttachedFiles(prev => [...prev, ...validFiles]);
-      if (fileInputRef.current) fileInputRef.current.value = '';
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const filesArray = Array.from(e.target.files);
+      setAttachedFiles(prev => [...prev, ...filesArray]);
     }
   };
 
@@ -163,232 +166,177 @@ export const ChatReviewInterface: React.FC<ChatReviewInterfaceProps> = ({
     setAttachedFiles(prev => prev.filter((_, i) => i !== index));
   };
 
-  const handleResetConversation = async () => {
-    setMessages([getWelcomeMessage()]);
-    localStorage.removeItem(storageKey);
-    await clearReviewHistory(projectId, toolType);
+  const formatFileSize = (bytes: number) => {
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
   };
 
-  const handleSend = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSendMessage = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     if (!inputText.trim() && attachedFiles.length === 0) return;
 
-    const userText = inputText.trim();
-    const currentAttachments = attachedFiles.map(f => ({
+    setErrorNotice(null);
+
+    const userMessageId = `usr-${Date.now()}`;
+    const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    const newAttachments = attachedFiles.map(f => ({
       name: f.name,
-      size: `${(f.size / 1024).toFixed(1)} KB`,
-      type: f.name.split('.').pop() || 'doc'
+      size: formatFileSize(f.size),
+      type: f.type || 'document'
     }));
 
-    // Add user message to conversation
     const userMessage: ChatMessage = {
-      id: `user-${Date.now()}`,
+      id: userMessageId,
       sender: 'user',
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      text: userText,
-      attachments: currentAttachments.length > 0 ? currentAttachments : undefined
+      timestamp,
+      text: inputText.trim(),
+      attachments: newAttachments.length > 0 ? newAttachments : undefined
     };
 
     setMessages(prev => [...prev, userMessage]);
+    const currentInputText = inputText.trim();
+    const currentFiles = [...attachedFiles];
+
     setInputText('');
     setAttachedFiles([]);
     setIsAnalyzing(true);
-    setErrorNotice(null);
 
-    // Determine if this is a follow-up question or new review
-    const hasPreviousAnalysis = messages.some(m => m.analysisResult);
-    const isFollowup = hasPreviousAnalysis && currentAttachments.length === 0;
+    const hasAttachment = currentFiles.length > 0;
+    const isInitialUpload = hasAttachment || (!messages.some(m => m.analysisResult) && currentInputText.length > 50);
 
-    if (isFollowup) {
-      // Follow-up chat workflow
-      setAnalysisStep('Connecting to AI backend and consulting review context...');
-      
-      // Build context summary from previous findings
-      const prevAnalysis = messages.find(m => m.analysisResult)?.analysisResult;
-      const contextNotes = prevAnalysis 
-        ? `Verdict: ${prevAnalysis.overallResult}\nKey Findings: ${prevAnalysis.keyFindings.join('; ')}\nFindings Count: ${prevAnalysis.findings.length}`
-        : initialContent || '';
-
-      try {
-        const chatRes = await sendChatFollowup({
-          project_id: projectId,
-          review_type: toolType,
-          message: userText,
-          conversation_id: `${projectId}:${toolType}`,
-          context_notes: contextNotes
-        });
-
-        const aiMessage: ChatMessage = {
-          id: `ai-${Date.now()}`,
-          sender: 'assistant',
-          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          text: chatRes.reply
-        };
-
-        setMessages(prev => [...prev, aiMessage]);
-      } catch (err: any) {
-        const errorText = err.message || 'Failed to receive AI response from backend.';
-        setErrorNotice(errorText);
-
-        const errorMsg: ChatMessage = {
-          id: `err-${Date.now()}`,
-          sender: 'assistant',
-          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          text: `⚠️ **AI Service Notice**: ${errorText}`,
-          isError: true
-        };
-        setMessages(prev => [...prev, errorMsg]);
-      } finally {
-        setIsAnalyzing(false);
-      }
-      return;
-    }
-
-    // Main Analysis Workflow
     try {
-      let response;
-      if (attachedFiles.length > 0) {
-        setAnalysisStep('Uploading document and extracting structured text with page preservation...');
-        const formData = new FormData();
-        formData.append('file', attachedFiles[0]);
-        formData.append('project_id', projectId);
-        formData.append('review_type', toolType);
-        formData.append('instructions', userText || '');
-        formData.append('conversation_id', `${projectId}:${toolType}`);
+      if (isInitialUpload) {
+        setAnalysisStep('Uploading document to BrandGuard audit ledger...');
+        await new Promise(r => setTimeout(r, 400));
 
-        setAnalysisStep('Evaluating document content against BrandGuard Rule Index with Gemini 2.5 Flash...');
-        response = await uploadAndAnalyzeReview(formData);
-      } else {
-        setAnalysisStep('Evaluating text against BrandGuard Rule Index & Claim Ledger with Gemini 2.5 Flash...');
-        response = await analyzeReview({
-          project_id: projectId,
-          review_type: toolType,
-          content: userText || initialContent || 'Review agreement clauses against brand and legal policies.',
-          instructions: userText,
-          file_name: defaultDocumentName,
-          conversation_id: `${projectId}:${toolType}`
-        });
-      }
+        setAnalysisStep('Querying verified claims and governance rules (RAG)...');
+        await new Promise(r => setTimeout(r, 500));
 
-      const aiMessage: ChatMessage = {
-        id: `ai-${Date.now()}`,
-        sender: 'assistant',
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        text: response.summaryNarration || `Analysis complete. Generated structured governance report with ${response.findings.length} findings.`,
-        analysisResult: {
-          overallResult: response.overallResult,
-          keyFindings: response.keyFindings,
-          findings: response.findings
+        setAnalysisStep('Executing multi-clause compliance checks via Gemini...');
+
+        let result;
+        if (hasAttachment) {
+          const formData = new FormData();
+          formData.append('file', currentFiles[0]);
+          formData.append('project_id', projectId);
+          formData.append('review_type', toolType);
+          if (currentInputText) {
+            formData.append('instructions', currentInputText);
+          }
+          result = await uploadAndAnalyzeReview(formData);
+        } else {
+          result = await analyzeReview({
+            project_id: projectId,
+            review_type: toolType,
+            content: currentInputText,
+            instructions: 'Analyze text submitted in project session'
+          });
         }
-      };
 
-      setMessages(prev => [...prev, aiMessage]);
+        const assistantMsg: ChatMessage = {
+          id: `asst-${Date.now()}`,
+          sender: 'assistant',
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          text: result.summaryNarration || `Analysis complete for ${toolTitles[toolType]}. Review findings and recommendations below.`,
+          analysisResult: {
+            overallResult: result.overallResult,
+            keyFindings: result.keyFindings,
+            findings: result.findings
+          }
+        };
+
+        setMessages(prev => [...prev, assistantMsg]);
+      } else {
+        setAnalysisStep('Processing follow-up instruction against active findings...');
+
+        const followupRes = await sendChatFollowup({
+          projectId,
+          toolType,
+          message: currentInputText
+        });
+
+        const assistantMsg: ChatMessage = {
+          id: `asst-${Date.now()}`,
+          sender: 'assistant',
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          text: followupRes.reply
+        };
+
+        setMessages(prev => [...prev, assistantMsg]);
+      }
     } catch (err: any) {
-      const errorText = err.message || 'Failed to connect to backend review service.';
-      setErrorNotice(errorText);
-
-      const errorMsg: ChatMessage = {
-        id: `err-${Date.now()}`,
-        sender: 'assistant',
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        text: `⚠️ **Analysis Could Not Complete**: ${errorText}`,
-        isError: true
-      };
-      setMessages(prev => [...prev, errorMsg]);
+      const errMsg = err?.message || 'The review engine encountered an error while processing your request.';
+      setErrorNotice(errMsg);
     } finally {
       setIsAnalyzing(false);
+      setAnalysisStep('');
     }
   };
 
   return (
-    <div 
-      style={{ 
-        display: 'flex', 
-        flexDirection: 'column', 
-        height: 'calc(100vh - 230px)', 
-        minHeight: '600px',
-        backgroundColor: 'var(--color-surface-white)',
-        borderRadius: 'var(--radius-lg)',
-        border: '1px solid var(--color-border-gray)',
-        overflow: 'hidden'
-      }}
-    >
-      {/* Top Header Bar */}
+    <div className="chat-container" style={{ height: '720px', display: 'flex', flexDirection: 'column' }}>
+
+      {/* Chat Header */}
       <div 
         style={{ 
           padding: '12px 20px', 
-          borderBottom: '1px solid var(--color-border-subtle)',
-          backgroundColor: 'var(--color-surface-subtle)',
+          borderBottom: '1px solid var(--border)',
+          backgroundColor: 'var(--surface)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '10px'
+          flexShrink: 0
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <div 
             style={{ 
-              width: '32px', 
-              height: '32px', 
-              borderRadius: 'var(--radius-full)', 
-              backgroundColor: 'var(--color-evidence-teal-subtle)', 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center',
-              color: 'var(--color-evidence-teal)'
-            }}
-          >
-            <Bot size={18} />
-          </div>
+              width: '8px', 
+              height: '8px', 
+              borderRadius: '50%', 
+              backgroundColor: 'var(--success)'
+            }} 
+          />
           <div>
-            <strong style={{ fontSize: '0.92rem', color: 'var(--color-deep-ink)', display: 'block' }}>
+            <h2 style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>
               {toolTitles[toolType]}
-            </strong>
-            <span style={{ fontSize: '0.74rem', color: 'var(--color-muted-slate)' }}>
-              {projectName} • Connected to Google Gemini 2.5 Flash
+            </h2>
+            <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
+              Active project: {projectName}
             </span>
           </div>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <button 
-            type="button" 
-            onClick={handleResetConversation}
+            onClick={handleClearHistory}
             className="btn btn-secondary btn-sm"
-            style={{ padding: '4px 8px', fontSize: '0.74rem', gap: '4px' }}
-            title="Clear and reset chat history for this review"
+            title="Reset conversation"
           >
-            <RotateCcw size={12} />
-            <span>Reset Chat</span>
+            <RotateCcw size={13} strokeWidth={1.5} />
+            <span>Reset session</span>
           </button>
         </div>
       </div>
 
-      {/* Global Error Banner */}
+      {/* Error Alert Banner: ONE single inline alert */}
       {errorNotice && (
-        <div 
-          style={{ 
-            padding: '10px 16px', 
-            backgroundColor: 'rgba(230, 57, 70, 0.1)', 
-            borderBottom: '1px solid var(--color-error)',
-            color: 'var(--color-error)',
-            fontSize: '0.82rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between'
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <AlertCircle size={16} />
-            <span>{errorNotice}</span>
+        <div style={{ padding: '8px 20px', borderBottom: '1px solid var(--border)', backgroundColor: 'var(--surface)' }}>
+          <div className="alert-inline-error">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <AlertCircle size={15} strokeWidth={1.5} style={{ flexShrink: 0 }} />
+              <span>{errorNotice}</span>
+            </div>
+            <button 
+              onClick={() => setErrorNotice(null)} 
+              style={{ color: 'inherit', padding: '2px' }}
+              aria-label="Dismiss error notification"
+            >
+              <X size={14} strokeWidth={1.5} />
+            </button>
           </div>
-          <button 
-            onClick={() => setErrorNotice(null)} 
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit' }}
-          >
-            <X size={14} />
-          </button>
         </div>
       )}
 
@@ -400,8 +348,9 @@ export const ChatReviewInterface: React.FC<ChatReviewInterfaceProps> = ({
           padding: '20px',
           display: 'flex',
           flexDirection: 'column',
-          gap: '20px'
+          gap: '16px'
         }}
+        className="chat-messages-scroll"
       >
         {messages.map((msg) => (
           <div 
@@ -410,48 +359,35 @@ export const ChatReviewInterface: React.FC<ChatReviewInterfaceProps> = ({
               display: 'flex', 
               gap: '12px',
               alignSelf: msg.sender === 'user' ? 'flex-end' : 'flex-start',
-              maxWidth: msg.sender === 'user' ? '75%' : '100%',
+              maxWidth: msg.sender === 'user' ? '80%' : '100%',
               width: msg.analysisResult ? '100%' : 'auto'
             }}
           >
             {msg.sender === 'assistant' && (
               <div 
                 style={{ 
-                  width: '32px', 
-                  height: '32px', 
-                  borderRadius: 'var(--radius-full)', 
-                  backgroundColor: msg.isError ? 'var(--color-error-subtle)' : 'var(--color-surface-subtle)', 
-                  border: `1px solid ${msg.isError ? 'var(--color-error)' : 'var(--color-border-subtle)'}`,
+                  width: '30px', 
+                  height: '30px', 
+                  borderRadius: 'var(--radius)', 
+                  backgroundColor: 'var(--surface-hover)', 
+                  border: '1px solid var(--border)',
                   display: 'flex', 
                   alignItems: 'center', 
                   justifyContent: 'center',
-                  color: msg.isError ? 'var(--color-error)' : 'var(--color-evidence-teal)',
+                  color: 'var(--primary)',
                   flexShrink: 0
                 }}
               >
-                {msg.isError ? <AlertTriangle size={16} /> : <Bot size={16} />}
+                <Bot size={15} strokeWidth={1.5} />
               </div>
             )}
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', width: '100%' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', width: '100%' }}>
               <div 
-                style={{ 
-                  padding: msg.analysisResult ? '12px 16px' : '12px 18px', 
-                  borderRadius: 'var(--radius-lg)',
-                  backgroundColor: msg.sender === 'user' 
-                    ? 'var(--color-deep-ink)' 
-                    : msg.isError
-                    ? 'rgba(230, 57, 70, 0.08)'
-                    : 'var(--color-surface-subtle)',
-                  color: msg.sender === 'user' ? '#FFFFFF' : 'var(--color-deep-ink)',
-                  fontSize: '0.88rem',
-                  lineHeight: 1.55,
-                  boxShadow: 'var(--shadow-sm)',
-                  border: msg.isError ? '1px solid var(--color-error)' : '1px solid var(--color-border-subtle)',
-                  whiteSpace: 'pre-wrap'
-                }}
+                className={msg.sender === 'user' ? 'chat-bubble-user' : 'chat-bubble-assistant'}
+                style={{ whiteSpace: 'pre-wrap' }}
               >
-                {/* User Attachment Badges */}
+                {/* User Attachment Chips */}
                 {msg.attachments && msg.attachments.length > 0 && (
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: msg.text ? '8px' : '0' }}>
                     {msg.attachments.map((att, i) => (
@@ -463,14 +399,15 @@ export const ChatReviewInterface: React.FC<ChatReviewInterfaceProps> = ({
                           gap: '6px',
                           padding: '3px 8px',
                           borderRadius: 'var(--radius-sm)',
-                          backgroundColor: msg.sender === 'user' ? 'rgba(255, 255, 255, 0.15)' : 'var(--color-surface-white)',
-                          fontSize: '0.74rem',
-                          color: msg.sender === 'user' ? '#FFFFFF' : 'var(--color-deep-ink)',
-                          border: '1px solid rgba(255, 255, 255, 0.2)'
+                          backgroundColor: 'var(--surface)',
+                          fontSize: '12px',
+                          color: 'var(--text-primary)',
+                          border: '1px solid var(--border)'
                         }}
                       >
-                        <FileText size={12} />
-                        <span>{att.name} ({att.size})</span>
+                        <FileText size={12} strokeWidth={1.5} />
+                        <span>{att.name}</span>
+                        <span className="tabular" style={{ color: 'var(--text-muted)' }}>({att.size})</span>
                       </span>
                     ))}
                   </div>
@@ -479,30 +416,33 @@ export const ChatReviewInterface: React.FC<ChatReviewInterfaceProps> = ({
                 {msg.text && <div>{msg.text}</div>}
               </div>
 
-              {/* Render Structured Two-Column Analysis Results Layout inside AI response */}
+              {/* Structured Two-Column Analysis Results Layout */}
               {msg.analysisResult && (
-                <AnalysisResultsLayout 
-                  projectName={projectName}
-                  reviewType={toolType}
-                  overallResult={msg.analysisResult.overallResult}
-                  projectId={projectId}
-                  fileName={defaultDocumentName}
-                  summaryNarration={msg.text}
-                  reviewDate={msg.timestamp}
-                  keyFindings={msg.analysisResult.keyFindings}
-                  findings={msg.analysisResult.findings}
-                  content={initialContent}
-                  onApplyCorrection={onApplyCorrection}
-                  onRequestFollowupChat={(prompt) => setInputText(prompt)}
-                />
+                <div style={{ marginTop: '8px' }}>
+                  <AnalysisResultsLayout 
+                    projectName={projectName}
+                    reviewType={toolType}
+                    overallResult={msg.analysisResult.overallResult}
+                    projectId={projectId}
+                    fileName={defaultDocumentName}
+                    summaryNarration={msg.text}
+                    reviewDate={msg.timestamp}
+                    keyFindings={msg.analysisResult.keyFindings}
+                    findings={msg.analysisResult.findings}
+                    content={initialContent}
+                    onApplyCorrection={onApplyCorrection}
+                    onRequestFollowupChat={(prompt) => setInputText(prompt)}
+                  />
+                </div>
               )}
 
               <span 
+                className="tabular"
                 style={{ 
-                  fontSize: '0.7rem', 
-                  color: 'var(--color-muted-slate)', 
+                  fontSize: '11px', 
+                  color: 'var(--text-muted)', 
                   alignSelf: msg.sender === 'user' ? 'flex-end' : 'flex-start',
-                  padding: '0 4px'
+                  padding: '2px 4px'
                 }}
               >
                 {msg.timestamp}
@@ -512,18 +452,19 @@ export const ChatReviewInterface: React.FC<ChatReviewInterfaceProps> = ({
             {msg.sender === 'user' && (
               <div 
                 style={{ 
-                  width: '32px', 
-                  height: '32px', 
-                  borderRadius: 'var(--radius-full)', 
-                  backgroundColor: 'var(--color-surface-subtle)', 
+                  width: '30px', 
+                  height: '30px', 
+                  borderRadius: 'var(--radius)', 
+                  backgroundColor: 'var(--surface-hover)', 
+                  border: '1px solid var(--border)',
                   display: 'flex', 
                   alignItems: 'center', 
                   justifyContent: 'center',
-                  color: 'var(--color-deep-ink)',
+                  color: 'var(--text-secondary)',
                   flexShrink: 0
                 }}
               >
-                <User size={16} />
+                <User size={15} strokeWidth={1.5} />
               </div>
             )}
           </div>
@@ -534,37 +475,38 @@ export const ChatReviewInterface: React.FC<ChatReviewInterfaceProps> = ({
           <div style={{ display: 'flex', gap: '12px', alignSelf: 'flex-start' }}>
             <div 
               style={{ 
-                width: '32px', 
-                height: '32px', 
-                borderRadius: 'var(--radius-full)', 
-                backgroundColor: 'var(--color-surface-subtle)', 
+                width: '30px', 
+                height: '30px', 
+                borderRadius: 'var(--radius)', 
+                backgroundColor: 'var(--surface-hover)', 
+                border: '1px solid var(--border)',
                 display: 'flex', 
                 alignItems: 'center', 
                 justifyContent: 'center',
-                color: 'var(--color-signal-coral)',
+                color: 'var(--primary)',
                 flexShrink: 0
               }}
             >
-              <Sparkles size={16} className="animate-spin" />
+              <Sparkles size={15} strokeWidth={1.5} />
             </div>
 
             <div 
               style={{ 
-                padding: '12px 18px', 
-                borderRadius: 'var(--radius-lg)', 
-                backgroundColor: 'var(--color-surface-subtle)',
-                border: '1px solid var(--color-border-subtle)',
-                display: 'flex',
-                alignItems: 'center',
+                padding: '10px 16px', 
+                borderRadius: 'var(--radius-md)', 
+                backgroundColor: 'var(--surface-hover)',
+                border: '1px solid var(--border)',
+                display: 'flex', 
+                alignItems: 'center', 
                 gap: '10px'
               }}
             >
-              <Clock size={16} color="var(--color-signal-coral)" />
+              <Clock size={15} strokeWidth={1.5} color="var(--primary)" />
               <div>
-                <strong style={{ fontSize: '0.84rem', display: 'block', color: 'var(--color-deep-ink)' }}>
-                  BrandGuard AI Working...
+                <strong style={{ fontSize: '13px', display: 'block', color: 'var(--text-primary)' }}>
+                  BrandGuard AI reviewing...
                 </strong>
-                <span style={{ fontSize: '0.76rem', color: 'var(--color-muted-slate)' }}>
+                <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
                   {analysisStep}
                 </span>
               </div>
@@ -575,20 +517,21 @@ export const ChatReviewInterface: React.FC<ChatReviewInterfaceProps> = ({
         <div ref={chatBottomRef} />
       </div>
 
-      {/* Bottom Input Area */}
+      {/* Fixed Bottom Input Area */}
       <div 
         style={{ 
-          padding: '16px 20px', 
-          borderTop: '1px solid var(--color-border-subtle)',
-          backgroundColor: 'var(--color-surface-white)',
+          padding: '14px 20px', 
+          borderTop: '1px solid var(--border)',
+          backgroundColor: 'var(--surface)',
           display: 'flex',
           flexDirection: 'column',
-          gap: '8px'
+          gap: '8px',
+          flexShrink: 0
         }}
       >
         {/* Attached Files Chips */}
         {attachedFiles.length > 0 && (
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', paddingBottom: '4px' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', paddingBottom: '2px' }}>
             {attachedFiles.map((file, idx) => (
               <span 
                 key={idx}
@@ -596,92 +539,65 @@ export const ChatReviewInterface: React.FC<ChatReviewInterfaceProps> = ({
                   display: 'inline-flex', 
                   alignItems: 'center', 
                   gap: '6px', 
-                  padding: '4px 10px', 
-                  borderRadius: 'var(--radius-full)', 
-                  backgroundColor: 'var(--color-surface-subtle)',
-                  border: '1px solid var(--color-border-gray)',
-                  fontSize: '0.75rem',
-                  color: 'var(--color-deep-ink)'
+                  padding: '3px 8px', 
+                  borderRadius: 'var(--radius-sm)', 
+                  backgroundColor: 'var(--surface-hover)',
+                  border: '1px solid var(--border)',
+                  fontSize: '12px',
+                  color: 'var(--text-primary)'
                 }}
               >
-                <FileText size={13} color="var(--color-evidence-teal)" />
-                <span>{file.name} ({(file.size / 1024).toFixed(1)} KB)</span>
+                <FileText size={12} strokeWidth={1.5} />
+                <span>{file.name}</span>
+                <span className="tabular" style={{ color: 'var(--text-muted)' }}>({formatFileSize(file.size)})</span>
                 <button 
-                  type="button" 
                   onClick={() => removeAttachment(idx)}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-muted-slate)', padding: 0 }}
+                  style={{ color: 'var(--text-muted)', display: 'flex', alignItems: 'center' }}
+                  aria-label="Remove attachment"
                 >
-                  <X size={12} />
+                  <X size={12} strokeWidth={1.5} />
                 </button>
               </span>
             ))}
           </div>
         )}
 
-        <form onSubmit={handleSend} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          {/* Hidden File Input */}
+        <form onSubmit={handleSendMessage} style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
           <input 
             type="file" 
-            ref={fileInputRef}
-            onChange={handleFileSelect}
-            accept=".docx,.pdf,.txt,.html,.md"
-            multiple
+            ref={fileInputRef} 
+            onChange={handleFileSelect} 
             style={{ display: 'none' }}
+            multiple
           />
-
-          {/* Attachment Button */}
           <button 
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="btn btn-secondary"
-            title="Attach documents (.docx, .pdf, .txt, .html, .md)"
-            style={{ 
-              padding: '10px', 
-              borderRadius: 'var(--radius-md)', 
-              color: 'var(--color-muted-slate)' 
-            }}
+            className="btn btn-secondary btn-sm"
+            style={{ height: '36px', padding: '0 10px' }}
+            title="Attach file for compliance audit"
           >
-            <Paperclip size={18} />
+            <Paperclip size={14} strokeWidth={1.5} />
           </button>
 
-          {/* Text Input Area */}
           <input 
             type="text" 
+            className="form-input"
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
-            placeholder={
-              messages.some(m => m.analysisResult)
-                ? "Ask a follow-up question or request clause rewrites..."
-                : "Type instructions, attach a document, or enter clauses to review..."
-            }
+            placeholder={`Ask a compliance question, request a citation check, or paste ${toolType} text...`}
             disabled={isAnalyzing}
-            style={{ 
-              flex: 1, 
-              padding: '12px 16px', 
-              borderRadius: 'var(--radius-md)', 
-              border: '1px solid var(--color-border-gray)',
-              backgroundColor: 'var(--color-surface-subtle)',
-              fontSize: '0.88rem',
-              color: 'var(--color-deep-ink)',
-              outline: 'none'
-            }}
+            style={{ flex: 1 }}
           />
 
-          {/* Send / Analyse Button */}
           <button 
-            type="submit"
+            type="submit" 
+            className="btn btn-primary btn-sm"
             disabled={isAnalyzing || (!inputText.trim() && attachedFiles.length === 0)}
-            className="btn btn-primary"
-            style={{ 
-              padding: '12px 18px', 
-              borderRadius: 'var(--radius-md)', 
-              gap: '6px',
-              opacity: isAnalyzing || (!inputText.trim() && attachedFiles.length === 0) ? 0.6 : 1,
-              cursor: isAnalyzing || (!inputText.trim() && attachedFiles.length === 0) ? 'not-allowed' : 'pointer'
-            }}
+            style={{ height: '36px', padding: '0 14px', gap: '6px' }}
           >
-            <Send size={16} />
-            <span>{messages.some(m => m.analysisResult) ? 'Send' : 'Analyse'}</span>
+            <Send size={14} strokeWidth={1.5} />
+            <span>Send</span>
           </button>
         </form>
       </div>

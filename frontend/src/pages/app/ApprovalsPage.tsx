@@ -10,10 +10,8 @@ import {
   CheckSquare,
   UserCheck,
   Clock,
-  AlertTriangle,
   Check,
   X,
-  FileText,
   ShieldCheck,
   CheckCircle2,
   AlertCircle,
@@ -21,9 +19,6 @@ import {
   Filter,
   Loader2,
   RefreshCw,
-  FolderKanban,
-  Tag,
-  Calendar,
   Building,
   User
 } from 'lucide-react';
@@ -114,7 +109,8 @@ export const ApprovalsPage: React.FC = () => {
         actionable_instructions: decisionType === 'changes_requested' ? actionableInstructions : undefined
       });
 
-      showToast(`Decision recorded: ${decisionType.toUpperCase()} for ${activeDecisionSubmission.project_name} (v${activeDecisionSubmission.version_number})`);
+      const label = decisionType === 'approved' ? 'Approved' : decisionType === 'changes_requested' ? 'Changes requested' : 'Rejected';
+      showToast(`Decision recorded: ${label} for ${activeDecisionSubmission.project_name} (v${activeDecisionSubmission.version_number})`);
       setActiveDecisionSubmission(null);
       await loadSubmissions();
     } catch (err: any) {
@@ -127,52 +123,51 @@ export const ApprovalsPage: React.FC = () => {
   const pendingCount = submissions.filter(s => s.status === 'submitted' || s.status === 'under_review' || s.status === 'resubmitted').length;
 
   const statusBadgeMap: Record<string, { label: string; className: string }> = {
-    submitted: { label: 'Submitted', className: 'badge-expiring' },
-    under_review: { label: 'Under Review', className: 'badge-neutral' },
-    changes_requested: { label: 'Changes Requested', className: 'badge-critical' },
-    resubmitted: { label: 'Resubmitted', className: 'badge-expiring' },
-    approved: { label: 'Approved', className: 'badge-verified' },
-    rejected: { label: 'Rejected', className: 'badge-critical' }
+    submitted:         { label: 'Submitted',         className: 'badge-warning' },
+    under_review:      { label: 'In review',         className: 'badge-warning' },
+    changes_requested: { label: 'Needs changes',     className: 'badge-danger' },
+    resubmitted:       { label: 'Resubmitted',       className: 'badge-warning' },
+    approved:          { label: 'Approved',          className: 'badge-approved' },
+    rejected:          { label: 'Rejected',          className: 'badge-danger' }
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
       {/* Toast Notification */}
       {successToast && (
         <div 
           style={{
-            padding: '12px 18px',
-            backgroundColor: 'rgba(16, 185, 129, 0.12)',
-            border: '1px solid #10b981',
-            borderRadius: 'var(--radius-md)',
-            color: '#065f46',
-            fontSize: '0.86rem',
+            padding: '10px 16px',
+            backgroundColor: 'var(--success-subtle)',
+            border: '1px solid var(--success)',
+            borderRadius: 'var(--radius)',
+            color: 'var(--success)',
+            fontSize: '13px',
             display: 'flex',
             alignItems: 'center',
-            gap: '8px',
-            boxShadow: 'var(--shadow-sm)'
+            gap: '8px'
           }}
         >
-          <CheckCircle2 size={18} color="#10b981" />
+          <CheckCircle2 size={16} strokeWidth={1.5} />
           <strong>{successToast}</strong>
         </div>
       )}
 
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
+      <div className="page-header">
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
-            <h1 style={{ fontSize: '1.75rem', margin: 0 }}>Human Operations Review Queue</h1>
-            <span className={`badge ${isOperations ? 'badge-teal' : 'badge-neutral'}`} style={{ fontSize: '0.72rem' }}>
-              {isOperations ? 'Operations Decision Cockpit' : 'Company Submission Status'}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+            <h1 className="page-header-title">Human operations review queue</h1>
+            <span className={`badge ${isOperations ? 'badge-info' : 'badge-neutral'}`}>
+              {isOperations ? 'Operations cockpit' : 'Company view'}
             </span>
           </div>
-          <p style={{ color: 'var(--color-muted-slate)', fontSize: '0.88rem', margin: 0 }}>
+          <p className="page-header-desc">
             Strict publishing gate: evaluate evidentiary citations, examine version diffs, and issue binding compliance decisions.
           </p>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div className="page-header-actions">
           <button 
             onClick={loadSubmissions} 
             disabled={isLoading}
@@ -180,11 +175,11 @@ export const ApprovalsPage: React.FC = () => {
             style={{ gap: '6px' }}
             title="Refresh submissions"
           >
-            <RefreshCw size={13} className={isLoading ? 'animate-spin' : ''} />
+            <RefreshCw size={13} strokeWidth={1.5} className={isLoading ? 'animate-spin' : ''} />
             <span>Refresh</span>
           </button>
-          <span className="badge badge-expiring" style={{ fontSize: '0.78rem', padding: '6px 12px' }}>
-            {pendingCount} Pending Signoff{pendingCount === 1 ? '' : 's'}
+          <span className="badge badge-warning tabular" style={{ height: '30px', padding: '0 10px' }}>
+            {pendingCount} Pending sign-off{pendingCount === 1 ? '' : 's'}
           </span>
         </div>
       </div>
@@ -194,19 +189,19 @@ export const ApprovalsPage: React.FC = () => {
         <div 
           style={{ 
             padding: '12px 16px', 
-            backgroundColor: 'var(--color-surface-subtle)', 
-            borderRadius: 'var(--radius-md)', 
-            border: '1px solid var(--color-border-subtle)',
-            fontSize: '0.82rem',
-            color: 'var(--color-muted-slate)',
+            backgroundColor: 'var(--surface-subtle)', 
+            borderRadius: 'var(--radius)', 
+            border: '1px solid var(--border)',
+            fontSize: '13px',
+            color: 'var(--text-secondary)',
             display: 'flex',
             alignItems: 'center',
-            gap: '8px'
+            gap: '10px'
           }}
         >
-          <UserCheck size={16} color="var(--color-evidence-teal)" />
+          <UserCheck size={16} strokeWidth={1.5} color="var(--primary)" />
           <span>
-            <strong>Company Workspace:</strong> Your submitted manuscripts are tracked in this queue. Binding authorization decisions (Approved, Changes Requested, Rejected) are executed exclusively by authorized BrandGuard Operations reviewers.
+            <strong>Company workspace:</strong> Your submitted manuscripts are tracked in this queue. Binding authorization decisions (Approved, Needs changes, Rejected) are executed exclusively by authorized BrandGuard Operations reviewers.
           </span>
         </div>
       )}
@@ -215,39 +210,33 @@ export const ApprovalsPage: React.FC = () => {
       <div 
         className="card-panel" 
         style={{ 
-          padding: '14px 18px', 
-          backgroundColor: 'var(--color-surface-white)',
+          padding: '12px 16px', 
           display: 'flex',
           flexWrap: 'wrap',
-          gap: '14px',
+          gap: '12px',
           alignItems: 'center',
           justifyContent: 'space-between'
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--color-deep-ink)', fontSize: '0.84rem', fontWeight: 600 }}>
-          <Filter size={15} color="var(--color-evidence-teal)" />
-          <span>Filter Queue:</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-secondary)', fontSize: '13px', fontWeight: 600 }}>
+          <Filter size={14} strokeWidth={1.5} color="var(--primary)" />
+          <span>Filter queue:</span>
         </div>
 
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center', flex: 1, justifyContent: 'flex-end' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', alignItems: 'center', flex: 1, justifyContent: 'flex-end' }}>
           {/* Status Filter */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span style={{ fontSize: '0.76rem', color: 'var(--color-muted-slate)' }}>Status:</span>
+            <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Status:</span>
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              style={{
-                padding: '4px 8px',
-                fontSize: '0.78rem',
-                borderRadius: 'var(--radius-sm)',
-                border: '1px solid var(--color-border-gray)',
-                backgroundColor: 'white'
-              }}
+              className="form-select"
+              style={{ width: 'auto', height: '30px', padding: '0 8px', fontSize: '12px' }}
             >
-              <option value="all">All Statuses</option>
+              <option value="all">All statuses</option>
               <option value="submitted">Submitted</option>
-              <option value="under_review">Under Review</option>
-              <option value="changes_requested">Changes Requested</option>
+              <option value="under_review">In review</option>
+              <option value="changes_requested">Needs changes</option>
               <option value="resubmitted">Resubmitted</option>
               <option value="approved">Approved</option>
               <option value="rejected">Rejected</option>
@@ -256,43 +245,33 @@ export const ApprovalsPage: React.FC = () => {
 
           {/* Review Type Filter */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span style={{ fontSize: '0.76rem', color: 'var(--color-muted-slate)' }}>Review Type:</span>
+            <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Tool:</span>
             <select
               value={reviewTypeFilter}
               onChange={(e) => setReviewTypeFilter(e.target.value)}
-              style={{
-                padding: '4px 8px',
-                fontSize: '0.78rem',
-                borderRadius: 'var(--radius-sm)',
-                border: '1px solid var(--color-border-gray)',
-                backgroundColor: 'white'
-              }}
+              className="form-select"
+              style={{ width: 'auto', height: '30px', padding: '0 8px', fontSize: '12px' }}
             >
-              <option value="all">All Types</option>
-              <option value="legal">Legal Document</option>
-              <option value="promotions">Promotion & Claims</option>
-              <option value="content">Content Review</option>
-              <option value="images">Image & Design</option>
-              <option value="videos">Video Review</option>
+              <option value="all">All tools</option>
+              <option value="legal">Legal document</option>
+              <option value="promotions">Promotion & claims</option>
+              <option value="content">Content review</option>
+              <option value="images">Image & design</option>
+              <option value="videos">Video review</option>
             </select>
           </div>
 
           {/* Company Filter (Operations only) */}
           {isOperations && (
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span style={{ fontSize: '0.76rem', color: 'var(--color-muted-slate)' }}>Company:</span>
+              <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Company:</span>
               <select
                 value={companyFilter}
                 onChange={(e) => setCompanyFilter(e.target.value)}
-                style={{
-                  padding: '4px 8px',
-                  fontSize: '0.78rem',
-                  borderRadius: 'var(--radius-sm)',
-                  border: '1px solid var(--color-border-gray)',
-                  backgroundColor: 'white'
-                }}
+                className="form-select"
+                style={{ width: 'auto', height: '30px', padding: '0 8px', fontSize: '12px' }}
               >
-                <option value="all">All Companies</option>
+                <option value="all">All companies</option>
                 <option value="acme-global-brands">Acme Global Brands</option>
                 <option value="brandguard-ops">BrandGuard Operations Hub</option>
               </select>
@@ -301,18 +280,13 @@ export const ApprovalsPage: React.FC = () => {
 
           {/* Date Filter */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span style={{ fontSize: '0.76rem', color: 'var(--color-muted-slate)' }}>Since:</span>
+            <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Since:</span>
             <input 
               type="date"
               value={dateFilter}
               onChange={(e) => setDateFilter(e.target.value)}
-              style={{
-                padding: '3px 8px',
-                fontSize: '0.78rem',
-                borderRadius: 'var(--radius-sm)',
-                border: '1px solid var(--color-border-gray)',
-                backgroundColor: 'white'
-              }}
+              className="form-input"
+              style={{ width: 'auto', height: '30px', padding: '0 8px', fontSize: '12px' }}
             />
           </div>
 
@@ -326,9 +300,9 @@ export const ApprovalsPage: React.FC = () => {
                 setDateFilter('');
               }}
               className="btn btn-secondary btn-sm"
-              style={{ padding: '3px 8px', fontSize: '0.72rem' }}
+              style={{ height: '30px', padding: '0 8px', fontSize: '12px' }}
             >
-              Clear Filters
+              Clear filters
             </button>
           )}
         </div>
@@ -336,21 +310,14 @@ export const ApprovalsPage: React.FC = () => {
 
       {/* Error Message */}
       {errorNotice && (
-        <div 
-          style={{
-            padding: '12px 16px',
-            backgroundColor: 'var(--color-error-subtle)',
-            border: '1px solid var(--color-error)',
-            borderRadius: 'var(--radius-md)',
-            color: 'var(--color-error)',
-            fontSize: '0.85rem',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px'
-          }}
-        >
-          <AlertCircle size={16} />
-          <span>{errorNotice}</span>
+        <div className="alert-inline-error">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <AlertCircle size={15} strokeWidth={1.5} />
+            <span>{errorNotice}</span>
+          </div>
+          <button onClick={() => setErrorNotice(null)} style={{ color: 'inherit' }}>
+            <X size={14} strokeWidth={1.5} />
+          </button>
         </div>
       )}
 
@@ -358,50 +325,49 @@ export const ApprovalsPage: React.FC = () => {
       <div className="card-panel" style={{ padding: 0, overflow: 'hidden' }}>
         <div
           style={{
-            padding: '14px 20px',
-            backgroundColor: 'var(--color-surface-subtle)',
-            borderBottom: '1px solid var(--color-border-gray)',
+            padding: '12px 16px',
+            borderBottom: '1px solid var(--border)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between'
           }}
         >
-          <strong style={{ fontSize: '0.95rem', color: 'var(--color-deep-ink)' }}>
-            Operations Review Queue Records ({submissions.length})
-          </strong>
-          <span style={{ fontSize: '0.78rem', color: 'var(--color-muted-slate)' }}>
+          <h2 style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>
+            Review queue records (<span className="tabular">{submissions.length}</span>)
+          </h2>
+          <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
             Database-backed submissions with version tracking
           </span>
         </div>
 
         {isLoading ? (
-          <div style={{ textAlign: 'center', padding: '48px', color: 'var(--color-muted-slate)' }}>
-            <Loader2 size={28} className="animate-spin" style={{ margin: '0 auto 12px' }} />
-            <div style={{ fontSize: '0.9rem', fontWeight: 500 }}>Loading review queue submissions...</div>
+          <div style={{ textAlign: 'center', padding: '48px', color: 'var(--text-muted)' }}>
+            <Loader2 size={24} strokeWidth={1.5} className="animate-spin" style={{ margin: '0 auto 8px' }} />
+            <div style={{ fontSize: '13px' }}>Loading review queue submissions...</div>
           </div>
         ) : submissions.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '56px 20px', backgroundColor: 'var(--color-surface-white)' }}>
-            <CheckSquare size={36} color="var(--color-evidence-teal)" style={{ marginBottom: '10px' }} />
-            <div style={{ fontWeight: 600, color: 'var(--color-deep-ink)', fontSize: '1.05rem', marginBottom: '4px' }}>
-              No Submissions Match Filters
+          <div style={{ textAlign: 'center', padding: '48px 20px' }}>
+            <CheckSquare size={32} strokeWidth={1.5} color="var(--primary)" style={{ marginBottom: '8px' }} />
+            <div style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '15px', marginBottom: '4px' }}>
+              No submissions match filters
             </div>
-            <p style={{ fontSize: '0.84rem', color: 'var(--color-muted-slate)', margin: '0 auto', maxWidth: '420px', lineHeight: 1.5 }}>
-              There are currently no active submissions matching your filter criteria. Completed AI reviews submitted from client workspaces will appear here for Human Operations signoff.
+            <p style={{ fontSize: '13px', color: 'var(--text-muted)', margin: '0 auto', maxWidth: '420px', lineHeight: 1.5 }}>
+              There are currently no active submissions matching your filter criteria. Completed AI reviews submitted from client workspaces will appear here for Human Operations sign-off.
             </p>
           </div>
         ) : (
           <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.85rem' }}>
+            <table className="data-table">
               <thead>
-                <tr style={{ backgroundColor: 'var(--color-surface-subtle)', borderBottom: '1px solid var(--color-border-gray)' }}>
-                  <th style={{ padding: '12px 18px', fontWeight: 600, color: 'var(--color-muted-slate)' }}>Project & Company</th>
-                  <th style={{ padding: '12px 18px', fontWeight: 600, color: 'var(--color-muted-slate)' }}>Review Tool</th>
-                  <th style={{ padding: '12px 18px', fontWeight: 600, color: 'var(--color-muted-slate)' }}>Version</th>
-                  <th style={{ padding: '12px 18px', fontWeight: 600, color: 'var(--color-muted-slate)' }}>Submitted Date</th>
-                  <th style={{ padding: '12px 18px', fontWeight: 600, color: 'var(--color-muted-slate)' }}>Status</th>
-                  <th style={{ padding: '12px 18px', fontWeight: 600, color: 'var(--color-muted-slate)' }}>Findings</th>
-                  <th style={{ padding: '12px 18px', fontWeight: 600, color: 'var(--color-muted-slate)' }}>Reviewer</th>
-                  <th style={{ padding: '12px 18px', fontWeight: 600, color: 'var(--color-muted-slate)', textAlign: 'right' }}>Actions</th>
+                <tr>
+                  <th>Project & company</th>
+                  <th>Review tool</th>
+                  <th>Version</th>
+                  <th>Submitted date</th>
+                  <th>Status</th>
+                  <th>Findings</th>
+                  <th>Reviewer</th>
+                  <th className="right">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -409,135 +375,123 @@ export const ApprovalsPage: React.FC = () => {
                   const badgeInfo = statusBadgeMap[sub.status] || { label: sub.status, className: 'badge-neutral' };
 
                   return (
-                    <tr 
-                      key={sub.id}
-                      style={{ 
-                        borderBottom: '1px solid var(--color-border-subtle)',
-                        backgroundColor: 'white',
-                        transition: 'background-color 0.15s ease'
-                      }}
-                    >
+                    <tr key={sub.id}>
                       {/* Project & Company */}
-                      <td style={{ padding: '14px 18px' }}>
-                        <div style={{ fontWeight: 600, color: 'var(--color-deep-ink)', fontSize: '0.9rem' }}>
+                      <td>
+                        <div style={{ fontWeight: 500, color: 'var(--text-primary)' }}>
                           {sub.project_name}
                         </div>
-                        <div style={{ fontSize: '0.74rem', color: 'var(--color-muted-slate)', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}>
-                          <Building size={11} /> {sub.company_name}
+                        <div style={{ fontSize: '12px', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}>
+                          <Building size={11} strokeWidth={1.5} />
+                          <span>{sub.company_name}</span>
                         </div>
                       </td>
 
                       {/* Review Tool */}
-                      <td style={{ padding: '14px 18px' }}>
-                        <span className="badge badge-neutral" style={{ fontSize: '0.72rem', textTransform: 'capitalize' }}>
+                      <td>
+                        <span className="badge badge-neutral" style={{ textTransform: 'capitalize' }}>
                           {sub.review_type}
                         </span>
-                        <div style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)', marginTop: '2px', maxWidth: '160px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={sub.file_name}>
+                        <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '2px', maxWidth: '160px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={sub.file_name}>
                           {sub.file_name}
                         </div>
                       </td>
 
                       {/* Version */}
-                      <td style={{ padding: '14px 18px' }}>
-                        <span className="badge badge-neutral" style={{ fontSize: '0.72rem', fontWeight: 600 }}>
+                      <td>
+                        <span className="badge badge-neutral tabular" style={{ fontWeight: 600 }}>
                           v{sub.version_number}
                         </span>
                         {sub.approved_version_number && (
-                          <div style={{ fontSize: '0.7rem', color: '#047857', marginTop: '2px' }}>
+                          <div className="tabular" style={{ fontSize: '11px', color: 'var(--success)', marginTop: '2px' }}>
                             Approved: v{sub.approved_version_number}
                           </div>
                         )}
                       </td>
 
                       {/* Submitted Date & Submitter */}
-                      <td style={{ padding: '14px 18px' }}>
-                        <div style={{ color: 'var(--color-deep-ink)', fontSize: '0.8rem' }}>
+                      <td>
+                        <div className="tabular" style={{ color: 'var(--text-primary)', fontSize: '13px' }}>
                           {sub.submitted_at || 'Recently'}
                         </div>
-                        <div style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                          <User size={11} /> {sub.submitted_by}
+                        <div style={{ fontSize: '12px', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <User size={11} strokeWidth={1.5} />
+                          <span>{sub.submitted_by}</span>
                         </div>
                       </td>
 
                       {/* Status */}
-                      <td style={{ padding: '14px 18px' }}>
-                        <span className={`badge ${badgeInfo.className}`} style={{ fontSize: '0.72rem' }}>
+                      <td>
+                        <span className={`badge ${badgeInfo.className}`}>
                           {badgeInfo.label}
                         </span>
                       </td>
 
                       {/* Findings */}
-                      <td style={{ padding: '14px 18px' }}>
+                      <td>
                         <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
                           {sub.critical_count > 0 && (
-                            <span className="badge badge-critical" style={{ fontSize: '0.65rem' }}>
-                              {sub.critical_count} Crit
+                            <span className="badge badge-danger tabular">
+                              {sub.critical_count} critical
                             </span>
                           )}
-                          <span className="badge badge-neutral" style={{ fontSize: '0.65rem' }}>
-                            {sub.findings_count} Issue{sub.findings_count === 1 ? '' : 's'}
+                          <span className="badge badge-neutral tabular">
+                            {sub.findings_count} {sub.findings_count === 1 ? 'issue' : 'issues'}
                           </span>
                         </div>
                       </td>
 
                       {/* Reviewer */}
-                      <td style={{ padding: '14px 18px', fontSize: '0.78rem', color: 'var(--color-deep-ink)' }}>
+                      <td style={{ fontSize: '13px', color: 'var(--text-primary)' }}>
                         {sub.assigned_reviewer || (
-                          <span style={{ color: 'var(--color-muted-slate)', fontStyle: 'italic' }}>Unassigned</span>
+                          <span style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>Unassigned</span>
                         )}
                       </td>
 
                       {/* Actions */}
-                      <td style={{ padding: '14px 18px', textAlign: 'right' }}>
+                      <td className="right">
                         <div style={{ display: 'flex', gap: '6px', justifyContent: 'flex-end', flexWrap: 'wrap' }}>
-                          {/* Inspect & Review Button */}
                           <button
                             type="button"
                             onClick={() => navigate(`/app/review/${sub.id}`)}
                             className="btn btn-secondary btn-sm"
-                            style={{ padding: '3px 8px', fontSize: '0.72rem', gap: '4px' }}
                             title="Inspect manuscript, evidence findings, and decision history"
                           >
-                            <Eye size={12} />
+                            <Eye size={12} strokeWidth={1.5} />
                             <span>Inspect</span>
                           </button>
 
-                          {/* If approved, show Brand Passport button */}
                           {sub.status === 'approved' && (
                             <button
                               type="button"
                               onClick={() => navigate(`/app/passport?submissionId=${sub.id}`)}
                               className="btn btn-secondary btn-sm"
-                              style={{ padding: '3px 8px', fontSize: '0.72rem', gap: '4px', color: 'var(--color-evidence-teal)', borderColor: 'var(--color-evidence-teal)' }}
-                              title="View or Issue Cryptographic Brand Passport"
+                              title="View or issue cryptographic brand passport"
                             >
-                              <ShieldCheck size={12} />
+                              <ShieldCheck size={12} strokeWidth={1.5} />
                               <span>Passport</span>
                             </button>
                           )}
 
-                          {/* Quick decision buttons for Operations Reviewer */}
                           {isOperations && sub.status !== 'approved' && (
                             <>
                               <button
                                 type="button"
                                 onClick={() => handleOpenDecision(sub, 'approved')}
-                                className="btn btn-teal btn-sm"
-                                style={{ padding: '3px 8px', fontSize: '0.72rem', gap: '4px' }}
+                                className="btn btn-primary btn-sm"
                                 title="Authorize and approve this version"
                               >
-                                <Check size={12} />
+                                <Check size={12} strokeWidth={1.5} />
                                 <span>Approve</span>
                               </button>
                               <button
                                 type="button"
                                 onClick={() => handleOpenDecision(sub, 'changes_requested')}
                                 className="btn btn-secondary btn-sm"
-                                style={{ padding: '3px 8px', fontSize: '0.72rem', gap: '4px', color: 'var(--color-signal-coral)', borderColor: 'var(--color-signal-coral)' }}
                                 title="Request revisions with instructions"
                               >
-                                <Clock size={12} />
-                                <span>Request Fix</span>
+                                <Clock size={12} strokeWidth={1.5} />
+                                <span>Request fix</span>
                               </button>
                             </>
                           )}
@@ -558,147 +512,132 @@ export const ApprovalsPage: React.FC = () => {
           style={{
             position: 'fixed',
             inset: 0,
-            backgroundColor: 'rgba(15, 23, 42, 0.65)',
-            backdropFilter: 'blur(3px)',
+            backgroundColor: 'rgba(15, 23, 42, 0.45)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             zIndex: 1000,
-            padding: '20px'
+            padding: '16px'
           }}
         >
           <div
-            className="card-panel"
             style={{
               width: '100%',
-              maxWidth: '560px',
-              backgroundColor: 'white',
-              boxShadow: 'var(--shadow-xl)',
+              maxWidth: '540px',
+              backgroundColor: 'var(--surface)',
+              borderRadius: 'var(--radius)',
+              border: '1px solid var(--border)',
+              boxShadow: 'var(--shadow-modal)',
               display: 'flex',
               flexDirection: 'column',
-              gap: '16px',
-              padding: '24px'
+              overflow: 'hidden'
             }}
           >
             {/* Modal Header */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 20px', borderBottom: '1px solid var(--border)' }}>
               <div>
-                <span style={{ fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--color-muted-slate)' }}>
-                  Record Binding Review Decision
+                <span style={{ fontSize: '11px', fontWeight: 600, color: 'var(--text-muted)' }}>
+                  Operations authorization
                 </span>
-                <h3 style={{ margin: '2px 0 0', fontSize: '1.2rem', color: 'var(--color-deep-ink)' }}>
-                  {decisionType === 'approved' && 'Authorize & Approve Submission'}
-                  {decisionType === 'changes_requested' && 'Request Actionable Changes'}
-                  {decisionType === 'rejected' && 'Reject Submission'}
+                <h3 style={{ margin: '2px 0 0', fontSize: '16px', color: 'var(--text-primary)' }}>
+                  {decisionType === 'approved' && 'Authorize and approve submission'}
+                  {decisionType === 'changes_requested' && 'Request actionable changes'}
+                  {decisionType === 'rejected' && 'Reject submission'}
                 </h3>
               </div>
               <button 
                 type="button" 
                 onClick={() => setActiveDecisionSubmission(null)}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-muted-slate)' }}
+                style={{ padding: '4px', color: 'var(--text-muted)' }}
               >
-                <X size={18} />
+                <X size={16} strokeWidth={1.5} />
               </button>
             </div>
 
-            {/* Target Submission Details */}
-            <div style={{ padding: '10px 14px', backgroundColor: 'var(--color-surface-subtle)', borderRadius: 'var(--radius-sm)', fontSize: '0.82rem', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              <div><strong>Project:</strong> {activeDecisionSubmission.project_name} ({activeDecisionSubmission.review_type.toUpperCase()})</div>
-              <div><strong>Reviewed Version:</strong> v{activeDecisionSubmission.version_number} &nbsp;|&nbsp; <strong>Company:</strong> {activeDecisionSubmission.company_name}</div>
-            </div>
+            <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              {/* Target Submission Details */}
+              <div style={{ padding: '10px 14px', backgroundColor: 'var(--surface-subtle)', borderRadius: 'var(--radius)', fontSize: '13px', display: 'flex', flexDirection: 'column', gap: '3px', border: '1px solid var(--border)' }}>
+                <div><strong>Project:</strong> {activeDecisionSubmission.project_name} ({activeDecisionSubmission.review_type})</div>
+                <div><strong>Version:</strong> v{activeDecisionSubmission.version_number} · <strong>Company:</strong> {activeDecisionSubmission.company_name}</div>
+              </div>
 
-            {/* Decision Type Selector */}
-            <div style={{ display: 'flex', gap: '8px' }}>
-              <button
-                type="button"
-                onClick={() => setDecisionType('approved')}
-                className={`btn btn-sm ${decisionType === 'approved' ? 'btn-teal' : 'btn-secondary'}`}
-                style={{ flex: 1, justifyContent: 'center' }}
-              >
-                Approve (v{activeDecisionSubmission.version_number})
-              </button>
-              <button
-                type="button"
-                onClick={() => setDecisionType('changes_requested')}
-                className={`btn btn-sm ${decisionType === 'changes_requested' ? 'btn-primary' : 'btn-secondary'}`}
-                style={{ flex: 1, justifyContent: 'center' }}
-              >
-                Request Changes
-              </button>
-              <button
-                type="button"
-                onClick={() => setDecisionType('rejected')}
-                className={`btn btn-sm ${decisionType === 'rejected' ? 'btn-critical' : 'btn-secondary'}`}
-                style={{ flex: 1, justifyContent: 'center' }}
-              >
-                Reject
-              </button>
-            </div>
+              {/* Decision Type Selector */}
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button
+                  type="button"
+                  onClick={() => setDecisionType('approved')}
+                  className={`btn btn-sm ${decisionType === 'approved' ? 'btn-primary' : 'btn-secondary'}`}
+                  style={{ flex: 1 }}
+                >
+                  Approve (v{activeDecisionSubmission.version_number})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setDecisionType('changes_requested')}
+                  className={`btn btn-sm ${decisionType === 'changes_requested' ? 'btn-primary' : 'btn-secondary'}`}
+                  style={{ flex: 1 }}
+                >
+                  Request changes
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setDecisionType('rejected')}
+                  className={`btn btn-sm ${decisionType === 'rejected' ? 'btn-destructive' : 'btn-secondary'}`}
+                  style={{ flex: 1 }}
+                >
+                  Reject
+                </button>
+              </div>
 
-            {/* Reviewer Comments */}
-            <div>
-              <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--color-deep-ink)', marginBottom: '4px' }}>
-                Reviewer Evaluation & Notes:
-              </label>
-              <textarea
-                value={decisionNotes}
-                onChange={(e) => setDecisionNotes(e.target.value)}
-                rows={3}
-                style={{
-                  width: '100%',
-                  padding: '8px 10px',
-                  fontSize: '0.82rem',
-                  borderRadius: 'var(--radius-sm)',
-                  border: '1px solid var(--color-border-gray)',
-                  fontFamily: 'inherit'
-                }}
-                placeholder="Enter regulatory justification or rationale..."
-              />
-            </div>
-
-            {/* Actionable Instructions (required if changes_requested) */}
-            {decisionType === 'changes_requested' && (
+              {/* Reviewer Comments */}
               <div>
-                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--color-signal-coral)', marginBottom: '4px' }}>
-                  Actionable Revision Instructions for Customer:
-                </label>
+                <label className="form-label">Reviewer evaluation notes:</label>
                 <textarea
-                  value={actionableInstructions}
-                  onChange={(e) => setActionableInstructions(e.target.value)}
+                  value={decisionNotes}
+                  onChange={(e) => setDecisionNotes(e.target.value)}
                   rows={3}
-                  style={{
-                    width: '100%',
-                    padding: '8px 10px',
-                    fontSize: '0.82rem',
-                    borderRadius: 'var(--radius-sm)',
-                    border: '1px solid var(--color-signal-coral)',
-                    fontFamily: 'inherit'
-                  }}
-                  placeholder="Specify exact wording fixes, claim ledger citations, or duration requirements needed for signoff..."
+                  className="form-textarea"
+                  placeholder="Enter regulatory justification or rationale..."
                 />
               </div>
-            )}
 
-            {/* Modal Actions */}
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', borderTop: '1px solid var(--color-border-subtle)', paddingTop: '14px' }}>
-              <button
-                type="button"
-                onClick={() => setActiveDecisionSubmission(null)}
-                className="btn btn-secondary btn-sm"
-                disabled={isSubmittingDecision}
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={handleConfirmDecision}
-                disabled={isSubmittingDecision}
-                className="btn btn-teal btn-sm"
-                style={{ gap: '6px', fontWeight: 600 }}
-              >
-                {isSubmittingDecision ? <Loader2 size={13} className="animate-spin" /> : <Check size={13} />}
-                <span>Confirm {decisionType.toUpperCase()} Decision</span>
-              </button>
+              {/* Actionable Instructions */}
+              {decisionType === 'changes_requested' && (
+                <div>
+                  <label className="form-label" style={{ color: 'var(--warning)' }}>
+                    Actionable revision instructions for customer:
+                  </label>
+                  <textarea
+                    value={actionableInstructions}
+                    onChange={(e) => setActionableInstructions(e.target.value)}
+                    rows={3}
+                    className="form-textarea"
+                    placeholder="Specify exact wording fixes, claim ledger citations, or duration requirements needed for signoff..."
+                  />
+                </div>
+              )}
+
+              {/* Modal Actions */}
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', borderTop: '1px solid var(--border)', paddingTop: '14px', marginTop: '4px' }}>
+                <button
+                  type="button"
+                  onClick={() => setActiveDecisionSubmission(null)}
+                  className="btn btn-secondary btn-sm"
+                  disabled={isSubmittingDecision}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleConfirmDecision}
+                  disabled={isSubmittingDecision}
+                  className="btn btn-primary btn-sm"
+                  style={{ gap: '6px' }}
+                >
+                  {isSubmittingDecision ? <Loader2 size={13} strokeWidth={1.5} className="animate-spin" /> : <Check size={13} strokeWidth={1.5} />}
+                  <span>Confirm decision</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>

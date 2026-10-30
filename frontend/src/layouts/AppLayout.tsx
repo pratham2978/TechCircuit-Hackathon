@@ -1,26 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet, NavLink, Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDemo } from '../context/DemoContext';
 import { AccountType } from '../types';
 import { BrandLogo } from '../components/common/BrandLogo';
-import { 
-  LayoutDashboard, 
+import {
+  LayoutDashboard,
   FolderKanban,
-  BookOpen, 
+  BookOpen,
   History,
-  Settings, 
-  LogOut, 
-  Menu, 
-  X, 
+  Settings,
+  LogOut,
+  Menu,
+  X,
   Building,
   ChevronDown,
-  Sun,
   Moon,
-  Info,
+  Sun,
   CheckSquare,
   GitPullRequest,
   ShieldCheck,
-  Inbox
+  Inbox,
+  ChevronRight,
 } from 'lucide-react';
 import { syncDemoAuthToken } from '../services/api';
 
@@ -38,269 +38,273 @@ export const AppLayout: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Pending review items count across projects and documents
-  const pendingFilesCount = projects.flatMap(p => p.files).filter(f => f.status === 'awaiting_verification' || f.status === 'in_progress').length;
+  // Close sidebar on route change
+  useEffect(() => {
+    setSidebarOpen(false);
+  }, [location.pathname]);
+
+  // Close sidebar on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSidebarOpen(false);
+        setAccountDropdownOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  const pendingFilesCount = projects.flatMap(p => p.files).filter(f =>
+    f.status === 'awaiting_verification' || f.status === 'in_progress'
+  ).length;
   const pendingReviewCount = documents.filter(d => d.status === 'pending_review').length + pendingFilesCount;
 
   const isCompany = accountType === 'company_workspace';
 
-  // Navigation items for both account workspaces
   const companyNav: NavItem[] = [
-    { path: '/app/dashboard', label: 'Dashboard', icon: <LayoutDashboard size={18} /> },
-    { path: '/app/projects', label: 'Projects', icon: <FolderKanban size={18} /> },
-    { path: '/app/change-requests', label: 'Change Requests', icon: <GitPullRequest size={18} /> },
-    { path: '/app/passport', label: 'Brand Passports', icon: <ShieldCheck size={18} /> },
-    { path: '/app/guidelines', label: 'Brand Guidelines', icon: <BookOpen size={18} /> },
-    { path: '/app/history', label: 'History & Reports', icon: <History size={18} /> },
-    { path: '/app/settings', label: 'Settings', icon: <Settings size={18} /> },
+    { path: '/app/dashboard',       label: 'Dashboard',        icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
+    { path: '/app/projects',        label: 'Projects',         icon: <FolderKanban size={16} strokeWidth={1.5} /> },
+    { path: '/app/change-requests', label: 'Change requests',  icon: <GitPullRequest size={16} strokeWidth={1.5} /> },
+    { path: '/app/passport',        label: 'Brand passports',  icon: <ShieldCheck size={16} strokeWidth={1.5} /> },
+    { path: '/app/guidelines',      label: 'Brand guidelines', icon: <BookOpen size={16} strokeWidth={1.5} /> },
+    { path: '/app/history',         label: 'History & reports',icon: <History size={16} strokeWidth={1.5} /> },
+    { path: '/app/settings',        label: 'Settings',         icon: <Settings size={16} strokeWidth={1.5} /> },
   ];
 
   const operationsNav: NavItem[] = [
-    { path: '/app/dashboard', label: 'Dashboard', icon: <LayoutDashboard size={18} /> },
-    { path: '/app/inbox', label: 'Admin Inbox', icon: <Inbox size={18} /> },
-    { 
-      path: '/app/approvals', 
-      label: 'Operations Review Queue', 
-      icon: <CheckSquare size={18} />, 
-      badge: pendingReviewCount > 0 ? pendingReviewCount : undefined 
+    { path: '/app/dashboard',  label: 'Dashboard',              icon: <LayoutDashboard size={16} strokeWidth={1.5} /> },
+    { path: '/app/inbox',      label: 'Admin inbox',            icon: <Inbox size={16} strokeWidth={1.5} /> },
+    {
+      path: '/app/approvals',
+      label: 'Review queue',
+      icon: <CheckSquare size={16} strokeWidth={1.5} />,
+      badge: pendingReviewCount > 0 ? pendingReviewCount : undefined,
     },
-    { path: '/app/passport', label: 'Brand Passports', icon: <ShieldCheck size={18} /> },
-    { path: '/app/projects', label: 'Projects', icon: <FolderKanban size={18} /> },
-    { path: '/app/guidelines', label: 'Brand Guidelines', icon: <BookOpen size={18} /> },
-    { path: '/app/history', label: 'History & Reports', icon: <History size={18} /> },
-    { path: '/app/settings', label: 'Settings', icon: <Settings size={18} /> },
+    { path: '/app/passport',   label: 'Brand passports',        icon: <ShieldCheck size={16} strokeWidth={1.5} /> },
+    { path: '/app/projects',   label: 'Projects',               icon: <FolderKanban size={16} strokeWidth={1.5} /> },
+    { path: '/app/guidelines', label: 'Brand guidelines',       icon: <BookOpen size={16} strokeWidth={1.5} /> },
+    { path: '/app/history',    label: 'History & reports',      icon: <History size={16} strokeWidth={1.5} /> },
+    { path: '/app/settings',   label: 'Settings',               icon: <Settings size={16} strokeWidth={1.5} /> },
   ];
 
   const visibleNav = isCompany ? companyNav : operationsNav;
+  const crumb = visibleNav.find(n => location.pathname.startsWith(n.path))?.label ?? 'Overview';
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--color-warm-ivory)' }}>
-      {/* Top Demo Banner with Account Selector & Theme Switch */}
-      <div 
-        style={{ 
-          backgroundColor: 'var(--color-surface-subtle)', 
-          color: 'var(--color-deep-ink)', 
-          padding: '8px 24px', 
-          fontSize: '0.8rem',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          borderBottom: '1px solid var(--color-border-gray)',
-          flexWrap: 'wrap',
-          gap: '12px'
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span 
-            className={`badge ${isCompany ? 'badge-verified' : 'badge-teal'}`}
-            style={{ fontSize: '0.7rem' }}
-          >
-            {isCompany ? 'Company Workspace' : 'BrandGuard Operations'}
-          </span>
-          <span style={{ color: 'var(--color-muted-slate)' }}>
-            {isCompany 
-              ? 'Client account: Content drafting, Intent Cards, guideline viewing, and verification submissions.'
-              : 'Operations account: Human review queue, claim ledger curation, rule approvals, and platform administration.'}
-          </span>
-        </div>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--bg)' }}>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-          {/* Account Model Switcher */}
-          <div style={{ position: 'relative' }}>
-            <button 
-              onClick={() => setAccountDropdownOpen(!accountDropdownOpen)}
-              style={{ 
-                backgroundColor: 'var(--color-surface-white)', 
-                color: 'var(--color-deep-ink)',
-                border: '1px solid var(--color-border-gray)',
-                padding: '4px 12px',
-                borderRadius: 'var(--radius-md)',
-                fontSize: '0.78rem',
-                fontWeight: 600,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                boxShadow: 'var(--shadow-sm)'
-              }}
-            >
-              <span>Switch Account: {isCompany ? 'Company Workspace' : 'BrandGuard Operations'}</span>
-              <ChevronDown size={14} />
-            </button>
-
-            {accountDropdownOpen && (
-              <div 
-                style={{ 
-                  position: 'absolute', 
-                  right: 0, 
-                  top: '100%', 
-                  marginTop: '6px',
-                  backgroundColor: 'var(--color-surface-white)',
-                  color: 'var(--color-deep-ink)',
-                  borderRadius: 'var(--radius-md)',
-                  boxShadow: 'var(--shadow-lg)',
-                  border: '1px solid var(--color-border-gray)',
-                  minWidth: '280px',
-                  zIndex: 100,
-                  overflow: 'hidden'
-                }}
-              >
-                <div style={{ padding: '8px 14px', fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--color-muted-slate)', borderBottom: '1px solid var(--color-border-subtle)' }}>
-                  Active Account Model
-                </div>
-                
-                <button
-                  onClick={() => {
-                    setAccountType('company_workspace');
-                    syncDemoAuthToken('company_workspace');
-                    setAccountDropdownOpen(false);
-                  }}
-                  style={{ 
-                    display: 'flex', 
-                    flexDirection: 'column', 
-                    width: '100%', 
-                    padding: '10px 14px',
-                    textAlign: 'left',
-                    backgroundColor: isCompany ? 'var(--color-signal-coral-subtle)' : 'transparent',
-                    borderBottom: '1px solid var(--color-border-subtle)'
-                  }}
-                >
-                  <strong style={{ fontSize: '0.85rem', color: isCompany ? 'var(--color-signal-coral)' : 'var(--color-deep-ink)' }}>
-                    Company Workspace
-                  </strong>
-                  <span style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)' }}>
-                    Client mode: drafting, reviewing findings, passport records
-                  </span>
-                </button>
-
-                <button
-                  onClick={() => {
-                    setAccountType('brandguard_operations');
-                    syncDemoAuthToken('brandguard_operations');
-                    setAccountDropdownOpen(false);
-                  }}
-                  style={{ 
-                    display: 'flex', 
-                    flexDirection: 'column', 
-                    width: '100%', 
-                    padding: '10px 14px',
-                    textAlign: 'left',
-                    backgroundColor: !isCompany ? 'var(--color-evidence-teal-subtle)' : 'transparent'
-                  }}
-                >
-                  <strong style={{ fontSize: '0.85rem', color: !isCompany ? 'var(--color-evidence-teal)' : 'var(--color-deep-ink)' }}>
-                    BrandGuard Operations
-                  </strong>
-                  <span style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)' }}>
-                    Operations mode: review queue, ledger curation, administration
-                  </span>
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* Theme Toggle Button */}
-          <button 
-            onClick={toggleTheme}
-            aria-label="Toggle theme"
-            style={{ 
-              padding: '6px', 
-              borderRadius: 'var(--radius-full)', 
-              backgroundColor: 'var(--color-surface-white)',
-              border: '1px solid var(--color-border-gray)',
-              color: 'var(--color-deep-ink)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-            title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-          >
-            {theme === 'light' ? <Moon size={15} /> : <Sun size={15} color="var(--color-warning)" />}
-          </button>
-        </div>
-      </div>
-
-      {/* Main App Top Bar */}
-      <header 
-        style={{ 
-          backgroundColor: 'var(--color-surface-white)', 
-          borderBottom: '1px solid var(--color-border-gray)',
-          padding: '12px 24px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          transition: 'background-color var(--transition-normal), border-color var(--transition-normal)'
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-          <button 
+      {/* ── Top Bar (56px) ── */}
+      <header style={{
+        height: '56px',
+        backgroundColor: 'var(--surface)',
+        borderBottom: '1px solid var(--border)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '0 24px',
+        flexShrink: 0,
+        position: 'sticky',
+        top: 0,
+        zIndex: 100,
+      }}>
+        {/* Left: Mobile hamburger + Logo + Breadcrumb */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="mobile-toggle"
-            style={{ display: 'none', padding: '6px', color: 'var(--color-deep-ink)' }}
+            aria-label="Toggle navigation menu"
+            style={{
+              padding: '6px',
+              borderRadius: 'var(--radius)',
+              color: 'var(--text-secondary)',
+            }}
+            className="mobile-hamburger-btn"
           >
-            {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
+            {sidebarOpen ? <X size={18} strokeWidth={1.5} /> : <Menu size={18} strokeWidth={1.5} />}
           </button>
 
-          <Link to="/app/dashboard" style={{ textDecoration: 'none' }}>
+          <Link to="/app/dashboard" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
             <BrandLogo size="sm" />
           </Link>
 
-          {/* Workspace Switcher */}
-          <div 
-            style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: '8px', 
-              padding: '4px 12px',
-              backgroundColor: 'var(--color-surface-subtle)',
-              borderRadius: 'var(--radius-md)',
-              border: '1px solid var(--color-border-gray)',
-              fontSize: '0.85rem'
-            }}
-          >
-            <Building size={14} color="var(--color-evidence-teal)" />
-            <span style={{ fontWeight: 600, color: 'var(--color-deep-ink)' }}>Acme Global Brands</span>
-            <span style={{ color: 'var(--color-muted-slate)' }}>/</span>
-            <span style={{ color: 'var(--color-muted-slate)' }}>Global Enterprise</span>
-          </div>
+          {/* Breadcrumb */}
+          <nav aria-label="Breadcrumb" className="topbar-breadcrumb" style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px' }}>
+            <span style={{ color: 'var(--text-muted)' }} className="breadcrumb-parent">
+              {isCompany ? 'Company workspace' : 'BrandGuard ops'}
+            </span>
+            <ChevronRight size={13} color="var(--border-strong)" className="breadcrumb-parent" />
+            <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>{crumb}</span>
+          </nav>
         </div>
 
-        {/* Right user controls */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-          <Link 
-            to="/" 
+        {/* Right: Account switcher + Theme toggle + Sign out */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+
+          {/* Account Switcher */}
+          <div style={{ position: 'relative' }}>
+            <button
+              id="account-switcher-btn"
+              onClick={() => setAccountDropdownOpen(!accountDropdownOpen)}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                height: '32px',
+                padding: '0 10px',
+                borderRadius: 'var(--radius)',
+                border: '1px solid var(--border)',
+                backgroundColor: 'var(--surface)',
+                color: 'var(--text-primary)',
+                fontSize: '13px',
+                fontWeight: 500,
+              }}
+            >
+              <Building size={14} color="var(--text-muted)" strokeWidth={1.5} />
+              <span className="account-switcher-text">Acme Global Brands</span>
+              <ChevronDown size={13} color="var(--text-muted)" strokeWidth={1.5} />
+            </button>
+
+            {accountDropdownOpen && (
+              <>
+                <div
+                  style={{ position: 'fixed', inset: 0, zIndex: 149 }}
+                  onClick={() => setAccountDropdownOpen(false)}
+                />
+                <div style={{
+                  position: 'absolute',
+                  right: 0,
+                  top: 'calc(100% + 6px)',
+                  backgroundColor: 'var(--surface)',
+                  border: '1px solid var(--border)',
+                  borderRadius: 'var(--radius)',
+                  boxShadow: 'var(--shadow-dropdown)',
+                  minWidth: '260px',
+                  zIndex: 150,
+                  overflow: 'hidden',
+                }}>
+                  <div style={{
+                    padding: '8px 12px',
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    color: 'var(--text-muted)',
+                    borderBottom: '1px solid var(--border)',
+                  }}>
+                    Switch workspace
+                  </div>
+
+                  {[
+                    {
+                      id: 'company_workspace' as AccountType,
+                      title: 'Company workspace',
+                      desc: 'Client mode: drafting, reviewing, passports',
+                    },
+                    {
+                      id: 'brandguard_operations' as AccountType,
+                      title: 'BrandGuard operations',
+                      desc: 'Ops mode: review queue, ledger curation, admin',
+                    },
+                  ].map(opt => {
+                    const active = accountType === opt.id;
+                    return (
+                      <button
+                        key={opt.id}
+                        onClick={() => {
+                          setAccountType(opt.id);
+                          syncDemoAuthToken(opt.id);
+                          setAccountDropdownOpen(false);
+                        }}
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          width: '100%',
+                          padding: '10px 12px',
+                          textAlign: 'left',
+                          backgroundColor: active ? 'var(--primary-subtle)' : 'transparent',
+                          borderBottom: '1px solid var(--border)',
+                          gap: '2px',
+                        }}
+                      >
+                        <span style={{ fontSize: '13px', fontWeight: 600, color: active ? 'var(--primary)' : 'var(--text-primary)' }}>
+                          {opt.title}
+                        </span>
+                        <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{opt.desc}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* Theme Toggle Button (Plain icon button) */}
+          <button
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+            style={{
+              width: '32px',
+              height: '32px',
+              borderRadius: 'var(--radius)',
+              border: '1px solid var(--border)',
+              backgroundColor: 'var(--surface)',
+              color: 'var(--text-secondary)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            {theme === 'light' ? <Moon size={14} strokeWidth={1.5} /> : <Sun size={14} strokeWidth={1.5} />}
+          </button>
+
+          {/* Sign Out Link */}
+          <Link
+            to="/"
             className="btn btn-secondary btn-sm"
             style={{ gap: '6px' }}
-            title="Return to Public Website"
+            title="Return to public site"
           >
-            <LogOut size={14} />
-            <span>Public Site</span>
+            <LogOut size={13} strokeWidth={1.5} />
+            <span className="sign-out-text">Sign out</span>
           </Link>
         </div>
       </header>
 
-      {/* Main Body with Sidebar + Content */}
-      <div style={{ display: 'flex', flex: 1 }}>
-        {/* Navigation Sidebar */}
-        <aside 
-          style={{ 
-            width: '250px', 
-            backgroundColor: 'var(--color-surface-white)', 
-            borderRight: '1px solid var(--color-border-gray)',
-            padding: '20px 12px',
+      {/* ── Body: Sidebar + Main Content ── */}
+      <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+
+        {/* Mobile Backdrop Overlay */}
+        <div
+          className={`sidebar-overlay ${sidebarOpen ? 'visible' : ''}`}
+          onClick={() => setSidebarOpen(false)}
+        />
+
+        {/* ── Sidebar (Solid Deep Ink #0F172A) ── */}
+        <aside
+          className={`app-sidebar ${sidebarOpen ? 'sidebar-open' : ''}`}
+          style={{
+            width: '240px',
+            backgroundColor: 'var(--sidebar-bg)',
+            borderRight: '1px solid var(--sidebar-border)',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'space-between',
             flexShrink: 0,
-            transition: 'background-color var(--transition-normal), border-color var(--transition-normal)'
+            overflowY: 'auto',
+            overflowX: 'hidden',
           }}
-          className={sidebarOpen ? 'sidebar-open' : ''}
         >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <div style={{ padding: '4px 12px 10px', fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--color-muted-slate)', letterSpacing: '0.05em' }}>
-              {isCompany ? 'Company Portal' : 'Operations Cockpit'}
-            </div>
+          {/* Section header */}
+          <div style={{
+            padding: '16px 16px 8px',
+            fontSize: '11px',
+            fontWeight: 600,
+            color: 'var(--sidebar-text-muted)',
+            letterSpacing: '0.02em',
+          }}>
+            {isCompany ? 'Workspace navigation' : 'Operations navigation'}
+          </div>
 
-            {visibleNav.map((item) => {
+          {/* Nav Items */}
+          <nav style={{ display: 'flex', flexDirection: 'column', gap: '2px', padding: '0 8px' }}>
+            {visibleNav.map(item => {
               const isActive = location.pathname.startsWith(item.path);
               return (
                 <NavLink
@@ -311,69 +315,85 @@ export const AppLayout: React.FC = () => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    padding: '8px 12px',
-                    borderRadius: 'var(--radius-md)',
-                    fontSize: '0.88rem',
-                    fontWeight: isActive ? 600 : 500,
-                    color: isActive ? 'var(--color-deep-ink)' : 'var(--color-muted-slate)',
-                    backgroundColor: isActive ? 'var(--color-surface-subtle)' : 'transparent',
-                    borderLeft: isActive ? '3px solid var(--color-signal-coral)' : '3px solid transparent',
-                    transition: 'all 0.15s'
+                    padding: '8px 10px',
+                    borderRadius: 'var(--radius)',
+                    fontSize: '13px',
+                    fontWeight: isActive ? 600 : 400,
+                    color: isActive ? 'var(--sidebar-active-text)' : 'var(--sidebar-text)',
+                    backgroundColor: isActive ? 'var(--sidebar-active-bg)' : 'transparent',
+                    borderLeft: isActive ? '3px solid var(--sidebar-indicator)' : '3px solid transparent',
+                    paddingLeft: '8px',
+                    transition: 'all var(--t-fast)',
+                    textDecoration: 'none',
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <span style={{ color: isActive ? 'var(--color-signal-coral)' : 'inherit' }}>
+                    <span style={{ color: isActive ? 'var(--sidebar-indicator)' : 'var(--sidebar-text-muted)', flexShrink: 0 }}>
                       {item.icon}
                     </span>
                     <span>{item.label}</span>
                   </div>
                   {item.badge !== undefined && (
-                    <span 
-                      style={{ 
-                        backgroundColor: 'var(--color-signal-coral)', 
-                        color: '#FFFFFF', 
-                        fontSize: '0.7rem', 
-                        fontWeight: 700, 
-                        borderRadius: 'var(--radius-full)',
-                        padding: '1px 7px'
-                      }}
-                    >
+                    <span style={{
+                      backgroundColor: 'var(--danger)',
+                      color: '#FFFFFF',
+                      fontSize: '11px',
+                      fontWeight: 600,
+                      borderRadius: '9999px',
+                      width: '18px',
+                      height: '18px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontVariantNumeric: 'tabular-nums',
+                    }}>
                       {item.badge}
                     </span>
                   )}
                 </NavLink>
               );
             })}
-          </div>
+          </nav>
 
-          {/* Sidebar Footer Info */}
-          <div 
-            style={{ 
-              padding: '12px', 
-              backgroundColor: 'var(--color-surface-subtle)', 
-              borderRadius: 'var(--radius-md)',
-              border: '1px solid var(--color-border-gray)',
-              fontSize: '0.75rem',
-              color: 'var(--color-muted-slate)'
-            }}
-          >
-            <div style={{ fontWeight: 600, color: 'var(--color-deep-ink)', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <Info size={13} color="var(--color-evidence-teal)" />
-              <span>Active Scope</span>
+          {/* Sidebar Footer */}
+          <div style={{ marginTop: 'auto', padding: '16px', borderTop: '1px solid var(--sidebar-border)' }}>
+            <div style={{ fontSize: '12px', fontWeight: 600, color: 'var(--sidebar-text)', marginBottom: '3px' }}>
+              {isCompany ? 'Acme Global Brands' : 'BrandGuard Operations'}
             </div>
-            <span>
-              {isCompany 
-                ? 'Client permissions: You can author content, view claims, and inspect certified Brand Passports.' 
-                : 'Operations permissions: You can approve rules, curate the claim ledger, and render final review decisions.'}
-            </span>
+            <div style={{ fontSize: '11px', color: 'var(--sidebar-text-muted)', lineHeight: 1.4 }}>
+              {isCompany ? 'Enterprise tenant · Verified' : 'Operations reviewer · Full admin'}
+            </div>
           </div>
         </aside>
 
-        {/* Dynamic Route Content Area */}
-        <main style={{ flex: 1, padding: '32px 32px 48px', overflowY: 'auto', maxWidth: '1440px' }}>
+        {/* ── Main Scrollable Content ── */}
+        <main style={{
+          flex: 1,
+          padding: '24px',
+          overflowY: 'auto',
+          maxWidth: '1440px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 0,
+        }}
+        className="app-main-content"
+        >
           <Outlet />
         </main>
       </div>
+
+      <style>{`
+        .mobile-hamburger-btn { display: none; }
+        @media (max-width: 1024px) {
+          .mobile-hamburger-btn { display: flex !important; }
+          .app-main-content { padding: 16px !important; }
+        }
+        @media (max-width: 640px) {
+          .breadcrumb-parent { display: none !important; }
+          .account-switcher-text { display: none !important; }
+          .sign-out-text { display: none !important; }
+        }
+      `}</style>
     </div>
   );
 };

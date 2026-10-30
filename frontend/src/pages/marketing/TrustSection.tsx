@@ -11,32 +11,32 @@ import {
 export const TrustSection: React.FC = () => {
   const principles = [
     {
-      icon: <UserCheck size={20} color="var(--color-evidence-teal)" />,
+      icon: <UserCheck size={20} color="var(--info)" />,
       title: 'Zero Autonomous Publishing',
       desc: 'BrandGuard never publishes or modifies live content autonomously. The platform serves as an evidence verification advisor—final authorization rests solely with authorized human brand reviewers.'
     },
     {
-      icon: <Lock size={20} color="var(--color-evidence-teal)" />,
+      icon: <Lock size={20} color="var(--info)" />,
       title: 'Company Data Isolation',
       desc: 'Every tenant workspace maintains strict logical and cryptographic segregation. Ingested brand playbooks, internal guidelines, and claim ledgers are never mixed across organizations or used to train third-party public models.'
     },
     {
-      icon: <FileCheck2 size={20} color="var(--color-evidence-teal)" />,
+      icon: <FileCheck2 size={20} color="var(--info)" />,
       title: 'Ground Truth Citations',
       desc: 'Every flagged violation or suggestion cites a specific source document passage, page number, and registered claim owner. No finding is rendered without traceable evidence.'
     },
     {
-      icon: <Info size={20} color="var(--color-evidence-teal)" />,
+      icon: <Info size={20} color="var(--info)" />,
       title: 'AI Involvement Disclosure',
       desc: 'Whenever AI-assisted retrieval or syntactic checking is applied, it is explicitly disclosed on the Brand Passport audit seal to uphold organizational transparency.'
     },
     {
-      icon: <Scale size={20} color="var(--color-evidence-teal)" />,
+      icon: <Scale size={20} color="var(--info)" />,
       title: 'Governance, Not Legal Counsel',
       desc: 'BrandGuard facilitates internal brand compliance, terminology adherence, and factual veracity verification. The platform does not render formal legal counsel or statutory advice.'
     },
     {
-      icon: <ShieldAlert size={20} color="var(--color-evidence-teal)" />,
+      icon: <ShieldAlert size={20} color="var(--info)" />,
       title: 'Transparent Error Accountability',
       desc: 'Our review queue empowers reviewers to record specific dismissal reasons (false positive, unclear rule, exception), holding the governance system accountable for continuous refinement.'
     }
@@ -47,7 +47,7 @@ export const TrustSection: React.FC = () => {
       id="trust"
       style={{ 
         padding: '84px 24px', 
-        backgroundColor: 'var(--color-warm-ivory)',
+        backgroundColor: 'var(--bg)',
         transition: 'background-color var(--transition-normal)'
       }}
     >
@@ -56,7 +56,7 @@ export const TrustSection: React.FC = () => {
           <h2 style={{ fontSize: '2.2rem', marginBottom: '16px', letterSpacing: '-0.02em' }}>
             Trust & Transparency Commitments
           </h2>
-          <p style={{ color: 'var(--color-muted-slate)', fontSize: '1.05rem', lineHeight: 1.6 }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', lineHeight: 1.6 }}>
             Brand governance demands institutional integrity. Here are the core ethical and architectural boundaries that govern BrandGuard.
           </p>
         </div>
@@ -73,8 +73,8 @@ export const TrustSection: React.FC = () => {
               key={i}
               className="interactive-card"
               style={{ 
-                backgroundColor: 'var(--color-surface-white)', 
-                border: '1px solid var(--color-border-gray)',
+                backgroundColor: 'var(--surface)', 
+                border: '1px solid var(--border)',
                 borderRadius: 'var(--radius-lg)',
                 padding: '24px',
                 display: 'flex',
@@ -89,7 +89,7 @@ export const TrustSection: React.FC = () => {
                   width: '40px', 
                   height: '40px', 
                   borderRadius: 'var(--radius-md)', 
-                  backgroundColor: 'var(--color-evidence-teal-subtle)', 
+                  backgroundColor: 'var(--info-subtle)', 
                   display: 'flex', 
                   alignItems: 'center', 
                   justifyContent: 'center',
@@ -99,8 +99,8 @@ export const TrustSection: React.FC = () => {
               >
                 {pr.icon}
               </div>
-              <h3 style={{ fontSize: '1.15rem', color: 'var(--color-deep-ink)', fontWeight: 600 }}>{pr.title}</h3>
-              <p style={{ color: 'var(--color-muted-slate)', fontSize: '0.9rem', lineHeight: 1.55, margin: 0 }}>
+              <h3 style={{ fontSize: '1.15rem', color: 'var(--text-primary)', fontWeight: 600 }}>{pr.title}</h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.55, margin: 0 }}>
                 {pr.desc}
               </p>
             </div>

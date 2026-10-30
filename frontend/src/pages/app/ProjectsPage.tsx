@@ -1,28 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDemo } from '../../context/DemoContext';
-import { Project, ProjectStatus, ReviewToolType } from '../../types';
-import { 
-  FolderKanban, 
-  Search, 
-  Filter, 
-  PlusCircle, 
-  Clock, 
-  CheckCircle2, 
-  AlertTriangle, 
-  Folder, 
-  FileText, 
-  Scale, 
-  Tag, 
-  Palette, 
-  Film, 
-  ArrowRight, 
-  Archive, 
-  Building, 
-  User, 
-  X,
-  Layers,
-  ChevronRight
+import { Project, ProjectStatus } from '../../types';
+import {
+  FolderKanban, Search, PlusCircle, FileText,
+  Scale, Tag, Palette, Film, Archive,
+  Building, User, X, AlertTriangle, ChevronRight
 } from 'lucide-react';
 
 export const ProjectsPage: React.FC = () => {
@@ -30,543 +13,265 @@ export const ProjectsPage: React.FC = () => {
   const navigate = useNavigate();
   const isOperations = accountType === 'brandguard_operations';
 
-  const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState<'all' | ProjectStatus>('all');
+  const [searchQuery, setSearchQuery]     = useState('');
+  const [statusFilter, setStatusFilter]   = useState<'all' | ProjectStatus>('all');
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [newProjectName, setNewProjectName] = useState('');
+  const [newProjectName, setNewProjectName]   = useState('');
   const [newProjectDescription, setNewProjectDescription] = useState('');
   const [newProjectClient, setNewProjectClient] = useState('Acme Global Brands');
 
-  // Multi-tenant Company Isolation: Company Workspace users only see Acme Global Brands projects
-  const clientFilteredProjects = isOperations 
-    ? projects 
+  const clientFiltered = isOperations
+    ? projects
     : projects.filter(p => p.clientName === 'Acme Global Brands');
 
-  // Filter projects by search and status
-  const filteredProjects = clientFilteredProjects.filter(project => {
-    const matchesSearch = 
-      project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      project.clientName.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    const matchesStatus = statusFilter === 'all' || project.status === statusFilter;
-    return matchesSearch && matchesStatus;
+  const filtered = clientFiltered.filter(p => {
+    const q = searchQuery.toLowerCase();
+    const matchSearch = p.name.toLowerCase().includes(q) ||
+      p.description.toLowerCase().includes(q) ||
+      p.clientName.toLowerCase().includes(q);
+    const matchStatus = statusFilter === 'all' || p.status === statusFilter;
+    return matchSearch && matchStatus;
   });
 
-  const handleCreateProject = (e: React.FormEvent) => {
+  const handleCreate = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newProjectName.trim()) return;
-
     const created = createProject({
       name: newProjectName.trim(),
-      description: newProjectDescription.trim() || 'Marketing collateral, promotional assets, and compliance documentation.',
+      description: newProjectDescription.trim() || 'Marketing collateral and compliance documentation.',
       clientName: newProjectClient.trim() || 'Acme Global Brands',
-      files: [
-        {
-          id: `f-${Date.now().toString().slice(-3)}`,
-          name: 'Campaign_Brief_Initial.docx',
-          type: 'docx',
-          reviewType: 'content',
-          uploadedAt: new Date().toISOString().replace('T', ' ').slice(0, 16),
-          status: 'not_reviewed',
-          size: '1.2 MB',
-          findingsCount: 0
-        }
-      ]
+      files: [{
+        id: `f-${Date.now().toString().slice(-3)}`,
+        name: 'Campaign_Brief_Initial.docx',
+        type: 'docx', reviewType: 'content',
+        uploadedAt: new Date().toISOString().replace('T', ' ').slice(0, 16),
+        status: 'not_reviewed', size: '1.2 MB', findingsCount: 0,
+      }],
     });
-
     setShowCreateModal(false);
     setNewProjectName('');
     setNewProjectDescription('');
     navigate(`/app/projects/${created.id}`);
   };
 
-  const getToolIcon = (tool: ReviewToolType) => {
-    switch (tool) {
-      case 'legal': return <Scale size={13} color="var(--color-evidence-teal)" />;
-      case 'promotions': return <Tag size={13} color="var(--color-signal-coral)" />;
-      case 'content': return <FileText size={13} color="var(--color-warning)" />;
-      case 'images': return <Palette size={13} color="var(--color-evidence-teal)" />;
-      case 'videos': return <Film size={13} color="var(--color-muted-slate)" />;
-    }
+  const statusBadge: Record<string, { label: string; cls: string }> = {
+    active:    { label: 'Active',    cls: 'badge-active' },
+    in_review: { label: 'In review', cls: 'badge-warning' },
+    approved:  { label: 'Approved',  cls: 'badge-approved' },
+    archived:  { label: 'Archived',  cls: 'badge-neutral' },
   };
 
+  const filterTabs: { id: 'all' | ProjectStatus; label: string }[] = [
+    { id: 'all',       label: 'All' },
+    { id: 'active',    label: 'Active' },
+    { id: 'in_review', label: 'In review' },
+    { id: 'approved',  label: 'Approved' },
+    { id: 'archived',  label: 'Archived' },
+  ];
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-      {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+
+      {/* Page Header */}
+      <div className="page-header">
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
-            <h1 style={{ fontSize: '1.85rem', margin: 0 }}>Projects Repository</h1>
-            <span className={`badge ${isOperations ? 'badge-teal' : 'badge-verified'}`} style={{ fontSize: '0.75rem' }}>
-              {isOperations ? 'Operations Multi-Tenant View' : 'Acme Global Brands Workspace'}
-            </span>
-            <span className="badge badge-neutral" style={{ fontSize: '0.8rem' }}>
-              {clientFilteredProjects.length} Projects
-            </span>
-          </div>
-          <p style={{ color: 'var(--color-muted-slate)', fontSize: '0.92rem', margin: 0 }}>
-            Structured folders organizing assets across the five core review tools: Legal, Promotions, Content, Images, and Videos.
+          <h1 className="page-header-title">Projects</h1>
+          <p className="page-header-desc">
+            <span className="tabular">{clientFiltered.length}</span> project{clientFiltered.length !== 1 ? 's' : ''} ·{' '}
+            {isOperations ? 'Multi-tenant view' : 'Acme Global Brands workspace'}
           </p>
         </div>
-
-        <button 
-          onClick={() => setShowCreateModal(true)}
-          className="btn btn-primary btn-sm"
-          style={{ gap: '6px' }}
-        >
-          <PlusCircle size={15} />
-          <span>New Project</span>
-        </button>
+        <div className="page-header-actions">
+          <button id="new-project-btn" onClick={() => setShowCreateModal(true)} className="btn btn-primary btn-sm">
+            <PlusCircle size={14} strokeWidth={1.5} />
+            <span>New project</span>
+          </button>
+        </div>
       </div>
 
-      {/* Search & Status Filter Bar */}
-      <div 
-        className="card-panel" 
-        style={{ 
-          padding: '12px 18px', 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '12px'
-        }}
-      >
-        {/* Search input */}
-        <div style={{ position: 'relative', flex: '1', minWidth: '240px', maxWidth: '420px' }}>
-          <Search 
-            size={16} 
-            color="var(--color-muted-slate)" 
-            style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} 
-          />
-          <input 
-            type="text" 
+      {/* Toolbar */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+        {/* Search */}
+        <div style={{ position: 'relative', flex: '1', minWidth: '220px', maxWidth: '360px' }}>
+          <Search size={14} strokeWidth={1.5} color="var(--text-muted)" style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+          <input
+            type="text"
+            className="form-input"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search projects by name, description, or client..."
-            style={{
-              width: '100%',
-              padding: '8px 12px 8px 36px',
-              borderRadius: 'var(--radius-md)',
-              border: '1px solid var(--color-border-gray)',
-              backgroundColor: 'var(--color-surface-subtle)',
-              color: 'var(--color-deep-ink)',
-              fontSize: '0.85rem'
-            }}
+            onChange={e => setSearchQuery(e.target.value)}
+            placeholder="Search projects…"
+            style={{ paddingLeft: '32px', paddingRight: searchQuery ? '32px' : undefined }}
           />
           {searchQuery && (
-            <button
-              onClick={() => setSearchQuery('')}
-              style={{
-                position: 'absolute',
-                right: '10px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                color: 'var(--color-muted-slate)'
-              }}
-            >
-              <X size={14} />
+            <button onClick={() => setSearchQuery('')} style={{ position: 'absolute', right: '8px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', padding: '2px' }}>
+              <X size={13} strokeWidth={1.5} />
             </button>
           )}
         </div>
 
-        {/* Filter Tabs */}
-        <div style={{ display: 'flex', gap: '6px', overflowX: 'auto' }}>
-          {(['all', 'active', 'in_review', 'approved', 'archived'] as const).map(status => {
-            const labels: Record<string, string> = {
-              all: 'All Projects',
-              active: 'Active',
-              in_review: 'In Review',
-              approved: 'Approved',
-              archived: 'Archived'
-            };
-            const isSelected = statusFilter === status;
-
-            return (
-              <button
-                key={status}
-                onClick={() => setStatusFilter(status)}
-                style={{
-                  padding: '6px 12px',
-                  borderRadius: 'var(--radius-md)',
-                  fontSize: '0.78rem',
-                  fontWeight: isSelected ? 600 : 500,
-                  backgroundColor: isSelected ? 'var(--color-signal-coral)' : 'var(--color-surface-subtle)',
-                  color: isSelected ? '#FFFFFF' : 'var(--color-muted-slate)',
-                  border: isSelected ? '1px solid var(--color-signal-coral)' : '1px solid var(--color-border-subtle)',
-                  cursor: 'pointer',
-                  transition: 'all 0.15s ease'
-                }}
-              >
-                {labels[status]}
-              </button>
-            );
-          })}
+        {/* Status filter tabs */}
+        <div style={{ display: 'flex', gap: '4px', borderRadius: 'var(--radius)', border: '1px solid var(--border)', padding: '2px', backgroundColor: 'var(--surface)' }}>
+          {filterTabs.map(t => (
+            <button
+              key={t.id}
+              onClick={() => setStatusFilter(t.id)}
+              style={{
+                padding: '4px 10px',
+                borderRadius: 'var(--radius-sm)',
+                fontSize: '13px',
+                fontWeight: statusFilter === t.id ? 600 : 400,
+                backgroundColor: statusFilter === t.id ? 'var(--surface-hover)' : 'transparent',
+                color: statusFilter === t.id ? 'var(--text-primary)' : 'var(--text-muted)',
+                border: 'none',
+                transition: 'all var(--t-fast)',
+              }}
+            >
+              {t.label}
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Projects Grid / List */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        {filteredProjects.length === 0 ? (
-          <div className="card-panel" style={{ textAlign: 'center', padding: '48px 24px' }}>
-            <Folder size={40} color="var(--color-muted-slate)" style={{ marginBottom: '12px', opacity: 0.5 }} />
-            <h3 style={{ fontSize: '1.1rem', marginBottom: '6px' }}>No projects found</h3>
-            <p style={{ color: 'var(--color-muted-slate)', fontSize: '0.85rem', marginBottom: '16px' }}>
-              {searchQuery ? 'Try clearing your search filters.' : 'Get started by creating your first project.'}
-            </p>
-            <button onClick={() => setShowCreateModal(true)} className="btn btn-primary btn-sm">
-              <PlusCircle size={15} />
-              <span>Create Project</span>
-            </button>
-          </div>
-        ) : (
-          filteredProjects.map(project => {
-            const statusConfig: Record<ProjectStatus, { label: string; class: string }> = {
-              active: { label: 'Active', class: 'badge-verified' },
-              in_review: { label: 'In Review', class: 'badge-expiring' },
-              approved: { label: 'Approved', class: 'badge-teal' },
-              archived: { label: 'Archived', class: 'badge-neutral' }
-            };
-            const status = statusConfig[project.status] || { label: project.status, class: 'badge-neutral' };
-
-            // Group files by review tool
-            const filesByTool: Record<ReviewToolType, number> = {
-              legal: project.files.filter(f => f.reviewType === 'legal').length,
+      {/* Project list */}
+      {filtered.length === 0 ? (
+        <div className="card-panel" style={{ textAlign: 'center', padding: '48px 24px' }}>
+          <FolderKanban size={32} strokeWidth={1.5} color="var(--text-muted)" style={{ marginBottom: '12px', opacity: 0.5 }} />
+          <p style={{ color: 'var(--text-muted)', marginBottom: '16px' }}>
+            {searchQuery ? 'No projects match your search.' : 'No projects yet.'}
+          </p>
+          <button onClick={() => setShowCreateModal(true)} className="btn btn-primary btn-sm">
+            <PlusCircle size={14} strokeWidth={1.5} />
+            <span>Create project</span>
+          </button>
+        </div>
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          {filtered.map(project => {
+            const bd = statusBadge[project.status] ?? { label: project.status, cls: 'badge-neutral' };
+            const counts = {
+              legal:      project.files.filter(f => f.reviewType === 'legal').length,
               promotions: project.files.filter(f => f.reviewType === 'promotions').length,
-              content: project.files.filter(f => f.reviewType === 'content').length,
-              images: project.files.filter(f => f.reviewType === 'images').length,
-              videos: project.files.filter(f => f.reviewType === 'videos').length
+              content:    project.files.filter(f => f.reviewType === 'content').length,
+              images:     project.files.filter(f => f.reviewType === 'images').length,
+              videos:     project.files.filter(f => f.reviewType === 'videos').length,
             };
-
-            const totalFindings = project.files.reduce((acc, f) => acc + (f.findingsCount || 0), 0);
-            const needsChanges = project.files.some(f => f.status === 'needs_changes');
+            const totalFindings = project.files.reduce((a, f) => a + (f.findingsCount || 0), 0);
+            const needsChanges  = project.files.some(f => f.status === 'needs_changes');
 
             return (
-              <div 
-                key={project.id}
-                className="card-panel"
-                style={{ 
-                  display: 'flex', 
-                  flexDirection: 'column', 
-                  gap: '16px',
-                  padding: '20px 24px',
-                  transition: 'transform 0.15s, box-shadow 0.15s',
-                  position: 'relative'
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
-                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '14px', flex: '1', minWidth: '280px' }}>
-                    <div 
-                      style={{ 
-                        padding: '10px', 
-                        borderRadius: 'var(--radius-md)', 
-                        backgroundColor: 'var(--color-surface-subtle)',
-                        color: 'var(--color-signal-coral)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}
-                    >
-                      <FolderKanban size={24} />
+              <div key={project.id} className="card-panel" style={{ padding: '16px 20px' }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap' }}>
+                  {/* Left info */}
+                  <div style={{ flex: 1, minWidth: '260px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px', flexWrap: 'wrap' }}>
+                      <Link
+                        to={`/app/projects/${project.id}`}
+                        style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-primary)' }}
+                      >
+                        {project.name}
+                      </Link>
+                      <span className={`badge ${bd.cls}`}>{bd.label}</span>
+                      {needsChanges && (
+                        <span className="badge badge-danger" style={{ gap: '4px' }}>
+                          <AlertTriangle size={11} strokeWidth={1.5} />
+                          <span>Revisions required</span>
+                        </span>
+                      )}
+                      {totalFindings > 0 && (
+                        <span className="badge badge-danger tabular">{totalFindings} findings</span>
+                      )}
                     </div>
-
-                    <div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
-                        <Link 
-                          to={`/app/projects/${project.id}`}
-                          style={{ 
-                            fontSize: '1.2rem', 
-                            fontWeight: 700, 
-                            color: 'var(--color-deep-ink)', 
-                            textDecoration: 'none' 
-                          }}
-                        >
-                          {project.name}
-                        </Link>
-                        <span className={`badge ${status.class}`} style={{ fontSize: '0.7rem' }}>
-                          {status.label}
-                        </span>
-                        {needsChanges && (
-                          <span className="badge badge-critical" style={{ fontSize: '0.68rem', gap: '4px' }}>
-                            <AlertTriangle size={11} /> Revisions Required
-                          </span>
-                        )}
-                      </div>
-
-                      <p style={{ color: 'var(--color-muted-slate)', fontSize: '0.86rem', margin: '0 0 8px', maxWidth: '720px', lineHeight: 1.45 }}>
-                        {project.description}
-                      </p>
-
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '16px', fontSize: '0.75rem', color: 'var(--color-muted-slate)', flexWrap: 'wrap' }}>
-                        <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                          <Building size={12} color="var(--color-evidence-teal)" />
-                          <strong>Client:</strong> {project.clientName}
-                        </span>
-                        <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                          <User size={12} />
-                          <strong>Lead:</strong> {project.owner}
-                        </span>
-                        <span>
-                          <strong>Updated:</strong> {project.updatedAt}
-                        </span>
-                      </div>
+                    <p style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '8px', lineHeight: 1.4 }}>
+                      {project.description}
+                    </p>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px', fontSize: '12px', color: 'var(--text-muted)', flexWrap: 'wrap' }}>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <Building size={12} strokeWidth={1.5} />
+                        <span>{project.clientName}</span>
+                      </span>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <User size={12} strokeWidth={1.5} />
+                        <span>{project.owner}</span>
+                      </span>
+                      <span>Updated <span className="tabular">{project.updatedAt}</span></span>
                     </div>
                   </div>
 
-                  {/* Actions right */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <button 
+                  {/* Actions */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0 }}>
+                    <button
                       onClick={() => archiveProject(project.id)}
-                      className="btn btn-secondary btn-sm"
-                      style={{ padding: '6px 10px', fontSize: '0.75rem', color: 'var(--color-muted-slate)' }}
-                      title={project.status === 'archived' ? 'Restore Project' : 'Archive Project'}
+                      className="btn btn-ghost btn-sm"
+                      title={project.status === 'archived' ? 'Restore' : 'Archive'}
                     >
-                      <Archive size={14} />
+                      <Archive size={13} strokeWidth={1.5} />
                       <span>{project.status === 'archived' ? 'Restore' : 'Archive'}</span>
                     </button>
-
-                    <Link 
-                      to={`/app/projects/${project.id}`}
-                      className="btn btn-primary btn-sm"
-                      style={{ gap: '6px', fontSize: '0.8rem' }}
-                    >
-                      <span>Open Workspace</span>
-                      <ChevronRight size={14} />
+                    <Link to={`/app/projects/${project.id}`} className="btn btn-secondary btn-sm" style={{ gap: '4px' }}>
+                      <span>Open</span>
+                      <ChevronRight size={13} strokeWidth={1.5} />
                     </Link>
                   </div>
                 </div>
 
-                {/* Bottom Bar: 5 Review Tool Breakdown */}
-                <div 
-                  style={{ 
-                    padding: '10px 14px', 
-                    backgroundColor: 'var(--color-surface-subtle)', 
-                    borderRadius: 'var(--radius-md)',
-                    border: '1px solid var(--color-border-subtle)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    flexWrap: 'wrap',
-                    gap: '12px'
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
-                    <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-muted-slate)', textTransform: 'uppercase' }}>
-                      Review Tools:
+                {/* Review tool breakdown */}
+                <div style={{
+                  display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap',
+                  marginTop: '12px', paddingTop: '12px', borderTop: '1px solid var(--border)',
+                  fontSize: '12px', color: 'var(--text-muted)',
+                }}>
+                  <span style={{ fontWeight: 500, color: 'var(--text-secondary)' }}>Tools:</span>
+                  {[
+                    { icon: <Scale size={12} strokeWidth={1.5} />, label: 'Legal', n: counts.legal },
+                    { icon: <Tag size={12} strokeWidth={1.5} />, label: 'Promos', n: counts.promotions },
+                    { icon: <FileText size={12} strokeWidth={1.5} />, label: 'Content', n: counts.content },
+                    { icon: <Palette size={12} strokeWidth={1.5} />, label: 'Images', n: counts.images },
+                    { icon: <Film size={12} strokeWidth={1.5} />, label: 'Videos', n: counts.videos },
+                  ].map(t => (
+                    <span key={t.label} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontWeight: t.n > 0 ? 500 : 400, color: t.n > 0 ? 'var(--text-primary)' : 'var(--text-muted)' }}>
+                      {t.icon}
+                      <span>{t.label}</span>
+                      <span className="tabular">({t.n})</span>
                     </span>
-
-                    <span 
-                      style={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        gap: '6px', 
-                        fontSize: '0.78rem',
-                        color: filesByTool.legal > 0 ? 'var(--color-deep-ink)' : 'var(--color-muted-slate)',
-                        fontWeight: filesByTool.legal > 0 ? 600 : 400
-                      }}
-                    >
-                      <Scale size={13} color="var(--color-evidence-teal)" />
-                      <span>Legal ({filesByTool.legal})</span>
-                    </span>
-
-                    <span 
-                      style={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        gap: '6px', 
-                        fontSize: '0.78rem',
-                        color: filesByTool.promotions > 0 ? 'var(--color-deep-ink)' : 'var(--color-muted-slate)',
-                        fontWeight: filesByTool.promotions > 0 ? 600 : 400
-                      }}
-                    >
-                      <Tag size={13} color="var(--color-signal-coral)" />
-                      <span>Promotions ({filesByTool.promotions})</span>
-                    </span>
-
-                    <span 
-                      style={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        gap: '6px', 
-                        fontSize: '0.78rem',
-                        color: filesByTool.content > 0 ? 'var(--color-deep-ink)' : 'var(--color-muted-slate)',
-                        fontWeight: filesByTool.content > 0 ? 600 : 400
-                      }}
-                    >
-                      <FileText size={13} color="var(--color-warning)" />
-                      <span>Content ({filesByTool.content})</span>
-                    </span>
-
-                    <span 
-                      style={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        gap: '6px', 
-                        fontSize: '0.78rem',
-                        color: filesByTool.images > 0 ? 'var(--color-deep-ink)' : 'var(--color-muted-slate)',
-                        fontWeight: filesByTool.images > 0 ? 600 : 400
-                      }}
-                    >
-                      <Palette size={13} color="var(--color-evidence-teal)" />
-                      <span>Images ({filesByTool.images})</span>
-                    </span>
-
-                    <span 
-                      style={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        gap: '6px', 
-                        fontSize: '0.78rem',
-                        color: filesByTool.videos > 0 ? 'var(--color-deep-ink)' : 'var(--color-muted-slate)',
-                        fontWeight: filesByTool.videos > 0 ? 600 : 400
-                      }}
-                    >
-                      <Film size={13} color="var(--color-muted-slate)" />
-                      <span>Videos ({filesByTool.videos})</span>
-                    </span>
-                  </div>
-
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.75rem' }}>
-                    <span style={{ color: 'var(--color-muted-slate)' }}>
-                      Total Assets: <strong>{project.files.length}</strong>
-                    </span>
-                    {totalFindings > 0 && (
-                      <span className="badge badge-critical" style={{ fontSize: '0.65rem' }}>
-                        {totalFindings} Findings
-                      </span>
-                    )}
-                  </div>
+                  ))}
+                  <span className="tabular" style={{ marginLeft: 'auto' }}>
+                    {project.files.length} asset{project.files.length !== 1 ? 's' : ''}
+                  </span>
                 </div>
               </div>
             );
-          })
-        )}
-      </div>
+          })}
+        </div>
+      )}
 
-      {/* Create Project Modal */}
+      {/* Create Modal */}
       {showCreateModal && (
-        <div 
-          style={{ 
-            position: 'fixed', 
-            top: 0, 
-            left: 0, 
-            right: 0, 
-            bottom: 0, 
-            backgroundColor: 'rgba(0, 0, 0, 0.55)', 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'center',
-            zIndex: 1000,
-            padding: '20px'
-          }}
-        >
-          <div 
-            className="card-panel" 
-            style={{ 
-              maxWidth: '520px', 
-              width: '100%', 
-              backgroundColor: 'var(--color-surface-white)',
-              boxShadow: 'var(--shadow-xl)',
-              animation: 'slideUp 0.2s ease-out'
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', borderBottom: '1px solid var(--color-border-subtle)', paddingBottom: '12px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <FolderKanban size={18} color="var(--color-signal-coral)" />
-                <strong style={{ fontSize: '1.1rem' }}>Create New Project Repository</strong>
-              </div>
-              <button 
-                onClick={() => setShowCreateModal(false)}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-muted-slate)' }}
-              >
-                <X size={18} />
+        <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(15, 23, 42, 0.45)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '16px' }}>
+          <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', boxShadow: 'var(--shadow-modal)', maxWidth: '480px', width: '100%' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 20px', borderBottom: '1px solid var(--border)' }}>
+              <h2 style={{ fontSize: '15px', fontWeight: 600 }}>Create new project</h2>
+              <button onClick={() => setShowCreateModal(false)} style={{ padding: '4px', color: 'var(--text-muted)' }}>
+                <X size={16} strokeWidth={1.5} />
               </button>
             </div>
-
-            <form onSubmit={handleCreateProject} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <form onSubmit={handleCreate} style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
               <div>
-                <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, marginBottom: '6px' }}>
-                  Project Name *
-                </label>
-                <input 
-                  type="text" 
-                  value={newProjectName}
-                  onChange={(e) => setNewProjectName(e.target.value)}
-                  placeholder="e.g. Q4 Global Enterprise Launch"
-                  required
-                  style={{
-                    width: '100%',
-                    padding: '8px 12px',
-                    borderRadius: 'var(--radius-md)',
-                    border: '1px solid var(--color-border-gray)',
-                    backgroundColor: 'var(--color-surface-subtle)',
-                    color: 'var(--color-deep-ink)',
-                    fontSize: '0.88rem'
-                  }}
-                />
+                <label className="form-label" htmlFor="p-name">Project name <span style={{ color: 'var(--danger)' }}>*</span></label>
+                <input id="p-name" type="text" className="form-input" value={newProjectName} onChange={e => setNewProjectName(e.target.value)} placeholder="e.g. Q4 Global Enterprise Launch" required />
               </div>
-
               <div>
-                <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, marginBottom: '6px' }}>
-                  Client / Organization Name
-                </label>
-                <input 
-                  type="text" 
-                  value={newProjectClient}
-                  onChange={(e) => setNewProjectClient(e.target.value)}
-                  placeholder="Acme Global Brands"
-                  style={{
-                    width: '100%',
-                    padding: '8px 12px',
-                    borderRadius: 'var(--radius-md)',
-                    border: '1px solid var(--color-border-gray)',
-                    backgroundColor: 'var(--color-surface-subtle)',
-                    color: 'var(--color-deep-ink)',
-                    fontSize: '0.88rem'
-                  }}
-                />
+                <label className="form-label" htmlFor="p-client">Client organization</label>
+                <input id="p-client" type="text" className="form-input" value={newProjectClient} onChange={e => setNewProjectClient(e.target.value)} placeholder="Acme Global Brands" />
               </div>
-
               <div>
-                <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, marginBottom: '6px' }}>
-                  Description & Campaign Scope
-                </label>
-                <textarea 
-                  value={newProjectDescription}
-                  onChange={(e) => setNewProjectDescription(e.target.value)}
-                  placeholder="Details on deliverables, target audience, and key messaging..."
-                  rows={3}
-                  style={{
-                    width: '100%',
-                    padding: '8px 12px',
-                    borderRadius: 'var(--radius-md)',
-                    border: '1px solid var(--color-border-gray)',
-                    backgroundColor: 'var(--color-surface-subtle)',
-                    color: 'var(--color-deep-ink)',
-                    fontSize: '0.88rem',
-                    resize: 'vertical'
-                  }}
-                />
+                <label className="form-label" htmlFor="p-desc">Description</label>
+                <textarea id="p-desc" className="form-textarea" value={newProjectDescription} onChange={e => setNewProjectDescription(e.target.value)} placeholder="Deliverables, target audience, key messaging…" rows={3} />
               </div>
-
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '8px' }}>
-                <button 
-                  type="button" 
-                  onClick={() => setShowCreateModal(false)}
-                  className="btn btn-secondary btn-sm"
-                >
-                  Cancel
-                </button>
-                <button 
-                  type="submit" 
-                  className="btn btn-primary btn-sm"
-                  style={{ gap: '6px' }}
-                >
-                  <PlusCircle size={15} />
-                  <span>Create Project</span>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', paddingTop: '4px' }}>
+                <button type="button" onClick={() => setShowCreateModal(false)} className="btn btn-secondary btn-sm">Cancel</button>
+                <button type="submit" className="btn btn-primary btn-sm">
+                  <PlusCircle size={14} strokeWidth={1.5} />
+                  <span>Create project</span>
                 </button>
               </div>
             </form>
@@ -576,4 +281,3 @@ export const ProjectsPage: React.FC = () => {
     </div>
   );
 };
-

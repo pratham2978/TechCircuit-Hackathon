@@ -274,33 +274,33 @@ export const PassportPage: React.FC = () => {
         return {
           label: 'CRYPTOGRAPHICALLY SEALED & VERIFIED',
           bg: '#ecfdf5',
-          color: '#065f46',
-          border: '#059669',
-          icon: <ShieldCheck size={16} color="#059669" />
+          color: 'var(--success)',
+          border: 'var(--success)',
+          icon: <ShieldCheck size={16} color="var(--success)" />
         };
       case 'REVOKED':
         return {
           label: 'REVOKED CERTIFICATE',
           bg: '#fef2f2',
-          color: '#991b1b',
-          border: '#dc2626',
-          icon: <ShieldAlert size={16} color="#dc2626" />
+          color: 'var(--danger)',
+          border: 'var(--danger)',
+          icon: <ShieldAlert size={16} color="var(--danger)" />
         };
       case 'FILE_MODIFIED':
         return {
           label: 'FILE INTEGRITY COMPROMISED (HASH MISMATCH)',
           bg: '#fffbeb',
-          color: '#92400e',
-          border: '#d97706',
-          icon: <AlertTriangle size={16} color="#d97706" />
+          color: 'var(--warning)',
+          border: 'var(--warning)',
+          icon: <AlertTriangle size={16} color="var(--warning)" />
         };
       case 'INVALID_SIGNATURE':
         return {
           label: 'TAMPER DETECTED: INVALID SIGNATURE',
           bg: '#fef2f2',
-          color: '#b91c1c',
-          border: '#b91c1c',
-          icon: <XCircle size={16} color="#b91c1c" />
+          color: 'var(--danger)',
+          border: 'var(--danger)',
+          icon: <XCircle size={16} color="var(--danger)" />
         };
       case 'VERIFICATION_UNAVAILABLE':
         return {
@@ -327,10 +327,10 @@ export const PassportPage: React.FC = () => {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-            <Award size={24} color="var(--color-evidence-teal)" />
+            <Award size={24} color="var(--info)" />
             <h1 style={{ fontSize: '1.85rem' }}>Brand Passport Audit Certificates</h1>
           </div>
-          <p style={{ color: 'var(--color-muted-slate)', fontSize: '0.9rem' }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
             Asymmetric RFC 8032 Ed25519 digital signatures, SHA-256 byte hashes, and immutable human governance authorization.
           </p>
         </div>
@@ -382,15 +382,15 @@ export const PassportPage: React.FC = () => {
             padding: '12px 16px', 
             borderRadius: 'var(--radius-md)', 
             backgroundColor: 'rgba(6, 95, 70, 0.08)',
-            color: '#065f46',
-            border: '1px solid #059669',
+            color: 'var(--success)',
+            border: '1px solid var(--success)',
             fontSize: '0.85rem',
             display: 'flex',
             alignItems: 'center',
             gap: '8px'
           }}
         >
-          <CheckCircle2 size={18} color="#059669" />
+          <CheckCircle2 size={18} color="var(--success)" />
           <span>{actionSuccessNotice}</span>
         </div>
       )}
@@ -401,15 +401,15 @@ export const PassportPage: React.FC = () => {
             padding: '12px 16px', 
             borderRadius: 'var(--radius-md)', 
             backgroundColor: 'rgba(220, 38, 38, 0.08)',
-            color: '#991b1b',
-            border: '1px solid #dc2626',
+            color: 'var(--danger)',
+            border: '1px solid var(--danger)',
             fontSize: '0.85rem',
             display: 'flex',
             alignItems: 'center',
             gap: '8px'
           }}
         >
-          <AlertTriangle size={18} color="#dc2626" />
+          <AlertTriangle size={18} color="var(--danger)" />
           <span>{errorMessage}</span>
         </div>
       )}
@@ -419,7 +419,7 @@ export const PassportPage: React.FC = () => {
         className="card-panel" 
         style={{ 
           padding: '16px 20px', 
-          backgroundColor: 'var(--color-surface-white)',
+          backgroundColor: 'var(--surface)',
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'space-between', 
@@ -429,7 +429,7 @@ export const PassportPage: React.FC = () => {
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, minWidth: '280px' }}>
           <div style={{ position: 'relative', flex: 1 }}>
-            <Search size={15} color="var(--color-muted-slate)" style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }} />
+            <Search size={15} color="var(--text-muted)" style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }} />
             <input
               type="text"
               placeholder="Search by passport #, project, company, reviewer..."
@@ -453,7 +453,7 @@ export const PassportPage: React.FC = () => {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontSize: '0.8rem', color: 'var(--color-muted-slate)' }}>
+          <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
             {filteredPassports.length} certified passport{filteredPassports.length === 1 ? '' : 's'}
           </span>
           <button
@@ -483,8 +483,8 @@ export const PassportPage: React.FC = () => {
                 style={{
                   padding: '10px 14px',
                   borderRadius: 'var(--radius-md)',
-                  backgroundColor: isSelected ? 'var(--color-surface-white)' : 'rgba(255, 255, 255, 0.6)',
-                  border: isSelected ? '2px solid var(--color-evidence-teal)' : '1px solid var(--color-border-gray)',
+                  backgroundColor: isSelected ? 'var(--surface)' : 'rgba(255, 255, 255, 0.6)',
+                  border: isSelected ? '2px solid var(--info)' : '1px solid var(--border)',
                   boxShadow: isSelected ? 'var(--shadow-sm)' : 'none',
                   textAlign: 'left',
                   cursor: 'pointer',
@@ -493,15 +493,15 @@ export const PassportPage: React.FC = () => {
                 }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
-                  <strong style={{ fontSize: '0.85rem', color: 'var(--color-deep-ink)' }}>{p.passport_number}</strong>
+                  <strong style={{ fontSize: '0.85rem', color: 'var(--text-primary)' }}>{p.passport_number}</strong>
                   <span style={{ fontSize: '0.65rem', padding: '2px 6px', borderRadius: '4px', backgroundColor: badge.bg, color: badge.color, border: `1px solid ${badge.border}`, fontWeight: 700 }}>
                     {p.status}
                   </span>
                 </div>
-                <div style={{ fontSize: '0.78rem', color: 'var(--color-muted-slate)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                   {p.project_name} (v{p.approved_version_number})
                 </div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--color-evidence-teal)', marginTop: '2px' }}>
+                <div style={{ fontSize: '0.7rem', color: 'var(--info)', marginTop: '2px' }}>
                   {p.company_name} • {p.issued_at || 'Recently'}
                 </div>
               </button>
@@ -512,10 +512,10 @@ export const PassportPage: React.FC = () => {
 
       {/* Empty State when no passports exist */}
       {!isLoadingList && filteredPassports.length === 0 && (
-        <div className="card-panel" style={{ padding: '48px', textAlign: 'center', backgroundColor: 'var(--color-surface-white)' }}>
-          <Award size={40} color="var(--color-muted-slate)" style={{ margin: '0 auto 12px' }} />
+        <div className="card-panel" style={{ padding: '48px', textAlign: 'center', backgroundColor: 'var(--surface)' }}>
+          <Award size={40} color="var(--text-muted)" style={{ margin: '0 auto 12px' }} />
           <h3>No Brand Passports Found</h3>
-          <p style={{ color: 'var(--color-muted-slate)', marginTop: '8px', maxWidth: '500px', margin: '8px auto 0' }}>
+          <p style={{ color: 'var(--text-muted)', marginTop: '8px', maxWidth: '500px', margin: '8px auto 0' }}>
             Brand Passports represent cryptographically sealed versions issued after human review authorization.
           </p>
           {isOperations ? (
@@ -533,9 +533,9 @@ export const PassportPage: React.FC = () => {
 
       {/* Active Brand Passport Details */}
       {isLoadingDetail && (
-        <div className="card-panel" style={{ padding: '60px', textAlign: 'center', backgroundColor: 'var(--color-surface-white)' }}>
-          <Loader2 size={32} className="spin-animate" color="var(--color-evidence-teal)" style={{ margin: '0 auto 12px' }} />
-          <div style={{ color: 'var(--color-muted-slate)' }}>Loading cryptographically signed passport data...</div>
+        <div className="card-panel" style={{ padding: '60px', textAlign: 'center', backgroundColor: 'var(--surface)' }}>
+          <Loader2 size={32} className="spin-animate" color="var(--info)" style={{ margin: '0 auto 12px' }} />
+          <div style={{ color: 'var(--text-muted)' }}>Loading cryptographically signed passport data...</div>
         </div>
       )}
 
@@ -546,10 +546,10 @@ export const PassportPage: React.FC = () => {
           <div 
             className="card-panel"
             style={{ 
-              backgroundColor: 'var(--color-surface-white)', 
+              backgroundColor: 'var(--surface)', 
               borderRadius: 'var(--radius-xl)', 
               padding: '36px',
-              border: activePassport.status === 'REVOKED' ? '2px solid #dc2626' : '2px solid var(--color-evidence-teal)',
+              border: activePassport.status === 'REVOKED' ? '2px solid var(--danger)' : '2px solid var(--info)',
               boxShadow: 'var(--shadow-lg)',
               position: 'relative'
             }}
@@ -570,8 +570,8 @@ export const PassportPage: React.FC = () => {
                     color: badge.color,
                     fontFamily: 'var(--font-display)',
                     fontWeight: 700,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.08em',
+                    textTransform: 'none',
+                    letterSpacing: '0',
                     fontSize: '0.82rem',
                     display: 'flex',
                     alignItems: 'center',
@@ -586,16 +586,16 @@ export const PassportPage: React.FC = () => {
             })()}
 
             {/* Certificate Header */}
-            <div style={{ borderBottom: '1px solid var(--color-border-gray)', paddingBottom: '24px', marginBottom: '28px' }}>
-              <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', color: 'var(--color-muted-slate)', letterSpacing: '0.06em', marginBottom: '6px' }}>
+            <div style={{ borderBottom: '1px solid var(--border)', paddingBottom: '24px', marginBottom: '28px' }}>
+              <div style={{ fontSize: '0.78rem', textTransform: 'none', color: 'var(--text-muted)', letterSpacing: '0', marginBottom: '6px' }}>
                 BrandGuard Governance Charter • Ed25519 Cryptographic Proof v{activePassport.schema_version}
               </div>
-              <h2 style={{ fontSize: '1.8rem', color: 'var(--color-deep-ink)', marginBottom: '8px' }}>
+              <h2 style={{ fontSize: '1.8rem', color: 'var(--text-primary)', marginBottom: '8px' }}>
                 {activePassport.project_name}
               </h2>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', fontSize: '0.85rem', color: 'var(--color-muted-slate)' }}>
-                <span>Passport ID: <strong style={{ color: 'var(--color-deep-ink)' }}>{activePassport.passport_number}</strong></span>
-                <span>Company: <strong style={{ color: 'var(--color-deep-ink)' }}>{activePassport.company_name}</strong></span>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                <span>Passport ID: <strong style={{ color: 'var(--text-primary)' }}>{activePassport.passport_number}</strong></span>
+                <span>Company: <strong style={{ color: 'var(--text-primary)' }}>{activePassport.company_name}</strong></span>
                 <span>Approved Version: <strong>v{activePassport.approved_version_number}</strong></span>
                 <span>Review Tool: <strong style={{ textTransform: 'capitalize' }}>{activePassport.review_type}</strong></span>
                 <span>Issued: <strong>{activePassport.issued_at}</strong></span>
@@ -607,7 +607,7 @@ export const PassportPage: React.FC = () => {
               <div 
                 style={{ 
                   backgroundColor: '#fef2f2', 
-                  border: '1px solid #dc2626', 
+                  border: '1px solid var(--danger)', 
                   borderRadius: 'var(--radius-md)', 
                   padding: '16px 20px',
                   marginBottom: '28px',
@@ -616,9 +616,9 @@ export const PassportPage: React.FC = () => {
                   gap: '12px'
                 }}
               >
-                <ShieldAlert size={22} color="#dc2626" style={{ flexShrink: 0, marginTop: '2px' }} />
+                <ShieldAlert size={22} color="var(--danger)" style={{ flexShrink: 0, marginTop: '2px' }} />
                 <div>
-                  <strong style={{ color: '#991b1b', fontSize: '0.95rem', display: 'block', marginBottom: '4px' }}>
+                  <strong style={{ color: 'var(--danger)', fontSize: '0.95rem', display: 'block', marginBottom: '4px' }}>
                     Revoked Brand Passport
                   </strong>
                   <p style={{ color: '#7f1d1d', margin: 0, fontSize: '0.85rem', lineHeight: 1.5 }}>
@@ -635,7 +635,7 @@ export const PassportPage: React.FC = () => {
               <div 
                 style={{ 
                   backgroundColor: verificationResult.is_valid ? 'rgba(6, 95, 70, 0.06)' : 'rgba(220, 38, 38, 0.06)',
-                  border: `1px solid ${verificationResult.is_valid ? '#059669' : '#dc2626'}`,
+                  border: `1px solid ${verificationResult.is_valid ? 'var(--success)' : 'var(--danger)'}`,
                   borderRadius: 'var(--radius-md)',
                   padding: '16px 20px',
                   marginBottom: '28px'
@@ -644,35 +644,35 @@ export const PassportPage: React.FC = () => {
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     {verificationResult.is_valid ? (
-                      <CheckCircle2 size={20} color="#059669" />
+                      <CheckCircle2 size={20} color="var(--success)" />
                     ) : (
-                      <AlertTriangle size={20} color="#dc2626" />
+                      <AlertTriangle size={20} color="var(--danger)" />
                     )}
-                    <strong style={{ fontSize: '0.95rem', color: verificationResult.is_valid ? '#065f46' : '#991b1b' }}>
+                    <strong style={{ fontSize: '0.95rem', color: verificationResult.is_valid ? '#065f46' : 'var(--danger)' }}>
                       Cryptographic Verification: {verificationResult.status}
                     </strong>
                   </div>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--color-muted-slate)' }}>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
                     Recalculated: {verificationResult.verified_at || 'Just now'}
                   </span>
                 </div>
 
-                <p style={{ margin: '0 0 10px', fontSize: '0.85rem', color: 'var(--color-deep-ink)' }}>
+                <p style={{ margin: '0 0 10px', fontSize: '0.85rem', color: 'var(--text-primary)' }}>
                   {verificationResult.message}
                 </p>
 
                 {/* Audit Checks Checklist */}
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '10px', fontSize: '0.78rem' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <Check size={14} color={verificationResult.status === 'INVALID_SIGNATURE' ? '#dc2626' : '#059669'} />
+                    <Check size={14} color={verificationResult.status === 'INVALID_SIGNATURE' ? 'var(--danger)' : 'var(--success)'} />
                     <span>Ed25519 Curve25519 Signature: {verificationResult.status === 'INVALID_SIGNATURE' ? 'TAMPERED / FAILED' : 'VALID'}</span>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <Check size={14} color={verificationResult.status === 'FILE_MODIFIED' ? '#dc2626' : '#059669'} />
+                    <Check size={14} color={verificationResult.status === 'FILE_MODIFIED' ? 'var(--danger)' : 'var(--success)'} />
                     <span>SHA-256 Byte Hash: {verificationResult.status === 'FILE_MODIFIED' ? 'ALTERED' : verificationResult.status === 'VERIFICATION_UNAVAILABLE' ? 'FILE_UNAVAILABLE' : 'MATCHED'}</span>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <Check size={14} color={verificationResult.status === 'REVOKED' ? '#dc2626' : '#059669'} />
+                    <Check size={14} color={verificationResult.status === 'REVOKED' ? 'var(--danger)' : 'var(--success)'} />
                     <span>Revocation State: {verificationResult.status === 'REVOKED' ? 'REVOKED' : 'ACTIVE / UNREVOKED'}</span>
                   </div>
                 </div>
@@ -688,32 +688,32 @@ export const PassportPage: React.FC = () => {
                 marginBottom: '32px'
               }}
             >
-              <div style={{ padding: '16px', backgroundColor: 'var(--color-warm-ivory)', borderRadius: 'var(--radius-md)', textAlign: 'center' }}>
-                <div style={{ fontSize: '1.8rem', fontWeight: 700, color: '#047857', fontFamily: 'var(--font-display)' }}>
+              <div style={{ padding: '16px', backgroundColor: 'var(--bg)', borderRadius: 'var(--radius-md)', textAlign: 'center' }}>
+                <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--success)', fontFamily: 'var(--font-display)' }}>
                   {activePassport.governance_score}%
                 </div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--color-muted-slate)' }}>Governance Score</div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Governance Score</div>
               </div>
 
-              <div style={{ padding: '16px', backgroundColor: 'var(--color-warm-ivory)', borderRadius: 'var(--radius-md)', textAlign: 'center' }}>
-                <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--color-deep-ink)', fontFamily: 'var(--font-display)' }}>
+              <div style={{ padding: '16px', backgroundColor: 'var(--bg)', borderRadius: 'var(--radius-md)', textAlign: 'center' }}>
+                <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
                   v{activePassport.approved_version_number}
                 </div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--color-muted-slate)' }}>Certified Version</div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Certified Version</div>
               </div>
 
-              <div style={{ padding: '16px', backgroundColor: 'var(--color-warm-ivory)', borderRadius: 'var(--radius-md)', textAlign: 'center' }}>
-                <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--color-evidence-teal)', fontFamily: 'var(--font-display)' }}>
+              <div style={{ padding: '16px', backgroundColor: 'var(--bg)', borderRadius: 'var(--radius-md)', textAlign: 'center' }}>
+                <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--info)', fontFamily: 'var(--font-display)' }}>
                   {activePassport.algorithm}
                 </div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--color-muted-slate)' }}>Asymmetric Curve</div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Asymmetric Curve</div>
               </div>
 
-              <div style={{ padding: '16px', backgroundColor: 'var(--color-warm-ivory)', borderRadius: 'var(--radius-md)', textAlign: 'center' }}>
-                <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--color-deep-ink)', fontFamily: 'var(--font-display)' }}>
+              <div style={{ padding: '16px', backgroundColor: 'var(--bg)', borderRadius: 'var(--radius-md)', textAlign: 'center' }}>
+                <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
                   {activePassport.guideline_version}
                 </div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--color-muted-slate)' }}>Brand Policy Standard</div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Brand Policy Standard</div>
               </div>
             </div>
 
@@ -732,7 +732,7 @@ export const PassportPage: React.FC = () => {
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.15)', paddingBottom: '12px', marginBottom: '16px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#38bdf8' }}>
                   <Lock size={16} />
-                  <strong style={{ textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  <strong style={{ textTransform: 'none', letterSpacing: '0' }}>
                     Cryptographic Seal (RFC 8032 Ed25519)
                   </strong>
                 </div>
@@ -749,14 +749,14 @@ export const PassportPage: React.FC = () => {
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <div>
-                  <span style={{ color: '#94a3b8', display: 'block', fontSize: '0.72rem', textTransform: 'uppercase' }}>Approved File Reference & SHA-256 Byte Hash:</span>
+                  <span style={{ color: '#94a3b8', display: 'block', fontSize: '0.72rem', textTransform: 'none' }}>Approved File Reference & SHA-256 Byte Hash:</span>
                   <div style={{ color: '#fbbf24', wordBreak: 'break-all', marginTop: '2px' }}>
                     {activePassport.approved_file_name} &rarr; <span style={{ color: '#34d399' }}>{activePassport.approved_file_hash}</span>
                   </div>
                 </div>
 
                 <div>
-                  <span style={{ color: '#94a3b8', display: 'block', fontSize: '0.72rem', textTransform: 'uppercase' }}>Digital Signature (64-byte Ed25519 signature in Hex):</span>
+                  <span style={{ color: '#94a3b8', display: 'block', fontSize: '0.72rem', textTransform: 'none' }}>Digital Signature (64-byte Ed25519 signature in Hex):</span>
                   <div style={{ color: '#e2e8f0', wordBreak: 'break-all', backgroundColor: 'rgba(0,0,0,0.3)', padding: '6px 8px', borderRadius: '4px', marginTop: '2px' }}>
                     {activePassport.signature}
                   </div>
@@ -764,13 +764,13 @@ export const PassportPage: React.FC = () => {
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '12px' }}>
                   <div>
-                    <span style={{ color: '#94a3b8', display: 'block', fontSize: '0.72rem', textTransform: 'uppercase' }}>Public Key (32-byte Hex):</span>
+                    <span style={{ color: '#94a3b8', display: 'block', fontSize: '0.72rem', textTransform: 'none' }}>Public Key (32-byte Hex):</span>
                     <div style={{ color: '#cbd5e1', wordBreak: 'break-all', marginTop: '2px' }}>
                       {activePassport.public_key}
                     </div>
                   </div>
                   <div>
-                    <span style={{ color: '#94a3b8', display: 'block', fontSize: '0.72rem', textTransform: 'uppercase' }}>Key Identifier:</span>
+                    <span style={{ color: '#94a3b8', display: 'block', fontSize: '0.72rem', textTransform: 'none' }}>Key Identifier:</span>
                     <div style={{ color: '#cbd5e1', marginTop: '2px' }}>
                       {activePassport.key_id}
                     </div>
@@ -800,7 +800,7 @@ export const PassportPage: React.FC = () => {
             {activePassport.evidence_citations && activePassport.evidence_citations.length > 0 && (
               <div style={{ marginBottom: '32px' }}>
                 <h3 style={{ fontSize: '1.1rem', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <CheckCircle2 size={18} color="var(--color-evidence-teal)" />
+                  <CheckCircle2 size={18} color="var(--info)" />
                   <span>Governed Evidentiary Rules & Ledger Citations</span>
                 </h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -809,17 +809,17 @@ export const PassportPage: React.FC = () => {
                       key={idx}
                       style={{ 
                         padding: '12px 16px', 
-                        backgroundColor: 'var(--color-warm-ivory)', 
+                        backgroundColor: 'var(--bg)', 
                         borderRadius: 'var(--radius-md)',
-                        border: '1px solid var(--color-border-gray)',
+                        border: '1px solid var(--border)',
                         fontSize: '0.85rem'
                       }}
                     >
-                      <div style={{ fontWeight: 600, color: 'var(--color-deep-ink)', marginBottom: '4px' }}>
+                      <div style={{ fontWeight: 600, color: 'var(--text-primary)', marginBottom: '4px' }}>
                         {cit.rule || cit.claim || 'Verified Policy Rule'}
                       </div>
-                      <div style={{ fontSize: '0.78rem', color: 'var(--color-muted-slate)' }}>
-                        Source Document: <strong>{cit.doc || cit.source || 'Standard Guidelines'}</strong> • Status: <span style={{ color: '#047857', fontWeight: 600 }}>Satisfied & Verified</span>
+                      <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                        Source Document: <strong>{cit.doc || cit.source || 'Standard Guidelines'}</strong> • Status: <span style={{ color: 'var(--success)', fontWeight: 600 }}>Satisfied & Verified</span>
                       </div>
                     </div>
                   ))}
@@ -834,29 +834,29 @@ export const PassportPage: React.FC = () => {
                 gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
                 gap: '20px',
                 padding: '20px',
-                backgroundColor: 'var(--color-warm-ivory)',
+                backgroundColor: 'var(--bg)',
                 borderRadius: 'var(--radius-md)',
-                border: '1px solid var(--color-border-gray)',
+                border: '1px solid var(--border)',
                 marginBottom: '28px'
               }}
             >
               <div>
-                <div style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--color-evidence-teal)', marginBottom: '6px' }}>
+                <div style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'none', color: 'var(--info)', marginBottom: '6px' }}>
                   Authorizing Operations Reviewer
                 </div>
-                <strong style={{ fontSize: '1rem', color: 'var(--color-deep-ink)' }}>
+                <strong style={{ fontSize: '1rem', color: 'var(--text-primary)' }}>
                   {activePassport.authorized_reviewer_name}
                 </strong>
-                <p style={{ fontSize: '0.78rem', color: 'var(--color-muted-slate)', marginTop: '4px' }}>
+                <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '4px' }}>
                   Signoff granted under BrandGuard Corporate Governance Charter. Reviewer ID: <code>{activePassport.authorized_reviewer_id}</code>.
                 </p>
               </div>
 
               <div>
-                <div style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--color-evidence-teal)', marginBottom: '6px' }}>
+                <div style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'none', color: 'var(--info)', marginBottom: '6px' }}>
                   Algorithmic Transparency Disclosure
                 </div>
-                <p style={{ fontSize: '0.8rem', color: 'var(--color-deep-ink)', lineHeight: 1.5, margin: 0 }}>
+                <p style={{ fontSize: '0.8rem', color: 'var(--text-primary)', lineHeight: 1.5, margin: 0 }}>
                   {activePassport.ai_disclosure || 'Algorithmic checks executed to identify guideline risks. All final release authorizations rendered by verified human reviewers.'}
                 </p>
               </div>
@@ -864,11 +864,11 @@ export const PassportPage: React.FC = () => {
 
             {/* Operations Reviewer Revocation Control */}
             {isOperations && activePassport.status !== 'REVOKED' && (
-              <div style={{ borderTop: '1px solid var(--color-border-gray)', paddingTop: '20px', display: 'flex', justifyContent: 'flex-end' }}>
+              <div style={{ borderTop: '1px solid var(--border)', paddingTop: '20px', display: 'flex', justifyContent: 'flex-end' }}>
                 <button
                   onClick={() => setShowRevokeModal(true)}
                   className="btn btn-secondary btn-sm"
-                  style={{ color: '#dc2626', borderColor: '#fca5a5', gap: '6px' }}
+                  style={{ color: 'var(--danger)', borderColor: '#fca5a5', gap: '6px' }}
                 >
                   <ShieldAlert size={14} />
                   <span>Revoke Brand Passport for Cause</span>
@@ -901,24 +901,24 @@ export const PassportPage: React.FC = () => {
             style={{ 
               maxWidth: '520px', 
               width: '100%', 
-              backgroundColor: 'var(--color-surface-white)',
+              backgroundColor: 'var(--surface)',
               borderRadius: 'var(--radius-lg)',
               padding: '28px',
-              border: '2px solid #dc2626'
+              border: '2px solid var(--danger)'
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
-              <ShieldAlert size={24} color="#dc2626" />
-              <h3 style={{ margin: 0, fontSize: '1.25rem', color: '#991b1b' }}>Revoke Brand Passport</h3>
+              <ShieldAlert size={24} color="var(--danger)" />
+              <h3 style={{ margin: 0, fontSize: '1.25rem', color: 'var(--danger)' }}>Revoke Brand Passport</h3>
             </div>
 
-            <p style={{ fontSize: '0.85rem', color: 'var(--color-deep-ink)', lineHeight: 1.5, marginBottom: '16px' }}>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-primary)', lineHeight: 1.5, marginBottom: '16px' }}>
               You are about to revoke <strong>{activePassport.passport_number}</strong> ({activePassport.project_name}). Once revoked, the cryptographic seal will fail verification across all distributor platforms.
             </p>
 
             <div style={{ marginBottom: '16px' }}>
               <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px' }}>
-                Revocation Cause & Regulatory Rationale <span style={{ color: '#dc2626' }}>*</span>
+                Revocation Cause & Regulatory Rationale <span style={{ color: 'var(--danger)' }}>*</span>
               </label>
               <textarea
                 rows={3}
@@ -943,7 +943,7 @@ export const PassportPage: React.FC = () => {
                 type="button"
                 onClick={handleConfirmRevocation}
                 className="btn btn-dark btn-sm"
-                style={{ backgroundColor: '#dc2626', borderColor: '#dc2626', gap: '6px' }}
+                style={{ backgroundColor: 'var(--danger)', borderColor: 'var(--danger)', gap: '6px' }}
                 disabled={isSubmittingRevocation || !revocationReason.trim()}
               >
                 {isSubmittingRevocation ? <Loader2 size={14} className="spin-animate" /> : <ShieldAlert size={14} />}
@@ -976,24 +976,24 @@ export const PassportPage: React.FC = () => {
             style={{ 
               maxWidth: '560px', 
               width: '100%', 
-              backgroundColor: 'var(--color-surface-white)',
+              backgroundColor: 'var(--surface)',
               borderRadius: 'var(--radius-lg)',
               padding: '28px',
-              border: '2px solid var(--color-evidence-teal)'
+              border: '2px solid var(--info)'
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
-              <Award size={24} color="var(--color-evidence-teal)" />
+              <Award size={24} color="var(--info)" />
               <h3 style={{ margin: 0, fontSize: '1.25rem' }}>Issue Cryptographic Brand Passport</h3>
             </div>
 
-            <p style={{ fontSize: '0.85rem', color: 'var(--color-deep-ink)', lineHeight: 1.5, marginBottom: '16px' }}>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-primary)', lineHeight: 1.5, marginBottom: '16px' }}>
               Brand Passports can only be issued for submissions with an actual persisted human approval from an authorized Operations Reviewer.
             </p>
 
             <div style={{ marginBottom: '16px' }}>
               <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px' }}>
-                Select Approved Submission <span style={{ color: 'var(--color-evidence-teal)' }}>*</span>
+                Select Approved Submission <span style={{ color: 'var(--info)' }}>*</span>
               </label>
               {approvedSubmissions.length > 0 ? (
                 <select
@@ -1009,7 +1009,7 @@ export const PassportPage: React.FC = () => {
                   ))}
                 </select>
               ) : (
-                <div style={{ padding: '12px', backgroundColor: 'var(--color-warm-ivory)', borderRadius: 'var(--radius-sm)', fontSize: '0.82rem', color: 'var(--color-muted-slate)' }}>
+                <div style={{ padding: '12px', backgroundColor: 'var(--bg)', borderRadius: 'var(--radius-sm)', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
                   No approved submissions currently available. Submissions must be marked "Approved" in the Review Queue before a passport can be minted.
                 </div>
               )}

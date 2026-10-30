@@ -24,9 +24,9 @@ export const DemoRolesSection: React.FC = () => {
       id="accounts"
       style={{ 
         padding: '84px 24px', 
-        backgroundColor: 'var(--color-surface-white)',
-        borderTop: '1px solid var(--color-border-gray)',
-        borderBottom: '1px solid var(--color-border-gray)',
+        backgroundColor: 'var(--surface)',
+        borderTop: '1px solid var(--border)',
+        borderBottom: '1px solid var(--border)',
         transition: 'background-color var(--transition-normal), border-color var(--transition-normal)'
       }}
     >
@@ -35,7 +35,7 @@ export const DemoRolesSection: React.FC = () => {
           <h2 style={{ fontSize: '2.2rem', marginBottom: '16px', letterSpacing: '-0.02em' }}>
             Two purpose-built account models
           </h2>
-          <p style={{ color: 'var(--color-muted-slate)', fontSize: '1.05rem', lineHeight: 1.6 }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', lineHeight: 1.6 }}>
             BrandGuard cleanly separates client content drafting and review requests from institutional verification, claim ledger governance, and platform administration.
           </p>
         </div>
@@ -53,15 +53,15 @@ export const DemoRolesSection: React.FC = () => {
           <div 
             className="card-panel interactive-card"
             style={{ 
-              backgroundColor: 'var(--color-surface-subtle)',
+              backgroundColor: 'var(--surface-subtle)',
               borderRadius: 'var(--radius-xl)',
               padding: '32px',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',
               gap: '24px',
-              border: '1px solid var(--color-border-gray)',
-              borderTop: '4px solid var(--color-signal-coral)'
+              border: '1px solid var(--border)',
+              borderTop: '4px solid var(--primary)'
             }}
           >
             <div>
@@ -70,41 +70,41 @@ export const DemoRolesSection: React.FC = () => {
                   style={{ 
                     padding: '10px', 
                     borderRadius: 'var(--radius-md)', 
-                    backgroundColor: 'var(--color-surface-white)', 
+                    backgroundColor: 'var(--surface)', 
                     boxShadow: 'var(--shadow-sm)',
-                    border: '1px solid var(--color-border-gray)'
+                    border: '1px solid var(--border)'
                   }}
                 >
-                  <Building2 size={24} color="var(--color-signal-coral)" />
+                  <Building2 size={24} color="var(--primary)" />
                 </div>
                 <div>
-                  <h3 style={{ fontSize: '1.35rem', color: 'var(--color-deep-ink)', fontWeight: 700 }}>Company Workspace</h3>
-                  <span style={{ fontSize: '0.8rem', color: 'var(--color-muted-slate)', fontWeight: 500 }}>Client Organization Environment</span>
+                  <h3 style={{ fontSize: '1.35rem', color: 'var(--text-primary)', fontWeight: 700 }}>Company Workspace</h3>
+                  <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 500 }}>Client Organization Environment</span>
                 </div>
               </div>
 
-              <p style={{ fontSize: '0.92rem', color: 'var(--color-deep-ink)', lineHeight: 1.6, marginBottom: '20px' }}>
+              <p style={{ fontSize: '0.92rem', color: 'var(--text-primary)', lineHeight: 1.6, marginBottom: '20px' }}>
                 For enterprise teams managing marketing collateral, product messaging, and campaign launches. Draft content with Intent Cards, accept 1-click evidence fixes, and track certified Brand Passports.
               </p>
 
-              <div style={{ borderTop: '1px solid var(--color-border-gray)', paddingTop: '16px', display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.85rem' }}>
+              <div style={{ borderTop: '1px solid var(--border)', paddingTop: '16px', display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.85rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <CheckCircle2 size={16} color="var(--color-success)" style={{ flexShrink: 0 }} />
-                  <span style={{ color: 'var(--color-deep-ink)' }}>Content workspace & Intent Card authoring</span>
+                  <CheckCircle2 size={16} color="var(--success)" style={{ flexShrink: 0 }} />
+                  <span style={{ color: 'var(--text-primary)' }}>Content workspace & Intent Card authoring</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <CheckCircle2 size={16} color="var(--color-success)" style={{ flexShrink: 0 }} />
-                  <span style={{ color: 'var(--color-deep-ink)' }}>1-click compliant alternative fix acceptance</span>
+                  <CheckCircle2 size={16} color="var(--success)" style={{ flexShrink: 0 }} />
+                  <span style={{ color: 'var(--text-primary)' }}>1-click compliant alternative fix acceptance</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <CheckCircle2 size={16} color="var(--color-success)" style={{ flexShrink: 0 }} />
-                  <span style={{ color: 'var(--color-deep-ink)' }}>Guideline and verified claim viewing (Read-Only)</span>
+                  <CheckCircle2 size={16} color="var(--success)" style={{ flexShrink: 0 }} />
+                  <span style={{ color: 'var(--text-primary)' }}>Guideline and verified claim viewing (Read-Only)</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <CheckCircle2 size={16} color="var(--color-success)" style={{ flexShrink: 0 }} />
-                  <span style={{ color: 'var(--color-deep-ink)' }}>Brand Passport audit certification records</span>
+                  <CheckCircle2 size={16} color="var(--success)" style={{ flexShrink: 0 }} />
+                  <span style={{ color: 'var(--text-primary)' }}>Brand Passport audit certification records</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--color-muted-slate)', fontSize: '0.8rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-muted)', fontSize: '0.8rem' }}>
                   <Lock size={14} style={{ flexShrink: 0 }} />
                   <span>Cannot silently alter approved ledger claims</span>
                 </div>
@@ -125,15 +125,15 @@ export const DemoRolesSection: React.FC = () => {
           <div 
             className="card-panel interactive-card"
             style={{ 
-              backgroundColor: 'var(--color-surface-subtle)',
+              backgroundColor: 'var(--surface-subtle)',
               borderRadius: 'var(--radius-xl)',
               padding: '32px',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',
               gap: '24px',
-              border: '1px solid var(--color-border-gray)',
-              borderTop: '4px solid var(--color-evidence-teal)'
+              border: '1px solid var(--border)',
+              borderTop: '4px solid var(--info)'
             }}
           >
             <div>
@@ -142,43 +142,43 @@ export const DemoRolesSection: React.FC = () => {
                   style={{ 
                     padding: '10px', 
                     borderRadius: 'var(--radius-md)', 
-                    backgroundColor: 'var(--color-surface-white)', 
+                    backgroundColor: 'var(--surface)', 
                     boxShadow: 'var(--shadow-sm)',
-                    border: '1px solid var(--color-border-gray)'
+                    border: '1px solid var(--border)'
                   }}
                 >
-                  <ShieldCheck size={24} color="var(--color-evidence-teal)" />
+                  <ShieldCheck size={24} color="var(--info)" />
                 </div>
                 <div>
-                  <h3 style={{ fontSize: '1.35rem', color: 'var(--color-deep-ink)', fontWeight: 700 }}>BrandGuard Operations</h3>
-                  <span style={{ fontSize: '0.8rem', color: 'var(--color-muted-slate)', fontWeight: 500 }}>Governance & Verification Team</span>
+                  <h3 style={{ fontSize: '1.35rem', color: 'var(--text-primary)', fontWeight: 700 }}>BrandGuard Operations</h3>
+                  <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 500 }}>Governance & Verification Team</span>
                 </div>
               </div>
 
-              <p style={{ fontSize: '0.92rem', color: 'var(--color-deep-ink)', lineHeight: 1.6, marginBottom: '20px' }}>
+              <p style={{ fontSize: '0.92rem', color: 'var(--text-primary)', lineHeight: 1.6, marginBottom: '20px' }}>
                 For the internal governance team responsible for customer onboarding, review queue decisions, claim ledger curation, and platform administration.
               </p>
 
-              <div style={{ borderTop: '1px solid var(--color-border-gray)', paddingTop: '16px', display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.85rem' }}>
+              <div style={{ borderTop: '1px solid var(--border)', paddingTop: '16px', display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.85rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <CheckCircle2 size={16} color="var(--color-evidence-teal)" style={{ flexShrink: 0 }} />
-                  <span style={{ color: 'var(--color-deep-ink)' }}>Human Review Queue & binding publishing signoff</span>
+                  <CheckCircle2 size={16} color="var(--info)" style={{ flexShrink: 0 }} />
+                  <span style={{ color: 'var(--text-primary)' }}>Human Review Queue & binding publishing signoff</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <CheckCircle2 size={16} color="var(--color-evidence-teal)" style={{ flexShrink: 0 }} />
-                  <span style={{ color: 'var(--color-deep-ink)' }}>Approved Fact & Claim Ledger curation</span>
+                  <CheckCircle2 size={16} color="var(--info)" style={{ flexShrink: 0 }} />
+                  <span style={{ color: 'var(--text-primary)' }}>Approved Fact & Claim Ledger curation</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <CheckCircle2 size={16} color="var(--color-evidence-teal)" style={{ flexShrink: 0 }} />
-                  <span style={{ color: 'var(--color-deep-ink)' }}>Guideline document ingestion & proposed rule approvals</span>
+                  <CheckCircle2 size={16} color="var(--info)" style={{ flexShrink: 0 }} />
+                  <span style={{ color: 'var(--text-primary)' }}>Guideline document ingestion & proposed rule approvals</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <CheckCircle2 size={16} color="var(--color-evidence-teal)" style={{ flexShrink: 0 }} />
-                  <span style={{ color: 'var(--color-deep-ink)' }}>Guideline Health & policy dismissal analytics</span>
+                  <CheckCircle2 size={16} color="var(--info)" style={{ flexShrink: 0 }} />
+                  <span style={{ color: 'var(--text-primary)' }}>Guideline Health & policy dismissal analytics</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <CheckCircle2 size={16} color="var(--color-evidence-teal)" style={{ flexShrink: 0 }} />
-                  <span style={{ color: 'var(--color-deep-ink)' }}>Tenant workspace management & inbound leads</span>
+                  <CheckCircle2 size={16} color="var(--info)" style={{ flexShrink: 0 }} />
+                  <span style={{ color: 'var(--text-primary)' }}>Tenant workspace management & inbound leads</span>
                 </div>
               </div>
             </div>

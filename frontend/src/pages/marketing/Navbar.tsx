@@ -29,9 +29,9 @@ export const Navbar: React.FC = () => {
         position: 'sticky', 
         top: 0, 
         zIndex: 50, 
-        backgroundColor: 'var(--color-warm-ivory)',
+        backgroundColor: 'var(--bg)',
         backdropFilter: 'blur(10px)',
-        borderBottom: '1px solid var(--color-border-gray)',
+        borderBottom: '1px solid var(--border)',
         padding: '14px 24px',
         transition: 'background-color var(--transition-normal), border-color var(--transition-normal)'
       }}
@@ -75,12 +75,12 @@ export const Navbar: React.FC = () => {
           }}
           className="desktop-nav"
         >
-          <a href="#how-it-works" style={{ color: 'var(--color-deep-ink)', transition: 'color 0.2s' }}>How It Works</a>
-          <a href="#features" style={{ color: 'var(--color-deep-ink)', transition: 'color 0.2s' }}>Features</a>
-          <a href="#demo" style={{ color: 'var(--color-deep-ink)', transition: 'color 0.2s' }}>Interactive Demo</a>
-          <a href="#plans" style={{ color: 'var(--color-deep-ink)', transition: 'color 0.2s' }}>Plans</a>
-          <a href="#trust" style={{ color: 'var(--color-deep-ink)', transition: 'color 0.2s' }}>Trust & Compliance</a>
-          <a href="#contact" style={{ color: 'var(--color-deep-ink)', transition: 'color 0.2s' }}>Contact</a>
+          <a href="#how-it-works" style={{ color: 'var(--text-primary)', transition: 'color 0.2s' }}>How It Works</a>
+          <a href="#features" style={{ color: 'var(--text-primary)', transition: 'color 0.2s' }}>Features</a>
+          <a href="#demo" style={{ color: 'var(--text-primary)', transition: 'color 0.2s' }}>Interactive Demo</a>
+          <a href="#plans" style={{ color: 'var(--text-primary)', transition: 'color 0.2s' }}>Plans</a>
+          <a href="#trust" style={{ color: 'var(--text-primary)', transition: 'color 0.2s' }}>Trust & Compliance</a>
+          <a href="#contact" style={{ color: 'var(--text-primary)', transition: 'color 0.2s' }}>Contact</a>
         </nav>
 
         {/* Right Action Buttons */}
@@ -98,9 +98,9 @@ export const Navbar: React.FC = () => {
             style={{ 
               padding: '8px', 
               borderRadius: 'var(--radius-full)', 
-              backgroundColor: 'var(--color-surface-white)',
-              border: '1px solid var(--color-border-gray)',
-              color: 'var(--color-deep-ink)',
+              backgroundColor: 'var(--surface)',
+              border: '1px solid var(--border)',
+              color: 'var(--text-primary)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -108,7 +108,7 @@ export const Navbar: React.FC = () => {
             }}
             title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
           >
-            {theme === 'light' ? <Moon size={16} /> : <Sun size={16} color="var(--color-warning)" />}
+            {theme === 'light' ? <Moon size={16} /> : <Sun size={16} color="var(--warning)" />}
           </button>
 
           {/* Sign In Link */}
@@ -116,13 +116,13 @@ export const Navbar: React.FC = () => {
             to="/login" 
             className="btn btn-secondary btn-sm"
             style={{ 
-              border: '1px solid var(--color-border-gray)', 
+              border: '1px solid var(--border)', 
               display: 'flex', 
               alignItems: 'center',
               gap: '6px'
             }}
           >
-            <LogIn size={15} color="var(--color-evidence-teal)" />
+            <LogIn size={15} color="var(--info)" />
             <span>Sign In</span>
           </Link>
 
@@ -144,8 +144,8 @@ export const Navbar: React.FC = () => {
               display: 'none', 
               padding: '6px', 
               borderRadius: '6px',
-              border: '1px solid var(--color-border-gray)',
-              color: 'var(--color-deep-ink)'
+              border: '1px solid var(--border)',
+              color: 'var(--text-primary)'
             }}
             className="mobile-toggle"
           >
@@ -158,13 +158,13 @@ export const Navbar: React.FC = () => {
       {mobileMenuOpen && (
         <div 
           style={{ 
-            borderTop: '1px solid var(--color-border-gray)', 
+            borderTop: '1px solid var(--border)', 
             marginTop: '12px', 
             paddingTop: '16px',
             display: 'flex',
             flexDirection: 'column',
             gap: '14px',
-            backgroundColor: 'var(--color-warm-ivory)'
+            backgroundColor: 'var(--bg)'
           }}
         >
           <a 

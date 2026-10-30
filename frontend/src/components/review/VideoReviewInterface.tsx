@@ -132,14 +132,14 @@ export const VideoReviewInterface: React.FC<VideoReviewInterfaceProps> = ({
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     if (dropZoneRef.current) {
-      dropZoneRef.current.style.borderColor = 'var(--color-signal-coral)';
-      dropZoneRef.current.style.backgroundColor = 'var(--color-surface-subtle)';
+      dropZoneRef.current.style.borderColor = 'var(--primary)';
+      dropZoneRef.current.style.backgroundColor = 'var(--surface-subtle)';
     }
   };
 
   const handleDragLeave = () => {
     if (dropZoneRef.current) {
-      dropZoneRef.current.style.borderColor = 'var(--color-border-gray)';
+      dropZoneRef.current.style.borderColor = 'var(--border)';
       dropZoneRef.current.style.backgroundColor = 'transparent';
     }
   };
@@ -282,8 +282,8 @@ export const VideoReviewInterface: React.FC<VideoReviewInterfaceProps> = ({
         className="card-panel"
         style={{
           padding: '24px',
-          backgroundColor: 'var(--color-surface-white)',
-          border: '1px solid var(--color-border-gray)',
+          backgroundColor: 'var(--surface)',
+          border: '1px solid var(--border)',
           display: 'flex',
           flexDirection: 'column',
           gap: '18px'
@@ -291,10 +291,10 @@ export const VideoReviewInterface: React.FC<VideoReviewInterfaceProps> = ({
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
           <div>
-            <strong style={{ fontSize: '1.05rem', color: 'var(--color-deep-ink)', display: 'block' }}>
+            <strong style={{ fontSize: '1.05rem', color: 'var(--text-primary)', display: 'block' }}>
               Video Commercial & Motion Graphics Review
             </strong>
-            <span style={{ fontSize: '0.8rem', color: 'var(--color-muted-slate)' }}>
+            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
               Connected to Google Gemini 2.5 Flash for timestamped analysis of super titles (min 4s), spoken voiceover disclaimers, and logo isolation.
             </span>
           </div>
@@ -321,7 +321,7 @@ export const VideoReviewInterface: React.FC<VideoReviewInterfaceProps> = ({
             onDrop={handleDrop}
             onClick={() => fileInputRef.current?.click()}
             style={{
-              border: '2px dashed var(--color-border-gray)',
+              border: '2px dashed var(--border)',
               borderRadius: 'var(--radius-lg)',
               padding: '36px 20px',
               textAlign: 'center',
@@ -347,20 +347,20 @@ export const VideoReviewInterface: React.FC<VideoReviewInterfaceProps> = ({
                 width: '48px', 
                 height: '48px', 
                 borderRadius: 'var(--radius-full)', 
-                backgroundColor: 'var(--color-surface-subtle)', 
+                backgroundColor: 'var(--surface-subtle)', 
                 display: 'flex', 
                 alignItems: 'center', 
                 justifyContent: 'center',
-                color: 'var(--color-evidence-teal)'
+                color: 'var(--info)'
               }}
             >
               <Film size={22} />
             </div>
             <div>
-              <strong style={{ fontSize: '0.92rem', color: 'var(--color-deep-ink)', display: 'block' }}>
+              <strong style={{ fontSize: '0.92rem', color: 'var(--text-primary)', display: 'block' }}>
                 Click to upload video footage or drag and drop
               </strong>
-              <span style={{ fontSize: '0.78rem', color: 'var(--color-muted-slate)' }}>
+              <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
                 Supported formats: MP4, WebM, MOV (Max 250MB)
               </span>
             </div>
@@ -372,7 +372,7 @@ export const VideoReviewInterface: React.FC<VideoReviewInterfaceProps> = ({
               style={{ 
                 borderRadius: 'var(--radius-md)', 
                 overflow: 'hidden', 
-                border: '1px solid var(--color-border-gray)',
+                border: '1px solid var(--border)',
                 backgroundColor: '#000000'
               }}
             >
@@ -383,7 +383,7 @@ export const VideoReviewInterface: React.FC<VideoReviewInterfaceProps> = ({
               />
               <div 
                 style={{ 
-                  backgroundColor: 'var(--color-deep-ink)', 
+                  backgroundColor: 'var(--text-primary)', 
                   color: '#FFFFFF', 
                   fontSize: '0.74rem', 
                   padding: '6px 12px',
@@ -399,7 +399,7 @@ export const VideoReviewInterface: React.FC<VideoReviewInterfaceProps> = ({
 
             {/* Optional Instructions alongside video */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <label style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--color-deep-ink)' }}>
+              <label style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-primary)' }}>
                 Review Instructions / Broadcast Channel Targets:
               </label>
               <textarea 
@@ -411,11 +411,11 @@ export const VideoReviewInterface: React.FC<VideoReviewInterfaceProps> = ({
                   width: '100%',
                   padding: '10px 12px',
                   borderRadius: 'var(--radius-md)',
-                  border: '1px solid var(--color-border-gray)',
-                  backgroundColor: 'var(--color-surface-subtle)',
+                  border: '1px solid var(--border)',
+                  backgroundColor: 'var(--surface-subtle)',
                   fontSize: '0.85rem',
                   resize: 'none',
-                  color: 'var(--color-deep-ink)'
+                  color: 'var(--text-primary)'
                 }}
               />
               <button 
@@ -444,9 +444,9 @@ export const VideoReviewInterface: React.FC<VideoReviewInterfaceProps> = ({
             style={{ 
               padding: '10px 14px', 
               backgroundColor: 'rgba(230, 57, 70, 0.1)', 
-              border: '1px solid var(--color-error)',
+              border: '1px solid var(--danger)',
               borderRadius: 'var(--radius-md)',
-              color: 'var(--color-error)',
+              color: 'var(--danger)',
               fontSize: '0.82rem',
               display: 'flex',
               alignItems: 'center',
@@ -468,18 +468,18 @@ export const VideoReviewInterface: React.FC<VideoReviewInterfaceProps> = ({
           <div 
             style={{ 
               padding: '14px', 
-              backgroundColor: 'var(--color-surface-subtle)', 
+              backgroundColor: 'var(--surface-subtle)', 
               borderRadius: 'var(--radius-md)', 
               display: 'flex', 
               alignItems: 'center', 
               gap: '12px',
-              border: '1px solid var(--color-border-subtle)'
+              border: '1px solid var(--border)'
             }}
           >
-            <Clock size={18} color="var(--color-evidence-teal)" />
+            <Clock size={18} color="var(--info)" />
             <div>
-              <strong style={{ fontSize: '0.85rem', display: 'block', color: 'var(--color-deep-ink)' }}>Processing Video Footage...</strong>
-              <span style={{ fontSize: '0.78rem', color: 'var(--color-muted-slate)' }}>{analysisStep}</span>
+              <strong style={{ fontSize: '0.85rem', display: 'block', color: 'var(--text-primary)' }}>Processing Video Footage...</strong>
+              <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>{analysisStep}</span>
             </div>
           </div>
         )}
@@ -505,17 +505,17 @@ export const VideoReviewInterface: React.FC<VideoReviewInterfaceProps> = ({
           className="card-panel"
           style={{
             padding: '20px',
-            backgroundColor: 'var(--color-surface-white)',
-            border: '1px solid var(--color-border-gray)',
+            backgroundColor: 'var(--surface)',
+            border: '1px solid var(--border)',
             display: 'flex',
             flexDirection: 'column',
             gap: '16px'
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--color-border-subtle)', paddingBottom: '10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--border)', paddingBottom: '10px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Bot size={18} color="var(--color-evidence-teal)" />
-              <strong style={{ fontSize: '0.94rem', color: 'var(--color-deep-ink)' }}>
+              <Bot size={18} color="var(--info)" />
+              <strong style={{ fontSize: '0.94rem', color: 'var(--text-primary)' }}>
                 Ask Follow-Up Questions About Timestamped Findings
               </strong>
             </div>
@@ -542,7 +542,7 @@ export const VideoReviewInterface: React.FC<VideoReviewInterfaceProps> = ({
                 }}
               >
                 {msg.sender === 'assistant' && (
-                  <div style={{ width: '28px', height: '28px', borderRadius: '50%', backgroundColor: 'var(--color-surface-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: msg.isError ? 'var(--color-error)' : 'var(--color-evidence-teal)', flexShrink: 0 }}>
+                  <div style={{ width: '28px', height: '28px', borderRadius: '50%', backgroundColor: 'var(--surface-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: msg.isError ? 'var(--danger)' : 'var(--info)', flexShrink: 0 }}>
                     {msg.isError ? <AlertTriangle size={14} /> : <Bot size={14} />}
                   </div>
                 )}
@@ -550,11 +550,11 @@ export const VideoReviewInterface: React.FC<VideoReviewInterfaceProps> = ({
                   style={{
                     padding: '10px 14px',
                     borderRadius: 'var(--radius-md)',
-                    backgroundColor: msg.sender === 'user' ? 'var(--color-deep-ink)' : 'var(--color-surface-subtle)',
-                    color: msg.sender === 'user' ? '#FFFFFF' : 'var(--color-deep-ink)',
+                    backgroundColor: msg.sender === 'user' ? 'var(--text-primary)' : 'var(--surface-subtle)',
+                    color: msg.sender === 'user' ? '#FFFFFF' : 'var(--text-primary)',
                     fontSize: '0.84rem',
                     lineHeight: 1.5,
-                    border: msg.isError ? '1px solid var(--color-error)' : '1px solid var(--color-border-subtle)'
+                    border: msg.isError ? '1px solid var(--danger)' : '1px solid var(--border)'
                   }}
                 >
                   {msg.text}
@@ -576,10 +576,10 @@ export const VideoReviewInterface: React.FC<VideoReviewInterfaceProps> = ({
                 flex: 1,
                 padding: '10px 14px',
                 borderRadius: 'var(--radius-md)',
-                border: '1px solid var(--color-border-gray)',
-                backgroundColor: 'var(--color-surface-subtle)',
+                border: '1px solid var(--border)',
+                backgroundColor: 'var(--surface-subtle)',
                 fontSize: '0.84rem',
-                color: 'var(--color-deep-ink)'
+                color: 'var(--text-primary)'
               }}
             />
             <button 

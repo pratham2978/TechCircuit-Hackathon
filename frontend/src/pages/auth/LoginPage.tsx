@@ -117,7 +117,7 @@ export const LoginPage: React.FC = () => {
         minHeight: '100vh', 
         display: 'flex', 
         flexDirection: 'column', 
-        backgroundColor: 'var(--color-warm-ivory)',
+        backgroundColor: 'var(--bg)',
         transition: 'background-color var(--transition-normal)'
       }}
     >
@@ -140,13 +140,13 @@ export const LoginPage: React.FC = () => {
             display: 'inline-flex', 
             alignItems: 'center', 
             gap: '8px', 
-            color: 'var(--color-deep-ink)', 
+            color: 'var(--text-primary)', 
             fontSize: '0.88rem', 
             fontWeight: 500,
             padding: '6px 12px',
             borderRadius: 'var(--radius-md)',
-            backgroundColor: 'var(--color-surface-white)',
-            border: '1px solid var(--color-border-gray)',
+            backgroundColor: 'var(--surface)',
+            border: '1px solid var(--border)',
             transition: 'border-color var(--transition-fast)'
           }}
         >
@@ -160,9 +160,9 @@ export const LoginPage: React.FC = () => {
           style={{ 
             padding: '8px', 
             borderRadius: 'var(--radius-full)', 
-            backgroundColor: 'var(--color-surface-white)',
-            border: '1px solid var(--color-border-gray)',
-            color: 'var(--color-deep-ink)',
+            backgroundColor: 'var(--surface)',
+            border: '1px solid var(--border)',
+            color: 'var(--text-primary)',
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'center',
@@ -171,7 +171,7 @@ export const LoginPage: React.FC = () => {
           }}
           title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
         >
-          {theme === 'light' ? <Moon size={16} /> : <Sun size={16} color="var(--color-warning)" />}
+          {theme === 'light' ? <Moon size={16} /> : <Sun size={16} color="var(--warning)" />}
         </button>
       </header>
 
@@ -195,9 +195,9 @@ export const LoginPage: React.FC = () => {
                   display: 'inline-flex', 
                   alignItems: 'center', 
                   gap: '8px',
-                  backgroundColor: 'var(--color-evidence-teal-subtle)',
+                  backgroundColor: 'var(--info-subtle)',
                   border: '1px solid rgba(22, 124, 120, 0.25)',
-                  color: 'var(--color-evidence-teal)',
+                  color: 'var(--info)',
                   padding: '4px 12px',
                   borderRadius: 'var(--radius-full)',
                   fontSize: '0.78rem',
@@ -208,13 +208,13 @@ export const LoginPage: React.FC = () => {
                 <ShieldCheck size={15} />
                 <span>Evidence-Backed Governance Network</span>
               </div>
-              <h2 style={{ fontSize: '1.95rem', color: 'var(--color-deep-ink)', fontWeight: 700, letterSpacing: '-0.02em', lineHeight: 1.25, marginBottom: '10px' }}>
+              <h2 style={{ fontSize: '1.95rem', color: 'var(--text-primary)', fontWeight: 700, letterSpacing: '-0.02em', lineHeight: 1.25, marginBottom: '10px' }}>
                 Every claim accountable. <br />
-                <span style={{ color: isCompany ? 'var(--color-signal-coral)' : 'var(--color-evidence-teal)' }}>
+                <span style={{ color: isCompany ? 'var(--primary)' : 'var(--info)' }}>
                   Every asset on-brand.
                 </span>
               </h2>
-              <p style={{ color: 'var(--color-muted-slate)', fontSize: '0.92rem', lineHeight: 1.55 }}>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem', lineHeight: 1.55 }}>
                 BrandGuard connects enterprise manuscripts directly to audited claim ledgers, automated rule checks, and certified human signoffs.
               </p>
             </div>
@@ -247,8 +247,8 @@ export const LoginPage: React.FC = () => {
                   style={{
                     padding: '18px 20px',
                     borderRadius: 'var(--radius-lg)',
-                    border: '1px solid var(--color-border-gray)',
-                    backgroundColor: 'var(--color-surface-white)',
+                    border: '1px solid var(--border)',
+                    backgroundColor: 'var(--surface)',
                     boxShadow: 'var(--shadow-sm)',
                     display: 'flex',
                     flexDirection: 'column',
@@ -257,12 +257,12 @@ export const LoginPage: React.FC = () => {
                 >
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <FileText size={16} color="var(--color-evidence-teal)" />
-                      <strong style={{ fontSize: '0.88rem', color: 'var(--color-deep-ink)' }}>
+                      <FileText size={16} color="var(--info)" />
+                      <strong style={{ fontSize: '0.88rem', color: 'var(--text-primary)' }}>
                         Enterprise Cloud Migration Brief
                       </strong>
                     </div>
-                    <span className="badge badge-expiring" style={{ fontSize: '0.65rem' }}>
+                    <span className="badge badge-warning" style={{ fontSize: '0.65rem' }}>
                       In Review
                     </span>
                   </div>
@@ -272,17 +272,17 @@ export const LoginPage: React.FC = () => {
                       fontSize: '0.82rem', 
                       lineHeight: 1.55, 
                       padding: '10px 12px',
-                      backgroundColor: 'var(--color-surface-subtle)',
+                      backgroundColor: 'var(--surface-subtle)',
                       borderRadius: 'var(--radius-sm)',
-                      color: 'var(--color-deep-ink)',
-                      borderLeft: isCompany ? '3px solid var(--color-error)' : '3px solid var(--color-success)'
+                      color: 'var(--text-primary)',
+                      borderLeft: isCompany ? '3px solid var(--danger)' : '3px solid var(--success)'
                     }}
                   >
                     "Delivers enterprise governance with{' '}
                     <span 
                       style={{ 
                         backgroundColor: isCompany ? 'rgba(241, 107, 80, 0.2)' : 'rgba(40, 125, 88, 0.2)',
-                        color: isCompany ? 'var(--color-error)' : 'var(--color-success)',
+                        color: isCompany ? 'var(--danger)' : 'var(--success)',
                         fontWeight: 600,
                         padding: '1px 6px',
                         borderRadius: '3px'
@@ -301,8 +301,8 @@ export const LoginPage: React.FC = () => {
                     style={{
                       padding: '14px 18px',
                       borderRadius: 'var(--radius-md)',
-                      border: '1px solid var(--color-border-gray)',
-                      backgroundColor: 'var(--color-surface-white)',
+                      border: '1px solid var(--border)',
+                      backgroundColor: 'var(--surface)',
                       boxShadow: 'var(--shadow-sm)',
                       display: 'flex',
                       alignItems: 'center',
@@ -316,25 +316,25 @@ export const LoginPage: React.FC = () => {
                           width: '32px', 
                           height: '32px', 
                           borderRadius: '6px', 
-                          backgroundColor: 'var(--color-evidence-teal-subtle)',
+                          backgroundColor: 'var(--info-subtle)',
                           display: 'flex', 
                           alignItems: 'center', 
                           justifyContent: 'center',
                           flexShrink: 0
                         }}
                       >
-                        <Database size={16} color="var(--color-evidence-teal)" />
+                        <Database size={16} color="var(--info)" />
                       </div>
                       <div>
-                        <div style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--color-deep-ink)' }}>
+                        <div style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-primary)' }}>
                           Claim Ledger: Master SLA Table 4.2
                         </div>
-                        <div style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)' }}>
+                        <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
                           Authority: DevOps Legal • Valid through 2026
                         </div>
                       </div>
                     </div>
-                    <span className="badge badge-verified" style={{ fontSize: '0.65rem' }}>
+                    <span className="badge badge-success" style={{ fontSize: '0.65rem' }}>
                       Verified Ground Truth
                     </span>
                   </div>
@@ -346,8 +346,8 @@ export const LoginPage: React.FC = () => {
                   style={{
                     padding: '14px 18px',
                     borderRadius: 'var(--radius-md)',
-                    border: '1px solid var(--color-border-gray)',
-                    backgroundColor: 'var(--color-surface-white)',
+                    border: '1px solid var(--border)',
+                    backgroundColor: 'var(--surface)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
@@ -355,17 +355,17 @@ export const LoginPage: React.FC = () => {
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <Award size={18} color="var(--color-evidence-teal)" />
+                    <Award size={18} color="var(--info)" />
                     <div>
-                      <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--color-deep-ink)', display: 'block' }}>
+                      <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-primary)', display: 'block' }}>
                         Brand Passport #BP-9921
                       </span>
-                      <span style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)' }}>
+                      <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
                         Human Reviewer: Elena Rostova (BrandGuard Operations)
                       </span>
                     </div>
                   </div>
-                  <span className="badge badge-teal" style={{ fontSize: '0.68rem' }}>
+                  <span className="badge badge-info" style={{ fontSize: '0.68rem' }}>
                     Certified Seal
                   </span>
                 </div>
@@ -376,7 +376,7 @@ export const LoginPage: React.FC = () => {
             <div 
               style={{ 
                 padding: '12px 16px', 
-                backgroundColor: isCompany ? 'var(--color-signal-coral-subtle)' : 'var(--color-evidence-teal-subtle)',
+                backgroundColor: isCompany ? 'var(--primary-subtle)' : 'var(--info-subtle)',
                 borderRadius: 'var(--radius-md)',
                 border: isCompany ? '1px solid rgba(241, 107, 80, 0.3)' : '1px solid rgba(22, 124, 120, 0.3)',
                 fontSize: '0.8rem',
@@ -387,13 +387,13 @@ export const LoginPage: React.FC = () => {
               }}
             >
               {isCompany ? (
-                <Building2 size={18} color="var(--color-signal-coral)" style={{ flexShrink: 0 }} />
+                <Building2 size={18} color="var(--primary)" style={{ flexShrink: 0 }} />
               ) : (
-                <ShieldCheck size={18} color="var(--color-evidence-teal)" style={{ flexShrink: 0 }} />
+                <ShieldCheck size={18} color="var(--info)" style={{ flexShrink: 0 }} />
               )}
-              <div style={{ color: 'var(--color-deep-ink)' }}>
+              <div style={{ color: 'var(--text-primary)' }}>
                 <strong>{isCompany ? 'Company Workspace Mode:' : 'BrandGuard Operations Mode:'}</strong>{' '}
-                <span style={{ color: 'var(--color-muted-slate)' }}>
+                <span style={{ color: 'var(--text-muted)' }}>
                   {isCompany 
                     ? 'Client access for content authors, Intent Cards, and review submissions.' 
                     : 'Internal access for claim ledger curation, rule reviews, and binding signoffs.'}
@@ -408,8 +408,8 @@ export const LoginPage: React.FC = () => {
             style={{ 
               padding: '36px',
               borderRadius: 'var(--radius-xl)',
-              backgroundColor: 'var(--color-surface-white)',
-              border: '1px solid var(--color-border-gray)',
+              backgroundColor: 'var(--surface)',
+              border: '1px solid var(--border)',
               boxShadow: 'var(--shadow-md)',
               boxSizing: 'border-box'
             }}
@@ -419,10 +419,10 @@ export const LoginPage: React.FC = () => {
               <div style={{ display: 'inline-flex', marginBottom: '12px' }}>
                 <BrandLogo size="md" />
               </div>
-              <h1 style={{ fontSize: '1.65rem', color: 'var(--color-deep-ink)', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '6px' }}>
+              <h1 style={{ fontSize: '1.65rem', color: 'var(--text-primary)', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '6px' }}>
                 Sign in to BrandGuard
               </h1>
-              <p style={{ color: 'var(--color-muted-slate)', fontSize: '0.88rem' }}>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem' }}>
                 Select an environment to access your governance dashboard.
               </p>
             </div>
@@ -435,7 +435,7 @@ export const LoginPage: React.FC = () => {
                   fontSize: '0.78rem', 
                   fontWeight: 700, 
                   textTransform: 'uppercase', 
-                  color: 'var(--color-muted-slate)', 
+                  color: 'var(--text-muted)', 
                   letterSpacing: '0.04em', 
                   marginBottom: '8px' 
                 }}
@@ -451,8 +451,8 @@ export const LoginPage: React.FC = () => {
                   style={{ 
                     padding: '12px', 
                     borderRadius: 'var(--radius-md)', 
-                    border: isCompany ? '2px solid var(--color-signal-coral)' : '1px solid var(--color-border-gray)',
-                    backgroundColor: isCompany ? 'var(--color-signal-coral-subtle)' : 'var(--color-surface-subtle)',
+                    border: isCompany ? '2px solid var(--primary)' : '1px solid var(--border)',
+                    backgroundColor: isCompany ? 'var(--primary-subtle)' : 'var(--surface-subtle)',
                     cursor: 'pointer',
                     textAlign: 'left',
                     display: 'flex',
@@ -462,10 +462,10 @@ export const LoginPage: React.FC = () => {
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <Building2 size={16} color="var(--color-signal-coral)" />
-                    <strong style={{ fontSize: '0.85rem', color: 'var(--color-deep-ink)' }}>Company</strong>
+                    <Building2 size={16} color="var(--primary)" />
+                    <strong style={{ fontSize: '0.85rem', color: 'var(--text-primary)' }}>Company</strong>
                   </div>
-                  <span style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)', lineHeight: 1.35 }}>
+                  <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', lineHeight: 1.35 }}>
                     Client content workspace & drafts
                   </span>
                 </button>
@@ -477,8 +477,8 @@ export const LoginPage: React.FC = () => {
                   style={{ 
                     padding: '12px', 
                     borderRadius: 'var(--radius-md)', 
-                    border: !isCompany ? '2px solid var(--color-evidence-teal)' : '1px solid var(--color-border-gray)',
-                    backgroundColor: !isCompany ? 'var(--color-evidence-teal-subtle)' : 'var(--color-surface-subtle)',
+                    border: !isCompany ? '2px solid var(--info)' : '1px solid var(--border)',
+                    backgroundColor: !isCompany ? 'var(--info-subtle)' : 'var(--surface-subtle)',
                     cursor: 'pointer',
                     textAlign: 'left',
                     display: 'flex',
@@ -488,10 +488,10 @@ export const LoginPage: React.FC = () => {
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <ShieldCheck size={16} color="var(--color-evidence-teal)" />
-                    <strong style={{ fontSize: '0.85rem', color: 'var(--color-deep-ink)' }}>Operations</strong>
+                    <ShieldCheck size={16} color="var(--info)" />
+                    <strong style={{ fontSize: '0.85rem', color: 'var(--text-primary)' }}>Operations</strong>
                   </div>
-                  <span style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)', lineHeight: 1.35 }}>
+                  <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', lineHeight: 1.35 }}>
                     Review queue, claim ledger & approvals
                   </span>
                 </button>
@@ -505,8 +505,8 @@ export const LoginPage: React.FC = () => {
                   style={{ 
                     padding: '10px 14px', 
                     borderRadius: 'var(--radius-md)', 
-                    backgroundColor: 'var(--color-error-subtle)', 
-                    color: 'var(--color-error)',
+                    backgroundColor: 'var(--danger-subtle)', 
+                    color: 'var(--danger)',
                     fontSize: '0.82rem', 
                     marginBottom: '16px',
                     border: '1px solid rgba(198,61,79,0.25)',
@@ -520,7 +520,7 @@ export const LoginPage: React.FC = () => {
               <div style={{ marginBottom: '16px' }}>
                 <label 
                   htmlFor="login-email"
-                  style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, color: 'var(--color-deep-ink)', marginBottom: '6px' }}
+                  style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '6px' }}
                 >
                   Work Email Address
                 </label>
@@ -535,10 +535,10 @@ export const LoginPage: React.FC = () => {
                     width: '100%', 
                     padding: '10px 12px', 
                     borderRadius: 'var(--radius-md)', 
-                    border: '1px solid var(--color-border-gray)',
+                    border: '1px solid var(--border)',
                     fontSize: '0.9rem',
-                    backgroundColor: 'var(--color-surface-white)',
-                    color: 'var(--color-deep-ink)',
+                    backgroundColor: 'var(--surface)',
+                    color: 'var(--text-primary)',
                     boxSizing: 'border-box'
                   }}
                 />
@@ -548,14 +548,14 @@ export const LoginPage: React.FC = () => {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
                   <label 
                     htmlFor="login-password"
-                    style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--color-deep-ink)' }}
+                    style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-primary)' }}
                   >
                     Password
                   </label>
                   <button 
                     type="button" 
                     onClick={() => setShowPassword(!showPassword)}
-                    style={{ fontSize: '0.75rem', color: 'var(--color-muted-slate)', display: 'inline-flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}
+                    style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'inline-flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}
                   >
                     {showPassword ? <EyeOff size={13} /> : <Eye size={13} />}
                     <span>{showPassword ? 'Hide' : 'Show'}</span>
@@ -572,10 +572,10 @@ export const LoginPage: React.FC = () => {
                     width: '100%', 
                     padding: '10px 12px', 
                     borderRadius: 'var(--radius-md)', 
-                    border: '1px solid var(--color-border-gray)',
+                    border: '1px solid var(--border)',
                     fontSize: '0.9rem',
-                    backgroundColor: 'var(--color-surface-white)',
-                    color: 'var(--color-deep-ink)',
+                    backgroundColor: 'var(--surface)',
+                    color: 'var(--text-primary)',
                     boxSizing: 'border-box'
                   }}
                 />
@@ -603,13 +603,13 @@ export const LoginPage: React.FC = () => {
               style={{ 
                 marginTop: '24px', 
                 paddingTop: '18px', 
-                borderTop: '1px solid var(--color-border-subtle)',
+                borderTop: '1px solid var(--border)',
                 fontSize: '0.8rem',
-                color: 'var(--color-muted-slate)'
+                color: 'var(--text-muted)'
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>
-                <Info size={14} color="var(--color-evidence-teal)" />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px', color: 'var(--text-primary)', fontWeight: 600 }}>
+                <Info size={14} color="var(--info)" />
                 <span>Demonstration Exploration Access</span>
               </div>
               <p style={{ marginBottom: '10px', fontSize: '0.76rem', lineHeight: 1.45 }}>
@@ -622,7 +622,7 @@ export const LoginPage: React.FC = () => {
                   className="btn btn-secondary btn-sm"
                   style={{ fontSize: '0.74rem', gap: '6px', justifyContent: 'center' }}
                 >
-                  <Building2 size={13} color="var(--color-signal-coral)" />
+                  <Building2 size={13} color="var(--primary)" />
                   <span>Quick-Fill Client</span>
                 </button>
                 <button 
@@ -631,7 +631,7 @@ export const LoginPage: React.FC = () => {
                   className="btn btn-secondary btn-sm"
                   style={{ fontSize: '0.74rem', gap: '6px', justifyContent: 'center' }}
                 >
-                  <ShieldCheck size={13} color="var(--color-evidence-teal)" />
+                  <ShieldCheck size={13} color="var(--info)" />
                   <span>Quick-Fill Operations</span>
                 </button>
               </div>
