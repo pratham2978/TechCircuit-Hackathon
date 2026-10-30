@@ -1,5 +1,5 @@
 services:
-  # ─── Backend: FastAPI (Python) Web Service ────────────────────────────────
+  # ─── BrandGuard Unified Web Service (Backend API + Frontend SPA) ─────────
   - type: web
     name: brandguard-backend
     runtime: python
@@ -9,9 +9,9 @@ services:
     plan: free
     envVars:
       - key: DATABASE_URL
-        sync: false          # Set this in Render dashboard → your Neon connection string
+        sync: false          # Neon connection string
       - key: GEMINI_API_KEY
-        sync: false          # Set this in Render dashboard
+        sync: false          # Gemini API Key
       - key: GEMINI_MODEL
         value: gemini-2.5-flash
       - key: UPLOAD_DIR
@@ -20,34 +20,5 @@ services:
         value: "50"
       - key: NODE_ENV
         value: production
-      - key: FRONTEND_ORIGIN
-        fromService:
-          name: brandguard-frontend
-          type: web
-          property: host
       - key: PORT
         generateValue: false   # Render injects PORT automatically
-
-  # ─── Frontend: Vite/React Static Site ─────────────────────────────────────
-  - type: web
-    name: brandguard-frontend
-    runtime: static
-    rootDir: frontend
-    buildCommand: npm install && npm run build
-    staticPublishPath: dist
-    pullRequestPreviewsEnabled: true
-    headers:
-      - path: /*
-        name: Cache-Control
-        value: no-cache
-    routes:
-      # SPA fallback — all routes served by index.html
-      - type: rewrite
-        source: /*
-        destination: /index.html
-    envVars:
-      - key: VITE_API_URL
-        fromService:
-          name: brandguard-backend
-          type: web
-          property: host

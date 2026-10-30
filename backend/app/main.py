@@ -16,7 +16,8 @@ from datetime import datetime, timedelta
 from sqlalchemy import func, text
 from typing import Optional, List, Dict, Any
 from fastapi import FastAPI, HTTPException, Request, Response, Depends, UploadFile, File, Form
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 import uvicorn
@@ -212,10 +213,18 @@ class SuggestCorrectionRequest(BaseModel):
     custom_instructions: Optional[str] = None
 
 
+# Static frontend directory (copied during build or local dist)
+STATIC_DIR = Path(__file__).resolve().parent.parent / "static"
+if not STATIC_DIR.exists():
+    STATIC_DIR = Path(__file__).resolve().parent.parent.parent / "frontend" / "dist"
+
 # --- System Status Endpoints ---
 
 @app.get("/")
 def root():
+    index_file = STATIC_DIR / "index.html"
+    if index_file.exists():
+        return FileResponse(str(index_file))
     return {
         "service": "BrandGuard AI Backend",
         "status": "online",
@@ -2626,6 +2635,29 @@ def convert_submission_to_project_endpoint(
         "project_title": project_title,
         "message": f"Submission successfully converted into project '{project_title}'."
     }
+
+
+# --- Static File Serving & Frontend SPA Fallback ---
+if STATIC_DIR.exists():
+    assets_dir = STATIC_DIR / "assets"
+    if assets_dir.exists():
+        app.mount("/assets", StaticFiles(directory=str(assets_dir)), name="assets")
+
+    @app.get("/{full_path:path}")
+    async def serve_spa_frontend(full_path: str):
+        # Never intercept API, health, docs routes
+        if full_path.startswith(("api/", "health", "docs", "openapi.json", "redoc")):
+            raise HTTPException(status_code=404, detail="Not Found")
+
+        file_path = STATIC_DIR / full_path
+        if file_path.is_file():
+            return FileResponse(str(file_path))
+
+        index_file = STATIC_DIR / "index.html"
+        if index_file.exists():
+            return FileResponse(str(index_file))
+
+        raise HTTPException(status_code=404, detail="Frontend file not found")
 
 
 if __name__ == "__main__":
