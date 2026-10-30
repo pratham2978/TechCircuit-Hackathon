@@ -81,12 +81,15 @@ a{color:inherit}button{font:inherit;cursor:pointer}:focus-visible{outline:3px so
 .nod #mi{animation:nod 1.2s ease-in-out 2}@keyframes nod{40%{transform:translateY(.6cqw) rotate(1.5deg)}}
 #cap{position:relative;z-index:6;min-height:210px;width:min(92%,800px);text-align:center;padding:.5rem 0 4.5rem}
 #c1,#c2{transition:opacity 1.4s,transform 1.4s,filter 1.4s}
-#c1{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(20px,2.6vw,30px);font-weight:400;letter-spacing:.02em;color:#c9bfb0;opacity:0;transform:translateY(8px)}
-#c1.on{opacity:.85;transform:none}#c1.off{opacity:0;transform:translateY(-8px)}
-#c2{opacity:0;transform:translateY(16px);filter:blur(10px);visibility:hidden}#c2.on{opacity:1;transform:none;filter:none;visibility:visible}
+#c1{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(20px,2.6vw,30px);font-weight:400;letter-spacing:.02em;color:#c9bfb0;opacity:0;transform:translateY(8px);pointer-events:none!important}
+#c1.on{opacity:.85;transform:none;pointer-events:none!important}
+#c1.off{opacity:0;transform:translateY(-8px);pointer-events:none!important;visibility:hidden!important}
+#c2{position:relative;z-index:10;opacity:0;transform:translateY(16px);filter:blur(10px);visibility:hidden;pointer-events:none}
+#c2.on{opacity:1;transform:none;filter:none;visibility:visible;pointer-events:auto}
 #c2 .wm{font-weight:800;font-size:19px;letter-spacing:-.02em;display:flex;gap:.55em;align-items:center;justify-content:center;color:#e8b277}
 #c2 h1{margin:.25em 0 .15em;font-size:clamp(30px,5.6vw,66px);line-height:1;letter-spacing:-.045em;font-weight:800;color:#fff4e2;text-wrap:balance;max-width:14em;margin-inline:auto}
-#c2 .btn{color:#efe6d8;border-color:#efe6d855;margin:.25em}#c2 .btn.p{color:#142200;border-color:var(--lime)}
+#c2 .btn{position:relative;z-index:20;color:#efe6d8;border-color:#efe6d855;margin:.25em;pointer-events:auto!important;cursor:pointer!important}
+#c2 .btn.p{color:#142200;border-color:var(--lime);pointer-events:auto!important;cursor:pointer!important}
 #skip,#replay{position:absolute;right:14px;top:calc(12px + env(safe-area-inset-top,0px));z-index:6;background:#0006;color:#efe6d8;border:1px solid #fff3;border-radius:99px;padding:.4em 1em;font-size:14px}
 #replay{display:inline-flex;align-items:center;gap:.5em;transition:border-color .2s,background .2s}
 #skip[hidden],#replay[hidden]{display:none}
@@ -100,7 +103,7 @@ a{color:inherit}button{font:inherit;cursor:pointer}:focus-visible{outline:3px so
 #grain{position:absolute;inset:0;z-index:5;pointer-events:none;opacity:.09;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.85'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
 #intro .fade{position:absolute;left:0;right:0;bottom:0;height:150px;z-index:5;pointer-events:none;background:linear-gradient(transparent,color-mix(in srgb,var(--bg) 18%,transparent) 50%,var(--bg))}
 /* ---------- SITE ---------- */
-nav{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:1.6rem;padding:.7rem max(1.2rem,4vw);padding-top:calc(.7rem + env(safe-area-inset-top,0px));background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding-bottom:64px}
+nav{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:1.6rem;padding:.7rem max(1.2rem,4vw);padding-top:calc(.7rem + env(safe-area-inset-top,0px));background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 nav .wm{font-weight:800;letter-spacing:-.02em;display:flex;align-items:center;gap:.5em;text-decoration:none;margin-right:auto}
 nav a:not(.wm):not(.btn){text-decoration:none;color:var(--mut);font-size:15px}nav a:hover{color:var(--ink)}nav .btn{padding:.5em 1.1em;font-size:15px}
 @media(max-width:640px){nav a.h{display:none}}
@@ -216,7 +219,7 @@ h2{text-wrap:balance}
  <div id="c1" aria-live="polite">Something’s not right.</div>
  <div id="c2"><div class="wm"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l9 3v7c0 5-4 8-9 10-5-2-9-5-9-10V5z" fill="#e98a2e"/><circle cx="9" cy="11" r="2" fill="#7ff"/><circle cx="15" cy="11" r="2" fill="#7ff"/></svg>BrandGuard</div>
   <h1>Catch brand mistakes before they go live.</h1>
-  <a class="btn p" href="/brandguard" role="button" onkeydown="if(event.key===' '||event.key==='Spacebar'){event.preventDefault();this.click();}">BrandGuard Review</a><a class="btn" href="#product">See demo below</a></div>
+  <a class="btn p" id="hero-brandguard-btn" href="/brandguard" role="button" onclick="event.stopPropagation(); window.location.href='/brandguard';" onkeydown="if(event.key===' '||event.key==='Spacebar'||event.key==='Enter'){event.preventDefault();window.location.href='/brandguard';}">BrandGuard Review</a><a class="btn" href="#product">See demo below</a></div>
 </div><div class="fade"></div></header>
 
 
@@ -363,7 +366,7 @@ function draw(t){if(done)return;raf=requestAnimationFrame(draw);if(t-last<42)ret
  const g=+(.25+.6*S.n*S.l).toFixed(2);if(Math.abs(g-lastG)>.04){lastG=g;intro.style.setProperty('--glow',g)}}
 function unstable(){clearInterval(jit);jit=setInterval(()=>{S.n=.35+Math.random()*.65;S.g=Math.random()<.5;S.b=1+Math.random()*3.5;S.l=.55+Math.random()*.7},95)}
 const bump=()=>{tv.classList.remove('bump');void tv.offsetWidth;tv.classList.add('bump')};
-function final(){M.classList.remove('thumb');ctl(true);done=1;cancelAnimationFrame(raf);clearInterval(jit);intro.classList.add('fixed');scr.classList.remove('blank');tvad.style.filter='none';cls(['idle','walk','lean','nudge'],'idle');M.style.left='56cqw';FR(0);k1.style.transform='rotate(200deg)';k2.style.transform='rotate(95deg)';cam.classList.remove('push');$('#c1').classList.add('off');$('#c2').classList.add('on')}
+function final(){M.classList.remove('thumb');ctl(true);done=1;cancelAnimationFrame(raf);clearInterval(jit);intro.classList.add('fixed');scr.classList.remove('blank');tvad.style.filter='none';cls(['idle','walk','lean','nudge'],'idle');M.style.left='56cqw';FR(0);k1.style.transform='rotate(200deg)';k2.style.transform='rotate(95deg)';cam.classList.remove('push');$('#c1').classList.add('off');$('#c1').style.pointerEvents='none';$('#c2').classList.add('on')}
 const sk=$('#skip'),rp=$('#replay');
 function ctl(finished){const f=document.activeElement;sk.hidden=finished;rp.hidden=!finished;if(finished&&f===sk)rp.focus();else if(!finished&&f===rp)sk.focus()}
 /* put the scene back to its first frame (no animation), and invalidate any timers from the previous run */
