@@ -1306,7 +1306,7 @@ function escapeRegex(str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-==================================================================
+// ==========================================================================
 // BRANDGUARD INTERACTIVE GAME-STYLE PRODUCT TUTORIAL CONTROLLER
 // ==========================================================================
 
@@ -1685,7 +1685,6 @@ function updateMascotContextView() {
   if (isTutorialActive) repositionTutorial();
 }
 
-=======
 
 // --- SPEC #2: DISMISS FINDING & RULE CLARIFICATION HELPERS ---
 function openDismissModal(findingId) {
