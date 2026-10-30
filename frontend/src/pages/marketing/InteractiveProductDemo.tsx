@@ -46,7 +46,7 @@ export const InteractiveProductDemo: React.FC = () => {
       id="demo"
       style={{ 
         padding: '84px 24px', 
-        backgroundColor: 'var(--bg)',
+        backgroundColor: 'var(--color-warm-ivory)',
         transition: 'background-color var(--transition-normal)'
       }}
     >
@@ -55,10 +55,10 @@ export const InteractiveProductDemo: React.FC = () => {
           <h2 style={{ fontSize: '2.2rem', marginBottom: '16px', letterSpacing: '-0.02em' }}>
             Experience evidence-linked verification in real time
           </h2>
-          <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', lineHeight: 1.6 }}>
+          <p style={{ color: 'var(--color-muted-slate)', fontSize: '1.05rem', lineHeight: 1.6 }}>
             BrandGuard verifies both written content and brand visual assets against approved corporate guidelines. Test live text resolution or explore the planned visual asset review capability below.
           </p>
-          <div style={{ marginTop: '10px', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+          <div style={{ marginTop: '10px', fontSize: '0.8rem', color: 'var(--color-muted-slate)' }}>
             <em>Sample illustrative data. Never fabricated as real customer records.</em>
           </div>
         </div>
@@ -106,11 +106,11 @@ export const InteractiveProductDemo: React.FC = () => {
           <div 
             className="card-panel"
             style={{ 
-              backgroundColor: 'var(--surface)', 
+              backgroundColor: 'var(--color-surface-white)', 
               borderRadius: 'var(--radius-xl)', 
               boxShadow: 'var(--shadow-lg)',
               padding: '28px',
-              border: '1px solid var(--border)',
+              border: '1px solid var(--color-border-gray)',
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
               gap: '32px'
@@ -125,12 +125,12 @@ export const InteractiveProductDemo: React.FC = () => {
                   justifyContent: 'space-between',
                   marginBottom: '16px',
                   paddingBottom: '12px',
-                  borderBottom: '1px solid var(--border)'
+                  borderBottom: '1px solid var(--color-border-subtle)'
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <FileText size={18} color="var(--info)" />
-                  <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>Submitted Written Content</span>
+                  <FileText size={18} color="var(--color-evidence-teal)" />
+                  <span style={{ fontWeight: 600, color: 'var(--color-deep-ink)' }}>Submitted Written Content</span>
                   <span className="badge badge-neutral" style={{ fontSize: '0.65rem' }}>Draft #DEMO-01</span>
                 </div>
                 <button 
@@ -149,12 +149,12 @@ export const InteractiveProductDemo: React.FC = () => {
                 style={{ 
                   minHeight: '160px', 
                   padding: '18px', 
-                  backgroundColor: 'var(--surface-subtle)',
+                  backgroundColor: 'var(--color-surface-subtle)',
                   borderRadius: 'var(--radius-md)',
-                  border: '1px solid var(--border)',
+                  border: '1px solid var(--color-border-gray)',
                   fontSize: '0.96rem',
                   lineHeight: 1.7,
-                  color: 'var(--text-primary)'
+                  color: 'var(--color-deep-ink)'
                 }}
               >
                 {content}
@@ -163,11 +163,11 @@ export const InteractiveProductDemo: React.FC = () => {
               {/* Live Governance Score Bar */}
               <div style={{ marginTop: '20px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', marginBottom: '8px' }}>
-                  <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>Brand Governance Score:</span>
+                  <span style={{ fontWeight: 600, color: 'var(--color-deep-ink)' }}>Brand Governance Score:</span>
                   <span 
                     style={{ 
                       fontWeight: 700, 
-                      color: textScore === 100 ? 'var(--success)' : textScore > 0 ? 'var(--warning)' : 'var(--danger)' 
+                      color: textScore === 100 ? 'var(--color-success)' : textScore > 0 ? 'var(--color-warning)' : 'var(--color-error)' 
                     }}
                   >
                     {textScore}% {textScore === 100 ? '— Ready for Human Review' : '— Action Required'}
@@ -176,7 +176,7 @@ export const InteractiveProductDemo: React.FC = () => {
                 <div 
                   style={{ 
                     height: '8px', 
-                    backgroundColor: 'var(--border)', 
+                    backgroundColor: 'var(--color-border-subtle)', 
                     borderRadius: 'var(--radius-full)',
                     overflow: 'hidden'
                   }}
@@ -185,7 +185,7 @@ export const InteractiveProductDemo: React.FC = () => {
                     style={{ 
                       height: '100%', 
                       width: `${textScore}%`, 
-                      backgroundColor: textScore === 100 ? 'var(--success)' : textScore > 0 ? 'var(--warning)' : 'var(--danger)',
+                      backgroundColor: textScore === 100 ? 'var(--color-success)' : textScore > 0 ? 'var(--color-warning)' : 'var(--color-error)',
                       transition: 'width 0.4s ease, background-color 0.4s ease'
                     }} 
                   />
@@ -201,13 +201,13 @@ export const InteractiveProductDemo: React.FC = () => {
                   alignItems: 'center', 
                   justifyContent: 'space-between',
                   paddingBottom: '12px',
-                  borderBottom: '1px solid var(--border)'
+                  borderBottom: '1px solid var(--color-border-subtle)'
                 }}
               >
-                <span style={{ fontWeight: 600, fontSize: '0.95rem', color: 'var(--text-primary)' }}>
+                <span style={{ fontWeight: 600, fontSize: '0.95rem', color: 'var(--color-deep-ink)' }}>
                   Detected Issues ({(fixedFinding1 ? 0 : 1) + (fixedFinding2 ? 0 : 1)} Active)
                 </span>
-                <span className="badge badge-info" style={{ fontSize: '0.7rem' }}>
+                <span className="badge badge-teal" style={{ fontSize: '0.7rem' }}>
                   Audited Rules Engine
                 </span>
               </div>
@@ -218,8 +218,8 @@ export const InteractiveProductDemo: React.FC = () => {
                 style={{ 
                   padding: '16px', 
                   borderRadius: 'var(--radius-md)', 
-                  border: '1px solid var(--border)',
-                  backgroundColor: fixedFinding1 ? 'var(--success-subtle)' : 'var(--surface-subtle)',
+                  border: '1px solid var(--color-border-gray)',
+                  backgroundColor: fixedFinding1 ? 'var(--color-success-subtle)' : 'var(--color-surface-subtle)',
                   opacity: fixedFinding1 ? 0.8 : 1,
                   transition: 'all 0.25s ease'
                 }}
@@ -227,24 +227,24 @@ export const InteractiveProductDemo: React.FC = () => {
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     {fixedFinding1 ? (
-                      <CheckCircle2 size={16} color="var(--success)" />
+                      <CheckCircle2 size={16} color="var(--color-success)" />
                     ) : (
-                      <AlertTriangle size={16} color="var(--warning)" />
+                      <AlertTriangle size={16} color="var(--color-warning)" />
                     )}
-                    <strong style={{ fontSize: '0.85rem', color: 'var(--text-primary)' }}>
+                    <strong style={{ fontSize: '0.85rem', color: 'var(--color-deep-ink)' }}>
                       {fixedFinding1 ? 'Term Corrected' : 'Prohibited Superlative'}
                     </strong>
                   </div>
-                  <span className={`badge ${fixedFinding1 ? 'badge-success' : 'badge-warning'}`} style={{ fontSize: '0.68rem' }}>
+                  <span className={`badge ${fixedFinding1 ? 'badge-verified' : 'badge-expiring'}`} style={{ fontSize: '0.68rem' }}>
                     {fixedFinding1 ? 'Resolved' : 'Warning'}
                   </span>
                 </div>
 
-                <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '8px', lineHeight: 1.45 }}>
+                <p style={{ fontSize: '0.82rem', color: 'var(--color-muted-slate)', marginBottom: '8px', lineHeight: 1.45 }}>
                   "revolutionary AI platform" violates Corporate Stylebook Section 2.1 prohibiting unsupported tech superlatives.
                 </p>
 
-                <div style={{ fontSize: '0.74rem', color: 'var(--info)', marginBottom: '10px' }}>
+                <div style={{ fontSize: '0.74rem', color: 'var(--color-evidence-teal)', marginBottom: '10px' }}>
                   Rule Citation: Brand Stylebook v4, Sec 2.1 | Authority: Brand Governance Desk
                 </div>
 
@@ -258,7 +258,7 @@ export const InteractiveProductDemo: React.FC = () => {
                     <span>Accept Suggested Fix: "enterprise-grade governance system"</span>
                   </button>
                 ) : (
-                  <div style={{ fontSize: '0.75rem', color: 'var(--success)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--color-success)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
                     <Check size={14} /> Replaced with approved alternative
                   </div>
                 )}
@@ -270,8 +270,8 @@ export const InteractiveProductDemo: React.FC = () => {
                 style={{ 
                   padding: '16px', 
                   borderRadius: 'var(--radius-md)', 
-                  border: '1px solid var(--border)',
-                  backgroundColor: fixedFinding2 ? 'var(--success-subtle)' : 'var(--surface-subtle)',
+                  border: '1px solid var(--color-border-gray)',
+                  backgroundColor: fixedFinding2 ? 'var(--color-success-subtle)' : 'var(--color-surface-subtle)',
                   opacity: fixedFinding2 ? 0.8 : 1,
                   transition: 'all 0.25s ease'
                 }}
@@ -279,24 +279,24 @@ export const InteractiveProductDemo: React.FC = () => {
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     {fixedFinding2 ? (
-                      <CheckCircle2 size={16} color="var(--success)" />
+                      <CheckCircle2 size={16} color="var(--color-success)" />
                     ) : (
-                      <AlertTriangle size={16} color="var(--danger)" />
+                      <AlertTriangle size={16} color="var(--color-error)" />
                     )}
-                    <strong style={{ fontSize: '0.85rem', color: 'var(--text-primary)' }}>
+                    <strong style={{ fontSize: '0.85rem', color: 'var(--color-deep-ink)' }}>
                       {fixedFinding2 ? 'Claim Verified' : 'Unverifiable SLA Claim'}
                     </strong>
                   </div>
-                  <span className={`badge ${fixedFinding2 ? 'badge-success' : 'badge-danger'}`} style={{ fontSize: '0.68rem' }}>
+                  <span className={`badge ${fixedFinding2 ? 'badge-verified' : 'badge-critical'}`} style={{ fontSize: '0.68rem' }}>
                     {fixedFinding2 ? 'Resolved' : 'Critical'}
                   </span>
                 </div>
 
-                <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '8px', lineHeight: 1.45 }}>
+                <p style={{ fontSize: '0.82rem', color: 'var(--color-muted-slate)', marginBottom: '8px', lineHeight: 1.45 }}>
                   "guaranteed 100% uptime" contradicts Infrastructure Claim Ledger (maximum verified SLA is 99.99%).
                 </p>
 
-                <div style={{ fontSize: '0.74rem', color: 'var(--info)', marginBottom: '10px' }}>
+                <div style={{ fontSize: '0.74rem', color: 'var(--color-evidence-teal)', marginBottom: '10px' }}>
                   Source: Master SLA Standard, Table 3.2 | Owner: VP Infrastructure
                 </div>
 
@@ -310,7 +310,7 @@ export const InteractiveProductDemo: React.FC = () => {
                     <span>Accept Suggested Fix: "99.99% target availability SLA"</span>
                   </button>
                 ) : (
-                  <div style={{ fontSize: '0.75rem', color: 'var(--success)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--color-success)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
                     <Check size={14} /> Synced with approved claim ledger
                   </div>
                 )}
@@ -324,11 +324,11 @@ export const InteractiveProductDemo: React.FC = () => {
           <div 
             className="card-panel"
             style={{ 
-              backgroundColor: 'var(--surface)', 
+              backgroundColor: 'var(--color-surface-white)', 
               borderRadius: 'var(--radius-xl)', 
               boxShadow: 'var(--shadow-lg)',
               padding: '28px',
-              border: '1px solid var(--border)',
+              border: '1px solid var(--color-border-gray)',
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
               gap: '32px'
@@ -343,15 +343,15 @@ export const InteractiveProductDemo: React.FC = () => {
                   justifyContent: 'space-between',
                   marginBottom: '16px',
                   paddingBottom: '12px',
-                  borderBottom: '1px solid var(--border)'
+                  borderBottom: '1px solid var(--color-border-subtle)'
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <ImageIcon size={18} color="var(--info)" />
-                  <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>Submitted Brand Asset Preview</span>
+                  <ImageIcon size={18} color="var(--color-evidence-teal)" />
+                  <span style={{ fontWeight: 600, color: 'var(--color-deep-ink)' }}>Submitted Brand Asset Preview</span>
                   <span className="badge badge-neutral" style={{ fontSize: '0.65rem' }}>Asset #IMG-882</span>
                 </div>
-                <span className="badge badge-warning" style={{ fontSize: '0.7rem' }}>
+                <span className="badge badge-expiring" style={{ fontSize: '0.7rem' }}>
                   Planned Capability Preview
                 </span>
               </div>
@@ -362,7 +362,7 @@ export const InteractiveProductDemo: React.FC = () => {
                   position: 'relative',
                   backgroundColor: '#0E1620',
                   borderRadius: 'var(--radius-md)',
-                  border: '1px solid var(--border)',
+                  border: '1px solid var(--color-border-gray)',
                   padding: '28px 24px',
                   color: '#FFFFFF',
                   overflow: 'hidden'
@@ -373,7 +373,7 @@ export const InteractiveProductDemo: React.FC = () => {
                   {/* Logo with Distortion Bounding Box */}
                   <div 
                     style={{ 
-                      border: '2px dashed var(--warning)', 
+                      border: '2px dashed var(--color-warning)', 
                       padding: '6px 12px', 
                       borderRadius: '4px',
                       position: 'relative'
@@ -387,7 +387,7 @@ export const InteractiveProductDemo: React.FC = () => {
                         position: 'absolute', 
                         top: '-10px', 
                         right: '-10px', 
-                        backgroundColor: 'var(--warning)', 
+                        backgroundColor: 'var(--color-warning)', 
                         color: '#000000', 
                         fontSize: '0.62rem', 
                         fontWeight: 700, 
@@ -417,14 +417,14 @@ export const InteractiveProductDemo: React.FC = () => {
                   <div 
                     style={{ 
                       position: 'relative',
-                      border: '2px dashed var(--danger)',
+                      border: '2px dashed var(--color-error)',
                       borderRadius: '6px',
                       padding: '2px'
                     }}
                   >
                     <button 
                       style={{ 
-                        backgroundColor: 'var(--primary)', 
+                        backgroundColor: 'var(--color-signal-coral)', 
                         color: '#FFFFFF', 
                         padding: '8px 16px', 
                         borderRadius: '4px',
@@ -439,7 +439,7 @@ export const InteractiveProductDemo: React.FC = () => {
                         position: 'absolute', 
                         top: '-10px', 
                         right: '-10px', 
-                        backgroundColor: 'var(--danger)', 
+                        backgroundColor: 'var(--color-error)', 
                         color: '#FFFFFF', 
                         fontSize: '0.62rem', 
                         fontWeight: 700, 
@@ -455,7 +455,7 @@ export const InteractiveProductDemo: React.FC = () => {
                   <div 
                     style={{ 
                       position: 'relative',
-                      border: '2px dashed var(--warning)',
+                      border: '2px dashed var(--color-warning)',
                       padding: '4px 8px',
                       borderRadius: '4px',
                       fontSize: '0.72rem',
@@ -471,7 +471,7 @@ export const InteractiveProductDemo: React.FC = () => {
                         position: 'absolute', 
                         top: '-10px', 
                         right: '-10px', 
-                        backgroundColor: 'var(--warning)', 
+                        backgroundColor: 'var(--color-warning)', 
                         color: '#000000', 
                         fontSize: '0.62rem', 
                         fontWeight: 700, 
@@ -490,17 +490,17 @@ export const InteractiveProductDemo: React.FC = () => {
                 style={{ 
                   marginTop: '16px', 
                   padding: '12px', 
-                  backgroundColor: 'var(--surface-subtle)', 
+                  backgroundColor: 'var(--color-surface-subtle)', 
                   borderRadius: 'var(--radius-md)',
                   fontSize: '0.78rem',
-                  color: 'var(--text-muted)',
-                  border: '1px solid var(--border)',
+                  color: 'var(--color-muted-slate)',
+                  border: '1px solid var(--color-border-subtle)',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '8px'
                 }}
               >
-                <Info size={16} color="var(--info)" style={{ flexShrink: 0 }} />
+                <Info size={16} color="var(--color-evidence-teal)" style={{ flexShrink: 0 }} />
                 <span>
                   <strong>Planned Capability Preview:</strong> Computer vision logo bounding, palette extraction, and WCAG pixel checks are architected for the Image Engine Phase. Displayed checks reflect planned production specifications.
                 </span>
@@ -515,10 +515,10 @@ export const InteractiveProductDemo: React.FC = () => {
                   alignItems: 'center', 
                   justifyContent: 'space-between',
                   paddingBottom: '12px',
-                  borderBottom: '1px solid var(--border)'
+                  borderBottom: '1px solid var(--color-border-subtle)'
                 }}
               >
-                <span style={{ fontWeight: 600, fontSize: '0.95rem', color: 'var(--text-primary)' }}>
+                <span style={{ fontWeight: 600, fontSize: '0.95rem', color: 'var(--color-deep-ink)' }}>
                   Planned Visual Brand Checks (3 Issues Identified)
                 </span>
                 <span className="badge badge-neutral" style={{ fontSize: '0.7rem' }}>
@@ -532,24 +532,24 @@ export const InteractiveProductDemo: React.FC = () => {
                 style={{ 
                   padding: '14px', 
                   borderRadius: 'var(--radius-md)', 
-                  border: '1px solid var(--border)',
-                  backgroundColor: 'var(--surface-subtle)'
+                  border: '1px solid var(--color-border-gray)',
+                  backgroundColor: 'var(--color-surface-subtle)'
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <AlertTriangle size={15} color="var(--warning)" />
-                    <strong style={{ fontSize: '0.84rem', color: 'var(--text-primary)' }}>Issue #1: Logo Aspect Ratio & Clearspace</strong>
+                    <AlertTriangle size={15} color="var(--color-warning)" />
+                    <strong style={{ fontSize: '0.84rem', color: 'var(--color-deep-ink)' }}>Issue #1: Logo Aspect Ratio & Clearspace</strong>
                   </div>
-                  <span className="badge badge-warning" style={{ fontSize: '0.65rem' }}>Warning</span>
+                  <span className="badge badge-expiring" style={{ fontSize: '0.65rem' }}>Warning</span>
                 </div>
-                <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '6px', lineHeight: 1.45 }}>
+                <p style={{ fontSize: '0.8rem', color: 'var(--color-muted-slate)', marginBottom: '6px', lineHeight: 1.45 }}>
                   Brand mark horizontal scale altered by +12%, violating corporate logo lockup proportions.
                 </p>
-                <div style={{ fontSize: '0.74rem', color: 'var(--info)', marginBottom: '4px' }}>
+                <div style={{ fontSize: '0.74rem', color: 'var(--color-evidence-teal)', marginBottom: '4px' }}>
                   Supporting Rule: Brand Identity Guidelines 2026, Sec 1.4 (Zero Distortion Policy)
                 </div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-primary)', backgroundColor: 'var(--surface)', padding: '6px 10px', borderRadius: '4px', border: '1px solid var(--border)' }}>
+                <div style={{ fontSize: '0.75rem', color: 'var(--color-deep-ink)', backgroundColor: 'var(--color-surface-white)', padding: '6px 10px', borderRadius: '4px', border: '1px solid var(--color-border-subtle)' }}>
                   <strong>Planned Remediation:</strong> Auto-restore master 1:1 vector proportions with 24px clearspace perimeter.
                 </div>
               </div>
@@ -560,25 +560,25 @@ export const InteractiveProductDemo: React.FC = () => {
                 style={{ 
                   padding: '14px', 
                   borderRadius: 'var(--radius-md)', 
-                  border: '1px solid var(--border)',
-                  backgroundColor: 'var(--surface-subtle)'
+                  border: '1px solid var(--color-border-gray)',
+                  backgroundColor: 'var(--color-surface-subtle)'
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <Palette size={15} color="var(--warning)" />
-                    <strong style={{ fontSize: '0.84rem', color: 'var(--text-primary)' }}>Issue #2: Off-Palette Accent Color</strong>
+                    <Palette size={15} color="var(--color-warning)" />
+                    <strong style={{ fontSize: '0.84rem', color: 'var(--color-deep-ink)' }}>Issue #2: Off-Palette Accent Color</strong>
                   </div>
                   <span className="badge badge-neutral" style={{ fontSize: '0.65rem' }}>Advisory</span>
                 </div>
-                <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '6px', lineHeight: 1.45 }}>
+                <p style={{ fontSize: '0.8rem', color: 'var(--color-muted-slate)', marginBottom: '6px', lineHeight: 1.45 }}>
                   Accent color hex <code style={{ fontSize: '0.75rem' }}>#FF2A6D</code> is not registered in the approved corporate token library.
                 </p>
-                <div style={{ fontSize: '0.74rem', color: 'var(--info)', marginBottom: '4px' }}>
+                <div style={{ fontSize: '0.74rem', color: 'var(--color-evidence-teal)', marginBottom: '4px' }}>
                   Supporting Rule: Color Token Registry #PAL-02 (Permitted Accent Palette)
                 </div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-primary)', backgroundColor: 'var(--surface)', padding: '6px 10px', borderRadius: '4px', border: '1px solid var(--border)' }}>
-                  <strong>Planned Remediation:</strong> Remap to approved token <code style={{ color: 'var(--primary)' }}>#F16B50</code> (Signal Coral).
+                <div style={{ fontSize: '0.75rem', color: 'var(--color-deep-ink)', backgroundColor: 'var(--color-surface-white)', padding: '6px 10px', borderRadius: '4px', border: '1px solid var(--color-border-subtle)' }}>
+                  <strong>Planned Remediation:</strong> Remap to approved token <code style={{ color: 'var(--color-signal-coral)' }}>#F16B50</code> (Signal Coral).
                 </div>
               </div>
 
@@ -588,24 +588,24 @@ export const InteractiveProductDemo: React.FC = () => {
                 style={{ 
                   padding: '14px', 
                   borderRadius: 'var(--radius-md)', 
-                  border: '1px solid var(--border)',
-                  backgroundColor: 'var(--surface-subtle)'
+                  border: '1px solid var(--color-border-gray)',
+                  backgroundColor: 'var(--color-surface-subtle)'
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <AlertTriangle size={15} color="var(--danger)" />
-                    <strong style={{ fontSize: '0.84rem', color: 'var(--text-primary)' }}>Issue #3: WCAG 2.1 AA Contrast Failure</strong>
+                    <AlertTriangle size={15} color="var(--color-error)" />
+                    <strong style={{ fontSize: '0.84rem', color: 'var(--color-deep-ink)' }}>Issue #3: WCAG 2.1 AA Contrast Failure</strong>
                   </div>
-                  <span className="badge badge-danger" style={{ fontSize: '0.65rem' }}>Critical</span>
+                  <span className="badge badge-critical" style={{ fontSize: '0.65rem' }}>Critical</span>
                 </div>
-                <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '6px', lineHeight: 1.45 }}>
+                <p style={{ fontSize: '0.8rem', color: 'var(--color-muted-slate)', marginBottom: '6px', lineHeight: 1.45 }}>
                   White text on coral CTA button achieves only 2.8:1 contrast, failing the mandatory 4.5:1 AA standard.
                 </p>
-                <div style={{ fontSize: '0.74rem', color: 'var(--info)', marginBottom: '4px' }}>
+                <div style={{ fontSize: '0.74rem', color: 'var(--color-evidence-teal)', marginBottom: '4px' }}>
                   Supporting Rule: Digital Accessibility Standard #ACC-101 & WCAG 2.1 AA
                 </div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-primary)', backgroundColor: 'var(--surface)', padding: '6px 10px', borderRadius: '4px', border: '1px solid var(--border)' }}>
+                <div style={{ fontSize: '0.75rem', color: 'var(--color-deep-ink)', backgroundColor: 'var(--color-surface-white)', padding: '6px 10px', borderRadius: '4px', border: '1px solid var(--color-border-subtle)' }}>
                   <strong>Planned Remediation:</strong> Darken button surface to achieve ≥ 4.5:1 ratio or apply Deep Ink typography.
                 </div>
               </div>

@@ -142,15 +142,15 @@ export const ImageReviewInterface: React.FC<ImageReviewInterfaceProps> = ({
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     if (dropZoneRef.current) {
-      dropZoneRef.current.style.borderColor = 'var(--primary)';
-      dropZoneRef.current.style.backgroundColor = 'var(--surface-subtle)';
+      dropZoneRef.current.style.borderColor = 'var(--color-signal-coral)';
+      dropZoneRef.current.style.backgroundColor = 'var(--color-surface-subtle)';
     }
   };
 
   const handleDragLeave = (e: React.DragEvent) => {
     e.preventDefault();
     if (dropZoneRef.current) {
-      dropZoneRef.current.style.borderColor = 'var(--border)';
+      dropZoneRef.current.style.borderColor = 'var(--color-border-gray)';
       dropZoneRef.current.style.backgroundColor = 'transparent';
     }
   };
@@ -158,7 +158,7 @@ export const ImageReviewInterface: React.FC<ImageReviewInterfaceProps> = ({
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     if (dropZoneRef.current) {
-      dropZoneRef.current.style.borderColor = 'var(--border)';
+      dropZoneRef.current.style.borderColor = 'var(--color-border-gray)';
       dropZoneRef.current.style.backgroundColor = 'transparent';
     }
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
@@ -271,7 +271,7 @@ export const ImageReviewInterface: React.FC<ImageReviewInterfaceProps> = ({
       const errorMsg: ImageChatMessage = {
         id: `err-${Date.now()}`,
         sender: 'assistant',
-        text: `⚠️ **AI Service Notice**: ${err.message || 'Failed to process follow-up.'}`,
+        text: `[Notice] **AI Service Notice**: ${err.message || 'Failed to process follow-up.'}`,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         isError: true
       };
@@ -295,8 +295,8 @@ export const ImageReviewInterface: React.FC<ImageReviewInterfaceProps> = ({
         className="card-panel"
         style={{
           padding: '24px',
-          backgroundColor: 'var(--surface)',
-          border: '1px solid var(--border)',
+          backgroundColor: 'var(--color-surface-white)',
+          border: '1px solid var(--color-border-gray)',
           display: 'flex',
           flexDirection: 'column',
           gap: '18px'
@@ -304,10 +304,10 @@ export const ImageReviewInterface: React.FC<ImageReviewInterfaceProps> = ({
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
           <div>
-            <strong style={{ fontSize: '1.05rem', color: 'var(--text-primary)', display: 'block' }}>
+            <strong style={{ fontSize: '1.05rem', color: 'var(--color-deep-ink)', display: 'block' }}>
               Image & Visual Media Review
             </strong>
-            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+            <span style={{ fontSize: '0.8rem', color: 'var(--color-muted-slate)' }}>
               Connected to Google Gemini 2.5 Flash Vision for palette token validation, WCAG 4.5:1 contrast, and logo clear-space.
             </span>
           </div>
@@ -334,7 +334,7 @@ export const ImageReviewInterface: React.FC<ImageReviewInterfaceProps> = ({
             onDrop={handleDrop}
             onClick={() => fileInputRef.current?.click()}
             style={{
-              border: '2px dashed var(--border)',
+              border: '2px dashed var(--color-border-gray)',
               borderRadius: 'var(--radius-lg)',
               padding: '36px 20px',
               textAlign: 'center',
@@ -360,20 +360,20 @@ export const ImageReviewInterface: React.FC<ImageReviewInterfaceProps> = ({
                 width: '48px', 
                 height: '48px', 
                 borderRadius: 'var(--radius-full)', 
-                backgroundColor: 'var(--surface-subtle)', 
+                backgroundColor: 'var(--color-surface-subtle)', 
                 display: 'flex', 
                 alignItems: 'center', 
                 justifyContent: 'center',
-                color: 'var(--primary)'
+                color: 'var(--color-signal-coral)'
               }}
             >
               <Upload size={22} />
             </div>
             <div>
-              <strong style={{ fontSize: '0.92rem', color: 'var(--text-primary)', display: 'block' }}>
+              <strong style={{ fontSize: '0.92rem', color: 'var(--color-deep-ink)', display: 'block' }}>
                 Click to upload design asset or drag and drop
               </strong>
-              <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+              <span style={{ fontSize: '0.78rem', color: 'var(--color-muted-slate)' }}>
                 Supported formats: PNG, JPG, JPEG, WEBP, SVG (Max 25MB)
               </span>
             </div>
@@ -386,9 +386,9 @@ export const ImageReviewInterface: React.FC<ImageReviewInterfaceProps> = ({
                 position: 'relative', 
                 borderRadius: 'var(--radius-md)', 
                 overflow: 'hidden', 
-                border: '1px solid var(--border)',
+                border: '1px solid var(--color-border-gray)',
                 maxHeight: '260px',
-                backgroundColor: 'var(--surface-subtle)',
+                backgroundColor: 'var(--color-surface-subtle)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center'
@@ -417,7 +417,7 @@ export const ImageReviewInterface: React.FC<ImageReviewInterfaceProps> = ({
 
             {/* Instructions & Analyse Button */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <label style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+              <label style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--color-deep-ink)' }}>
                 Optional Instructions / Brand Context:
               </label>
               <textarea 
@@ -429,11 +429,11 @@ export const ImageReviewInterface: React.FC<ImageReviewInterfaceProps> = ({
                   width: '100%',
                   padding: '10px 12px',
                   borderRadius: 'var(--radius-md)',
-                  border: '1px solid var(--border)',
-                  backgroundColor: 'var(--surface-subtle)',
+                  border: '1px solid var(--color-border-gray)',
+                  backgroundColor: 'var(--color-surface-subtle)',
                   fontSize: '0.85rem',
                   resize: 'none',
-                  color: 'var(--text-primary)'
+                  color: 'var(--color-deep-ink)'
                 }}
               />
               <button 
@@ -462,9 +462,9 @@ export const ImageReviewInterface: React.FC<ImageReviewInterfaceProps> = ({
             style={{ 
               padding: '10px 14px', 
               backgroundColor: 'rgba(230, 57, 70, 0.1)', 
-              border: '1px solid var(--danger)',
+              border: '1px solid var(--color-error)',
               borderRadius: 'var(--radius-md)',
-              color: 'var(--danger)',
+              color: 'var(--color-error)',
               fontSize: '0.82rem',
               display: 'flex',
               alignItems: 'center',
@@ -486,18 +486,18 @@ export const ImageReviewInterface: React.FC<ImageReviewInterfaceProps> = ({
           <div 
             style={{ 
               padding: '14px', 
-              backgroundColor: 'var(--surface-subtle)', 
+              backgroundColor: 'var(--color-surface-subtle)', 
               borderRadius: 'var(--radius-md)', 
               display: 'flex', 
               alignItems: 'center', 
               gap: '12px',
-              border: '1px solid var(--border)'
+              border: '1px solid var(--color-border-subtle)'
             }}
           >
-            <Clock size={18} color="var(--primary)" />
+            <Clock size={18} color="var(--color-signal-coral)" />
             <div>
-              <strong style={{ fontSize: '0.85rem', display: 'block', color: 'var(--text-primary)' }}>Processing Design Asset...</strong>
-              <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>{analysisStep}</span>
+              <strong style={{ fontSize: '0.85rem', display: 'block', color: 'var(--color-deep-ink)' }}>Processing Design Asset...</strong>
+              <span style={{ fontSize: '0.78rem', color: 'var(--color-muted-slate)' }}>{analysisStep}</span>
             </div>
           </div>
         )}
@@ -523,17 +523,17 @@ export const ImageReviewInterface: React.FC<ImageReviewInterfaceProps> = ({
           className="card-panel"
           style={{
             padding: '20px',
-            backgroundColor: 'var(--surface)',
-            border: '1px solid var(--border)',
+            backgroundColor: 'var(--color-surface-white)',
+            border: '1px solid var(--color-border-gray)',
             display: 'flex',
             flexDirection: 'column',
             gap: '16px'
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--border)', paddingBottom: '10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--color-border-subtle)', paddingBottom: '10px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Bot size={18} color="var(--info)" />
-              <strong style={{ fontSize: '0.94rem', color: 'var(--text-primary)' }}>
+              <Bot size={18} color="var(--color-evidence-teal)" />
+              <strong style={{ fontSize: '0.94rem', color: 'var(--color-deep-ink)' }}>
                 Ask Follow-Up Questions About This Design
               </strong>
             </div>
@@ -560,7 +560,7 @@ export const ImageReviewInterface: React.FC<ImageReviewInterfaceProps> = ({
                 }}
               >
                 {msg.sender === 'assistant' && (
-                  <div style={{ width: '28px', height: '28px', borderRadius: '50%', backgroundColor: 'var(--surface-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: msg.isError ? 'var(--danger)' : 'var(--info)', flexShrink: 0 }}>
+                  <div style={{ width: '28px', height: '28px', borderRadius: '50%', backgroundColor: 'var(--color-surface-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: msg.isError ? 'var(--color-error)' : 'var(--color-evidence-teal)', flexShrink: 0 }}>
                     {msg.isError ? <AlertTriangle size={14} /> : <Bot size={14} />}
                   </div>
                 )}
@@ -568,11 +568,11 @@ export const ImageReviewInterface: React.FC<ImageReviewInterfaceProps> = ({
                   style={{
                     padding: '10px 14px',
                     borderRadius: 'var(--radius-md)',
-                    backgroundColor: msg.sender === 'user' ? 'var(--text-primary)' : 'var(--surface-subtle)',
-                    color: msg.sender === 'user' ? '#FFFFFF' : 'var(--text-primary)',
+                    backgroundColor: msg.sender === 'user' ? 'var(--color-deep-ink)' : 'var(--color-surface-subtle)',
+                    color: msg.sender === 'user' ? '#FFFFFF' : 'var(--color-deep-ink)',
                     fontSize: '0.84rem',
                     lineHeight: 1.5,
-                    border: msg.isError ? '1px solid var(--danger)' : '1px solid var(--border)'
+                    border: msg.isError ? '1px solid var(--color-error)' : '1px solid var(--color-border-subtle)'
                   }}
                 >
                   {msg.text}
@@ -594,10 +594,10 @@ export const ImageReviewInterface: React.FC<ImageReviewInterfaceProps> = ({
                 flex: 1,
                 padding: '10px 14px',
                 borderRadius: 'var(--radius-md)',
-                border: '1px solid var(--border)',
-                backgroundColor: 'var(--surface-subtle)',
+                border: '1px solid var(--color-border-gray)',
+                backgroundColor: 'var(--color-surface-subtle)',
                 fontSize: '0.84rem',
-                color: 'var(--text-primary)'
+                color: 'var(--color-deep-ink)'
               }}
             />
             <button 

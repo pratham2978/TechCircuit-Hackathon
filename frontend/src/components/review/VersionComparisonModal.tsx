@@ -113,7 +113,7 @@ export const VersionComparisonModal: React.FC<VersionComparisonModalProps> = ({
           maxHeight: '90vh',
           display: 'flex',
           flexDirection: 'column',
-          backgroundColor: 'var(--surface)',
+          backgroundColor: 'var(--color-surface-white)',
           borderRadius: 'var(--radius-xl)',
           boxShadow: 'var(--shadow-2xl)',
           overflow: 'hidden',
@@ -124,11 +124,11 @@ export const VersionComparisonModal: React.FC<VersionComparisonModalProps> = ({
         <div 
           style={{
             padding: '18px 24px',
-            borderBottom: '1px solid var(--border)',
+            borderBottom: '1px solid var(--color-border-gray)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            backgroundColor: 'var(--surface-subtle)'
+            backgroundColor: 'var(--color-surface-subtle)'
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -138,7 +138,7 @@ export const VersionComparisonModal: React.FC<VersionComparisonModalProps> = ({
                 height: '32px',
                 borderRadius: 'var(--radius-md)',
                 backgroundColor: 'rgba(22, 124, 120, 0.1)',
-                color: 'var(--info)',
+                color: 'var(--color-evidence-teal)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center'
@@ -147,10 +147,10 @@ export const VersionComparisonModal: React.FC<VersionComparisonModalProps> = ({
               <GitCompare size={18} />
             </div>
             <div>
-              <h2 style={{ fontSize: '1.15rem', margin: 0, color: 'var(--text-primary)' }}>
+              <h2 style={{ fontSize: '1.15rem', margin: 0, color: 'var(--color-deep-ink)' }}>
                 Version Comparison & Revision History
               </h2>
-              <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: 0 }}>
+              <p style={{ fontSize: '0.78rem', color: 'var(--color-muted-slate)', margin: 0 }}>
                 Compare original baseline (v1.0) against accepted compliance corrections.
               </p>
             </div>
@@ -172,9 +172,9 @@ export const VersionComparisonModal: React.FC<VersionComparisonModalProps> = ({
               style={{
                 padding: '12px 16px',
                 backgroundColor: 'rgba(230, 57, 70, 0.1)',
-                border: '1px solid var(--danger)',
+                border: '1px solid var(--color-error)',
                 borderRadius: 'var(--radius-md)',
-                color: 'var(--danger)',
+                color: 'var(--color-error)',
                 fontSize: '0.84rem'
               }}
             >
@@ -186,9 +186,9 @@ export const VersionComparisonModal: React.FC<VersionComparisonModalProps> = ({
           <div 
             style={{
               padding: '14px 18px',
-              backgroundColor: 'var(--surface-subtle)',
+              backgroundColor: 'var(--color-surface-subtle)',
               borderRadius: 'var(--radius-lg)',
-              border: '1px solid var(--border)',
+              border: '1px solid var(--color-border-subtle)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
@@ -198,7 +198,7 @@ export const VersionComparisonModal: React.FC<VersionComparisonModalProps> = ({
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-muted)' }}>Base:</span>
+                <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--color-muted-slate)' }}>Base:</span>
                 <select 
                   value={selectedFromId} 
                   onChange={(e) => {
@@ -208,9 +208,9 @@ export const VersionComparisonModal: React.FC<VersionComparisonModalProps> = ({
                   style={{
                     padding: '6px 12px',
                     borderRadius: 'var(--radius-sm)',
-                    border: '1px solid var(--border)',
+                    border: '1px solid var(--color-border-gray)',
                     fontSize: '0.82rem',
-                    backgroundColor: 'var(--surface)'
+                    backgroundColor: 'var(--color-surface-white)'
                   }}
                 >
                   {versions.map(v => (
@@ -221,10 +221,10 @@ export const VersionComparisonModal: React.FC<VersionComparisonModalProps> = ({
                 </select>
               </div>
 
-              <ArrowRight size={14} color="var(--text-muted)" />
+              <ArrowRight size={14} color="var(--color-muted-slate)" />
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-muted)' }}>Compared to:</span>
+                <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--color-muted-slate)' }}>Compared to:</span>
                 <select 
                   value={selectedToId} 
                   onChange={(e) => {
@@ -234,9 +234,9 @@ export const VersionComparisonModal: React.FC<VersionComparisonModalProps> = ({
                   style={{
                     padding: '6px 12px',
                     borderRadius: 'var(--radius-sm)',
-                    border: '1px solid var(--border)',
+                    border: '1px solid var(--color-border-gray)',
                     fontSize: '0.82rem',
-                    backgroundColor: 'var(--surface)'
+                    backgroundColor: 'var(--color-surface-white)'
                   }}
                 >
                   {versions.map(v => (
@@ -256,7 +256,7 @@ export const VersionComparisonModal: React.FC<VersionComparisonModalProps> = ({
                     padding: '4px 8px',
                     borderRadius: 'var(--radius-sm)',
                     backgroundColor: 'rgba(40, 125, 88, 0.12)',
-                    color: 'var(--success)',
+                    color: 'var(--color-success)',
                     fontSize: '0.74rem',
                     fontWeight: 700
                   }}
@@ -268,7 +268,7 @@ export const VersionComparisonModal: React.FC<VersionComparisonModalProps> = ({
                     padding: '4px 8px',
                     borderRadius: 'var(--radius-sm)',
                     backgroundColor: 'rgba(230, 57, 70, 0.12)',
-                    color: 'var(--danger)',
+                    color: 'var(--color-error)',
                     fontSize: '0.74rem',
                     fontWeight: 700
                   }}
@@ -287,8 +287,8 @@ export const VersionComparisonModal: React.FC<VersionComparisonModalProps> = ({
                 <div 
                   style={{
                     padding: '12px 16px',
-                    backgroundColor: 'var(--surface-subtle)',
-                    border: '1px solid var(--border)',
+                    backgroundColor: 'var(--color-surface-subtle)',
+                    border: '1px solid var(--color-border-subtle)',
                     borderRadius: 'var(--radius-md)',
                     display: 'flex',
                     alignItems: 'center',
@@ -296,11 +296,11 @@ export const VersionComparisonModal: React.FC<VersionComparisonModalProps> = ({
                   }}
                 >
                   {comparison.media_comparison.media_type === 'image' ? (
-                    <ImageIcon size={18} color="var(--info)" />
+                    <ImageIcon size={18} color="var(--color-evidence-teal)" />
                   ) : (
-                    <VideoIcon size={18} color="var(--primary)" />
+                    <VideoIcon size={18} color="var(--color-signal-coral)" />
                   )}
-                  <span style={{ fontSize: '0.82rem', color: 'var(--text-primary)' }}>
+                  <span style={{ fontSize: '0.82rem', color: 'var(--color-deep-ink)' }}>
                     {comparison.media_comparison.media_editing_pipeline_note}
                   </span>
                 </div>
@@ -311,8 +311,8 @@ export const VersionComparisonModal: React.FC<VersionComparisonModalProps> = ({
                 className="card-panel"
                 style={{
                   padding: '18px 20px',
-                  backgroundColor: 'var(--surface)',
-                  border: '1px solid var(--border)',
+                  backgroundColor: 'var(--color-surface-white)',
+                  border: '1px solid var(--color-border-gray)',
                   borderRadius: 'var(--radius-lg)',
                   fontSize: '0.9rem',
                   lineHeight: 1.7,
@@ -364,7 +364,7 @@ export const VersionComparisonModal: React.FC<VersionComparisonModalProps> = ({
               {/* Addressed Findings Strip */}
               {comparison.addressed_findings && comparison.addressed_findings.length > 0 && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-primary)', textTransform: 'uppercase' }}>
+                  <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-deep-ink)', textTransform: 'uppercase' }}>
                     Addressed Compliance Findings in this Revision:
                   </span>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
@@ -382,10 +382,10 @@ export const VersionComparisonModal: React.FC<VersionComparisonModalProps> = ({
                           gap: '6px'
                         }}
                       >
-                        <CheckCircle2 size={13} color="var(--info)" />
+                        <CheckCircle2 size={13} color="var(--color-evidence-teal)" />
                         <strong>{f.finding_id}:</strong>
                         <span>{f.rule_reference || 'Governance Standard'}</span>
-                        <span className="badge badge-success" style={{ fontSize: '0.62rem', padding: '1px 4px' }}>
+                        <span className="badge badge-verified" style={{ fontSize: '0.62rem', padding: '1px 4px' }}>
                           {f.is_user_edited ? 'User Edited' : 'AI Suggested'}
                         </span>
                       </div>
@@ -398,7 +398,7 @@ export const VersionComparisonModal: React.FC<VersionComparisonModalProps> = ({
 
           {/* Persistent Version Timeline */}
           <div style={{ marginTop: '8px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-primary)', textTransform: 'uppercase' }}>
+            <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-deep-ink)', textTransform: 'uppercase' }}>
               Full Version History:
             </span>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
@@ -408,8 +408,8 @@ export const VersionComparisonModal: React.FC<VersionComparisonModalProps> = ({
                   style={{
                     padding: '10px 14px',
                     borderRadius: 'var(--radius-md)',
-                    border: '1px solid var(--border)',
-                    backgroundColor: v.status === 'current' ? 'var(--surface-subtle)' : 'var(--surface)',
+                    border: '1px solid var(--color-border-subtle)',
+                    backgroundColor: v.status === 'current' ? 'var(--color-surface-subtle)' : 'var(--color-surface-white)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
@@ -417,14 +417,14 @@ export const VersionComparisonModal: React.FC<VersionComparisonModalProps> = ({
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <span style={{ fontWeight: 700, color: 'var(--text-primary)' }}>v{v.version_number}</span>
-                    <span className={`badge ${v.status === 'current' ? 'badge-success' : 'badge-neutral'}`} style={{ fontSize: '0.65rem' }}>
+                    <span style={{ fontWeight: 700, color: 'var(--color-deep-ink)' }}>v{v.version_number}</span>
+                    <span className={`badge ${v.status === 'current' ? 'badge-verified' : 'badge-neutral'}`} style={{ fontSize: '0.65rem' }}>
                       {v.status}
                     </span>
-                    <span style={{ color: 'var(--text-muted)' }}>{v.change_summary}</span>
+                    <span style={{ color: 'var(--color-muted-slate)' }}>{v.change_summary}</span>
                   </div>
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'var(--text-muted)', fontSize: '0.74rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'var(--color-muted-slate)', fontSize: '0.74rem' }}>
                     <span>By: {v.author}</span>
                     <span>{v.created_at}</span>
                   </div>
@@ -438,8 +438,8 @@ export const VersionComparisonModal: React.FC<VersionComparisonModalProps> = ({
         <div 
           style={{
             padding: '14px 24px',
-            borderTop: '1px solid var(--border)',
-            backgroundColor: 'var(--surface-subtle)',
+            borderTop: '1px solid var(--color-border-gray)',
+            backgroundColor: 'var(--color-surface-subtle)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'flex-end',

@@ -1,17 +1,26 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDemo } from '../../context/DemoContext';
-import {
-  FolderKanban,
-  PlusCircle,
-  ArrowRight,
-  BookOpen,
-  FileText,
-  Scale,
-  Tag,
-  Palette,
+import { 
+  FolderKanban, 
+  Clock, 
+  CheckCircle2, 
+  AlertTriangle, 
+  PlusCircle, 
+  ArrowRight, 
+  ShieldCheck, 
+  BookOpen, 
+  History, 
+  FileText, 
+  Scale, 
+  Tag, 
+  Palette, 
   Film,
-  X,
+  Building,
+  CheckSquare,
+  Sparkles,
+  ExternalLink,
+  X
 } from 'lucide-react';
 
 export const DashboardPage: React.FC = () => {
@@ -19,490 +28,582 @@ export const DashboardPage: React.FC = () => {
   const navigate = useNavigate();
   const isOperations = accountType === 'brandguard_operations';
 
+  // Modal State for Create Project
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [newProjectName, setNewProjectName] = useState('');
   const [newProjectDescription, setNewProjectDescription] = useState('');
   const [newProjectClient, setNewProjectClient] = useState('Acme Global Brands');
 
-  const visibleProjects = isOperations
-    ? projects
+  // Compute metrics across authorized projects and files
+  const visibleProjects = isOperations 
+    ? projects 
     : projects.filter(p => p.clientName === 'Acme Global Brands');
 
   const allFiles = visibleProjects.flatMap(p => p.files);
-  const totalProjects           = visibleProjects.length;
-  const inProgressCount         = allFiles.filter(f => f.status === 'in_progress').length;
+  const totalProjects = visibleProjects.length;
+  const inProgressCount = allFiles.filter(f => f.status === 'in_progress').length;
   const awaitingVerificationCount = allFiles.filter(f => f.status === 'awaiting_verification').length;
-  const approvedCount           = allFiles.filter(f => f.status === 'approved').length;
-  const needingChangesCount     = allFiles.filter(f => f.status === 'needs_changes').length;
+  const approvedCount = allFiles.filter(f => f.status === 'approved').length;
+  const needingChangesCount = allFiles.filter(f => f.status === 'needs_changes').length;
 
+  // Handle Project Creation
   const handleCreateProject = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newProjectName.trim()) return;
+
     const created = createProject({
       name: newProjectName.trim(),
       description: newProjectDescription.trim() || 'Marketing and brand compliance review package.',
       clientName: newProjectClient.trim() || 'Acme Global Brands',
-      files: [{
-        id: `f-${Date.now().toString().slice(-3)}`,
-        name: 'Campaign_Brief_Initial.docx',
-        type: 'docx',
-        reviewType: 'content',
-        uploadedAt: new Date().toISOString().replace('T', ' ').slice(0, 16),
-        status: 'not_reviewed',
-        size: '1.2 MB',
-        findingsCount: 0,
-      }],
+      files: [
+        {
+          id: `f-${Date.now().toString().slice(-3)}`,
+          name: 'Campaign_Brief_Initial.docx',
+          type: 'docx',
+          reviewType: 'content',
+          uploadedAt: new Date().toISOString().replace('T', ' ').slice(0, 16),
+          status: 'not_reviewed',
+          size: '1.2 MB',
+          findingsCount: 0
+        }
+      ]
     });
+
     setShowCreateModal(false);
     setNewProjectName('');
     setNewProjectDescription('');
     navigate(`/app/projects/${created.id}`);
   };
 
-  // Status badge map — sentence case, text on tinted bg
-  const statusBadge: Record<string, { label: string; cls: string }> = {
-    active:    { label: 'Active',    cls: 'badge-active' },
-    in_review: { label: 'In review', cls: 'badge-warning' },
-    approved:  { label: 'Approved',  cls: 'badge-approved' },
-    archived:  { label: 'Archived',  cls: 'badge-neutral' },
-  };
-
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-
-      {/* ── Page Header ── */}
-      <div className="page-header">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+      {/* Top Header */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
         <div>
-          <h1 className="page-header-title">
-            {isOperations ? 'Operations dashboard' : 'Brand governance dashboard'}
-          </h1>
-          <p className="page-header-desc">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
+            <h1 style={{ fontSize: '1.85rem', margin: 0 }}>
+              {isOperations ? 'Operations Governance Dashboard' : 'Brand Governance Dashboard'}
+            </h1>
+            <span className={`badge ${isOperations ? 'badge-teal' : 'badge-verified'}`}>
+              {isOperations ? 'BrandGuard Operations' : 'Company Workspace'}
+            </span>
+          </div>
+          <p style={{ color: 'var(--color-muted-slate)', fontSize: '0.92rem', margin: 0 }}>
             {isOperations
-              ? 'Triage review queues, verify legal and claim compliance, and certify brand assets.'
-              : 'Manage project reviews across legal agreements, promotion claims, copy, images, and videos.'}
+              ? 'Triage client project review queues, verify legal & claim compliance, and certify brand assets.'
+              : 'Manage project reviews across legal documents, promotion claims, copy, images, and videos.'}
           </p>
         </div>
-        <div className="page-header-actions">
-          {!isOperations && (
-            <button
-              id="create-project-btn"
-              onClick={() => setShowCreateModal(true)}
-              className="btn btn-primary btn-sm"
-            >
-              <PlusCircle size={14} strokeWidth={1.5} />
-              <span>Create project</span>
-            </button>
-          )}
-          <button
+
+        {/* Quick Actions */}
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <button 
+            onClick={() => setShowCreateModal(true)}
+            className="btn btn-primary btn-sm"
+            style={{ gap: '6px' }}
+            data-tour="create-project-btn"
+          >
+            <PlusCircle size={15} />
+            <span>Create Project</span>
+          </button>
+          <button 
             onClick={() => navigate('/app/projects')}
             className="btn btn-secondary btn-sm"
+            style={{ gap: '6px' }}
           >
-            <FolderKanban size={14} strokeWidth={1.5} />
-            <span>All projects</span>
+            <FolderKanban size={15} color="var(--color-evidence-teal)" />
+            <span>Open Projects</span>
           </button>
         </div>
       </div>
 
-      {/* ── Stat Cards (5 across desktop -> 2-3 tablet -> 1-2 mobile) ── */}
-      <div className="dashboard-stats-grid">
-        {/* Total Projects */}
-        <div className="stat-card">
-          <div className="stat-card-label">Total projects</div>
-          <div className="stat-card-value">{totalProjects}</div>
-          <div className="stat-card-helper">
-            <span className="status-dot status-dot-neutral" />
-            Active workspace records
+      {/* 5 Core Metric Cards */}
+      <div 
+        data-tour="metrics-panel"
+        style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
+          gap: '16px' 
+        }}
+      >
+        {/* Metric 1: Total Projects */}
+        <div className="card-panel">
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+            <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--color-muted-slate)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              Total Projects
+            </span>
+            <FolderKanban size={15} color="var(--color-deep-ink)" />
           </div>
+          <div style={{ fontSize: '2rem', fontWeight: 700, fontFamily: 'var(--font-display)', color: 'var(--color-deep-ink)', fontVariantNumeric: 'tabular-nums', lineHeight: 1.1, marginBottom: '4px' }}>
+            {totalProjects}
+          </div>
+          <span style={{ fontSize: '0.75rem', color: 'var(--color-muted-slate)' }}>
+            Active workspace repositories
+          </span>
         </div>
 
-        {/* In Progress */}
-        <div className="stat-card">
-          <div className="stat-card-label">In progress</div>
-          <div className="stat-card-value">{inProgressCount}</div>
-          <div className="stat-card-helper">
-            <span className="status-dot status-dot-info" />
-            Under active review
+        {/* Metric 2: Reviews In Progress */}
+        <div className="card-panel">
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+            <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--color-muted-slate)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              In Progress
+            </span>
+            <Clock size={15} color="var(--color-evidence-teal)" />
           </div>
+          <div style={{ fontSize: '2rem', fontWeight: 700, fontFamily: 'var(--font-display)', color: 'var(--color-evidence-teal)', fontVariantNumeric: 'tabular-nums', lineHeight: 1.1, marginBottom: '4px' }}>
+            {inProgressCount}
+          </div>
+          <span style={{ fontSize: '0.75rem', color: 'var(--color-muted-slate)' }}>
+            Assets currently under review
+          </span>
         </div>
 
-        {/* Awaiting Verification */}
-        <div className="stat-card">
-          <div className="stat-card-label">Awaiting verification</div>
-          <div className="stat-card-value">{awaitingVerificationCount}</div>
-          <div className="stat-card-helper">
-            <span className="status-dot status-dot-warning" />
-            {isOperations ? 'Requires reviewer sign-off' : 'Pending operations sign-off'}
+        {/* Metric 3: Awaiting Verification */}
+        <div className="card-panel">
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+            <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--color-muted-slate)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              Awaiting Verification
+            </span>
+            <CheckSquare size={15} color="var(--color-warning)" />
           </div>
+          <div style={{ fontSize: '2rem', fontWeight: 700, fontFamily: 'var(--font-display)', color: 'var(--color-warning)', fontVariantNumeric: 'tabular-nums', lineHeight: 1.1, marginBottom: '4px' }}>
+            {awaitingVerificationCount}
+          </div>
+          <span style={{ fontSize: '0.75rem', color: 'var(--color-muted-slate)' }}>
+            {isOperations ? 'Requires reviewer signoff' : 'Pending Operations verification'}
+          </span>
         </div>
 
-        {/* Approved */}
-        <div className="stat-card">
-          <div className="stat-card-label">Approved reviews</div>
-          <div className="stat-card-value">{approvedCount}</div>
-          <div className="stat-card-helper">
-            <span className="status-dot status-dot-success" />
+        {/* Metric 4: Approved Reviews */}
+        <div className="card-panel">
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+            <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--color-muted-slate)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              Approved Reviews
+            </span>
+            <CheckCircle2 size={15} color="var(--color-success)" />
+          </div>
+          <div style={{ fontSize: '2rem', fontWeight: 700, fontFamily: 'var(--font-display)', color: 'var(--color-success)', fontVariantNumeric: 'tabular-nums', lineHeight: 1.1, marginBottom: '4px' }}>
+            {approvedCount}
+          </div>
+          <span style={{ fontSize: '0.75rem', color: 'var(--color-muted-slate)' }}>
             Cleared for publication
-          </div>
+          </span>
         </div>
 
-        {/* Needing Changes */}
-        <div className="stat-card">
-          <div className="stat-card-label">Needing changes</div>
-          <div className="stat-card-value">{needingChangesCount}</div>
-          <div className="stat-card-helper">
-            <span className="status-dot status-dot-danger" />
-            Revisions flagged
+        {/* Metric 5: Needing Changes */}
+        <div className="card-panel">
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+            <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--color-muted-slate)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              Needing Changes
+            </span>
+            <AlertTriangle size={15} color="var(--color-error)" />
           </div>
+          <div style={{ fontSize: '2rem', fontWeight: 700, fontFamily: 'var(--font-display)', color: 'var(--color-error)', fontVariantNumeric: 'tabular-nums', lineHeight: 1.1, marginBottom: '4px' }}>
+            {needingChangesCount}
+          </div>
+          <span style={{ fontSize: '0.75rem', color: 'var(--color-muted-slate)' }}>
+            Policy or claim revisions flagged
+          </span>
         </div>
       </div>
 
-      {/* ── Main Two-Column Layout (Stacks under 1024px) ── */}
-      <div className="dashboard-two-column-layout">
-        
-        {/* Left Column: Active Projects Table */}
-        <div className="card-panel" style={{ padding: 0, overflow: 'hidden' }}>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '12px 16px',
-            borderBottom: '1px solid var(--border)',
-          }}>
-            <h2 style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-primary)' }}>
-              Active projects
-            </h2>
-            <Link
-              to="/app/projects"
-              style={{ fontSize: '13px', color: 'var(--primary)', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '4px' }}
+      {/* Main Split: Projects Overview & Review Queues */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '24px' }}>
+        {/* Left Column: Projects Table */}
+        <div className="card-panel" data-tour="projects-table" style={{ padding: 0, overflow: 'hidden' }}>
+          <div 
+            style={{ 
+              padding: '16px 20px', 
+              backgroundColor: 'var(--color-surface-subtle)', 
+              borderBottom: '1px solid var(--color-border-gray)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <FolderKanban size={18} color="var(--color-signal-coral)" />
+              <strong style={{ fontSize: '0.95rem' }}>Active Projects & Review Status</strong>
+            </div>
+            <Link 
+              to="/app/projects" 
+              style={{ fontSize: '0.8rem', color: 'var(--color-signal-coral)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}
             >
-              <span>View all</span>
-              <ArrowRight size={13} strokeWidth={1.5} />
+              <span>View All Projects</span>
+              <ArrowRight size={13} />
             </Link>
           </div>
 
-          {/* Desktop Table View */}
-          <div className="desktop-table-container" style={{ overflowX: 'auto' }}>
-            <table className="data-table">
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.85rem' }}>
               <thead>
-                <tr>
-                  <th>Project</th>
-                  <th>Review tools</th>
-                  <th>Status</th>
-                  <th className="right">Action</th>
+                <tr style={{ backgroundColor: 'var(--color-surface-subtle)', borderBottom: '1px solid var(--color-border-subtle)' }}>
+                  <th style={{ padding: '10px 20px' }}>Project</th>
+                  <th style={{ padding: '10px 16px' }}>Files & Tools</th>
+                  <th style={{ padding: '10px 16px' }}>Status</th>
+                  <th style={{ padding: '10px 20px', textAlign: 'right' }}>Action</th>
                 </tr>
               </thead>
               <tbody>
                 {visibleProjects.map(proj => {
-                  const bd = statusBadge[proj.status] ?? { label: proj.status, cls: 'badge-neutral' };
-                  const legalCount   = proj.files.filter(f => f.reviewType === 'legal').length;
-                  const promoCount   = proj.files.filter(f => f.reviewType === 'promotions').length;
+                  const statusBadges: Record<string, { label: string; class: string }> = {
+                    active: { label: 'Active', class: 'badge-verified' },
+                    in_review: { label: 'In Review', class: 'badge-expiring' },
+                    approved: { label: 'Approved', class: 'badge-teal' },
+                    archived: { label: 'Archived', class: 'badge-neutral' }
+                  };
+                  const badge = statusBadges[proj.status] || { label: proj.status, class: 'badge-neutral' };
+
+                  // Count files by review tool
+                  const legalCount = proj.files.filter(f => f.reviewType === 'legal').length;
+                  const promoCount = proj.files.filter(f => f.reviewType === 'promotions').length;
                   const contentCount = proj.files.filter(f => f.reviewType === 'content').length;
-                  const imageCount   = proj.files.filter(f => f.reviewType === 'images').length;
-                  const videoCount   = proj.files.filter(f => f.reviewType === 'videos').length;
+                  const imageCount = proj.files.filter(f => f.reviewType === 'images').length;
+                  const videoCount = proj.files.filter(f => f.reviewType === 'videos').length;
 
                   return (
-                    <tr key={proj.id}>
-                      <td>
-                        <Link
+                    <tr key={proj.id} style={{ borderBottom: '1px solid var(--color-border-subtle)' }}>
+                      <td style={{ padding: '14px 20px' }}>
+                        <Link 
                           to={`/app/projects/${proj.id}`}
-                          style={{ fontWeight: 500, color: 'var(--text-primary)', display: 'block', marginBottom: '2px' }}
+                          style={{ fontWeight: 600, color: 'var(--color-deep-ink)', textDecoration: 'none', display: 'block', marginBottom: '2px' }}
                         >
                           {proj.name}
                         </Link>
-                        <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
-                          {proj.clientName} · <span className="tabular">{proj.updatedAt}</span>
+                        <span style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)' }}>
+                          {proj.clientName} • Updated {proj.updatedAt}
                         </span>
                       </td>
 
-                      <td>
+                      <td style={{ padding: '14px 16px' }}>
                         <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
                           {legalCount > 0 && (
-                            <span className="review-tool-chip" title={`${legalCount} Legal document reviews`} aria-label={`${legalCount} Legal documents`}>
-                              <Scale size={12} strokeWidth={1.5} />
-                              <span>{legalCount}</span>
+                            <span className="badge badge-neutral" style={{ fontSize: '0.65rem', gap: '3px' }} title="Legal Documents">
+                              <Scale size={11} /> {legalCount}
                             </span>
                           )}
                           {promoCount > 0 && (
-                            <span className="review-tool-chip" title={`${promoCount} Promotion & offer claim audits`} aria-label={`${promoCount} Promotions`}>
-                              <Tag size={12} strokeWidth={1.5} />
-                              <span>{promoCount}</span>
+                            <span className="badge badge-neutral" style={{ fontSize: '0.65rem', gap: '3px' }} title="Promotions & Claims">
+                              <Tag size={11} /> {promoCount}
                             </span>
                           )}
                           {contentCount > 0 && (
-                            <span className="review-tool-chip" title={`${contentCount} Brand content & manuscript reviews`} aria-label={`${contentCount} Content files`}>
-                              <FileText size={12} strokeWidth={1.5} />
-                              <span>{contentCount}</span>
+                            <span className="badge badge-neutral" style={{ fontSize: '0.65rem', gap: '3px' }} title="Content Articles">
+                              <FileText size={11} /> {contentCount}
                             </span>
                           )}
                           {imageCount > 0 && (
-                            <span className="review-tool-chip" title={`${imageCount} Image & design checks`} aria-label={`${imageCount} Images`}>
-                              <Palette size={12} strokeWidth={1.5} />
-                              <span>{imageCount}</span>
+                            <span className="badge badge-neutral" style={{ fontSize: '0.65rem', gap: '3px' }} title="Images & Designs">
+                              <Palette size={11} /> {imageCount}
                             </span>
                           )}
                           {videoCount > 0 && (
-                            <span className="review-tool-chip" title={`${videoCount} Video compliance checks`} aria-label={`${videoCount} Videos`}>
-                              <Film size={12} strokeWidth={1.5} />
-                              <span>{videoCount}</span>
+                            <span className="badge badge-neutral" style={{ fontSize: '0.65rem', gap: '3px' }} title="Video Assets">
+                              <Film size={11} /> {videoCount}
                             </span>
                           )}
                           {proj.files.length === 0 && (
-                            <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>No files</span>
+                            <span style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)' }}>0 files</span>
                           )}
                         </div>
                       </td>
 
-                      <td>
-                        <span className={`badge ${bd.cls}`}>{bd.label}</span>
+                      <td style={{ padding: '14px 16px' }}>
+                        <span className={`badge ${badge.class}`} style={{ fontSize: '0.65rem' }}>
+                          {badge.label}
+                        </span>
                       </td>
 
-                      <td className="right">
-                        <Link
+                      <td style={{ padding: '14px 20px', textAlign: 'right' }}>
+                        <Link 
                           to={`/app/projects/${proj.id}`}
                           className="btn btn-secondary btn-sm"
+                          style={{ fontSize: '0.75rem', padding: '4px 10px' }}
                         >
-                          Open
+                          Open Review
                         </Link>
                       </td>
                     </tr>
                   );
                 })}
-                {visibleProjects.length === 0 && (
-                  <tr>
-                    <td colSpan={4} style={{ textAlign: 'center', color: 'var(--text-muted)', padding: '36px 16px' }}>
-                      No projects currently available.
-                    </td>
-                  </tr>
-                )}
               </tbody>
             </table>
           </div>
-
-          {/* Mobile Stacked Card View (under 640px) */}
-          <div className="mobile-cards-container" style={{ display: 'none', flexDirection: 'column' }}>
-            {visibleProjects.map(proj => {
-              const bd = statusBadge[proj.status] ?? { label: proj.status, cls: 'badge-neutral' };
-              return (
-                <div key={proj.id} style={{
-                  padding: '14px 16px',
-                  borderBottom: '1px solid var(--border)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '8px',
-                }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                    <div>
-                      <Link to={`/app/projects/${proj.id}`} style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '14px' }}>
-                        {proj.name}
-                      </Link>
-                      <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '2px' }}>
-                        {proj.clientName} · <span className="tabular">{proj.updatedAt}</span>
-                      </div>
-                    </div>
-                    <span className={`badge ${bd.cls}`}>{bd.label}</span>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '4px' }}>
-                    <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
-                      {proj.files.length} {proj.files.length === 1 ? 'asset' : 'assets'}
-                    </span>
-                    <Link to={`/app/projects/${proj.id}`} className="btn btn-secondary btn-sm">
-                      Open
-                    </Link>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
         </div>
 
-        {/* Right Column: Review Priority Queue & Quick Links */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-
-          {/* Review Priority Queue / Tools */}
-          <div className="card-panel" style={{ padding: 0, overflow: 'hidden' }}>
-            <div style={{ padding: '12px 16px', borderBottom: '1px solid var(--border)' }}>
-              <h2 style={{ fontSize: '14px', fontWeight: 600 }}>
-                {isOperations ? 'Review priority queue' : 'Five review tools'}
-              </h2>
-              <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '2px', lineHeight: 1.4 }}>
-                {isOperations
-                  ? 'Client submissions pending operations sign-off.'
-                  : 'Automated compliance checkers configured for your brand.'}
-              </p>
+        {/* Right Column: Five Review Tools Gateway & Priorities */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {/* Operations Review Priority Box OR Company Guide */}
+          <div className="card-panel" style={{ backgroundColor: 'var(--color-surface-subtle)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
+              <ShieldCheck size={18} color="var(--color-evidence-teal)" />
+              <strong style={{ fontSize: '0.95rem' }}>
+                {isOperations ? 'Operations Review Priority Queue' : 'Five Core Governance Tools'}
+              </strong>
             </div>
+            <p style={{ fontSize: '0.82rem', color: 'var(--color-muted-slate)', marginBottom: '16px', lineHeight: 1.5 }}>
+              {isOperations
+                ? 'Files submitted by client teams awaiting verification sign-off before publication.'
+                : 'Every project includes dedicated review tools engineered for specific content formats.'}
+            </p>
 
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              {[
-                { icon: <Scale size={14} strokeWidth={1.5} />, label: 'Legal document review', desc: 'SLA guarantees, SCC clauses, disclaimers.' },
-                { icon: <Tag size={14} strokeWidth={1.5} />,   label: 'Promotion and offer claims', desc: 'Cross-checked against the approved claims ledger.' },
-                { icon: <FileText size={14} strokeWidth={1.5} />, label: 'Brand content review', desc: 'Tone, voice consistency, and approved terminology.' },
-                { icon: <Palette size={14} strokeWidth={1.5} />, label: 'Image and design review', desc: 'Color tokens, WCAG 2.1 AA contrast, clear-space.' },
-                { icon: <Film size={14} strokeWidth={1.5} />,   label: 'Video review', desc: 'On-screen super titles, audio disclosures, bumpers.' },
-              ].map((t, i, arr) => (
-                <div key={t.label} style={{
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: '12px',
-                  padding: '10px 16px',
-                  borderBottom: i < arr.length - 1 ? '1px solid var(--border)' : 'none',
-                }}>
-                  <span style={{ color: 'var(--text-muted)', flexShrink: 0, marginTop: '2px' }}>{t.icon}</span>
-                  <div>
-                    <div style={{ fontSize: '13px', fontWeight: 500, color: 'var(--text-primary)' }}>{t.label}</div>
-                    <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '2px' }}>{t.desc}</div>
-                  </div>
+            {/* List of 5 Core Review Tools with quick explanation */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <div 
+                style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: '12px', 
+                  padding: '10px 12px', 
+                  backgroundColor: 'var(--color-surface-white)', 
+                  borderRadius: 'var(--radius-md)',
+                  border: '1px solid var(--color-border-subtle)'
+                }}
+              >
+                <div style={{ padding: '6px', borderRadius: 'var(--radius-sm)', backgroundColor: 'var(--color-evidence-teal-subtle)', color: 'var(--color-evidence-teal)' }}>
+                  <Scale size={16} />
                 </div>
-              ))}
+                <div style={{ flex: 1 }}>
+                  <strong style={{ fontSize: '0.85rem', display: 'block', color: 'var(--color-deep-ink)' }}>Legal Document Review</strong>
+                  <span style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)' }}>Contract clauses, absolute SLA restrictions, disclaimers.</span>
+                </div>
+              </div>
+
+              <div 
+                style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: '12px', 
+                  padding: '10px 12px', 
+                  backgroundColor: 'var(--color-surface-white)', 
+                  borderRadius: 'var(--radius-md)',
+                  border: '1px solid var(--color-border-subtle)'
+                }}
+              >
+                <div style={{ padding: '6px', borderRadius: 'var(--radius-sm)', backgroundColor: 'var(--color-signal-coral-subtle)', color: 'var(--color-signal-coral)' }}>
+                  <Tag size={16} />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <strong style={{ fontSize: '0.85rem', display: 'block', color: 'var(--color-deep-ink)' }}>Promotion & Offer Claim Review</strong>
+                  <span style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)' }}>Discount percentages & dates checked against ledger facts.</span>
+                </div>
+              </div>
+
+              <div 
+                style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: '12px', 
+                  padding: '10px 12px', 
+                  backgroundColor: 'var(--color-surface-white)', 
+                  borderRadius: 'var(--radius-md)',
+                  border: '1px solid var(--color-border-subtle)'
+                }}
+              >
+                <div style={{ padding: '6px', borderRadius: 'var(--radius-sm)', backgroundColor: 'var(--color-warning-subtle)', color: 'var(--color-warning)' }}>
+                  <FileText size={16} />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <strong style={{ fontSize: '0.85rem', display: 'block', color: 'var(--color-deep-ink)' }}>Content Review</strong>
+                  <span style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)' }}>Tone, terminology, and 1-click evidence corrections.</span>
+                </div>
+              </div>
+
+              <div 
+                style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: '12px', 
+                  padding: '10px 12px', 
+                  backgroundColor: 'var(--color-surface-white)', 
+                  borderRadius: 'var(--radius-md)',
+                  border: '1px solid var(--color-border-subtle)'
+                }}
+              >
+                <div style={{ padding: '6px', borderRadius: 'var(--radius-sm)', backgroundColor: 'var(--color-evidence-teal-subtle)', color: 'var(--color-evidence-teal)' }}>
+                  <Palette size={16} />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <strong style={{ fontSize: '0.85rem', display: 'block', color: 'var(--color-deep-ink)' }}>Image & Design Review</strong>
+                  <span style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)' }}>Brand color tokens, WCAG contrast (4.5:1), alt-text check.</span>
+                </div>
+              </div>
+
+              <div 
+                style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: '12px', 
+                  padding: '10px 12px', 
+                  backgroundColor: 'var(--color-surface-white)', 
+                  borderRadius: 'var(--radius-md)',
+                  border: '1px solid var(--color-border-subtle)'
+                }}
+              >
+                <div style={{ padding: '6px', borderRadius: 'var(--radius-sm)', backgroundColor: 'var(--color-surface-subtle)', color: 'var(--color-muted-slate)' }}>
+                  <Film size={16} />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <strong style={{ fontSize: '0.85rem', display: 'block', color: 'var(--color-deep-ink)' }}>Video Review</strong>
+                  <span style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)' }}>Asset organization & manual checklist (automated AI planned).</span>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Guidelines & Passports Box */}
-          <div className="card-panel">
+          {/* Quick Guidelines & Claims Bridge */}
+          <div className="card-panel" data-tour="guidelines-card">
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-              <h2 style={{ fontSize: '14px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <BookOpen size={14} strokeWidth={1.5} color="var(--text-muted)" />
-                <span>Guidelines and claims</span>
-              </h2>
-              <Link to="/app/guidelines" style={{ fontSize: '12px', color: 'var(--primary)', fontWeight: 500 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <BookOpen size={16} color="var(--color-evidence-teal)" />
+                <strong style={{ fontSize: '0.9rem' }}>Guidelines & Approved Claims</strong>
+              </div>
+              <Link to="/app/guidelines" style={{ fontSize: '0.78rem', color: 'var(--color-signal-coral)', fontWeight: 600 }}>
                 Manage →
               </Link>
             </div>
-            <p style={{ fontSize: '12px', color: 'var(--text-muted)', lineHeight: 1.4, marginBottom: '14px' }}>
-              Pre-approved claims, brand tokens, and mandatory clauses that power all 5 review tools.
+            <p style={{ fontSize: '0.78rem', color: 'var(--color-muted-slate)', margin: '0 0 12px', lineHeight: 1.4 }}>
+              Pre-approved claims, brand color tokens, and mandatory clauses that power all 5 review tools.
             </p>
             <div style={{ display: 'flex', gap: '8px' }}>
-              <Link to="/app/guidelines" className="btn btn-secondary btn-sm" style={{ flex: 1, justifyContent: 'center' }}>
-                Claims ledger
+              <Link to="/app/guidelines" className="btn btn-secondary btn-sm" style={{ flex: 1, fontSize: '0.75rem', justifyContent: 'center' }}>
+                View Claim Ledger
               </Link>
-              <Link to="/app/passport" className="btn btn-secondary btn-sm" style={{ flex: 1, justifyContent: 'center' }}>
-                Brand passports
+              <Link to="/app/history" className="btn btn-secondary btn-sm" style={{ flex: 1, fontSize: '0.75rem', justifyContent: 'center' }}>
+                Brand Passports
               </Link>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ── Create Project Modal ── */}
+      {/* Create Project Modal */}
       {showCreateModal && (
-        <div style={{
-          position: 'fixed', inset: 0,
-          backgroundColor: 'rgba(15, 23, 42, 0.45)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          zIndex: 1000, padding: '16px',
-        }}>
-          <div style={{
-            background: 'var(--surface)',
-            border: '1px solid var(--border)',
-            borderRadius: 'var(--radius)',
-            boxShadow: 'var(--shadow-modal)',
-            maxWidth: '480px',
-            width: '100%',
-          }}>
-            <div style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-              padding: '14px 20px',
-              borderBottom: '1px solid var(--border)',
-            }}>
-              <h2 style={{ fontSize: '15px', fontWeight: 600 }}>Create new project</h2>
-              <button
+        <div 
+          style={{ 
+            position: 'fixed', 
+            top: 0, 
+            left: 0, 
+            right: 0, 
+            bottom: 0, 
+            backgroundColor: 'rgba(0, 0, 0, 0.55)', 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center',
+            zIndex: 1000,
+            padding: '20px'
+          }}
+        >
+          <div 
+            className="card-panel" 
+            style={{ 
+              maxWidth: '520px', 
+              width: '100%', 
+              backgroundColor: 'var(--color-surface-white)',
+              boxShadow: 'var(--shadow-xl)',
+              animation: 'slideUp 0.2s ease-out'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', borderBottom: '1px solid var(--color-border-subtle)', paddingBottom: '12px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <FolderKanban size={18} color="var(--color-signal-coral)" />
+                <strong style={{ fontSize: '1.1rem' }}>Create New Project</strong>
+              </div>
+              <button 
                 onClick={() => setShowCreateModal(false)}
-                style={{ padding: '4px', borderRadius: 'var(--radius)', color: 'var(--text-muted)' }}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-muted-slate)' }}
               >
-                <X size={16} strokeWidth={1.5} />
+                <X size={18} />
               </button>
             </div>
 
-            <form onSubmit={handleCreateProject} style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            <form onSubmit={handleCreateProject} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <div>
-                <label className="form-label" htmlFor="proj-name">
-                  Project name <span style={{ color: 'var(--danger)' }}>*</span>
+                <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, marginBottom: '6px' }}>
+                  Project Name *
                 </label>
-                <input
-                  id="proj-name"
-                  type="text"
-                  className="form-input"
+                <input 
+                  type="text" 
                   value={newProjectName}
-                  onChange={e => setNewProjectName(e.target.value)}
+                  onChange={(e) => setNewProjectName(e.target.value)}
                   placeholder="e.g. Q4 Global Enterprise Launch"
                   required
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    borderRadius: 'var(--radius-md)',
+                    border: '1px solid var(--color-border-gray)',
+                    backgroundColor: 'var(--color-surface-subtle)',
+                    color: 'var(--color-deep-ink)',
+                    fontSize: '0.88rem'
+                  }}
                 />
               </div>
 
               <div>
-                <label className="form-label" htmlFor="proj-client">Client organization</label>
-                <input
-                  id="proj-client"
-                  type="text"
-                  className="form-input"
+                <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, marginBottom: '6px' }}>
+                  Client / Organization Name
+                </label>
+                <input 
+                  type="text" 
                   value={newProjectClient}
-                  onChange={e => setNewProjectClient(e.target.value)}
+                  onChange={(e) => setNewProjectClient(e.target.value)}
                   placeholder="Acme Global Brands"
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    borderRadius: 'var(--radius-md)',
+                    border: '1px solid var(--color-border-gray)',
+                    backgroundColor: 'var(--color-surface-subtle)',
+                    color: 'var(--color-deep-ink)',
+                    fontSize: '0.88rem'
+                  }}
                 />
               </div>
 
               <div>
-                <label className="form-label" htmlFor="proj-desc">Description</label>
-                <textarea
-                  id="proj-desc"
-                  className="form-textarea"
+                <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, marginBottom: '6px' }}>
+                  Description & Campaign Objective
+                </label>
+                <textarea 
                   value={newProjectDescription}
-                  onChange={e => setNewProjectDescription(e.target.value)}
-                  placeholder="Brief description of project deliverables and audience..."
+                  onChange={(e) => setNewProjectDescription(e.target.value)}
+                  placeholder="Describe the campaign collateral, deliverables, and target audience..."
                   rows={3}
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    borderRadius: 'var(--radius-md)',
+                    border: '1px solid var(--color-border-gray)',
+                    backgroundColor: 'var(--color-surface-subtle)',
+                    color: 'var(--color-deep-ink)',
+                    fontSize: '0.88rem',
+                    resize: 'vertical'
+                  }}
                 />
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', paddingTop: '6px' }}>
-                <button
-                  type="button"
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '8px' }}>
+                <button 
+                  type="button" 
                   onClick={() => setShowCreateModal(false)}
                   className="btn btn-secondary btn-sm"
                 >
                   Cancel
                 </button>
-                <button type="submit" className="btn btn-primary btn-sm">
-                  <PlusCircle size={14} strokeWidth={1.5} />
-                  <span>Create project</span>
+                <button 
+                  type="submit" 
+                  className="btn btn-primary btn-sm"
+                  style={{ gap: '6px' }}
+                >
+                  <PlusCircle size={15} />
+                  <span>Create Project</span>
                 </button>
               </div>
             </form>
           </div>
         </div>
       )}
-
-      <style>{`
-        .dashboard-stats-grid {
-          display: grid;
-          grid-template-columns: repeat(5, 1fr);
-          gap: 12px;
-        }
-        .dashboard-two-column-layout {
-          display: grid;
-          grid-template-columns: minmax(0, 1fr) 320px;
-          gap: 16px;
-          align-items: start;
-        }
-        @media (max-width: 1024px) {
-          .dashboard-stats-grid {
-            grid-template-columns: repeat(3, 1fr);
-          }
-          .dashboard-two-column-layout {
-            grid-template-columns: 1fr;
-          }
-        }
-        @media (max-width: 640px) {
-          .dashboard-stats-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-          .desktop-table-container { display: none !important; }
-          .mobile-cards-container { display: flex !important; }
-        }
-        @media (max-width: 420px) {
-          .dashboard-stats-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-      `}</style>
     </div>
   );
 };

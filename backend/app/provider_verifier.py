@@ -98,61 +98,10 @@ def verify_gemini_key(key: str) -> Dict[str, Any]:
         }
 
 
-from app.config import GEMINI_API_KEY, GEMINI_MODEL, GROQ_API_KEY, GROQ_MODEL
-
-
-def verify_groq_key(key: str) -> Dict[str, Any]:
-    """Safely ping Groq models endpoint to verify key validity."""
-    endpoint = "https://api.groq.com/openai/v1/models"
-    req = urllib.request.Request(
-        endpoint,
-        headers={
-            "Authorization": f"Bearer {key}",
-            "User-Agent": "BrandGuard/1.0"
-        },
-        method="GET"
-    )
-    try:
-        with urllib.request.urlopen(req, timeout=15) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
-            models = [m.get("id", "") for m in data.get("data", [])]
-            return {
-                "status": "valid",
-                "provider": "groq",
-                "available_models": models[:5],
-                "message": f"Successfully authenticated with Groq. Target model ({GROQ_MODEL}) is available."
-            }
-    except urllib.error.HTTPError as e:
-        return {
-            "status": "invalid_key",
-            "provider": "groq",
-            "message": f"Groq authentication error ({e.code}): API key rejected."
-        }
-    except Exception as e:
-        return {
-            "status": "error",
-            "provider": "groq",
-            "message": f"Groq connection error: {str(e)}"
-        }
-
-
 def check_current_ai_configuration() -> Dict[str, Any]:
     """
     Inspect the configured key in backend environment and verify provider compatibility.
-    Checks GROQ_API_KEY first, then GEMINI_API_KEY.
     """
-    if GROQ_API_KEY:
-        masked = mask_api_key(GROQ_API_KEY)
-        verification = verify_groq_key(GROQ_API_KEY)
-        return {
-            "configured": True,
-            "provider": "groq",
-            "masked_key": masked,
-            "compatible": True,
-            "target_model": GROQ_MODEL,
-            **verification
-        }
-
     key = GEMINI_API_KEY
     if not key:
         return {
@@ -161,7 +110,7 @@ def check_current_ai_configuration() -> Dict[str, Any]:
             "masked_key": "NOT_SET",
             "message": (
                 "No API key is configured in backend environment or .env file. "
-                "Set GROQ_API_KEY=<your_key> in backend/.env to connect live AI review."
+                "Set GEMINI_API_KEY=<your_key> in backend/.env to connect live AI review."
             )
         }
 
@@ -178,16 +127,6 @@ def check_current_ai_configuration() -> Dict[str, Any]:
             "target_model": GEMINI_MODEL,
             **verification
         }
-    elif provider == "groq":
-        verification = verify_groq_key(key)
-        return {
-            "configured": True,
-            "provider": "groq",
-            "masked_key": masked,
-            "compatible": True,
-            "target_model": GROQ_MODEL,
-            **verification
-        }
     elif provider == "openai":
         return {
             "configured": True,
@@ -195,7 +134,11 @@ def check_current_ai_configuration() -> Dict[str, Any]:
             "masked_key": masked,
             "compatible": False,
             "status": "incompatible_provider",
-            "message": "The configured key is an OpenAI key."
+            "message": (
+                "The configured key starts with 'sk-', indicating an OpenAI API key. "
+                "BrandGuard's review features are configured for Google Gemini (gemini-2.5-flash). "
+                "To use Google Gemini, please obtain a key from https://aistudio.google.com/ and set GEMINI_API_KEY."
+            )
         }
     elif provider == "anthropic":
         return {
@@ -204,7 +147,7 @@ def check_current_ai_configuration() -> Dict[str, Any]:
             "masked_key": masked,
             "compatible": False,
             "status": "incompatible_provider",
-            "message": "The configured key is an Anthropic Claude key."
+            "message": "The configured key is an Anthropic Claude key. BrandGuard's configured engine is Google Gemini."
         }
     else:
         return {
@@ -213,6 +156,6 @@ def check_current_ai_configuration() -> Dict[str, Any]:
             "masked_key": masked,
             "compatible": False,
             "status": "unrecognized_format",
-            "message": "The configured API key format is not recognized."
+            "message": "The configured API key format is not recognized as a Google Gemini key (which begins with 'AIzaSy...')."
         }
 

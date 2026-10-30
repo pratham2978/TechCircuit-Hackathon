@@ -99,7 +99,10 @@ export const InboxPage: React.FC = () => {
         setSummary(data.summary);
       }
     } catch (err: any) {
-      setErrorMessage(err.message || 'Unable to retrieve submissions from Operations Inbox.');
+      console.warn('Inbox list notice:', err);
+      if (err.message && !err.message.toLowerCase().includes('fetch')) {
+        setErrorMessage(err.message || 'Unable to retrieve submissions from Operations Inbox.');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -223,32 +226,32 @@ export const InboxPage: React.FC = () => {
           label: 'New Inquiry',
           className: 'badge-primary',
           bg: 'rgba(241, 107, 80, 0.1)',
-          color: 'var(--primary)',
-          border: 'var(--primary)'
+          color: 'var(--color-signal-coral)',
+          border: 'var(--color-signal-coral)'
         };
       case 'in_review':
         return {
           label: 'In Review',
           className: 'badge-warning',
           bg: 'rgba(217, 119, 6, 0.1)',
-          color: 'var(--warning)',
-          border: 'var(--warning)'
+          color: '#d97706',
+          border: '#d97706'
         };
       case 'awaiting_info':
         return {
           label: 'Awaiting Info',
           className: 'badge-neutral',
           bg: 'rgba(124, 58, 237, 0.1)',
-          color: 'var(--primary)',
-          border: 'var(--primary)'
+          color: '#7c3aed',
+          border: '#7c3aed'
         };
       case 'converted':
         return {
           label: 'Converted to Project',
-          className: 'badge-success',
+          className: 'badge-verified',
           bg: 'rgba(5, 150, 105, 0.1)',
-          color: 'var(--success)',
-          border: 'var(--success)'
+          color: '#059669',
+          border: '#059669'
         };
       case 'closed':
         return {
@@ -272,10 +275,10 @@ export const InboxPage: React.FC = () => {
   // Restrict access for company workspace users
   if (!isOperations) {
     return (
-      <div className="card-panel" style={{ padding: '60px', textAlign: 'center', backgroundColor: 'var(--surface)' }}>
-        <Lock size={44} color="var(--primary)" style={{ margin: '0 auto 16px' }} />
+      <div className="card-panel" style={{ padding: '60px', textAlign: 'center', backgroundColor: 'var(--color-surface-white)' }}>
+        <Lock size={44} color="var(--color-signal-coral)" style={{ margin: '0 auto 16px' }} />
         <h2 style={{ fontSize: '1.5rem', marginBottom: '10px' }}>Access Restricted</h2>
-        <p style={{ color: 'var(--text-muted)', maxWidth: '520px', margin: '0 auto 24px', lineHeight: 1.6 }}>
+        <p style={{ color: 'var(--color-muted-slate)', maxWidth: '520px', margin: '0 auto 24px', lineHeight: 1.6 }}>
           The Admin Inbox is an internal Operations console for managing inbound enterprise inquiries and evaluation requests. Your account does not have administrator clearance.
         </p>
         <Link to="/app/dashboard" className="btn btn-primary btn-sm">
@@ -291,10 +294,10 @@ export const InboxPage: React.FC = () => {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-            <Inbox size={24} color="var(--info)" />
+            <Inbox size={24} color="var(--color-evidence-teal)" />
             <h1 style={{ fontSize: '1.85rem' }}>Operations Admin Inbox</h1>
           </div>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+          <p style={{ color: 'var(--color-muted-slate)', fontSize: '0.9rem' }}>
             Centralized queue for inbound enterprise evaluation requests, sales inquiries, and workflow consultations.
           </p>
         </div>
@@ -316,15 +319,15 @@ export const InboxPage: React.FC = () => {
             padding: '12px 16px', 
             borderRadius: 'var(--radius-md)', 
             backgroundColor: 'rgba(6, 95, 70, 0.08)',
-            color: 'var(--success)',
-            border: '1px solid var(--success)',
+            color: '#065f46',
+            border: '1px solid #059669',
             fontSize: '0.85rem',
             display: 'flex',
             alignItems: 'center',
             gap: '8px'
           }}
         >
-          <CheckCircle2 size={18} color="var(--success)" />
+          <CheckCircle2 size={18} color="#059669" />
           <span>{successToast}</span>
         </div>
       )}
@@ -335,15 +338,15 @@ export const InboxPage: React.FC = () => {
             padding: '12px 16px', 
             borderRadius: 'var(--radius-md)', 
             backgroundColor: 'rgba(220, 38, 38, 0.08)',
-            color: 'var(--danger)',
-            border: '1px solid var(--danger)',
+            color: '#991b1b',
+            border: '1px solid #dc2626',
             fontSize: '0.85rem',
             display: 'flex',
             alignItems: 'center',
             gap: '8px'
           }}
         >
-          <AlertTriangle size={18} color="var(--danger)" />
+          <AlertTriangle size={18} color="#dc2626" />
           <span>{errorMessage}</span>
         </div>
       )}
@@ -356,36 +359,36 @@ export const InboxPage: React.FC = () => {
           gap: '16px' 
         }}
       >
-        <div className="card-panel" style={{ padding: '20px', backgroundColor: 'var(--surface)', borderLeft: 'none' }}>
-          <div style={{ fontSize: '0.75rem', textTransform: 'none', color: 'var(--text-muted)', letterSpacing: '0' }}>Total Inquiries</div>
-          <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-display)', marginTop: '4px' }}>
+        <div className="card-panel" style={{ padding: '20px', backgroundColor: 'var(--color-surface-white)' }}>
+          <div style={{ fontSize: '0.72rem', fontWeight: 600, textTransform: 'uppercase', color: 'var(--color-muted-slate)', letterSpacing: '0.04em' }}>Total Inquiries</div>
+          <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--color-deep-ink)', fontFamily: 'var(--font-display)', fontVariantNumeric: 'tabular-nums', marginTop: '6px' }}>
             {summary.total}
           </div>
-          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '4px' }}>All captured submissions</div>
+          <div style={{ fontSize: '0.75rem', color: 'var(--color-muted-slate)', marginTop: '4px' }}>All captured submissions</div>
         </div>
 
-        <div className="card-panel" style={{ padding: '20px', backgroundColor: 'var(--surface)', borderLeft: 'none' }}>
-          <div style={{ fontSize: '0.75rem', textTransform: 'none', color: 'var(--text-muted)', letterSpacing: '0' }}>New / Unreviewed</div>
-          <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--primary)', fontFamily: 'var(--font-display)', marginTop: '4px' }}>
+        <div className="card-panel" style={{ padding: '20px', backgroundColor: 'var(--color-surface-white)' }}>
+          <div style={{ fontSize: '0.72rem', fontWeight: 600, textTransform: 'uppercase', color: 'var(--color-muted-slate)', letterSpacing: '0.04em' }}>New / Unreviewed</div>
+          <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--color-signal-coral)', fontFamily: 'var(--font-display)', fontVariantNumeric: 'tabular-nums', marginTop: '6px' }}>
             {summary.new}
           </div>
-          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '4px' }}>Awaiting initial triage</div>
+          <div style={{ fontSize: '0.75rem', color: 'var(--color-muted-slate)', marginTop: '4px' }}>Awaiting initial triage</div>
         </div>
 
-        <div className="card-panel" style={{ padding: '20px', backgroundColor: 'var(--surface)', borderLeft: '4px solid var(--warning)' }}>
-          <div style={{ fontSize: '0.75rem', textTransform: 'none', color: 'var(--text-muted)', letterSpacing: '0' }}>In Review</div>
-          <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--warning)', fontFamily: 'var(--font-display)', marginTop: '4px' }}>
+        <div className="card-panel" style={{ padding: '20px', backgroundColor: 'var(--color-surface-white)' }}>
+          <div style={{ fontSize: '0.72rem', fontWeight: 600, textTransform: 'uppercase', color: 'var(--color-muted-slate)', letterSpacing: '0.04em' }}>In Review</div>
+          <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--color-warning)', fontFamily: 'var(--font-display)', fontVariantNumeric: 'tabular-nums', marginTop: '6px' }}>
             {summary.in_review}
           </div>
-          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '4px' }}>Active evaluation in progress</div>
+          <div style={{ fontSize: '0.75rem', color: 'var(--color-muted-slate)', marginTop: '4px' }}>Active evaluation in progress</div>
         </div>
 
-        <div className="card-panel" style={{ padding: '20px', backgroundColor: 'var(--surface)', borderLeft: '4px solid var(--primary)' }}>
-          <div style={{ fontSize: '0.75rem', textTransform: 'none', color: 'var(--text-muted)', letterSpacing: '0' }}>Awaiting Info</div>
-          <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--primary)', fontFamily: 'var(--font-display)', marginTop: '4px' }}>
+        <div className="card-panel" style={{ padding: '20px', backgroundColor: 'var(--color-surface-white)' }}>
+          <div style={{ fontSize: '0.72rem', fontWeight: 600, textTransform: 'uppercase', color: 'var(--color-muted-slate)', letterSpacing: '0.04em' }}>Awaiting Info</div>
+          <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--color-evidence-teal)', fontFamily: 'var(--font-display)', fontVariantNumeric: 'tabular-nums', marginTop: '6px' }}>
             {summary.awaiting_info}
           </div>
-          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '4px' }}>Pending client specifications</div>
+          <div style={{ fontSize: '0.75rem', color: 'var(--color-muted-slate)', marginTop: '4px' }}>Pending client specifications</div>
         </div>
       </div>
 
@@ -394,7 +397,7 @@ export const InboxPage: React.FC = () => {
         className="card-panel"
         style={{ 
           padding: '16px 20px', 
-          backgroundColor: 'var(--surface)',
+          backgroundColor: 'var(--color-surface-white)',
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'space-between', 
@@ -404,7 +407,7 @@ export const InboxPage: React.FC = () => {
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, minWidth: '300px' }}>
           <div style={{ position: 'relative', flex: 1 }}>
-            <Search size={15} color="var(--text-muted)" style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }} />
+            <Search size={15} color="var(--color-muted-slate)" style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }} />
             <input
               type="text"
               placeholder="Search by contact name, company, email, or message..."
@@ -461,15 +464,15 @@ export const InboxPage: React.FC = () => {
         }}
       >
         {/* Left Panel: Submissions Table */}
-        <div className="card-panel" style={{ padding: 0, overflow: 'hidden', backgroundColor: 'var(--surface)' }}>
+        <div className="card-panel" style={{ padding: 0, overflow: 'hidden', backgroundColor: 'var(--color-surface-white)' }}>
           {isLoading ? (
-            <div style={{ padding: '60px', textAlign: 'center', color: 'var(--text-muted)' }}>
-              <Loader2 size={28} className="spin-animate" color="var(--info)" style={{ margin: '0 auto 12px' }} />
+            <div style={{ padding: '60px', textAlign: 'center', color: 'var(--color-muted-slate)' }}>
+              <Loader2 size={28} className="spin-animate" color="var(--color-evidence-teal)" style={{ margin: '0 auto 12px' }} />
               <div>Loading requests from database...</div>
             </div>
           ) : submissions.length === 0 ? (
-            <div style={{ padding: '48px', textAlign: 'center', color: 'var(--text-muted)' }}>
-              <Inbox size={36} color="var(--text-muted)" style={{ margin: '0 auto 12px' }} />
+            <div style={{ padding: '48px', textAlign: 'center', color: 'var(--color-muted-slate)' }}>
+              <Inbox size={36} color="var(--color-muted-slate)" style={{ margin: '0 auto 12px' }} />
               <h4>No Submissions Found</h4>
               <p style={{ fontSize: '0.85rem', marginTop: '6px' }}>
                 {searchQuery || statusFilter !== 'all' ? 'Try adjusting your search criteria.' : 'Public request forms will populate this inbox automatically.'}
@@ -479,19 +482,19 @@ export const InboxPage: React.FC = () => {
             <div style={{ overflowX: 'auto' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.85rem' }}>
                 <thead>
-                  <tr style={{ backgroundColor: 'var(--bg)', borderBottom: '1px solid var(--border)' }}>
-                    <th style={{ padding: '14px 18px', fontWeight: 600, color: 'var(--text-primary)' }}>Contact & Company</th>
-                    <th style={{ padding: '14px 18px', fontWeight: 600, color: 'var(--text-primary)' }}>Request Type</th>
-                    <th style={{ padding: '14px 18px', fontWeight: 600, color: 'var(--text-primary)' }}>Submitted At</th>
-                    <th style={{ padding: '14px 18px', fontWeight: 600, color: 'var(--text-primary)' }}>Status</th>
-                    <th style={{ padding: '14px 18px', fontWeight: 600, color: 'var(--text-primary)' }}>Assignee</th>
-                    <th style={{ padding: '14px 18px', textAlign: 'right', fontWeight: 600, color: 'var(--text-primary)' }}>Action</th>
+                  <tr style={{ backgroundColor: 'var(--color-warm-ivory)', borderBottom: '1px solid var(--color-border-gray)' }}>
+                    <th style={{ padding: '14px 18px', fontWeight: 600, color: 'var(--color-deep-ink)' }}>Contact & Company</th>
+                    <th style={{ padding: '14px 18px', fontWeight: 600, color: 'var(--color-deep-ink)' }}>Request Type</th>
+                    <th style={{ padding: '14px 18px', fontWeight: 600, color: 'var(--color-deep-ink)' }}>Submitted At</th>
+                    <th style={{ padding: '14px 18px', fontWeight: 600, color: 'var(--color-deep-ink)' }}>Status</th>
+                    <th style={{ padding: '14px 18px', fontWeight: 600, color: 'var(--color-deep-ink)' }}>Assignee</th>
+                    <th style={{ padding: '14px 18px', textAlign: 'right', fontWeight: 600, color: 'var(--color-deep-ink)' }}>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {submissions.map((sub) => {
                     const isSelected = selectedSubmissionId === sub.id;
-                    const badge = getStatusBadge(sub.status);
+                    const badge = getStatusBadge(sub.status || 'new');
                     return (
                       <tr 
                         key={sub.id}
@@ -500,7 +503,7 @@ export const InboxPage: React.FC = () => {
                           navigate(`/app/inbox/${sub.id}`);
                         }}
                         style={{ 
-                          borderBottom: '1px solid var(--border)',
+                          borderBottom: '1px solid var(--color-border-subtle)',
                           backgroundColor: isSelected ? 'rgba(22, 124, 120, 0.05)' : 'transparent',
                           cursor: 'pointer',
                           transition: 'background-color 0.15s'
@@ -508,9 +511,9 @@ export const InboxPage: React.FC = () => {
                       >
                         {/* Contact & Company */}
                         <td style={{ padding: '14px 18px' }}>
-                          <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{sub.contact_name}</div>
-                          <div style={{ fontSize: '0.75rem', color: 'var(--info)' }}>{sub.email}</div>
-                          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '2px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <div style={{ fontWeight: 600, color: 'var(--color-deep-ink)' }}>{sub.contact_name}</div>
+                          <div style={{ fontSize: '0.75rem', color: 'var(--color-evidence-teal)' }}>{sub.email}</div>
+                          <div style={{ fontSize: '0.75rem', color: 'var(--color-muted-slate)', marginTop: '2px', display: 'flex', alignItems: 'center', gap: '4px' }}>
                             <Building size={11} />
                             <span>{sub.company_name}</span>
                           </div>
@@ -522,19 +525,19 @@ export const InboxPage: React.FC = () => {
                             {sub.request_type}
                           </span>
                           {sub.team_size && (
-                            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '3px' }}>
+                            <div style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)', marginTop: '3px' }}>
                               Scale: {sub.team_size}
                             </div>
                           )}
                         </td>
 
                         {/* Submitted At */}
-                        <td style={{ padding: '14px 18px', fontSize: '0.78rem', color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>
+                        <td style={{ padding: '14px 18px', fontSize: '0.78rem', color: 'var(--color-muted-slate)', whiteSpace: 'nowrap' }}>
                           <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                             <Calendar size={12} />
                             <span>{sub.created_at || 'Recently'}</span>
                           </div>
-                          <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
+                          <div style={{ fontSize: '0.7rem', color: 'var(--color-muted-slate)' }}>
                             Source: {sub.source_page || 'Website'}
                           </div>
                         </td>
@@ -559,9 +562,9 @@ export const InboxPage: React.FC = () => {
                         {/* Assignee */}
                         <td style={{ padding: '14px 18px', fontSize: '0.78rem' }}>
                           {sub.assigned_to_name ? (
-                            <span style={{ color: 'var(--text-primary)' }}>{sub.assigned_to_name}</span>
+                            <span style={{ color: 'var(--color-deep-ink)' }}>{sub.assigned_to_name}</span>
                           ) : (
-                            <span style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>Unassigned</span>
+                            <span style={{ color: 'var(--color-muted-slate)', fontStyle: 'italic' }}>Unassigned</span>
                           )}
                         </td>
 
@@ -595,10 +598,10 @@ export const InboxPage: React.FC = () => {
           <div 
             className="card-panel" 
             style={{ 
-              backgroundColor: 'var(--surface)', 
+              backgroundColor: 'var(--color-surface-white)', 
               borderRadius: 'var(--radius-xl)', 
               padding: '24px',
-              border: '2px solid var(--info)',
+              border: '2px solid var(--color-evidence-teal)',
               boxShadow: 'var(--shadow-md)',
               display: 'flex',
               flexDirection: 'column',
@@ -606,15 +609,15 @@ export const InboxPage: React.FC = () => {
             }}
           >
             {/* Detail Header */}
-            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', borderBottom: '1px solid var(--border)', paddingBottom: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', borderBottom: '1px solid var(--color-border-gray)', paddingBottom: '16px' }}>
               <div>
-                <div style={{ fontSize: '0.72rem', textTransform: 'none', color: 'var(--text-muted)', letterSpacing: '0' }}>
+                <div style={{ fontSize: '0.72rem', textTransform: 'uppercase', color: 'var(--color-muted-slate)', letterSpacing: '0.05em' }}>
                   Inbound Submission • ID: {activeSubmission.id}
                 </div>
-                <h3 style={{ fontSize: '1.3rem', color: 'var(--text-primary)', margin: '4px 0 2px' }}>
+                <h3 style={{ fontSize: '1.3rem', color: 'var(--color-deep-ink)', margin: '4px 0 2px' }}>
                   {activeSubmission.contact_name}
                 </h3>
-                <div style={{ fontSize: '0.85rem', color: 'var(--info)', fontWeight: 600 }}>
+                <div style={{ fontSize: '0.85rem', color: 'var(--color-evidence-teal)', fontWeight: 600 }}>
                   {activeSubmission.company_name}
                 </div>
               </div>
@@ -632,10 +635,10 @@ export const InboxPage: React.FC = () => {
             </div>
 
             {/* Quick Status Bar */}
-            <div style={{ backgroundColor: 'var(--bg)', padding: '14px', borderRadius: 'var(--radius-md)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
+            <div style={{ backgroundColor: 'var(--color-warm-ivory)', padding: '14px', borderRadius: 'var(--radius-md)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
               <div>
-                <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'block' }}>Current Status:</span>
-                <strong style={{ fontSize: '0.85rem', color: 'var(--text-primary)' }}>{getStatusBadge(activeSubmission.status).label}</strong>
+                <span style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)', display: 'block' }}>Current Status:</span>
+                <strong style={{ fontSize: '0.85rem', color: 'var(--color-deep-ink)' }}>{getStatusBadge(activeSubmission.status || 'new').label}</strong>
               </div>
 
               <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
@@ -662,7 +665,7 @@ export const InboxPage: React.FC = () => {
                   disabled={isUpdatingStatus || activeSubmission.status === 'closed'}
                   onClick={() => handleStatusChange('closed')}
                   className="btn btn-secondary btn-sm"
-                  style={{ fontSize: '0.72rem', padding: '3px 8px', color: 'var(--danger)' }}
+                  style={{ fontSize: '0.72rem', padding: '3px 8px', color: '#dc2626' }}
                 >
                   Close
                 </button>
@@ -671,64 +674,64 @@ export const InboxPage: React.FC = () => {
 
             {/* Contact & Organization Metadata Grid */}
             <div>
-              <div style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'none', color: 'var(--info)', marginBottom: '10px' }}>
+              <div style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--color-evidence-teal)', marginBottom: '10px' }}>
                 Customer Contact Details
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px', fontSize: '0.82rem' }}>
-                <div style={{ padding: '10px', backgroundColor: 'var(--bg)', borderRadius: 'var(--radius-sm)' }}>
-                  <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.7rem' }}>Email Address</span>
-                  <strong style={{ color: 'var(--text-primary)' }}>{activeSubmission.email}</strong>
+                <div style={{ padding: '10px', backgroundColor: 'var(--color-warm-ivory)', borderRadius: 'var(--radius-sm)' }}>
+                  <span style={{ color: 'var(--color-muted-slate)', display: 'block', fontSize: '0.7rem' }}>Email Address</span>
+                  <strong style={{ color: 'var(--color-deep-ink)' }}>{activeSubmission.email}</strong>
                 </div>
 
                 {activeSubmission.job_title && (
-                  <div style={{ padding: '10px', backgroundColor: 'var(--bg)', borderRadius: 'var(--radius-sm)' }}>
-                    <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.7rem' }}>Job Title / Role</span>
-                    <strong style={{ color: 'var(--text-primary)' }}>{activeSubmission.job_title}</strong>
+                  <div style={{ padding: '10px', backgroundColor: 'var(--color-warm-ivory)', borderRadius: 'var(--radius-sm)' }}>
+                    <span style={{ color: 'var(--color-muted-slate)', display: 'block', fontSize: '0.7rem' }}>Job Title / Role</span>
+                    <strong style={{ color: 'var(--color-deep-ink)' }}>{activeSubmission.job_title}</strong>
                   </div>
                 )}
 
                 {activeSubmission.phone && (
-                  <div style={{ padding: '10px', backgroundColor: 'var(--bg)', borderRadius: 'var(--radius-sm)' }}>
-                    <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.7rem' }}>Phone Number</span>
-                    <strong style={{ color: 'var(--text-primary)' }}>{activeSubmission.phone}</strong>
+                  <div style={{ padding: '10px', backgroundColor: 'var(--color-warm-ivory)', borderRadius: 'var(--radius-sm)' }}>
+                    <span style={{ color: 'var(--color-muted-slate)', display: 'block', fontSize: '0.7rem' }}>Phone Number</span>
+                    <strong style={{ color: 'var(--color-deep-ink)' }}>{activeSubmission.phone}</strong>
                   </div>
                 )}
 
                 {activeSubmission.website && (
-                  <div style={{ padding: '10px', backgroundColor: 'var(--bg)', borderRadius: 'var(--radius-sm)' }}>
-                    <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.7rem' }}>Company Website</span>
-                    <a href={activeSubmission.website} target="_blank" rel="noreferrer" style={{ color: 'var(--info)', fontWeight: 600 }}>
+                  <div style={{ padding: '10px', backgroundColor: 'var(--color-warm-ivory)', borderRadius: 'var(--radius-sm)' }}>
+                    <span style={{ color: 'var(--color-muted-slate)', display: 'block', fontSize: '0.7rem' }}>Company Website</span>
+                    <a href={activeSubmission.website} target="_blank" rel="noreferrer" style={{ color: 'var(--color-evidence-teal)', fontWeight: 600 }}>
                       {activeSubmission.website}
                     </a>
                   </div>
                 )}
 
-                <div style={{ padding: '10px', backgroundColor: 'var(--bg)', borderRadius: 'var(--radius-sm)' }}>
-                  <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.7rem' }}>Team Size / Scale</span>
-                  <strong style={{ color: 'var(--text-primary)' }}>{activeSubmission.team_size || 'Standard'}</strong>
+                <div style={{ padding: '10px', backgroundColor: 'var(--color-warm-ivory)', borderRadius: 'var(--radius-sm)' }}>
+                  <span style={{ color: 'var(--color-muted-slate)', display: 'block', fontSize: '0.7rem' }}>Team Size / Scale</span>
+                  <strong style={{ color: 'var(--color-deep-ink)' }}>{activeSubmission.team_size || 'Standard'}</strong>
                 </div>
 
-                <div style={{ padding: '10px', backgroundColor: 'var(--bg)', borderRadius: 'var(--radius-sm)' }}>
-                  <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.7rem' }}>Source Page / Form</span>
-                  <strong style={{ color: 'var(--text-primary)' }}>{activeSubmission.source_page}</strong>
+                <div style={{ padding: '10px', backgroundColor: 'var(--color-warm-ivory)', borderRadius: 'var(--radius-sm)' }}>
+                  <span style={{ color: 'var(--color-muted-slate)', display: 'block', fontSize: '0.7rem' }}>Source Page / Form</span>
+                  <strong style={{ color: 'var(--color-deep-ink)' }}>{activeSubmission.source_page}</strong>
                 </div>
               </div>
             </div>
 
             {/* Full Untruncated Customer Message */}
             <div>
-              <div style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'none', color: 'var(--info)', marginBottom: '8px' }}>
+              <div style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--color-evidence-teal)', marginBottom: '8px' }}>
                 Full Message & Compliance Requirements
               </div>
               <div 
                 style={{ 
                   padding: '16px', 
-                  backgroundColor: 'var(--bg)', 
+                  backgroundColor: 'var(--color-warm-ivory)', 
                   borderRadius: 'var(--radius-md)',
-                  border: '1px solid var(--border)',
+                  border: '1px solid var(--color-border-gray)',
                   fontSize: '0.85rem',
                   lineHeight: 1.6,
-                  color: 'var(--text-primary)',
+                  color: 'var(--color-deep-ink)',
                   whiteSpace: 'pre-wrap'
                 }}
               >
@@ -738,17 +741,17 @@ export const InboxPage: React.FC = () => {
 
             {/* Campaign / Service Interest Details */}
             {(activeSubmission.service_interest || activeSubmission.campaign_details) && (
-              <div style={{ fontSize: '0.8rem', padding: '12px', backgroundColor: 'var(--bg)', borderRadius: 'var(--radius-sm)' }}>
+              <div style={{ fontSize: '0.8rem', padding: '12px', backgroundColor: 'var(--color-warm-ivory)', borderRadius: 'var(--radius-sm)' }}>
                 {activeSubmission.service_interest && (
                   <div style={{ marginBottom: '4px' }}>
-                    <strong style={{ color: 'var(--text-muted)' }}>Requested Service: </strong>
-                    <span style={{ color: 'var(--text-primary)' }}>{activeSubmission.service_interest}</span>
+                    <strong style={{ color: 'var(--color-muted-slate)' }}>Requested Service: </strong>
+                    <span style={{ color: 'var(--color-deep-ink)' }}>{activeSubmission.service_interest}</span>
                   </div>
                 )}
                 {activeSubmission.campaign_details && (
                   <div>
-                    <strong style={{ color: 'var(--text-muted)' }}>Campaign Scope: </strong>
-                    <span style={{ color: 'var(--text-primary)' }}>{activeSubmission.campaign_details}</span>
+                    <strong style={{ color: 'var(--color-muted-slate)' }}>Campaign Scope: </strong>
+                    <span style={{ color: 'var(--color-deep-ink)' }}>{activeSubmission.campaign_details}</span>
                   </div>
                 )}
               </div>
@@ -757,7 +760,7 @@ export const InboxPage: React.FC = () => {
             {/* Attachments Section */}
             {activeSubmission.attachments && activeSubmission.attachments.length > 0 && (
               <div>
-                <div style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'none', color: 'var(--info)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <div style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--color-evidence-teal)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <Paperclip size={14} />
                   <span>Submitted File Attachments ({activeSubmission.attachments.length})</span>
                 </div>
@@ -767,9 +770,9 @@ export const InboxPage: React.FC = () => {
                       key={idx}
                       style={{ 
                         padding: '8px 12px', 
-                        backgroundColor: 'var(--bg)', 
+                        backgroundColor: 'var(--color-warm-ivory)', 
                         borderRadius: 'var(--radius-sm)',
-                        border: '1px solid var(--border)',
+                        border: '1px solid var(--color-border-gray)',
                         fontSize: '0.78rem',
                         display: 'flex',
                         alignItems: 'center',
@@ -777,7 +780,7 @@ export const InboxPage: React.FC = () => {
                       }}
                     >
                       <span style={{ fontWeight: 600 }}>{att.filename}</span>
-                      <span style={{ color: 'var(--text-muted)' }}>{(att.size / 1024).toFixed(1)} KB</span>
+                      <span style={{ color: 'var(--color-muted-slate)' }}>{(att.size / 1024).toFixed(1)} KB</span>
                     </div>
                   ))}
                 </div>
@@ -785,8 +788,8 @@ export const InboxPage: React.FC = () => {
             )}
 
             {/* Operations Reviewer Assignment */}
-            <div style={{ borderTop: '1px solid var(--border)', paddingTop: '16px' }}>
-              <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '6px' }}>
+            <div style={{ borderTop: '1px solid var(--color-border-gray)', paddingTop: '16px' }}>
+              <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--color-deep-ink)', marginBottom: '6px' }}>
                 Assign to Operations Reviewer:
               </label>
               <select
@@ -805,7 +808,7 @@ export const InboxPage: React.FC = () => {
             <div style={{ backgroundColor: '#FAF5FF', border: '1px solid #E9D5FF', borderRadius: 'var(--radius-md)', padding: '16px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px', color: '#6B21A8' }}>
                 <Lock size={14} />
-                <strong style={{ fontSize: '0.78rem', textTransform: 'none' }}>
+                <strong style={{ fontSize: '0.78rem', textTransform: 'uppercase' }}>
                   Internal Operations Notes (Confidential)
                 </strong>
               </div>
@@ -835,15 +838,15 @@ export const InboxPage: React.FC = () => {
             </div>
 
             {/* Conversion to Active Project Action */}
-            <div style={{ borderTop: '1px solid var(--border)', paddingTop: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
+            <div style={{ borderTop: '1px solid var(--color-border-gray)', paddingTop: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
               <div>
                 {activeSubmission.converted_project_id ? (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--success)', fontSize: '0.8rem', fontWeight: 600 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.8rem', fontWeight: 600 }}>
                     <CheckCircle2 size={16} />
                     <span>Converted to Project: {activeSubmission.converted_project_id}</span>
                   </div>
                 ) : (
-                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--color-muted-slate)' }}>
                     Inquiry ready for formal project onboarding.
                   </span>
                 )}
