@@ -18,6 +18,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadWorkspaces();
   await switchTab('dashboard');
   calculateContrast(); // Initial WCAG calculation
+  if (typeof initMascotHelp === 'function') {
+    initMascotHelp();
+  }
 });
 
 // --- ROLE-BASED ACCESS CONTROL (RBAC) ---
@@ -164,6 +167,19 @@ function updateUserUI() {
   if (!allowedTabs.includes(STATE.activeTab)) {
     const defaultTab = DEFAULT_TAB_FOR_ROLE[rawRole] || allowedTabs[0];
     switchTab(defaultTab);
+  }
+
+  if (typeof isTutorialActive !== 'undefined' && isTutorialActive) {
+    showTutorialStep(0);
+  }
+
+  // Auto-start tutorial for first-time visitors (runs after auth completes reliably)
+  const _dismissed = localStorage.getItem(MASCOT_STORAGE_KEY) === 'true';
+  if (!_dismissed && typeof isTutorialActive !== 'undefined' && !isTutorialActive) {
+    // Small delay so the dashboard tabs/layout have rendered
+    setTimeout(() => {
+      if (!isTutorialActive) startTutorial(0);
+    }, 600);
   }
 }
 
@@ -329,6 +345,9 @@ function switchTab(tabName) {
     sec.classList.toggle('active', sec.id === `view-${tabName}`);
   });
   refreshCurrentTab();
+  if (typeof updateMascotContextView === 'function') {
+    updateMascotContextView();
+  }
 }
 
 function refreshCurrentTab() {
@@ -1110,3 +1129,383 @@ function escapeHtml(str) {
 function escapeRegex(str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
+
+// ==========================================================================
+// BRANDGUARD INTERACTIVE GAME-STYLE PRODUCT TUTORIAL CONTROLLER
+// ==========================================================================
+
+const MASCOT_STORAGE_KEY = 'brandguard_mascot_dismissed';
+
+// Tailored 5-7 step tutorial tracks per role
+const TUTORIAL_ROLE_STEPS = {
+  admin: [
+    {
+      title: 'Health Dashboard',
+      desc: 'See your brand’s review status and important activity at a glance.',
+      tab: 'dashboard',
+      selector: '.nav-tabs button[data-tab="dashboard"]'
+    },
+    {
+      title: 'Workspaces & Guidelines',
+      desc: 'Keep each brand’s guidelines and content organised.',
+      tab: 'workspaces',
+      selector: '.nav-tabs button[data-tab="workspaces"]'
+    },
+    {
+      title: 'Brand Rules',
+      desc: 'Set the language and terminology your content must follow.',
+      tab: 'rules',
+      selector: '.nav-tabs button[data-tab="rules"]'
+    },
+    {
+      title: 'Claims & Evidence',
+      desc: 'Check whether product claims have approved supporting evidence.',
+      tab: 'claims',
+      selector: '.nav-tabs button[data-tab="claims"]'
+    },
+    {
+      title: 'Review Studio',
+      desc: 'Inspect content, understand flagged issues, and review suggested fixes.',
+      tab: 'studio',
+      selector: '.nav-tabs button[data-tab="studio"]'
+    },
+    {
+      title: 'Reviewer Queue',
+      desc: 'Review submitted content and record your decisions.',
+      tab: 'queue',
+      selector: '.nav-tabs button[data-tab="queue"]'
+    },
+    {
+      title: 'Brand Passport & WCAG',
+      desc: 'Check colour contrast against WCAG accessibility requirements.',
+      tab: 'passport',
+      selector: '.nav-tabs button[data-tab="passport"]'
+    }
+  ],
+  brand_manager: [
+    {
+      title: 'Health Dashboard',
+      desc: 'See your brand’s review status and important activity at a glance.',
+      tab: 'dashboard',
+      selector: '.nav-tabs button[data-tab="dashboard"]'
+    },
+    {
+      title: 'Workspaces & Guidelines',
+      desc: 'Keep each brand’s guidelines and content organised.',
+      tab: 'workspaces',
+      selector: '.nav-tabs button[data-tab="workspaces"]'
+    },
+    {
+      title: 'Brand Rules',
+      desc: 'Set the language and terminology your content must follow.',
+      tab: 'rules',
+      selector: '.nav-tabs button[data-tab="rules"]'
+    },
+    {
+      title: 'Claims & Evidence',
+      desc: 'Check whether product claims have approved supporting evidence.',
+      tab: 'claims',
+      selector: '.nav-tabs button[data-tab="claims"]'
+    },
+    {
+      title: 'Brand Passport & WCAG',
+      desc: 'Check colour contrast against WCAG accessibility requirements.',
+      tab: 'passport',
+      selector: '.nav-tabs button[data-tab="passport"]'
+    }
+  ],
+  creator: [
+    {
+      title: 'Review Studio',
+      desc: 'Draft and review your marketing content in one dedicated workspace.',
+      tab: 'studio',
+      selector: '.nav-tabs button[data-tab="studio"]'
+    },
+    {
+      title: 'Content Editor',
+      desc: 'Write or paste your marketing copy here to prepare it for review.',
+      tab: 'studio',
+      selector: '#draft-content'
+    },
+    {
+      title: 'Review Engine',
+      desc: 'Inspect content, understand flagged issues, and review suggested fixes.',
+      tab: 'studio',
+      selector: 'button[onclick="runComplianceReview()"]'
+    },
+    {
+      title: 'Brand Passport & WCAG',
+      desc: 'Check colour contrast against WCAG accessibility requirements.',
+      tab: 'passport',
+      selector: '.nav-tabs button[data-tab="passport"]'
+    },
+    {
+      title: 'Contrast Calculator',
+      desc: 'Test text and background colors for WCAG AA and AAA compliance.',
+      tab: 'passport',
+      selector: '#wcag-fg'
+    }
+  ],
+  reviewer: [
+    {
+      title: 'Health Dashboard',
+      desc: 'See your brand’s review status and important activity at a glance.',
+      tab: 'dashboard',
+      selector: '.nav-tabs button[data-tab="dashboard"]'
+    },
+    {
+      title: 'Reviewer Queue',
+      desc: 'Review submitted content and record your decisions.',
+      tab: 'queue',
+      selector: '.nav-tabs button[data-tab="queue"]'
+    },
+    {
+      title: 'Queue Submissions',
+      desc: 'Inspect creator drafts, review evidence citations, and verify policy compliance.',
+      tab: 'queue',
+      selector: '#view-queue .table-container'
+    },
+    {
+      title: 'Brand Passport & WCAG',
+      desc: 'Check colour contrast against WCAG accessibility requirements.',
+      tab: 'passport',
+      selector: '.nav-tabs button[data-tab="passport"]'
+    },
+    {
+      title: 'Contrast Calculator',
+      desc: 'Verify compliance with accessibility standards and contrast ratios.',
+      tab: 'passport',
+      selector: '#wcag-fg'
+    }
+  ]
+};
+
+let currentTutorialStep = 0;
+let isTutorialActive = false;
+
+function getActiveTutorialSteps() {
+  const rawRole = (STATE.user && STATE.user.role ? STATE.user.role : 'creator').toLowerCase().replace(/[\s-]/g, '_');
+  return TUTORIAL_ROLE_STEPS[rawRole] || TUTORIAL_ROLE_STEPS.creator;
+}
+
+function initMascotHelp() {
+  const isDismissed = localStorage.getItem(MASCOT_STORAGE_KEY) === 'true';
+
+  // Listen for Escape key
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isTutorialActive) {
+      endTutorial(true);
+    }
+  });
+
+  // Listen for resize and scroll to keep spotlight & card aligned
+  window.addEventListener('resize', () => {
+    if (isTutorialActive) repositionTutorial();
+  });
+  window.addEventListener('scroll', () => {
+    if (isTutorialActive) repositionTutorial();
+  }, { passive: true });
+
+  // Auto-start is handled in updateUserUI() after auth completes
+}
+
+function startTutorial(stepIndex = 0) {
+  isTutorialActive = true;
+  currentTutorialStep = stepIndex;
+
+  const overlay = document.getElementById('tutorial-overlay');
+  const spotlight = document.getElementById('tutorial-spotlight');
+  const card = document.getElementById('tutorial-card');
+
+  if (overlay) {
+    overlay.style.display = 'block';
+    requestAnimationFrame(() => overlay.classList.add('active'));
+  }
+  if (spotlight) spotlight.style.display = 'block';
+  if (card) {
+    card.style.display = 'flex';
+    requestAnimationFrame(() => card.classList.add('active'));
+  }
+
+  showTutorialStep(currentTutorialStep);
+}
+
+function showTutorialStep(index) {
+  const steps = getActiveTutorialSteps();
+  if (index < 0 || index >= steps.length) {
+    endTutorial(true);
+    return;
+  }
+
+  currentTutorialStep = index;
+  const step = steps[currentTutorialStep];
+
+  // Navigate to target tab if needed
+  if (step.tab && STATE.activeTab !== step.tab) {
+    switchTab(step.tab);
+  }
+
+  // Update card contents
+  const titleEl = document.getElementById('tutorial-step-title');
+  const progressEl = document.getElementById('tutorial-step-progress');
+  const descEl = document.getElementById('tutorial-step-desc');
+  const prevBtn = document.getElementById('tutorial-prev-btn');
+  const nextBtn = document.getElementById('tutorial-next-btn');
+
+  if (titleEl) titleEl.textContent = step.title;
+  if (progressEl) progressEl.textContent = `Step ${currentTutorialStep + 1} of ${steps.length}`;
+  if (descEl) descEl.textContent = step.desc;
+
+  if (prevBtn) {
+    prevBtn.disabled = currentTutorialStep === 0;
+    prevBtn.style.opacity = currentTutorialStep === 0 ? '0.4' : '1';
+  }
+
+  if (nextBtn) {
+    if (currentTutorialStep === steps.length - 1) {
+      nextBtn.textContent = 'Finish';
+      nextBtn.classList.add('btn-primary');
+    } else {
+      nextBtn.textContent = 'Next';
+    }
+  }
+
+  // Allow DOM rendering/tab switch to settle, then position
+  setTimeout(() => {
+    repositionTutorial();
+  }, 80);
+}
+
+function repositionTutorial() {
+  if (!isTutorialActive) return;
+  const steps = getActiveTutorialSteps();
+  const step = steps[currentTutorialStep];
+  if (!step) return;
+
+  let targetEl = document.querySelector(step.selector);
+
+  // Fallback if specific sub-selector is not yet rendered
+  if (!targetEl || targetEl.offsetParent === null) {
+    targetEl = document.querySelector(`.nav-tabs button[data-tab="${step.tab}"]`) || document.getElementById(`view-${step.tab}`);
+  }
+
+  if (!targetEl) return;
+
+  // Scroll into view gently if needed
+  targetEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+
+  requestAnimationFrame(() => {
+    positionSpotlightAndCard(targetEl);
+  });
+}
+
+function positionSpotlightAndCard(targetEl) {
+  const spotlight = document.getElementById('tutorial-spotlight');
+  const card = document.getElementById('tutorial-card');
+  if (!targetEl || !spotlight || !card) return;
+
+  const rect = targetEl.getBoundingClientRect();
+  const pad = 6;
+
+  // Spotlight position
+  const spotTop = Math.max(0, rect.top - pad);
+  const spotLeft = Math.max(0, rect.left - pad);
+  const spotWidth = Math.max(20, rect.width + pad * 2);
+  const spotHeight = Math.max(20, rect.height + pad * 2);
+
+  spotlight.style.top = `${spotTop}px`;
+  spotlight.style.left = `${spotLeft}px`;
+  spotlight.style.width = `${spotWidth}px`;
+  spotlight.style.height = `${spotHeight}px`;
+
+  // Dynamic card positioning
+  const cardWidth = Math.min(330, window.innerWidth - 28);
+  card.style.width = `${cardWidth}px`;
+  const cardHeight = card.offsetHeight || 150;
+
+  // Horizontal position: center relative to spotlight, clamped within window
+  let cardLeft = spotLeft + (spotWidth / 2) - (cardWidth / 2);
+  if (cardLeft + cardWidth > window.innerWidth - 14) {
+    cardLeft = window.innerWidth - cardWidth - 14;
+  }
+  if (cardLeft < 14) {
+    cardLeft = 14;
+  }
+
+  // Vertical position: prefer below target if room, else above target
+  const spaceBelow = window.innerHeight - (spotTop + spotHeight);
+  const spaceAbove = spotTop;
+  let cardTop = 0;
+
+  if (spaceBelow >= cardHeight + 14) {
+    cardTop = spotTop + spotHeight + 10;
+  } else if (spaceAbove >= cardHeight + 14) {
+    cardTop = spotTop - cardHeight - 10;
+  } else {
+    // If tight space, place in the larger available space
+    if (spaceBelow > spaceAbove) {
+      cardTop = Math.min(window.innerHeight - cardHeight - 14, spotTop + spotHeight + 10);
+    } else {
+      cardTop = Math.max(14, spotTop - cardHeight - 10);
+    }
+  }
+
+  card.style.top = `${cardTop}px`;
+  card.style.left = `${cardLeft}px`;
+}
+
+function nextTutorialStep() {
+  const steps = getActiveTutorialSteps();
+  if (currentTutorialStep < steps.length - 1) {
+    showTutorialStep(currentTutorialStep + 1);
+  } else {
+    // Finish
+    endTutorial(true);
+    showToast('Tutorial complete! Tap the mascot anytime to replay.', 'success');
+  }
+}
+
+function prevTutorialStep() {
+  if (currentTutorialStep > 0) {
+    showTutorialStep(currentTutorialStep - 1);
+  }
+}
+
+function endTutorial(markDismissed = true) {
+  isTutorialActive = false;
+
+  const overlay = document.getElementById('tutorial-overlay');
+  const spotlight = document.getElementById('tutorial-spotlight');
+  const card = document.getElementById('tutorial-card');
+
+  if (overlay) overlay.classList.remove('active');
+  if (card) card.classList.remove('active');
+
+  setTimeout(() => {
+    if (!isTutorialActive) {
+      if (overlay) overlay.style.display = 'none';
+      if (spotlight) spotlight.style.display = 'none';
+      if (card) card.style.display = 'none';
+    }
+  }, 220);
+
+  if (markDismissed) {
+    localStorage.setItem(MASCOT_STORAGE_KEY, 'true');
+  }
+}
+
+// Compatibility aliases
+function toggleMascotHelp() {
+  if (isTutorialActive) {
+    endTutorial(true);
+  } else {
+    startTutorial(0);
+  }
+}
+function openMascotHelp() { startTutorial(0); }
+function closeMascotHelp() { endTutorial(true); }
+function minimizeMascotHelp() { endTutorial(true); }
+function updateMascotContextView() {
+  if (isTutorialActive) repositionTutorial();
+}
+

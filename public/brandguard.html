@@ -13,7 +13,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="/brandguard.css">
+  <link rel="stylesheet" href="/brandguard.css?v=12">
 </head>
 
 <body>
@@ -928,10 +928,95 @@
     </div>
   </div>
 
+  <!-- GAME-STYLE INTERACTIVE PRODUCT TUTORIAL & FLOATING MASCOT -->
+  <div id="tutorial-overlay" class="tutorial-overlay" style="display: none;" aria-hidden="true" onclick="endTutorial(true)"></div>
+  <div id="tutorial-spotlight" class="tutorial-spotlight" style="display: none;" aria-hidden="true"></div>
+
+  <!-- COMPACT TUTORIAL TOOLTIP CARD -->
+  <aside id="tutorial-card" class="tutorial-card" role="dialog" aria-modal="true" aria-labelledby="tutorial-step-title" style="display: none;">
+    <div class="tutorial-card-header">
+      <div class="tutorial-header-left">
+        <div class="tutorial-mascot-avatar">
+          <svg class="mascot-robot-svg mascot-robot-svg--small" viewBox="0 0 56 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <line x1="28" y1="4" x2="28" y2="12" stroke="#c6f432" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="28" cy="3" r="2.5" fill="#c6f432"/>
+  <rect x="12" y="12" width="32" height="24" rx="7" fill="#e98a2e"/>
+  <circle cx="21" cy="24" r="4" fill="#22d3ee"/>
+  <circle cx="35" cy="24" r="4" fill="#22d3ee"/>
+  <circle cx="22" cy="23" r="1.5" fill="#0a4a5e"/>
+  <circle cx="36" cy="23" r="1.5" fill="#0a4a5e"/>
+  <circle cx="22.5" cy="21.5" r="1" fill="white" opacity="0.7"/>
+  <circle cx="36.5" cy="21.5" r="1" fill="white" opacity="0.7"/>
+  <rect x="18" y="31" width="20" height="3" rx="1.5" fill="#c6f432" opacity="0.85"/>
+  <rect x="24" y="36" width="8" height="4" rx="2" fill="#c07322"/>
+  <rect x="8" y="40" width="40" height="26" rx="8" fill="#e98a2e"/>
+  <rect x="15" y="46" width="26" height="14" rx="4" fill="#c07322"/>
+  <circle cx="28" cy="53" r="3.5" fill="#22d3ee" opacity="0.9"/>
+  <circle cx="28" cy="53" r="2" fill="white" opacity="0.4"/>
+  <rect x="0" y="41" width="8" height="18" rx="4" fill="#c07322"/>
+  <rect x="48" y="41" width="8" height="18" rx="4" fill="#c07322"/>
+  <rect x="14" y="66" width="10" height="6" rx="3" fill="#c07322"/>
+  <rect x="32" y="66" width="10" height="6" rx="3" fill="#c07322"/>
+</svg>
+        </div>
+        <div class="tutorial-header-text">
+          <h4 id="tutorial-step-title" class="tutorial-step-title">BrandGuard Guide</h4>
+          <span id="tutorial-step-progress" class="tutorial-step-progress">Step 1 of 7</span>
+        </div>
+      </div>
+      <button type="button" class="tutorial-close-btn" onclick="endTutorial(true)" aria-label="Close guide" title="Close guide">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <div class="tutorial-card-body">
+      <p id="tutorial-step-desc" class="tutorial-step-desc"></p>
+    </div>
+
+    <div class="tutorial-card-footer">
+      <button type="button" class="btn btn-xs btn-ghost" id="tutorial-skip-btn" onclick="endTutorial(true)">Skip Tour</button>
+      <div class="tutorial-nav-buttons">
+        <button type="button" class="btn btn-xs btn-outline" id="tutorial-prev-btn" onclick="prevTutorialStep()">Back</button>
+        <button type="button" class="btn btn-xs btn-primary" id="tutorial-next-btn" onclick="nextTutorialStep()">Next</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- FLOATING MASCOT LAUNCHER -->
+  <button id="mascot-launcher" class="mascot-launcher" type="button"
+    aria-label="Open BrandGuard Guide"
+    onclick="startTutorial(0)" title="Open BrandGuard Guide">
+    <svg class="mascot-robot-svg" viewBox="0 0 56 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <line x1="28" y1="4" x2="28" y2="12" stroke="#c6f432" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="28" cy="3" r="2.5" fill="#c6f432"/>
+  <rect x="12" y="12" width="32" height="24" rx="7" fill="#e98a2e"/>
+  <circle cx="21" cy="24" r="4" fill="#22d3ee"/>
+  <circle cx="35" cy="24" r="4" fill="#22d3ee"/>
+  <circle cx="22" cy="23" r="1.5" fill="#0a4a5e"/>
+  <circle cx="36" cy="23" r="1.5" fill="#0a4a5e"/>
+  <circle cx="22.5" cy="21.5" r="1" fill="white" opacity="0.7"/>
+  <circle cx="36.5" cy="21.5" r="1" fill="white" opacity="0.7"/>
+  <rect x="18" y="31" width="20" height="3" rx="1.5" fill="#c6f432" opacity="0.85"/>
+  <rect x="24" y="36" width="8" height="4" rx="2" fill="#c07322"/>
+  <rect x="8" y="40" width="40" height="26" rx="8" fill="#e98a2e"/>
+  <rect x="15" y="46" width="26" height="14" rx="4" fill="#c07322"/>
+  <circle cx="28" cy="53" r="3.5" fill="#22d3ee" opacity="0.9"/>
+  <circle cx="28" cy="53" r="2" fill="white" opacity="0.4"/>
+  <rect x="0" y="41" width="8" height="18" rx="4" fill="#c07322"/>
+  <rect x="48" y="41" width="8" height="18" rx="4" fill="#c07322"/>
+  <rect x="14" y="66" width="10" height="6" rx="3" fill="#c07322"/>
+  <rect x="32" y="66" width="10" height="6" rx="3" fill="#c07322"/>
+</svg>
+    <span class="mascot-launcher-label">BrandGuard Guide</span>
+  </button>
+
   <!-- TOAST CONTAINER -->
   <div id="toast-container"></div>
 
-  <script src="/brandguard.js?v=10"></script>
+  <script src="/brandguard.js?v=12"></script>
 </body>
 
 </html>

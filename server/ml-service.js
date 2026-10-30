@@ -35,7 +35,7 @@ async function predictTone(text) {
         model_version: 'v1.0-local-sklearn-timeout-fallback',
         status: 'timeout'
       });
-    }, 15000);
+    }, 30000);
 
     pyProcess.stdout.on('data', (data) => {
       stdoutData += data.toString();
