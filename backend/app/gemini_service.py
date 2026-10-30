@@ -2,16 +2,16 @@ import json
 import urllib.request
 import urllib.error
 from typing import Dict, List, Any, Optional
-from app.config import GEMINI_API_KEY, GEMINI_MODEL
+from app.config import GEMINI_API_KEY, GEMINI_MODEL, GROQ_API_KEY, GROQ_MODEL, ACTIVE_AI_PROVIDER
 
 
 class GeminiConfigError(Exception):
-    """Raised when GEMINI_API_KEY is missing or unconfigured."""
+    """Raised when neither GROQ_API_KEY nor GEMINI_API_KEY is configured."""
     pass
 
 
 class GeminiApiError(Exception):
-    """Raised when the Gemini API returns an error or fails."""
+    """Raised when the AI API returns an error or fails."""
     pass
 
 
@@ -68,12 +68,87 @@ SYSTEM_INSTRUCTIONS = {
 }
 
 
+def call_groq_from_gemini_payload(payload: Dict[str, Any]) -> Dict[str, Any]:
+    """Adapt a Gemini-style payload to Groq's OpenAI-compatible completions endpoint."""
+    if not GROQ_API_KEY:
+        raise GeminiConfigError("GROQ_API_KEY is not configured on the backend server.")
+
+    messages: List[Dict[str, str]] = []
+
+    # 1. System instructions
+    sys_inst = payload.get("systemInstruction", {}).get("parts", [])
+    if sys_inst and sys_inst[0].get("text"):
+        messages.append({"role": "system", "content": sys_inst[0]["text"]})
+
+    # 2. History & contents
+    for c in payload.get("contents", []):
+        role = "assistant" if c.get("role") in ["model", "assistant"] else "user"
+        text_parts = [p.get("text", "") for p in c.get("parts", []) if "text" in p]
+        content_text = "\n".join(text_parts).strip()
+        if content_text:
+            messages.append({"role": role, "content": content_text})
+
+    is_json = payload.get("generationConfig", {}).get("responseMimeType") == "application/json"
+    temp = payload.get("generationConfig", {}).get("temperature", 0.2)
+
+    groq_payload: Dict[str, Any] = {
+        "model": GROQ_MODEL,
+        "messages": messages,
+        "temperature": temp
+    }
+    if is_json:
+        groq_payload["response_format"] = {"type": "json_object"}
+
+    req = urllib.request.Request(
+        "https://api.groq.com/openai/v1/chat/completions",
+        data=json.dumps(groq_payload).encode("utf-8"),
+        headers={
+            "Authorization": f"Bearer {GROQ_API_KEY}",
+            "Content-Type": "application/json",
+            "User-Agent": "BrandGuard/1.0"
+        },
+        method="POST"
+    )
+
+    try:
+        with urllib.request.urlopen(req, timeout=60) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            answer_text = data["choices"][0]["message"]["content"]
+            return {
+                "candidates": [
+                    {
+                        "content": {
+                            "parts": [
+                                {"text": answer_text}
+                            ]
+                        }
+                    }
+                ]
+            }
+    except urllib.error.HTTPError as e:
+        err_msg = e.read().decode("utf-8", errors="replace")
+        try:
+            err_json = json.loads(err_msg)
+            msg = err_json.get("error", {}).get("message", err_msg)
+        except Exception:
+            msg = err_msg
+        raise GeminiApiError(f"Groq API returned HTTP {e.code}: {msg}")
+    except urllib.error.URLError as e:
+        raise GeminiApiError(f"Network error contacting Groq API: {str(e.reason)}")
+    except Exception as e:
+        raise GeminiApiError(f"Unexpected error communicating with Groq: {str(e)}")
+
+
 def call_gemini_raw(payload: Dict[str, Any]) -> Dict[str, Any]:
-    """Call Google Gemini generateContent REST endpoint using Python's standard library."""
+    """Call either Groq or Google Gemini generateContent REST endpoint using standard library."""
+    # Route to Groq if active or configured
+    if ACTIVE_AI_PROVIDER == "groq" or (not GEMINI_API_KEY and GROQ_API_KEY):
+        return call_groq_from_gemini_payload(payload)
+
     if not GEMINI_API_KEY:
         raise GeminiConfigError(
-            "GEMINI_API_KEY is not configured on the backend server. "
-            "Please configure GEMINI_API_KEY in your environment or .env file to enable live AI analysis."
+            "Neither GROQ_API_KEY nor GEMINI_API_KEY is configured on the backend server. "
+            "Please configure GROQ_API_KEY or GEMINI_API_KEY in your environment or .env file to enable live AI analysis."
         )
 
     endpoint = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent?key={GEMINI_API_KEY}"

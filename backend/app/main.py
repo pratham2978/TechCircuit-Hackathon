@@ -25,6 +25,9 @@ import uvicorn
 from app.config import (
     GEMINI_API_KEY, 
     GEMINI_MODEL, 
+    GROQ_API_KEY,
+    GROQ_MODEL,
+    ACTIVE_AI_PROVIDER,
     FRONTEND_ORIGIN,
     UPLOAD_DIR,
     MAX_FILE_SIZE_BYTES,
@@ -239,6 +242,7 @@ def health_check():
     db_status = test_database_connection()
     ai_status = check_current_ai_configuration()
 
+    active_model = GROQ_MODEL if ai_status.get("provider") == "groq" else GEMINI_MODEL
     return {
         "status": "ok",
         "service": "brandguard-api",
@@ -251,7 +255,7 @@ def health_check():
         "ai": {
             "configured": ai_status.get("configured", False),
             "provider": ai_status.get("provider"),
-            "model": GEMINI_MODEL,
+            "model": active_model,
             "status": ai_status.get("status", "unknown")
         }
     }
@@ -276,11 +280,12 @@ def ai_verification():
 def config_status():
     ai_status = check_current_ai_configuration()
     db_status = test_database_connection()
+    active_model = GROQ_MODEL if ai_status.get("provider") == "groq" else GEMINI_MODEL
     return {
-        "gemini_configured": bool(GEMINI_API_KEY),
+        "gemini_configured": bool(GEMINI_API_KEY or GROQ_API_KEY),
         "ai_provider": ai_status.get("provider"),
         "ai_status": ai_status.get("status"),
-        "model": GEMINI_MODEL,
+        "model": active_model,
         "database_connected": db_status["connected"],
         "database_type": db_status["dialect"],
         "database_name": db_status["database_name"],

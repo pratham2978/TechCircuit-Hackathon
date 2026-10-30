@@ -11,9 +11,13 @@ services:
       - key: DATABASE_URL
         sync: false          # Neon connection string
       - key: GEMINI_API_KEY
-        sync: false          # Gemini API Key
+        sync: false          # Gemini API Key (optional if using Groq)
       - key: GEMINI_MODEL
         value: gemini-2.5-flash
+      - key: GROQ_API_KEY
+        sync: false          # Groq Cloud API Key (starts with gsk_...)
+      - key: GROQ_MODEL
+        value: openai/gpt-oss-120b
       - key: UPLOAD_DIR
         value: /opt/render/project/src/uploads
       - key: MAX_FILE_SIZE_MB

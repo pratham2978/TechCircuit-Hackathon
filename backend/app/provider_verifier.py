@@ -2,7 +2,7 @@ import json
 import urllib.request
 import urllib.error
 from typing import Dict, Any, Optional
-from app.config import GEMINI_API_KEY, GEMINI_MODEL
+from app.config import GEMINI_API_KEY, GEMINI_MODEL, GROQ_API_KEY, GROQ_MODEL, ACTIVE_AI_PROVIDER
 
 
 def detect_provider_from_key(key: str) -> str:
@@ -98,11 +98,46 @@ def verify_gemini_key(key: str) -> Dict[str, Any]:
         }
 
 
+def verify_groq_key(key: str) -> Dict[str, Any]:
+    """
+    Safely ping Groq models endpoint to verify key validity.
+    """
+    endpoint = "https://api.groq.com/openai/v1/models"
+    req = urllib.request.Request(
+        endpoint,
+        headers={
+            "Authorization": f"Bearer {key}",
+            "User-Agent": "BrandGuard/1.0"
+        },
+        method="GET"
+    )
+
+    try:
+        with urllib.request.urlopen(req, timeout=8) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            models = [m.get("id", "") for m in data.get("data", [])]
+            return {
+                "valid": True,
+                "provider": "groq",
+                "status": "authenticated",
+                "target_model_supported": True,
+                "models_available_count": len(models),
+                "message": f"Successfully authenticated with Groq Cloud. Model: {GROQ_MODEL}."
+            }
+    except Exception as e:
+        return {
+            "valid": False,
+            "provider": "groq",
+            "status": "error",
+            "message": f"Groq verification error: {str(e)}"
+        }
+
+
 def check_current_ai_configuration() -> Dict[str, Any]:
     """
     Inspect the configured key in backend environment and verify provider compatibility.
     """
-    key = GEMINI_API_KEY
+    key = GROQ_API_KEY or GEMINI_API_KEY
     if not key:
         return {
             "configured": False,
@@ -110,14 +145,24 @@ def check_current_ai_configuration() -> Dict[str, Any]:
             "masked_key": "NOT_SET",
             "message": (
                 "No API key is configured in backend environment or .env file. "
-                "Set GEMINI_API_KEY=<your_key> in backend/.env to connect live AI review."
+                "Set GROQ_API_KEY or GEMINI_API_KEY in backend/.env to connect live AI review."
             )
         }
 
     provider = detect_provider_from_key(key)
     masked = mask_api_key(key)
 
-    if provider == "gemini":
+    if provider == "groq" or GROQ_API_KEY:
+        verification = verify_groq_key(key)
+        return {
+            "configured": True,
+            "provider": "groq",
+            "masked_key": masked,
+            "compatible": True,
+            "target_model": GROQ_MODEL,
+            **verification
+        }
+    elif provider == "gemini":
         verification = verify_gemini_key(key)
         return {
             "configured": True,
@@ -136,8 +181,7 @@ def check_current_ai_configuration() -> Dict[str, Any]:
             "status": "incompatible_provider",
             "message": (
                 "The configured key starts with 'sk-', indicating an OpenAI API key. "
-                "BrandGuard's review features are configured for Google Gemini (gemini-2.5-flash). "
-                "To use Google Gemini, please obtain a key from https://aistudio.google.com/ and set GEMINI_API_KEY."
+                "BrandGuard supports Groq Cloud (GROQ_API_KEY) and Google Gemini (GEMINI_API_KEY)."
             )
         }
     elif provider == "anthropic":
@@ -147,7 +191,7 @@ def check_current_ai_configuration() -> Dict[str, Any]:
             "masked_key": masked,
             "compatible": False,
             "status": "incompatible_provider",
-            "message": "The configured key is an Anthropic Claude key. BrandGuard's configured engine is Google Gemini."
+            "message": "The configured key is an Anthropic Claude key. BrandGuard supports Groq or Gemini."
         }
     else:
         return {
@@ -156,6 +200,7 @@ def check_current_ai_configuration() -> Dict[str, Any]:
             "masked_key": masked,
             "compatible": False,
             "status": "unrecognized_format",
-            "message": "The configured API key format is not recognized as a Google Gemini key (which begins with 'AIzaSy...')."
+            "message": "The configured API key format is not recognized. Use a Groq key (starts with 'gsk_') or Gemini key (starts with 'AIzaSy...')."
         }
+
 

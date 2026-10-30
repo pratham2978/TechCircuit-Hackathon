@@ -50,6 +50,15 @@ FRONTEND_ORIGIN = os.getenv("FRONTEND_ORIGIN", "http://localhost:5173").strip()
 # AI Provider Settings
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "").strip()
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash").strip()
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "").strip()
+GROQ_MODEL = os.getenv("GROQ_MODEL", "openai/gpt-oss-120b").strip()
+
+# If user set a Groq key (gsk_...) inside GEMINI_API_KEY, auto-assign to GROQ_API_KEY
+if not GROQ_API_KEY and GEMINI_API_KEY.startswith("gsk_"):
+    GROQ_API_KEY = GEMINI_API_KEY
+    GEMINI_API_KEY = ""
+
+ACTIVE_AI_PROVIDER = "groq" if GROQ_API_KEY else ("gemini" if GEMINI_API_KEY else "none")
 
 # Database Settings
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./brandguard.db").strip()
