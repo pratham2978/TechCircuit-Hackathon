@@ -345,7 +345,7 @@ export const ReviewEditorPage: React.FC = () => {
               {decisionsList[0]?.comments || submission?.content_summary || 'Please resolve the highlighted compliance findings and resubmit your revised version.'}
             </p>
             {decisionsList[0]?.actionable_instructions && (
-              <div style={{ backgroundColor: 'white', padding: '8px 12px', borderRadius: 'var(--radius-sm)', border: '1px dashed var(--color-signal-coral)', fontSize: '0.8rem' }}>
+              <div style={{ backgroundColor: 'var(--color-surface-subtle)', color: 'var(--color-deep-ink)', padding: '8px 12px', borderRadius: 'var(--radius-sm)', border: '1px dashed var(--color-signal-coral)', fontSize: '0.8rem' }}>
                 <strong>Actionable Instructions:</strong> {decisionsList[0].actionable_instructions}
               </div>
             )}
@@ -545,7 +545,7 @@ export const ReviewEditorPage: React.FC = () => {
                         &ldquo;{d.comments}&rdquo;
                       </p>
                       {d.actionable_instructions && (
-                        <div style={{ fontSize: '0.76rem', color: 'var(--color-signal-coral)', backgroundColor: 'white', padding: '6px 8px', borderRadius: 'var(--radius-sm)', border: '1px dashed var(--color-signal-coral)' }}>
+                        <div style={{ fontSize: '0.76rem', color: 'var(--color-signal-coral)', backgroundColor: 'var(--color-surface-subtle)', padding: '6px 8px', borderRadius: 'var(--radius-sm)', border: '1px dashed var(--color-signal-coral)' }}>
                           <strong>Instructions:</strong> {d.actionable_instructions}
                         </div>
                       )}
@@ -578,7 +578,8 @@ export const ReviewEditorPage: React.FC = () => {
             style={{
               width: '100%',
               maxWidth: '540px',
-              backgroundColor: 'white',
+              backgroundColor: 'var(--color-surface-card)',
+              color: 'var(--color-deep-ink)',
               boxShadow: 'var(--shadow-xl)',
               display: 'flex',
               flexDirection: 'column',
@@ -692,7 +693,8 @@ export const ReviewEditorPage: React.FC = () => {
             style={{
               width: '100%',
               maxWidth: '540px',
-              backgroundColor: 'white',
+              backgroundColor: 'var(--color-surface-card)',
+              color: 'var(--color-deep-ink)',
               boxShadow: 'var(--shadow-xl)',
               display: 'flex',
               flexDirection: 'column',

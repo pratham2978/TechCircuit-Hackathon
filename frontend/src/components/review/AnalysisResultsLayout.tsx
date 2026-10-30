@@ -827,7 +827,8 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
                             fontSize: '0.78rem',
                             borderRadius: 'var(--radius-sm)',
                             border: '1px solid var(--color-border-gray)',
-                            backgroundColor: 'white',
+                            backgroundColor: 'var(--color-surface-subtle)',
+                            color: 'var(--color-deep-ink)',
                             flex: 1
                           }}
                         >
@@ -853,7 +854,8 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
                             fontSize: '0.78rem',
                             borderRadius: 'var(--radius-sm)',
                             border: '1px solid var(--color-border-gray)',
-                            backgroundColor: 'white',
+                            backgroundColor: 'var(--color-surface-subtle)',
+                            color: 'var(--color-deep-ink)',
                             flex: 1
                           }}
                         />

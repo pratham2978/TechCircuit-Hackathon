@@ -244,7 +244,8 @@ export const ApprovalsPage: React.FC = () => {
                 fontSize: '0.78rem',
                 borderRadius: 'var(--radius-sm)',
                 border: '1px solid var(--color-border-gray)',
-                backgroundColor: 'white'
+                backgroundColor: 'var(--color-surface-subtle)',
+                color: 'var(--color-deep-ink)'
               }}
             >
               <option value="all">All Statuses</option>
@@ -268,7 +269,8 @@ export const ApprovalsPage: React.FC = () => {
                 fontSize: '0.78rem',
                 borderRadius: 'var(--radius-sm)',
                 border: '1px solid var(--color-border-gray)',
-                backgroundColor: 'white'
+                backgroundColor: 'var(--color-surface-subtle)',
+                color: 'var(--color-deep-ink)'
               }}
             >
               <option value="all">All Types</option>
@@ -292,7 +294,8 @@ export const ApprovalsPage: React.FC = () => {
                   fontSize: '0.78rem',
                   borderRadius: 'var(--radius-sm)',
                   border: '1px solid var(--color-border-gray)',
-                  backgroundColor: 'white'
+                  backgroundColor: 'var(--color-surface-subtle)',
+                  color: 'var(--color-deep-ink)'
                 }}
               >
                 <option value="all">All Companies</option>
@@ -314,7 +317,8 @@ export const ApprovalsPage: React.FC = () => {
                 fontSize: '0.78rem',
                 borderRadius: 'var(--radius-sm)',
                 border: '1px solid var(--color-border-gray)',
-                backgroundColor: 'white'
+                backgroundColor: 'var(--color-surface-subtle)',
+                color: 'var(--color-deep-ink)'
               }}
             />
           </div>
@@ -416,7 +420,7 @@ export const ApprovalsPage: React.FC = () => {
                       key={sub.id}
                       style={{ 
                         borderBottom: '1px solid var(--color-border-subtle)',
-                        backgroundColor: 'white',
+                        backgroundColor: 'var(--color-surface-card)',
                         transition: 'background-color 0.15s ease'
                       }}
                     >
@@ -575,7 +579,8 @@ export const ApprovalsPage: React.FC = () => {
             style={{
               width: '100%',
               maxWidth: '560px',
-              backgroundColor: 'white',
+              backgroundColor: 'var(--color-surface-card)',
+              color: 'var(--color-deep-ink)',
               boxShadow: 'var(--shadow-xl)',
               display: 'flex',
               flexDirection: 'column',
@@ -653,6 +658,8 @@ export const ApprovalsPage: React.FC = () => {
                   fontSize: '0.82rem',
                   borderRadius: 'var(--radius-sm)',
                   border: '1px solid var(--color-border-gray)',
+                  backgroundColor: 'var(--color-surface-subtle)',
+                  color: 'var(--color-deep-ink)',
                   fontFamily: 'inherit'
                 }}
                 placeholder="Enter regulatory justification or rationale..."
@@ -675,6 +682,8 @@ export const ApprovalsPage: React.FC = () => {
                     fontSize: '0.82rem',
                     borderRadius: 'var(--radius-sm)',
                     border: '1px solid var(--color-signal-coral)',
+                    backgroundColor: 'var(--color-surface-subtle)',
+                    color: 'var(--color-deep-ink)',
                     fontFamily: 'inherit'
                   }}
                   placeholder="Specify exact wording fixes, claim ledger citations, or duration requirements needed for signoff..."

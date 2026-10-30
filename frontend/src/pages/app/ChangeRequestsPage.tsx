@@ -185,7 +185,8 @@ export const ChangeRequestsPage: React.FC = () => {
               fontSize: '0.78rem',
               borderRadius: 'var(--radius-sm)',
               border: '1px solid var(--color-border-gray)',
-              backgroundColor: 'white'
+              backgroundColor: 'var(--color-surface-subtle)',
+              color: 'var(--color-deep-ink)'
             }}
           >
             <option value="all">All Statuses</option>
@@ -253,7 +254,7 @@ export const ChangeRequestsPage: React.FC = () => {
                   const badge = statusBadges[cr.status] || { label: cr.status, class: 'badge-neutral' };
 
                   return (
-                    <tr key={cr.id} style={{ borderBottom: '1px solid var(--color-border-subtle)', backgroundColor: 'white' }}>
+                    <tr key={cr.id} style={{ borderBottom: '1px solid var(--color-border-subtle)', backgroundColor: 'var(--color-surface-card)' }}>
                       <td style={{ padding: '14px 18px', maxWidth: '380px' }}>
                         <div style={{ fontWeight: 600, color: 'var(--color-deep-ink)', fontSize: '0.9rem' }}>{cr.title}</div>
                         <div style={{ fontSize: '0.78rem', color: 'var(--color-muted-slate)', marginTop: '3px', lineHeight: 1.45 }}>
@@ -338,7 +339,8 @@ export const ChangeRequestsPage: React.FC = () => {
             style={{ 
               width: '100%', 
               maxWidth: '520px', 
-              backgroundColor: 'white',
+              backgroundColor: 'var(--color-surface-card)',
+              color: 'var(--color-deep-ink)',
               display: 'flex',
               flexDirection: 'column',
               gap: '16px',
