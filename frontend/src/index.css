@@ -1,0 +1,484 @@
+:root {
+  /* BrandGuard Design System Tokens — Light Mode (Warm Ivory + Deep Ink) */
+  --color-deep-ink: #14212B;
+  --color-deep-ink-hover: #0E171E;
+  --color-deep-ink-light: #1D2E3C;
+  --color-warm-ivory: #F7F5F0;
+  --color-warm-ivory-dark: #EDE8DE;
+  --color-signal-coral: #F16B50;
+  --color-signal-coral-hover: #E0583C;
+  --color-signal-coral-subtle: #FDF1ED;
+  --color-evidence-teal: #167C78;
+  --color-evidence-teal-hover: #11625F;
+  --color-evidence-teal-subtle: #E8F5F5;
+  --color-muted-slate: #64727D;
+  --color-muted-slate-light: #94A3B0;
+  --color-border-gray: #DDE2E2;
+  --color-border-subtle: #E8ECEC;
+  --color-surface-white: #FFFFFF;
+  --color-surface-card: #FFFFFF;
+  --color-surface-subtle: #F9FBFA;
+
+  /* Semantic Feedback Colors */
+  --color-error: #C63D4F;
+  --color-error-subtle: #FBECEE;
+  --color-warning: #C58A28;
+  --color-warning-subtle: #FEF8EC;
+  --color-success: #287D58;
+  --color-success-subtle: #EAF5EF;
+
+  /* Typography */
+  --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Shadows & Elevation */
+  --shadow-sm: 0 1px 3px rgba(20, 33, 43, 0.05);
+  --shadow-md: 0 6px 16px rgba(20, 33, 43, 0.07);
+  --shadow-lg: 0 16px 36px rgba(20, 33, 43, 0.10);
+  --shadow-focus: 0 0 0 3px rgba(241, 107, 80, 0.25);
+
+  /* Radii */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark Mode Tokens (Deep Charcoal + Refined Elevated Surfaces) */
+[data-theme="dark"] {
+  --color-deep-ink: #F1F5F9;
+  --color-deep-ink-hover: #FFFFFF;
+  --color-deep-ink-light: #E2E8F0;
+  --color-warm-ivory: #0E1620;
+  --color-warm-ivory-dark: #15202D;
+  --color-signal-coral: #F16B50;
+  --color-signal-coral-hover: #F37D65;
+  --color-signal-coral-subtle: rgba(241, 107, 80, 0.16);
+  --color-evidence-teal: #22A39F;
+  --color-evidence-teal-hover: #2EC4BF;
+  --color-evidence-teal-subtle: rgba(34, 163, 159, 0.16);
+  --color-muted-slate: #94A3B8;
+  --color-muted-slate-light: #CBD5E1;
+  --color-border-gray: #243444;
+  --color-border-subtle: #1A2633;
+  --color-surface-white: #162330;
+  --color-surface-card: #162330;
+  --color-surface-subtle: #1C2B3B;
+
+  /* Semantic Feedback Colors in Dark */
+  --color-error: #E05263;
+  --color-error-subtle: rgba(224, 82, 99, 0.18);
+  --color-warning: #D99B26;
+  --color-warning-subtle: rgba(217, 155, 38, 0.18);
+  --color-success: #34A873;
+  --color-success-subtle: rgba(52, 168, 115, 0.18);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.65);
+}
+
+/* Base Resets & Smooth Transitions */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--color-deep-ink);
+  background-color: var(--color-warm-ivory);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  color: var(--color-deep-ink);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+h1 { font-size: 2.25rem; }
+h2 { font-size: 1.75rem; }
+h3 { font-size: 1.35rem; }
+h4 { font-size: 1.1rem; }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input, textarea, select {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--color-deep-ink);
+  background-color: var(--color-surface-white);
+}
+
+/* Accessibility Focus */
+:focus-visible {
+  outline: 2px solid var(--color-signal-coral);
+  outline-offset: 2px;
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.badge-verified {
+  background-color: var(--color-success-subtle);
+  color: var(--color-success);
+  border: 1px solid rgba(40, 125, 88, 0.25);
+}
+
+.badge-expiring {
+  background-color: var(--color-warning-subtle);
+  color: var(--color-warning);
+  border: 1px solid rgba(197, 138, 40, 0.25);
+}
+
+.badge-critical, .badge-expired {
+  background-color: var(--color-error-subtle);
+  color: var(--color-error);
+  border: 1px solid rgba(198, 61, 79, 0.25);
+}
+
+.badge-teal, .badge-evidence {
+  background-color: var(--color-evidence-teal-subtle);
+  color: var(--color-evidence-teal);
+  border: 1px solid rgba(22, 124, 120, 0.25);
+}
+
+.badge-neutral {
+  background-color: var(--color-border-subtle);
+  color: var(--color-muted-slate);
+  border: 1px solid var(--color-border-gray);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background-color: var(--color-signal-coral);
+  color: #FFFFFF;
+}
+.btn-primary:hover {
+  background-color: var(--color-signal-coral-hover);
+  transform: translateY(-1px);
+}
+
+.btn-dark {
+  background-color: var(--color-deep-ink);
+  color: var(--color-warm-ivory);
+}
+.btn-dark:hover {
+  background-color: var(--color-deep-ink-hover);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background-color: var(--color-surface-white);
+  color: var(--color-deep-ink);
+  border: 1px solid var(--color-border-gray);
+}
+.btn-secondary:hover {
+  background-color: var(--color-surface-subtle);
+  border-color: var(--color-muted-slate);
+}
+
+.btn-teal {
+  background-color: var(--color-evidence-teal);
+  color: #FFFFFF;
+}
+.btn-teal:hover {
+  background-color: var(--color-evidence-teal-hover);
+}
+
+.btn-sm {
+  padding: 5px 10px;
+  font-size: 0.8rem;
+}
+
+.btn-lg {
+  padding: 12px 24px;
+  font-size: 1rem;
+}
+
+/* Cards & Panels */
+.card-panel {
+  background: var(--color-surface-white);
+  border: 1px solid var(--color-border-gray);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  transition: background-color var(--transition-normal), border-color var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+/* Subtle, Restrained Professional Card Hover Animations */
+.interactive-card {
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
+}
+
+.interactive-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-evidence-teal);
+}
+
+.interactive-card:focus-within {
+  border-color: var(--color-evidence-teal);
+  box-shadow: var(--shadow-focus);
+}
+
+/* Problems Section Responsive Grid: 4 cols on desktop, 2 on tablet, 1 on mobile */
+.problems-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 1024px) {
+  .problems-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .problems-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Lifecycle Grid (10 Steps: 5 cols x 2 rows on desktop) */
+.lifecycle-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 1200px) {
+  .lifecycle-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .lifecycle-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  .lifecycle-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Footer Semantic Styles with Complete Dark Theme Distinguishability */
+.site-footer {
+  background-color: #14212B;
+  color: #EDE8DE;
+  border-top: 1px solid #1D2E3C;
+  padding: 64px 24px 36px;
+  transition: background-color var(--transition-normal), border-color var(--transition-normal);
+}
+
+[data-theme="dark"] .site-footer {
+  background-color: #070B10;
+  color: #CBD5E1;
+  border-top: 1px solid #243444;
+}
+
+.footer-link {
+  color: #94A3B0;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.footer-link:hover {
+  color: var(--color-signal-coral) !important;
+  transform: translateX(2px);
+}
+
+.footer-link:focus-visible {
+  outline: 2px solid var(--color-signal-coral);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-gray);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-muted-slate);
+}
+
+/* Responsive Utilities & Mobile Breakpoints */
+@media (max-width: 992px) {
+  .editor-split-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .desktop-nav {
+    display: none !important;
+  }
+  .mobile-toggle {
+    display: block !important;
+  }
+  aside {
+    position: fixed;
+    top: 96px;
+    left: -260px;
+    bottom: 0;
+    z-index: 40;
+    transition: left 0.25s ease;
+    box-shadow: var(--shadow-lg);
+  }
+  aside.sidebar-open {
+    left: 0 !important;
+  }
+}
+
+/* Accessibility: Respect Reduced Motion Preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Sign-in Two-Panel Responsive Composition */
+.signin-page-container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.08fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+@media (max-width: 1024px) {
+  .signin-page-container {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .signin-visual-panel {
+    display: none !important;
+  }
+}
+
+/* Layered Brand Illustration Visual */
+.brand-visual-canvas {
+  perspective: 1000px;
+}
+
+.brand-visual-stack {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  will-change: transform;
+}
+
+.evidence-connector {
+  position: relative;
+  padding-left: 24px;
+}
+
+.evidence-connector::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: -14px;
+  bottom: 50%;
+  width: 2px;
+  background: var(--color-evidence-teal);
+  border-radius: 1px;
+}
+
+.evidence-connector::after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-evidence-teal);
+  transform: translateY(-50%);
+  box-shadow: 0 0 0 3px var(--color-evidence-teal-subtle);
+}
+
+/* Two-column analysis results responsive collapse */
+@media (max-width: 960px) {
+  .analysis-results-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+

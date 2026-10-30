@@ -1,0 +1,35 @@
+# Environment
+.env
+.env.local
+.env.*
+*.env
+
+# Uploads & Private User Files
+uploads/
+backend/uploads/
+*.db
+brandguard.db
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+dist/
+build/
+*.egg-info/
+.pytest_cache/
+
+# Node
+node_modules/
+frontend/node_modules/
+frontend/dist/
+.vite/
+npm-debug.log*
+
+# OS / Editors
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
