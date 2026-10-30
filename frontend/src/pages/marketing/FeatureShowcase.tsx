@@ -90,9 +90,9 @@ export const FeatureShowcase: React.FC = () => {
       id="features"
       style={{ 
         padding: '84px 24px', 
-        backgroundColor: 'var(--surface)',
-        borderTop: '1px solid var(--border)',
-        borderBottom: '1px solid var(--border)',
+        backgroundColor: 'var(--color-surface-white)',
+        borderTop: '1px solid var(--color-border-gray)',
+        borderBottom: '1px solid var(--color-border-gray)',
         transition: 'background-color var(--transition-normal), border-color var(--transition-normal)'
       }}
     >
@@ -101,7 +101,7 @@ export const FeatureShowcase: React.FC = () => {
           <h2 style={{ fontSize: '2.2rem', marginBottom: '16px', letterSpacing: '-0.02em' }}>
             Engineered for precision brand governance
           </h2>
-          <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', lineHeight: 1.6 }}>
+          <p style={{ color: 'var(--color-muted-slate)', fontSize: '1.05rem', lineHeight: 1.6 }}>
             Every capability is designed around the principle of evidence-first verification with human authority.
           </p>
         </div>
@@ -155,9 +155,9 @@ export const FeatureShowcase: React.FC = () => {
                 className="interactive-card"
                 style={{ 
                   padding: '24px', 
-                  backgroundColor: 'var(--surface-subtle)',
+                  backgroundColor: 'var(--color-surface-subtle)',
                   borderRadius: 'var(--radius-lg)',
-                  border: '1px solid var(--border)',
+                  border: '1px solid var(--color-border-gray)',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
@@ -166,14 +166,14 @@ export const FeatureShowcase: React.FC = () => {
               >
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', gap: '8px' }}>
-                    <h3 style={{ fontSize: '1.15rem', color: 'var(--text-primary)', fontWeight: 600 }}>{f.title}</h3>
+                    <h3 style={{ fontSize: '1.15rem', color: 'var(--color-deep-ink)', fontWeight: 600 }}>{f.title}</h3>
                     {isRoadmap && (
                       <span className="badge badge-neutral" style={{ fontSize: '0.68rem', flexShrink: 0 }}>
                         Roadmap
                       </span>
                     )}
                   </div>
-                  <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.55 }}>
+                  <p style={{ color: 'var(--color-muted-slate)', fontSize: '0.9rem', lineHeight: 1.55 }}>
                     {f.desc}
                   </p>
                 </div>
@@ -183,7 +183,7 @@ export const FeatureShowcase: React.FC = () => {
                     alignItems: 'center', 
                     gap: '6px', 
                     fontSize: '0.75rem', 
-                    color: isRoadmap ? 'var(--text-muted)' : 'var(--info)',
+                    color: isRoadmap ? 'var(--color-muted-slate)' : 'var(--color-evidence-teal)',
                     fontWeight: 600
                   }}
                 >

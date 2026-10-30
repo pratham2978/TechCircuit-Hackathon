@@ -76,7 +76,7 @@ export const WorkspacePage: React.FC = () => {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
         <div>
           <h1 style={{ fontSize: '1.85rem', marginBottom: '4px' }}>Content Workspace</h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+          <p style={{ color: 'var(--color-muted-slate)', fontSize: '0.9rem' }}>
             Draft, attach Intent Cards, and submit marketing assets for multi-vector brand governance.
           </p>
         </div>
@@ -104,7 +104,7 @@ export const WorkspacePage: React.FC = () => {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: '1', minWidth: '240px' }}>
-          <Search size={16} color="var(--text-muted)" />
+          <Search size={16} color="var(--color-muted-slate)" />
           <input 
             type="text" 
             placeholder="Search manuscripts or authors..."
@@ -127,8 +127,8 @@ export const WorkspacePage: React.FC = () => {
             style={{ 
               padding: '6px 12px', 
               borderRadius: 'var(--radius-md)', 
-              border: '1px solid var(--border)',
-              backgroundColor: 'var(--surface)',
+              border: '1px solid var(--color-border-gray)',
+              backgroundColor: 'var(--color-surface-white)',
               fontSize: '0.85rem'
             }}
           >
@@ -145,8 +145,8 @@ export const WorkspacePage: React.FC = () => {
             style={{ 
               padding: '6px 12px', 
               borderRadius: 'var(--radius-md)', 
-              border: '1px solid var(--border)',
-              backgroundColor: 'var(--surface)',
+              border: '1px solid var(--color-border-gray)',
+              backgroundColor: 'var(--color-surface-white)',
               fontSize: '0.85rem'
             }}
           >
@@ -163,7 +163,7 @@ export const WorkspacePage: React.FC = () => {
       <div className="card-panel" style={{ padding: 0, overflow: 'hidden' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem' }}>
           <thead>
-            <tr style={{ backgroundColor: 'var(--bg)', borderBottom: '1px solid var(--border)' }}>
+            <tr style={{ backgroundColor: 'var(--color-warm-ivory)', borderBottom: '1px solid var(--color-border-gray)' }}>
               <th style={{ padding: '14px 20px', fontWeight: 600 }}>Manuscript Title & Intent</th>
               <th style={{ padding: '14px 20px', fontWeight: 600 }}>Format</th>
               <th style={{ padding: '14px 20px', fontWeight: 600 }}>Author</th>
@@ -178,19 +178,19 @@ export const WorkspacePage: React.FC = () => {
                 const openFindings = doc.findings.filter(f => f.status === 'open').length;
                 const statusStyles: Record<string, { label: string; class: string }> = {
                   draft: { label: 'Draft', class: 'badge-neutral' },
-                  pending_review: { label: 'Pending Review', class: 'badge-warning' },
-                  changes_requested: { label: 'Changes Req.', class: 'badge-danger' },
-                  approved: { label: 'Approved', class: 'badge-success' }
+                  pending_review: { label: 'Pending Review', class: 'badge-expiring' },
+                  changes_requested: { label: 'Changes Req.', class: 'badge-critical' },
+                  approved: { label: 'Approved', class: 'badge-verified' }
                 };
                 const badge = statusStyles[doc.status] || { label: doc.status, class: 'badge-neutral' };
 
                 return (
-                  <tr key={doc.id} style={{ borderBottom: '1px solid var(--border)' }}>
+                  <tr key={doc.id} style={{ borderBottom: '1px solid var(--color-border-subtle)' }}>
                     <td style={{ padding: '16px 20px' }}>
-                      <div style={{ fontWeight: 600, color: 'var(--text-primary)', marginBottom: '4px' }}>
+                      <div style={{ fontWeight: 600, color: 'var(--color-deep-ink)', marginBottom: '4px' }}>
                         {doc.title}
                       </div>
-                      <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                      <div style={{ fontSize: '0.78rem', color: 'var(--color-muted-slate)' }}>
                         Goal: {doc.intentCard.goal}
                       </div>
                     </td>
@@ -199,7 +199,7 @@ export const WorkspacePage: React.FC = () => {
                         {doc.type.toUpperCase()}
                       </span>
                     </td>
-                    <td style={{ padding: '16px 20px', fontSize: '0.82rem', color: 'var(--text-primary)' }}>
+                    <td style={{ padding: '16px 20px', fontSize: '0.82rem', color: 'var(--color-deep-ink)' }}>
                       {doc.author}
                     </td>
                     <td style={{ padding: '16px 20px' }}>
@@ -209,11 +209,11 @@ export const WorkspacePage: React.FC = () => {
                     </td>
                     <td style={{ padding: '16px 20px' }}>
                       {openFindings > 0 ? (
-                        <span style={{ color: 'var(--danger)', fontWeight: 600, fontSize: '0.85rem' }}>
+                        <span style={{ color: 'var(--color-error)', fontWeight: 600, fontSize: '0.85rem' }}>
                           {openFindings} Open
                         </span>
                       ) : (
-                        <span style={{ color: 'var(--success)', fontWeight: 600, fontSize: '0.85rem' }}>
+                        <span style={{ color: 'var(--color-success)', fontWeight: 600, fontSize: '0.85rem' }}>
                           Clear
                         </span>
                       )}
@@ -231,7 +231,7 @@ export const WorkspacePage: React.FC = () => {
               })
             ) : (
               <tr>
-                <td colSpan={6} style={{ padding: '32px', textAlign: 'center', color: 'var(--text-muted)' }}>
+                <td colSpan={6} style={{ padding: '32px', textAlign: 'center', color: 'var(--color-muted-slate)' }}>
                   No content manuscripts match your filter criteria.
                 </td>
               </tr>
@@ -260,14 +260,14 @@ export const WorkspacePage: React.FC = () => {
         >
           <div 
             style={{ 
-              backgroundColor: 'var(--surface)', 
+              backgroundColor: 'var(--color-surface-white)', 
               borderRadius: 'var(--radius-xl)', 
               maxWidth: '680px', 
               width: '100%', 
               padding: '28px',
               boxShadow: 'var(--shadow-lg)',
-              border: '1px solid var(--border)',
-              color: 'var(--text-primary)',
+              border: '1px solid var(--color-border-gray)',
+              color: 'var(--color-deep-ink)',
               maxHeight: '90vh',
               overflowY: 'auto'
             }}
@@ -275,7 +275,7 @@ export const WorkspacePage: React.FC = () => {
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
               <div>
                 <h3 style={{ fontSize: '1.3rem' }}>Create Content Draft & Intent Card</h3>
-                <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                <span style={{ fontSize: '0.8rem', color: 'var(--color-muted-slate)' }}>
                   Intent Cards anchor the verification engine against your intended goal and audience.
                 </span>
               </div>
@@ -304,7 +304,7 @@ export const WorkspacePage: React.FC = () => {
                       width: '100%', 
                       padding: '8px 12px', 
                       borderRadius: 'var(--radius-md)', 
-                      border: '1px solid var(--border)' 
+                      border: '1px solid var(--color-border-gray)' 
                     }}
                   />
                 </div>
@@ -320,7 +320,7 @@ export const WorkspacePage: React.FC = () => {
                       width: '100%', 
                       padding: '8px 12px', 
                       borderRadius: 'var(--radius-md)', 
-                      border: '1px solid var(--border)' 
+                      border: '1px solid var(--color-border-gray)' 
                     }}
                   >
                     <option value="plain_text">Plain Text</option>
@@ -336,15 +336,15 @@ export const WorkspacePage: React.FC = () => {
                 <div 
                   style={{ 
                     padding: '14px', 
-                    backgroundColor: 'var(--bg)', 
+                    backgroundColor: 'var(--color-warm-ivory)', 
                     borderRadius: 'var(--radius-md)', 
-                    border: '1px dashed var(--info)',
+                    border: '1px dashed var(--color-evidence-teal)',
                     marginBottom: '16px',
                     textAlign: 'center'
                   }}
                 >
-                  <Upload size={22} color="var(--info)" style={{ margin: '0 auto 6px' }} />
-                  <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                  <Upload size={22} color="var(--color-evidence-teal)" style={{ margin: '0 auto 6px' }} />
+                  <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-deep-ink)' }}>
                     Upload {draftType.toUpperCase()} Source File
                   </div>
                   <input 
@@ -353,7 +353,7 @@ export const WorkspacePage: React.FC = () => {
                     style={{ marginTop: '8px', fontSize: '0.75rem' }}
                   />
                   {uploadNotice && (
-                    <div style={{ marginTop: '8px', fontSize: '0.75rem', color: 'var(--text-muted)', textAlign: 'left' }}>
+                    <div style={{ marginTop: '8px', fontSize: '0.75rem', color: 'var(--color-muted-slate)', textAlign: 'left' }}>
                       <Info size={12} style={{ display: 'inline', marginRight: '4px' }} />
                       {uploadNotice}
                     </div>
@@ -364,21 +364,21 @@ export const WorkspacePage: React.FC = () => {
               {/* Intent Card Box */}
               <div 
                 style={{ 
-                  backgroundColor: 'var(--bg)', 
-                  border: '1px solid var(--border)', 
+                  backgroundColor: 'var(--color-warm-ivory)', 
+                  border: '1px solid var(--color-border-gray)', 
                   borderRadius: 'var(--radius-md)', 
                   padding: '16px',
                   marginBottom: '16px'
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '12px', fontWeight: 700, fontSize: '0.85rem', color: 'var(--info)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '12px', fontWeight: 700, fontSize: '0.85rem', color: 'var(--color-evidence-teal)' }}>
                   <Sparkles size={16} />
                   <span>Mandatory Intent Card</span>
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                   <div>
-                    <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '4px' }}>
+                    <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--color-deep-ink)', marginBottom: '4px' }}>
                       Campaign Goal
                     </label>
                     <input 
@@ -386,12 +386,12 @@ export const WorkspacePage: React.FC = () => {
                       placeholder="e.g. Drive enterprise CIO trial signups for hybrid cloud deployment"
                       value={goal}
                       onChange={(e) => setGoal(e.target.value)}
-                      style={{ width: '100%', padding: '6px 10px', fontSize: '0.85rem', borderRadius: '4px', border: '1px solid var(--border)' }}
+                      style={{ width: '100%', padding: '6px 10px', fontSize: '0.85rem', borderRadius: '4px', border: '1px solid var(--color-border-gray)' }}
                     />
                   </div>
 
                   <div>
-                    <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '4px' }}>
+                    <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--color-deep-ink)', marginBottom: '4px' }}>
                       Target Audience
                     </label>
                     <input 
@@ -399,12 +399,12 @@ export const WorkspacePage: React.FC = () => {
                       placeholder="e.g. Chief Information Officers, Security Directors, VP Cloud Operations"
                       value={audience}
                       onChange={(e) => setAudience(e.target.value)}
-                      style={{ width: '100%', padding: '6px 10px', fontSize: '0.85rem', borderRadius: '4px', border: '1px solid var(--border)' }}
+                      style={{ width: '100%', padding: '6px 10px', fontSize: '0.85rem', borderRadius: '4px', border: '1px solid var(--color-border-gray)' }}
                     />
                   </div>
 
                   <div>
-                    <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '4px' }}>
+                    <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--color-deep-ink)', marginBottom: '4px' }}>
                       Core Governed Message
                     </label>
                     <input 
@@ -412,7 +412,7 @@ export const WorkspacePage: React.FC = () => {
                       placeholder="e.g. BrandGuard provides 99.99% target uptime with assisted review controls"
                       value={keyMessage}
                       onChange={(e) => setKeyMessage(e.target.value)}
-                      style={{ width: '100%', padding: '6px 10px', fontSize: '0.85rem', borderRadius: '4px', border: '1px solid var(--border)' }}
+                      style={{ width: '100%', padding: '6px 10px', fontSize: '0.85rem', borderRadius: '4px', border: '1px solid var(--color-border-gray)' }}
                     />
                   </div>
                 </div>
@@ -432,7 +432,7 @@ export const WorkspacePage: React.FC = () => {
                     width: '100%', 
                     padding: '10px', 
                     borderRadius: 'var(--radius-md)', 
-                    border: '1px solid var(--border)',
+                    border: '1px solid var(--color-border-gray)',
                     fontSize: '0.9rem',
                     lineHeight: 1.6
                   }}

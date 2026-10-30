@@ -38,7 +38,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
         {/* Shield Outer with Deep Ink or White (Adapts to Dark Theme) */}
         <path 
           d="M18 3L4 8V17.5C4 26.2 9.9 31.8 18 34C26.1 31.8 32 26.2 32 17.5V8L18 3Z" 
-          fill={isLight ? '#FFFFFF' : 'var(--text-primary)'} 
+          fill={isLight ? '#FFFFFF' : 'var(--color-deep-ink)'} 
         />
         {/* Evidence Verification Check with Signal Coral */}
         <path 
@@ -58,7 +58,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
             fontWeight: 700, 
             letterSpacing: '-0.03em',
             fontSize: size === 'lg' ? '1.5rem' : size === 'sm' ? '1rem' : '1.25rem',
-            color: isLight ? '#FFFFFF' : 'var(--text-primary)'
+            color: isLight ? '#FFFFFF' : 'var(--color-deep-ink)'
           }}
         >
           BrandGuard
@@ -69,7 +69,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
             letterSpacing: '0.08em', 
             textTransform: 'uppercase',
             fontWeight: 600,
-            color: isLight ? 'rgba(255,255,255,0.7)' : 'var(--info)',
+            color: isLight ? 'rgba(255,255,255,0.7)' : 'var(--color-evidence-teal)',
             marginTop: '2px'
           }}
         >

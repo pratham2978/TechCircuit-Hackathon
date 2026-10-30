@@ -19,10 +19,10 @@ import {
   Upload, 
   History, 
   X, 
+  Building,
   ShieldAlert,
   ChevronRight,
-  PlusCircle,
-  FileCheck2
+  PlusCircle
 } from 'lucide-react';
 
 export const ProjectDetailPage: React.FC = () => {
@@ -77,32 +77,32 @@ export const ProjectDetailPage: React.FC = () => {
           className="btn btn-secondary btn-sm"
           style={{ width: 'fit-content', gap: '6px' }}
         >
-          <ArrowLeft size={14} strokeWidth={1.5} />
-          <span>Back to projects</span>
+          <ArrowLeft size={14} />
+          <span>Back to Projects</span>
         </button>
 
-        <div className="card-panel" style={{ padding: '28px' }}>
+        <div className="card-panel" style={{ border: '1px solid rgba(198, 61, 79, 0.3)', padding: '28px', backgroundColor: 'var(--color-surface-white)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '10px' }}>
-            <ShieldAlert size={24} strokeWidth={1.5} color="var(--danger)" />
-            <h2 style={{ fontSize: '18px', margin: 0, color: 'var(--text-primary)' }}>
-              Access denied: Enterprise tenant isolation boundary
+            <ShieldAlert size={28} color="var(--color-error)" />
+            <h2 style={{ fontSize: '1.35rem', margin: 0, color: 'var(--color-deep-ink)' }}>
+              Access Denied: Enterprise Company Isolation Boundary
             </h2>
           </div>
-          <p style={{ color: 'var(--text-muted)', fontSize: '14px', lineHeight: 1.5, margin: '0 0 16px' }}>
+          <p style={{ color: 'var(--color-muted-slate)', fontSize: '0.92rem', lineHeight: 1.5, margin: '0 0 16px' }}>
             This project belongs to <strong>{project.clientName}</strong>. Your current active session is scoped to <strong>Acme Global Brands</strong>.
             Cross-tenant project data, manuscripts, and audit logs are strictly isolated to protect client confidentiality.
           </p>
           <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
             <button onClick={() => navigate('/app/projects')} className="btn btn-secondary btn-sm">
-              Return to Acme Global Brands projects
+              Return to Acme Global Brands Projects
             </button>
             <button 
               onClick={() => {
                 setAccountType('brandguard_operations');
               }} 
-              className="btn btn-primary btn-sm"
+              className="btn btn-teal btn-sm"
             >
-              Switch to BrandGuard operations
+              Switch to BrandGuard Operations (Multi-Tenant Team)
             </button>
           </div>
         </div>
@@ -130,7 +130,7 @@ export const ProjectDetailPage: React.FC = () => {
           version: '1.0',
           text: sampleContent,
           modifiedAt: new Date().toISOString().replace('T', ' ').slice(0, 16),
-          modifiedBy: isOperations ? 'Operations lead' : 'Client author',
+          modifiedBy: isOperations ? 'Operations Lead' : 'Client Submitter',
           findingsCount: 1
         }
       ],
@@ -141,7 +141,7 @@ export const ProjectDetailPage: React.FC = () => {
           severity: 'advisory',
           textSpan: 'Draft content',
           explanation: 'Initial verification check recommended before submitting for sign-off.',
-          ruleReference: 'BRAND-INIT-01: Asset onboarding check',
+          ruleReference: 'BRAND-INIT-01: Asset Onboarding Check',
           suggestedCorrection: 'Approved brand content',
           status: 'open'
         }
@@ -158,398 +158,585 @@ export const ProjectDetailPage: React.FC = () => {
   const getStatusBadge = (status: ReviewItemStatus) => {
     switch (status) {
       case 'approved':
-        return <span className="badge badge-approved">Approved</span>;
+        return <span className="badge badge-teal" style={{ fontSize: '0.68rem' }}>Approved</span>;
       case 'awaiting_verification':
-        return <span className="badge badge-warning">Awaiting verification</span>;
+        return <span className="badge badge-expiring" style={{ fontSize: '0.68rem' }}>Awaiting Verification</span>;
       case 'in_progress':
-        return <span className="badge badge-info">In progress</span>;
+        return <span className="badge badge-verified" style={{ fontSize: '0.68rem' }}>In Progress</span>;
       case 'needs_changes':
-        return <span className="badge badge-danger">Needs changes</span>;
+        return <span className="badge badge-critical" style={{ fontSize: '0.68rem' }}>Needs Changes</span>;
       case 'rejected':
-        return <span className="badge badge-danger">Rejected</span>;
+        return <span className="badge badge-critical" style={{ fontSize: '0.68rem' }}>Rejected</span>;
       default:
-        return <span className="badge badge-neutral">Not reviewed</span>;
+        return <span className="badge badge-neutral" style={{ fontSize: '0.68rem' }}>Not Reviewed</span>;
     }
   };
 
-  const tabs = [
-    { id: 'overview',   label: 'Overview',                icon: <FolderKanban size={15} strokeWidth={1.5} />, count: project.files.length },
-    { id: 'legal',      label: 'Legal documents',         icon: <Scale size={15} strokeWidth={1.5} />,        count: legalFiles.length },
-    { id: 'promotions', label: 'Promotions & claims',     icon: <Tag size={15} strokeWidth={1.5} />,          count: promoFiles.length },
-    { id: 'content',    label: 'Brand content',           icon: <FileText size={15} strokeWidth={1.5} />,     count: contentFiles.length },
-    { id: 'images',     label: 'Images & design',         icon: <Palette size={15} strokeWidth={1.5} />,      count: imageFiles.length },
-    { id: 'videos',     label: 'Video assets',            icon: <Film size={15} strokeWidth={1.5} />,         count: videoFiles.length },
-    { id: 'history',    label: 'Audit history',           icon: <History size={15} strokeWidth={1.5} /> },
-  ];
+  // Aggregate project audit events
+  const projectHistory = [
+    ...(project.auditLog || []),
+    ...project.files.flatMap(f => (f.history || []).map(h => ({
+      ...h,
+      assetName: f.name
+    })))
+  ].sort((a, b) => b.timestamp.localeCompare(a.timestamp));
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-
-      {/* Top Header: Responsive Wrap and Stack */}
-      <div className="project-detail-header">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+      {/* Top Header & Breadcrumb */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '14px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <button 
             onClick={() => navigate('/app/projects')}
             className="btn btn-secondary btn-sm"
-            style={{ gap: '6px' }}
+            style={{ padding: '6px 10px', gap: '6px' }}
           >
-            <ArrowLeft size={14} strokeWidth={1.5} />
-            <span>All projects</span>
+            <ArrowLeft size={14} />
+            <span>All Projects</span>
           </button>
 
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-              <h1 style={{ fontSize: '22px', margin: 0, fontWeight: 600 }}>{project.name}</h1>
-              <span className={`badge ${project.status === 'approved' ? 'badge-approved' : project.status === 'in_review' ? 'badge-warning' : 'badge-active'}`}>
-                {project.status === 'in_review' ? 'In review' : project.status === 'approved' ? 'Approved' : 'Active'}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <h1 style={{ fontSize: '1.65rem', margin: 0 }}>{project.name}</h1>
+              <span className={`badge ${project.status === 'approved' ? 'badge-teal' : project.status === 'in_review' ? 'badge-expiring' : 'badge-verified'}`}>
+                {project.status.toUpperCase()}
               </span>
             </div>
-            <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
-              {project.clientName} · Owner: {project.owner} · Last updated: <span className="tabular">{project.updatedAt}</span>
+            <span style={{ fontSize: '0.78rem', color: 'var(--color-muted-slate)' }}>
+              {project.clientName} • Owner: {project.owner} • Last activity: {project.updatedAt}
             </span>
           </div>
         </div>
 
         <button 
           onClick={() => setShowAddFileModal(true)}
-          className="btn btn-primary btn-sm add-asset-btn"
+          className="btn btn-primary btn-sm"
           style={{ gap: '6px' }}
         >
-          <Upload size={14} strokeWidth={1.5} />
-          <span>Add asset</span>
+          <Upload size={14} />
+          <span>Add Asset</span>
         </button>
       </div>
 
-      {/* Underline Tabs with fade edges and scroll */}
-      <div className="tabs-scroll-wrapper">
-        <div className="tab-underline-container">
-          {tabs.map((tab) => {
-            const isActive = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
-                className={`tab-underline-item ${isActive ? 'active' : ''}`}
-              >
-                {tab.icon}
-                <span>{tab.label}</span>
-                {tab.count !== undefined && (
-                  <span className="tabular" style={{ 
-                    fontSize: '11px', 
-                    padding: '1px 6px', 
-                    borderRadius: 'var(--radius-sm)',
-                    backgroundColor: isActive ? 'var(--primary-subtle)' : 'var(--surface-hover)',
-                    color: isActive ? 'var(--primary)' : 'var(--text-muted)'
-                  }}>
-                    {tab.count}
-                  </span>
-                )}
-              </button>
-            );
-          })}
-        </div>
+      {/* Main Tab Navigation: Overview + The 5 Core Review Tools + History */}
+      <div 
+        style={{ 
+          display: 'flex', 
+          borderBottom: '2px solid var(--color-border-subtle)', 
+          gap: '8px',
+          overflowX: 'auto',
+          paddingBottom: '2px'
+        }}
+      >
+        <button
+          onClick={() => setActiveTab('overview')}
+          style={{
+            padding: '10px 16px',
+            fontSize: '0.85rem',
+            fontWeight: activeTab === 'overview' ? 700 : 500,
+            color: activeTab === 'overview' ? 'var(--color-signal-coral)' : 'var(--color-muted-slate)',
+            borderBottom: activeTab === 'overview' ? '3px solid var(--color-signal-coral)' : '3px solid transparent',
+            background: 'none',
+            borderTop: 'none',
+            borderLeft: 'none',
+            borderRight: 'none',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            whiteSpace: 'nowrap'
+          }}
+        >
+          <FolderKanban size={16} />
+          <span>Overview</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('legal')}
+          style={{
+            padding: '10px 16px',
+            fontSize: '0.85rem',
+            fontWeight: activeTab === 'legal' ? 700 : 500,
+            color: activeTab === 'legal' ? 'var(--color-signal-coral)' : 'var(--color-muted-slate)',
+            borderBottom: activeTab === 'legal' ? '3px solid var(--color-signal-coral)' : '3px solid transparent',
+            background: 'none',
+            borderTop: 'none',
+            borderLeft: 'none',
+            borderRight: 'none',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            whiteSpace: 'nowrap'
+          }}
+        >
+          <Scale size={16} />
+          <span>Legal Document Review</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('promotions')}
+          style={{
+            padding: '10px 16px',
+            fontSize: '0.85rem',
+            fontWeight: activeTab === 'promotions' ? 700 : 500,
+            color: activeTab === 'promotions' ? 'var(--color-signal-coral)' : 'var(--color-muted-slate)',
+            borderBottom: activeTab === 'promotions' ? '3px solid var(--color-signal-coral)' : '3px solid transparent',
+            background: 'none',
+            borderTop: 'none',
+            borderLeft: 'none',
+            borderRight: 'none',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            whiteSpace: 'nowrap'
+          }}
+        >
+          <Tag size={16} />
+          <span>Promotion & Offer Claims</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('content')}
+          style={{
+            padding: '10px 16px',
+            fontSize: '0.85rem',
+            fontWeight: activeTab === 'content' ? 700 : 500,
+            color: activeTab === 'content' ? 'var(--color-signal-coral)' : 'var(--color-muted-slate)',
+            borderBottom: activeTab === 'content' ? '3px solid var(--color-signal-coral)' : '3px solid transparent',
+            background: 'none',
+            borderTop: 'none',
+            borderLeft: 'none',
+            borderRight: 'none',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            whiteSpace: 'nowrap'
+          }}
+        >
+          <FileText size={16} />
+          <span>Content Review</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('images')}
+          style={{
+            padding: '10px 16px',
+            fontSize: '0.85rem',
+            fontWeight: activeTab === 'images' ? 700 : 500,
+            color: activeTab === 'images' ? 'var(--color-signal-coral)' : 'var(--color-muted-slate)',
+            borderBottom: activeTab === 'images' ? '3px solid var(--color-signal-coral)' : '3px solid transparent',
+            background: 'none',
+            borderTop: 'none',
+            borderLeft: 'none',
+            borderRight: 'none',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            whiteSpace: 'nowrap'
+          }}
+        >
+          <Palette size={16} />
+          <span>Image & Design Review</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('videos')}
+          style={{
+            padding: '10px 16px',
+            fontSize: '0.85rem',
+            fontWeight: activeTab === 'videos' ? 700 : 500,
+            color: activeTab === 'videos' ? 'var(--color-signal-coral)' : 'var(--color-muted-slate)',
+            borderBottom: activeTab === 'videos' ? '3px solid var(--color-signal-coral)' : '3px solid transparent',
+            background: 'none',
+            borderTop: 'none',
+            borderLeft: 'none',
+            borderRight: 'none',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            whiteSpace: 'nowrap'
+          }}
+        >
+          <Film size={16} />
+          <span>Video Review</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('history')}
+          style={{
+            padding: '10px 16px',
+            fontSize: '0.85rem',
+            fontWeight: activeTab === 'history' ? 700 : 500,
+            color: activeTab === 'history' ? 'var(--color-signal-coral)' : 'var(--color-muted-slate)',
+            borderBottom: activeTab === 'history' ? '3px solid var(--color-signal-coral)' : '3px solid transparent',
+            background: 'none',
+            borderTop: 'none',
+            borderLeft: 'none',
+            borderRight: 'none',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            whiteSpace: 'nowrap'
+          }}
+        >
+          <History size={16} />
+          <span>Audit Log ({projectHistory.length})</span>
+        </button>
       </div>
 
-      {/* Tab Panels */}
+      {/* TAB CONTENT 1: OVERVIEW */}
       {activeTab === 'overview' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {/* Project Summary Card */}
-          <div className="card-panel">
-            <h2 style={{ fontSize: '15px', fontWeight: 600, marginBottom: '6px' }}>Project description</h2>
-            <p style={{ fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
-              {project.description || 'Campaign collateral package pending brand verification and multi-department approval.'}
-            </p>
-          </div>
-
-          {/* Asset Register Table */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {/* Files Table for this project */}
           <div className="card-panel" style={{ padding: 0, overflow: 'hidden' }}>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '12px 16px',
-              borderBottom: '1px solid var(--border)',
-            }}>
-              <h2 style={{ fontSize: '15px', fontWeight: 600 }}>Registered assets</h2>
-              <span className="tabular" style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
-                {project.files.length} total files
-              </span>
+            <div 
+              style={{ 
+                padding: '16px 20px', 
+                backgroundColor: 'var(--color-surface-subtle)', 
+                borderBottom: '1px solid var(--color-border-gray)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+              }}
+            >
+              <strong style={{ fontSize: '0.95rem' }}>Project Assets & Verification Status ({project.files.length})</strong>
+              <button 
+                onClick={() => setShowAddFileModal(true)}
+                className="btn btn-secondary btn-sm"
+                style={{ fontSize: '0.75rem', gap: '4px' }}
+              >
+                <PlusCircle size={13} />
+                <span>Add Asset</span>
+              </button>
             </div>
 
-            <div style={{ overflowX: 'auto' }}>
-              <table className="data-table">
-                <thead>
-                  <tr>
-                    <th>Asset name</th>
-                    <th>Tool</th>
-                    <th>Status</th>
-                    <th>Findings</th>
-                    <th className="right">Action</th>
+            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.85rem' }}>
+              <thead>
+                <tr style={{ backgroundColor: 'var(--color-surface-subtle)', borderBottom: '1px solid var(--color-border-subtle)' }}>
+                  <th style={{ padding: '10px 20px' }}>File Name</th>
+                  <th style={{ padding: '10px 16px' }}>Version</th>
+                  <th style={{ padding: '10px 16px' }}>Review Tool</th>
+                  <th style={{ padding: '10px 16px' }}>Status</th>
+                  <th style={{ padding: '10px 16px' }}>Issues</th>
+                  <th style={{ padding: '10px 20px', textAlign: 'right' }}>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {project.files.map(file => (
+                  <tr key={file.id} style={{ borderBottom: '1px solid var(--color-border-subtle)' }}>
+                    <td style={{ padding: '12px 20px' }}>
+                      <strong style={{ display: 'block', color: 'var(--color-deep-ink)' }}>{file.name}</strong>
+                      <span style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)' }}>
+                        {file.size} • Uploaded {file.uploadedAt}
+                      </span>
+                    </td>
+
+                    <td style={{ padding: '12px 16px' }}>
+                      <span className="badge badge-neutral" style={{ fontSize: '0.72rem' }}>
+                        v{file.version || '1.0'}
+                      </span>
+                    </td>
+
+                    <td style={{ padding: '12px 16px' }}>
+                      <span className="badge badge-neutral" style={{ fontSize: '0.72rem', textTransform: 'capitalize' }}>
+                        {file.reviewType}
+                      </span>
+                    </td>
+
+                    <td style={{ padding: '12px 16px' }}>
+                      {getStatusBadge(file.status)}
+                    </td>
+
+                    <td style={{ padding: '12px 16px' }}>
+                      {file.findingsCount > 0 ? (
+                        <span className="badge badge-critical" style={{ fontSize: '0.68rem' }}>
+                          {file.findingsCount} Issues
+                        </span>
+                      ) : (
+                        <span className="badge badge-teal" style={{ fontSize: '0.68rem' }}>
+                          0 Issues
+                        </span>
+                      )}
+                    </td>
+
+                    <td style={{ padding: '12px 20px', textAlign: 'right' }}>
+                      <button 
+                        onClick={() => setActiveTab(file.reviewType)}
+                        className="btn btn-secondary btn-sm"
+                        style={{ fontSize: '0.75rem', padding: '4px 10px', gap: '4px' }}
+                      >
+                        <span>Open Tool</span>
+                        <ChevronRight size={13} />
+                      </button>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {project.files.map((file) => (
-                    <tr key={file.id}>
-                      <td>
-                        <div style={{ fontWeight: 500, color: 'var(--text-primary)' }}>{file.name}</div>
-                        <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
-                          {file.type.toUpperCase()} · <span className="tabular">{file.size}</span>
-                        </span>
-                      </td>
-                      <td>
-                        <span className="badge badge-neutral" style={{ textTransform: 'capitalize' }}>
-                          {file.reviewType}
-                        </span>
-                      </td>
-                      <td>{getStatusBadge(file.status)}</td>
-                      <td>
-                        <span className="tabular" style={{
-                          fontSize: '12px',
-                          color: file.findingsCount > 0 ? 'var(--danger)' : 'var(--success)',
-                          fontWeight: 500
-                        }}>
-                          {file.findingsCount} {file.findingsCount === 1 ? 'finding' : 'findings'}
-                        </span>
-                      </td>
-                      <td className="right">
-                        <button
-                          onClick={() => setActiveTab(file.reviewType as any)}
-                          className="btn btn-secondary btn-sm"
-                        >
-                          Review
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                  {project.files.length === 0 && (
-                    <tr>
-                      <td colSpan={5} style={{ textAlign: 'center', color: 'var(--text-muted)', padding: '36px' }}>
-                        No files added yet. Click "Add asset" to begin compliance review.
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       )}
 
-      {/* Review Tools Tabs (Legal, Promotions, Content) */}
-      {(activeTab === 'legal' || activeTab === 'promotions' || activeTab === 'content') && (
+      {/* TAB CONTENT 2: LEGAL DOCUMENT REVIEW (Chat Interface) */}
+      {activeTab === 'legal' && (
         <ChatReviewInterface 
-          toolType={activeTab}
+          toolType="legal"
           projectName={project.name}
           projectId={project.id}
-          defaultDocumentName={
-            activeTab === 'legal' ? activeLegalFile?.name :
-            activeTab === 'promotions' ? activePromoFile?.name :
-            activeContentFile?.name
-          }
-          initialContent={
-            activeTab === 'legal' ? activeLegalFile?.currentText :
-            activeTab === 'promotions' ? activePromoFile?.currentText :
-            activeContentFile?.currentText
-          }
+          defaultDocumentName={activeLegalFile?.name || 'Master_Enterprise_Legal_Terms.docx'}
+          initialContent={activeLegalFile?.currentText || activeLegalFile?.originalText}
+          initialFindings={activeLegalFile?.findings as any}
+          onApplyCorrection={(id, corr) => {
+            if (activeLegalFile) acceptFileFinding(project.id, activeLegalFile.id, id);
+          }}
         />
       )}
 
-      {/* Images Review Tool */}
+      {/* TAB CONTENT 3: PROMOTION & OFFER CLAIMS (Chat Interface) */}
+      {activeTab === 'promotions' && (
+        <ChatReviewInterface 
+          toolType="promotions"
+          projectName={project.name}
+          projectId={project.id}
+          defaultDocumentName={activePromoFile?.name || 'Promotional_Discount_Terms_Addendum.pdf'}
+          initialContent={activePromoFile?.currentText || activePromoFile?.originalText}
+          initialFindings={activePromoFile?.findings as any}
+          onApplyCorrection={(id, corr) => {
+            if (activePromoFile) acceptFileFinding(project.id, activePromoFile.id, id);
+          }}
+        />
+      )}
+
+      {/* TAB CONTENT 4: CONTENT REVIEW (Chat Interface) */}
+      {activeTab === 'content' && (
+        <ChatReviewInterface 
+          toolType="content"
+          projectName={project.name}
+          projectId={project.id}
+          defaultDocumentName={activeContentFile?.name || 'Summer_Sale_Promotional_Brief.docx'}
+          initialContent={activeContentFile?.currentText || activeContentFile?.originalText}
+          initialFindings={activeContentFile?.findings as any}
+          onApplyCorrection={(id, corr) => {
+            if (activeContentFile) acceptFileFinding(project.id, activeContentFile.id, id);
+          }}
+        />
+      )}
+
+      {/* TAB CONTENT 5: IMAGE & DESIGN REVIEW (Visual Media Upload) */}
       {activeTab === 'images' && (
         <ImageReviewInterface 
           projectName={project.name}
-          defaultImageName={activeImageFile?.name || 'campaign_banner.png'}
+          projectId={project.id}
+          defaultImageName={activeImageFile?.name || 'Campaign_Hero_Banner_1200x630.png'}
         />
       )}
 
-      {/* Video Review Tool */}
+      {/* TAB CONTENT 6: VIDEO REVIEW (Visual Media Upload) */}
       {activeTab === 'videos' && (
         <VideoReviewInterface 
           projectName={project.name}
-          defaultVideoName={activeVideoFile?.name || 'launch_spot_30s.mp4'}
+          projectId={project.id}
+          defaultVideoName={activeVideoFile?.name || 'Summer_Promotion_Teaser_30s.mp4'}
         />
       )}
 
-      {/* Audit History Tab */}
+      {/* TAB CONTENT 7: AUDIT LOG */}
       {activeTab === 'history' && (
         <div className="card-panel" style={{ padding: 0, overflow: 'hidden' }}>
-          <div style={{ padding: '12px 16px', borderBottom: '1px solid var(--border)' }}>
-            <h2 style={{ fontSize: '15px', fontWeight: 600 }}>Project audit history</h2>
-            <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '2px' }}>
-              Immutable ledger of all version changes, compliance evaluations, and reviewer actions.
-            </p>
+          <div 
+            style={{ 
+              padding: '16px 20px', 
+              backgroundColor: 'var(--color-surface-subtle)', 
+              borderBottom: '1px solid var(--color-border-gray)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <History size={18} color="var(--color-evidence-teal)" />
+              <strong style={{ fontSize: '0.95rem' }}>Project Audit & Review Decision Trail ({projectHistory.length})</strong>
+            </div>
+            <span style={{ fontSize: '0.75rem', color: 'var(--color-muted-slate)' }}>
+              Tamper-evident log of changes, revisions, and human decisions
+            </span>
           </div>
 
-          <div style={{ padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
-            {project.auditLog && project.auditLog.length > 0 ? (
-              project.auditLog.map((log: any, idx: number) => (
-                <div key={idx} style={{
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: '12px',
-                  paddingBottom: '12px',
-              borderBottom: idx < (project.auditLog?.length ?? 0) - 1 ? '1px solid var(--border)' : 'none'
-                }}>
-                  <div style={{
-                    width: '6px',
-                    height: '6px',
-                    borderRadius: '50%',
-                    backgroundColor: 'var(--primary)',
-                    marginTop: '6px',
-                    flexShrink: 0
-                  }} />
-                  <div>
-                    <div style={{ fontSize: '13px', fontWeight: 500, color: 'var(--text-primary)' }}>
-                      {log.action}
-                    </div>
-                    <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '2px' }}>
-                      By {log.actor} · <span className="tabular">{log.timestamp}</span>
-                    </div>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div style={{ textAlign: 'center', color: 'var(--text-muted)', padding: '24px' }}>
-                No recorded audit entries yet.
-              </div>
-            )}
-          </div>
+          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.85rem' }}>
+            <thead>
+              <tr style={{ backgroundColor: 'var(--color-surface-subtle)', borderBottom: '1px solid var(--color-border-subtle)' }}>
+                <th style={{ padding: '10px 20px' }}>Timestamp</th>
+                <th style={{ padding: '10px 16px' }}>Actor & Role</th>
+                <th style={{ padding: '10px 16px' }}>Action</th>
+                <th style={{ padding: '10px 20px' }}>Audit Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              {projectHistory.map((entry: any, index) => (
+                <tr key={entry.id || index} style={{ borderBottom: '1px solid var(--color-border-subtle)' }}>
+                  <td style={{ padding: '12px 20px', color: 'var(--color-muted-slate)', fontSize: '0.78rem', whiteSpace: 'nowrap' }}>
+                    {entry.timestamp}
+                  </td>
+                  <td style={{ padding: '12px 16px' }}>
+                    <strong>{entry.actor}</strong>{' '}
+                    <span style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)' }}>({entry.role})</span>
+                  </td>
+                  <td style={{ padding: '12px 16px' }}>
+                    <span className="badge badge-neutral" style={{ fontSize: '0.68rem' }}>
+                      {entry.action}
+                    </span>
+                  </td>
+                  <td style={{ padding: '12px 20px', color: 'var(--color-deep-ink)' }}>
+                    {entry.details}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
 
-      {/* Add Asset Modal */}
+      {/* Modal: Add File to Project */}
       {showAddFileModal && (
-        <div style={{
-          position: 'fixed', inset: 0,
-          backgroundColor: 'rgba(15, 23, 42, 0.45)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          zIndex: 1000, padding: '16px',
-        }}>
-          <div style={{
-            background: 'var(--surface)',
-            border: '1px solid var(--border)',
-            borderRadius: 'var(--radius)',
-            boxShadow: 'var(--shadow-modal)',
-            maxWidth: '520px',
-            width: '100%',
-          }}>
-            <div style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-              padding: '14px 20px',
-              borderBottom: '1px solid var(--border)',
-            }}>
-              <h2 style={{ fontSize: '15px', fontWeight: 600 }}>Add asset to project</h2>
-              <button
+        <div 
+          style={{ 
+            position: 'fixed', 
+            top: 0, 
+            left: 0, 
+            right: 0, 
+            bottom: 0, 
+            backgroundColor: 'rgba(0, 0, 0, 0.55)', 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center',
+            zIndex: 1000,
+            padding: '20px'
+          }}
+        >
+          <div 
+            className="card-panel" 
+            style={{ 
+              maxWidth: '480px', 
+              width: '100%', 
+              backgroundColor: 'var(--color-surface-white)',
+              boxShadow: 'var(--shadow-xl)',
+              animation: 'slideUp 0.2s ease-out'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', borderBottom: '1px solid var(--color-border-subtle)', paddingBottom: '12px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Upload size={18} color="var(--color-signal-coral)" />
+                <strong style={{ fontSize: '1.05rem' }}>Add Asset to Project</strong>
+              </div>
+              <button 
                 onClick={() => setShowAddFileModal(false)}
-                style={{ padding: '4px', borderRadius: 'var(--radius)', color: 'var(--text-muted)' }}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-muted-slate)' }}
               >
-                <X size={16} strokeWidth={1.5} />
+                <X size={18} />
               </button>
             </div>
 
-            <form onSubmit={handleAddFile} style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            <form onSubmit={handleAddFile} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               <div>
-                <label className="form-label" htmlFor="asset-name">
-                  Asset name <span style={{ color: 'var(--danger)' }}>*</span>
+                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px' }}>
+                  Target Review Tool *
                 </label>
-                <input
-                  id="asset-name"
-                  type="text"
-                  className="form-input"
-                  value={newFileName}
-                  onChange={e => setNewFileName(e.target.value)}
-                  placeholder="e.g. Master_Services_Agreement_2026.docx"
-                  required
-                />
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                <div>
-                  <label className="form-label" htmlFor="review-tool-type">Review category</label>
-                  <select
-                    id="review-tool-type"
-                    className="form-select"
-                    value={newFileReviewType}
-                    onChange={e => setNewFileReviewType(e.target.value as ReviewToolType)}
-                  >
-                    <option value="legal">Legal document</option>
-                    <option value="promotions">Promotion & claims</option>
-                    <option value="content">Brand content</option>
-                    <option value="images">Image & design</option>
-                    <option value="videos">Video asset</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="form-label" htmlFor="asset-format">File format</label>
-                  <select
-                    id="asset-format"
-                    className="form-select"
-                    value={newFileType}
-                    onChange={e => setNewFileType(e.target.value as any)}
-                  >
-                    <option value="docx">DOCX document</option>
-                    <option value="pdf">PDF document</option>
-                    <option value="txt">Plain text</option>
-                    <option value="png">PNG image</option>
-                    <option value="jpg">JPEG image</option>
-                    <option value="mp4">MP4 video</option>
-                  </select>
-                </div>
+                <select 
+                  value={newFileReviewType}
+                  onChange={(e) => setNewFileReviewType(e.target.value as ReviewToolType)}
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    borderRadius: 'var(--radius-md)',
+                    border: '1px solid var(--color-border-gray)',
+                    backgroundColor: 'var(--color-surface-subtle)',
+                    color: 'var(--color-deep-ink)',
+                    fontSize: '0.85rem'
+                  }}
+                >
+                  <option value="legal">Legal Document Review (chat & doc upload)</option>
+                  <option value="promotions">Promotion & Offer Claim Review (chat & doc upload)</option>
+                  <option value="content">Content Review (chat & doc upload)</option>
+                  <option value="images">Image & Design Review (image upload & preview)</option>
+                  <option value="videos">Video Review (video upload & preview)</option>
+                </select>
               </div>
 
               <div>
-                <label className="form-label" htmlFor="asset-initial-text">Manuscript or clause draft</label>
-                <textarea
-                  id="asset-initial-text"
-                  className="form-textarea"
-                  value={newFileInitialText}
-                  onChange={e => setNewFileInitialText(e.target.value)}
-                  placeholder="Paste initial text, copy, or contract clauses to audit..."
-                  rows={4}
+                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px' }}>
+                  File Name *
+                </label>
+                <input 
+                  type="text" 
+                  value={newFileName}
+                  onChange={(e) => setNewFileName(e.target.value)}
+                  placeholder="e.g. Master_Agreement_Addendum.docx"
+                  required
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    borderRadius: 'var(--radius-md)',
+                    border: '1px solid var(--color-border-gray)',
+                    backgroundColor: 'var(--color-surface-subtle)',
+                    color: 'var(--color-deep-ink)',
+                    fontSize: '0.85rem'
+                  }}
                 />
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', paddingTop: '6px' }}>
-                <button
-                  type="button"
+              <div>
+                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px' }}>
+                  Format
+                </label>
+                <select 
+                  value={newFileType}
+                  onChange={(e) => setNewFileType(e.target.value as any)}
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    borderRadius: 'var(--radius-md)',
+                    border: '1px solid var(--color-border-gray)',
+                    backgroundColor: 'var(--color-surface-subtle)',
+                    color: 'var(--color-deep-ink)',
+                    fontSize: '0.85rem'
+                  }}
+                >
+                  <option value="docx">Microsoft Word (.docx)</option>
+                  <option value="pdf">Adobe PDF (.pdf)</option>
+                  <option value="png">PNG Image (.png)</option>
+                  <option value="jpg">JPEG Image (.jpg)</option>
+                  <option value="mp4">MPEG-4 Video (.mp4)</option>
+                  <option value="html">HTML Manuscript (.html)</option>
+                </select>
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '8px' }}>
+                <button 
+                  type="button" 
                   onClick={() => setShowAddFileModal(false)}
                   className="btn btn-secondary btn-sm"
                 >
                   Cancel
                 </button>
-                <button type="submit" className="btn btn-primary btn-sm">
-                  <Upload size={14} strokeWidth={1.5} />
-                  <span>Onboard asset</span>
+                <button 
+                  type="submit" 
+                  className="btn btn-primary btn-sm"
+                  style={{ gap: '6px' }}
+                >
+                  <Upload size={14} />
+                  <span>Attach to Project</span>
                 </button>
               </div>
             </form>
           </div>
         </div>
       )}
-
-      <style>{`
-        .project-detail-header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          flex-wrap: wrap;
-          gap: 14px;
-        }
-        .tabs-scroll-wrapper {
-          position: relative;
-          overflow: hidden;
-        }
-        @media (max-width: 640px) {
-          .project-detail-header {
-            flex-direction: column;
-            align-items: stretch;
-          }
-          .add-asset-btn {
-            width: 100%;
-          }
-        }
-      `}</style>
     </div>
   );
 };

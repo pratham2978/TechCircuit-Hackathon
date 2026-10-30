@@ -56,9 +56,9 @@ export const PlansSection: React.FC = () => {
       id="plans"
       style={{ 
         padding: '84px 24px', 
-        backgroundColor: 'var(--surface)',
-        borderTop: '1px solid var(--border)',
-        borderBottom: '1px solid var(--border)',
+        backgroundColor: 'var(--color-surface-white)',
+        borderTop: '1px solid var(--color-border-gray)',
+        borderBottom: '1px solid var(--color-border-gray)',
         transition: 'background-color var(--transition-normal), border-color var(--transition-normal)'
       }}
     >
@@ -67,10 +67,10 @@ export const PlansSection: React.FC = () => {
           <h2 style={{ fontSize: '2.2rem', marginBottom: '16px', letterSpacing: '-0.02em' }}>
             Predictable plans tailored to your brand scale
           </h2>
-          <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', lineHeight: 1.6 }}>
+          <p style={{ color: 'var(--color-muted-slate)', fontSize: '1.05rem', lineHeight: 1.6 }}>
             Every tier guarantees tenant policy segregation, human publishing control, and complete evidence citation traceability.
           </p>
-          <div style={{ marginTop: '8px', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+          <div style={{ marginTop: '8px', fontSize: '0.8rem', color: 'var(--color-muted-slate)' }}>
             <em>Pricing is tailored to enterprise review volume. Contact our team for formal licensing agreements.</em>
           </div>
         </div>
@@ -88,8 +88,8 @@ export const PlansSection: React.FC = () => {
               key={idx}
               className="interactive-card"
               style={{ 
-                backgroundColor: 'var(--surface-subtle)',
-                border: p.popular ? '2px solid var(--primary)' : '1px solid var(--border)',
+                backgroundColor: 'var(--color-surface-subtle)',
+                border: p.popular ? '2px solid var(--color-signal-coral)' : '1px solid var(--color-border-gray)',
                 borderRadius: 'var(--radius-xl)',
                 padding: '32px 28px',
                 display: 'flex',
@@ -104,12 +104,12 @@ export const PlansSection: React.FC = () => {
               <div>
                 {/* Header with Consistent Badge Placement */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
-                  <h3 style={{ fontSize: '1.4rem', color: 'var(--text-primary)', fontWeight: 700 }}>{p.name}</h3>
+                  <h3 style={{ fontSize: '1.4rem', color: 'var(--color-deep-ink)', fontWeight: 700 }}>{p.name}</h3>
                   <span 
                     style={{ 
-                      backgroundColor: p.popular ? 'var(--primary)' : 'var(--surface)',
-                      color: p.popular ? '#FFFFFF' : 'var(--text-muted)',
-                      border: p.popular ? 'none' : '1px solid var(--border)',
+                      backgroundColor: p.popular ? 'var(--color-signal-coral)' : 'var(--color-surface-white)',
+                      color: p.popular ? '#FFFFFF' : 'var(--color-muted-slate)',
+                      border: p.popular ? 'none' : '1px solid var(--color-border-gray)',
                       padding: '3px 10px',
                       borderRadius: 'var(--radius-full)',
                       fontSize: '0.72rem',
@@ -122,15 +122,15 @@ export const PlansSection: React.FC = () => {
                   </span>
                 </div>
 
-                <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', minHeight: '44px', lineHeight: 1.45 }}>
+                <p style={{ color: 'var(--color-muted-slate)', fontSize: '0.85rem', minHeight: '44px', lineHeight: 1.45 }}>
                   {p.target}
                 </p>
 
-                <div style={{ margin: '20px 0', paddingBottom: '20px', borderBottom: '1px solid var(--border)' }}>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
+                <div style={{ margin: '20px 0', paddingBottom: '20px', borderBottom: '1px solid var(--color-border-gray)' }}>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--color-deep-ink)', fontFamily: 'var(--font-display)' }}>
                     {p.pricing}
                   </div>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Annual enterprise agreement</span>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--color-muted-slate)' }}>Annual enterprise agreement</span>
                 </div>
 
                 <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '32px', padding: 0 }}>
@@ -141,17 +141,17 @@ export const PlansSection: React.FC = () => {
                           width: '18px', 
                           height: '18px', 
                           borderRadius: '50%', 
-                          backgroundColor: feat.live ? 'var(--info-subtle)' : 'var(--border)',
+                          backgroundColor: feat.live ? 'var(--color-evidence-teal-subtle)' : 'var(--color-border-subtle)',
                           display: 'flex', 
                           alignItems: 'center', 
                           justifyContent: 'center',
                           flexShrink: 0
                         }}
                       >
-                        <Check size={12} color={feat.live ? 'var(--info)' : 'var(--text-muted)'} />
+                        <Check size={12} color={feat.live ? 'var(--color-evidence-teal)' : 'var(--color-muted-slate)'} />
                       </div>
-                      <span style={{ color: feat.live ? 'var(--text-primary)' : 'var(--text-muted)' }}>
-                        {feat.label} {!feat.live && <em style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>(Roadmap)</em>}
+                      <span style={{ color: feat.live ? 'var(--color-deep-ink)' : 'var(--color-muted-slate)' }}>
+                        {feat.label} {!feat.live && <em style={{ fontSize: '0.74rem', color: 'var(--color-muted-slate)' }}>(Roadmap)</em>}
                       </span>
                     </li>
                   ))}

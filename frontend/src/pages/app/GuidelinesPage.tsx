@@ -384,7 +384,7 @@ export const GuidelinesPage: React.FC = () => {
     {
       name: 'Signal Coral',
       token: '--color-signal-coral',
-      hex: 'var(--primary)',
+      hex: '#F16B50',
       rgb: 'rgb(241, 107, 80)',
       role: 'Primary brand accent, interactive buttons, critical notification highlights.',
       wcagRatio: '3.2:1 (Large text or white background)',
@@ -393,7 +393,7 @@ export const GuidelinesPage: React.FC = () => {
     {
       name: 'Evidence Teal',
       token: '--color-evidence-teal',
-      hex: 'var(--info)',
+      hex: '#167C78',
       rgb: 'rgb(22, 124, 120)',
       role: 'Audit verification badge, verified fact claims, cryptographic seal highlight.',
       wcagRatio: '5.1:1 (AA Normal Text Pass)',
@@ -428,7 +428,7 @@ export const GuidelinesPage: React.FC = () => {
             position: 'fixed',
             top: '20px',
             right: '24px',
-            backgroundColor: 'var(--text-primary)',
+            backgroundColor: 'var(--color-deep-ink)',
             color: '#FFFFFF',
             padding: '10px 18px',
             borderRadius: 'var(--radius-md)',
@@ -440,7 +440,7 @@ export const GuidelinesPage: React.FC = () => {
             gap: '8px'
           }}
         >
-          <CheckCircle2 size={16} color="var(--info)" />
+          <CheckCircle2 size={16} color="var(--color-evidence-teal)" />
           <span>{toastMessage}</span>
         </div>
       )}
@@ -448,10 +448,10 @@ export const GuidelinesPage: React.FC = () => {
       {/* Page Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
         <div>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 700, margin: '0 0 4px', color: 'var(--text-primary)' }}>
+          <h1 style={{ fontSize: '1.75rem', fontWeight: 700, margin: '0 0 4px', color: 'var(--color-deep-ink)' }}>
             Brand Guidelines
           </h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', margin: 0 }}>
+          <p style={{ color: 'var(--color-muted-slate)', fontSize: '0.9rem', margin: 0 }}>
             Manage brand rules, approved claims, terminology, disclaimers, and brand assets in one place.
           </p>
         </div>
@@ -497,7 +497,7 @@ export const GuidelinesPage: React.FC = () => {
       <div 
         style={{ 
           display: 'flex', 
-          borderBottom: '1px solid var(--border)', 
+          borderBottom: '1px solid var(--color-border-gray)', 
           gap: '4px',
           overflowX: 'auto',
           paddingBottom: '0px'
@@ -509,8 +509,8 @@ export const GuidelinesPage: React.FC = () => {
             padding: '10px 16px',
             fontSize: '0.86rem',
             fontWeight: activeTab === 'guidelines' ? 700 : 500,
-            color: activeTab === 'guidelines' ? 'var(--primary)' : 'var(--text-muted)',
-            borderBottom: activeTab === 'guidelines' ? '2px solid var(--primary)' : '2px solid transparent',
+            color: activeTab === 'guidelines' ? 'var(--color-signal-coral)' : 'var(--color-muted-slate)',
+            borderBottom: activeTab === 'guidelines' ? '2px solid var(--color-signal-coral)' : '2px solid transparent',
             background: 'none',
             borderTop: 'none',
             borderLeft: 'none',
@@ -532,8 +532,8 @@ export const GuidelinesPage: React.FC = () => {
             padding: '10px 16px',
             fontSize: '0.86rem',
             fontWeight: activeTab === 'claims' ? 700 : 500,
-            color: activeTab === 'claims' ? 'var(--primary)' : 'var(--text-muted)',
-            borderBottom: activeTab === 'claims' ? '2px solid var(--primary)' : '2px solid transparent',
+            color: activeTab === 'claims' ? 'var(--color-signal-coral)' : 'var(--color-muted-slate)',
+            borderBottom: activeTab === 'claims' ? '2px solid var(--color-signal-coral)' : '2px solid transparent',
             background: 'none',
             borderTop: 'none',
             borderLeft: 'none',
@@ -555,8 +555,8 @@ export const GuidelinesPage: React.FC = () => {
             padding: '10px 16px',
             fontSize: '0.86rem',
             fontWeight: activeTab === 'rules' ? 700 : 500,
-            color: activeTab === 'rules' ? 'var(--primary)' : 'var(--text-muted)',
-            borderBottom: activeTab === 'rules' ? '2px solid var(--primary)' : '2px solid transparent',
+            color: activeTab === 'rules' ? 'var(--color-signal-coral)' : 'var(--color-muted-slate)',
+            borderBottom: activeTab === 'rules' ? '2px solid var(--color-signal-coral)' : '2px solid transparent',
             background: 'none',
             borderTop: 'none',
             borderLeft: 'none',
@@ -578,8 +578,8 @@ export const GuidelinesPage: React.FC = () => {
             padding: '10px 16px',
             fontSize: '0.86rem',
             fontWeight: activeTab === 'disclaimers' ? 700 : 500,
-            color: activeTab === 'disclaimers' ? 'var(--primary)' : 'var(--text-muted)',
-            borderBottom: activeTab === 'disclaimers' ? '2px solid var(--primary)' : '2px solid transparent',
+            color: activeTab === 'disclaimers' ? 'var(--color-signal-coral)' : 'var(--color-muted-slate)',
+            borderBottom: activeTab === 'disclaimers' ? '2px solid var(--color-signal-coral)' : '2px solid transparent',
             background: 'none',
             borderTop: 'none',
             borderLeft: 'none',
@@ -601,8 +601,8 @@ export const GuidelinesPage: React.FC = () => {
             padding: '10px 16px',
             fontSize: '0.86rem',
             fontWeight: activeTab === 'assets' ? 700 : 500,
-            color: activeTab === 'assets' ? 'var(--primary)' : 'var(--text-muted)',
-            borderBottom: activeTab === 'assets' ? '2px solid var(--primary)' : '2px solid transparent',
+            color: activeTab === 'assets' ? 'var(--color-signal-coral)' : 'var(--color-muted-slate)',
+            borderBottom: activeTab === 'assets' ? '2px solid var(--color-signal-coral)' : '2px solid transparent',
             background: 'none',
             borderTop: 'none',
             borderLeft: 'none',
@@ -627,7 +627,7 @@ export const GuidelinesPage: React.FC = () => {
           {/* Search bar */}
           <div className="card-panel" style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
             <div style={{ position: 'relative', flex: '1', minWidth: '220px', maxWidth: '400px' }}>
-              <Search size={15} color="var(--text-muted)" style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }} />
+              <Search size={15} color="var(--color-muted-slate)" style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }} />
               <input 
                 type="text" 
                 value={guidelinesSearch}
@@ -637,14 +637,14 @@ export const GuidelinesPage: React.FC = () => {
                   width: '100%', 
                   padding: '7px 12px 7px 32px', 
                   borderRadius: 'var(--radius-md)', 
-                  border: '1px solid var(--border)', 
+                  border: '1px solid var(--color-border-gray)', 
                   fontSize: '0.84rem', 
-                  backgroundColor: 'var(--surface-subtle)',
-                  color: 'var(--text-primary)'
+                  backgroundColor: 'var(--color-surface-subtle)',
+                  color: 'var(--color-deep-ink)'
                 }}
               />
             </div>
-            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+            <span style={{ fontSize: '0.8rem', color: 'var(--color-muted-slate)' }}>
               Showing {filteredGuidelines.length} of {guidelinesList.length} documents
             </span>
           </div>
@@ -652,9 +652,9 @@ export const GuidelinesPage: React.FC = () => {
           {/* Guidelines Table */}
           {filteredGuidelines.length === 0 ? (
             <div className="card-panel" style={{ textAlign: 'center', padding: '40px 20px' }}>
-              <BookOpen size={36} color="var(--text-muted)" style={{ marginBottom: '10px', opacity: 0.7 }} />
-              <div style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '0.95rem' }}>No guideline documents found</div>
-              <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', margin: '6px 0 16px' }}>
+              <BookOpen size={36} color="var(--color-muted-slate)" style={{ marginBottom: '10px', opacity: 0.7 }} />
+              <div style={{ fontWeight: 600, color: 'var(--color-deep-ink)', fontSize: '0.95rem' }}>No guideline documents found</div>
+              <p style={{ fontSize: '0.82rem', color: 'var(--color-muted-slate)', margin: '6px 0 16px' }}>
                 {guidelinesSearch ? 'No documents match your search query.' : 'No brand manuals or guideline playbooks uploaded yet.'}
               </p>
               <button onClick={() => setShowUploadModal(true)} className="btn btn-primary btn-sm">
@@ -665,26 +665,26 @@ export const GuidelinesPage: React.FC = () => {
             <div className="card-panel" style={{ padding: 0, overflow: 'hidden' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.85rem' }}>
                 <thead>
-                  <tr style={{ backgroundColor: 'var(--surface-subtle)', borderBottom: '1px solid var(--border)' }}>
-                    <th style={{ padding: '12px 20px', color: 'var(--text-primary)', fontWeight: 600 }}>Name</th>
-                    <th style={{ padding: '12px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Sample Guidance</th>
-                    <th style={{ padding: '12px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Rules Configured</th>
-                    <th style={{ padding: '12px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Status</th>
-                    <th style={{ padding: '12px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Last Updated</th>
-                    <th style={{ padding: '12px 20px', textAlign: 'right', color: 'var(--text-primary)', fontWeight: 600 }}>Action</th>
+                  <tr style={{ backgroundColor: 'var(--color-surface-subtle)', borderBottom: '1px solid var(--color-border-gray)' }}>
+                    <th style={{ padding: '12px 20px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Name</th>
+                    <th style={{ padding: '12px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Sample Guidance</th>
+                    <th style={{ padding: '12px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Rules Configured</th>
+                    <th style={{ padding: '12px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Status</th>
+                    <th style={{ padding: '12px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Last Updated</th>
+                    <th style={{ padding: '12px 20px', textAlign: 'right', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredGuidelines.map(doc => (
-                    <tr key={doc.id} style={{ borderBottom: '1px solid var(--border)' }}>
+                    <tr key={doc.id} style={{ borderBottom: '1px solid var(--color-border-subtle)' }}>
                       <td style={{ padding: '14px 20px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                          <FileText size={18} color="var(--info)" style={{ flexShrink: 0 }} />
+                          <FileText size={18} color="var(--color-evidence-teal)" style={{ flexShrink: 0 }} />
                           <div>
-                            <strong style={{ display: 'block', color: 'var(--text-primary)', fontSize: '0.88rem' }}>
+                            <strong style={{ display: 'block', color: 'var(--color-deep-ink)', fontSize: '0.88rem' }}>
                               {doc.title}
                             </strong>
-                            <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>
+                            <span style={{ fontSize: '0.74rem', color: 'var(--color-muted-slate)' }}>
                               {doc.fileName} • {doc.fileSize} • v{doc.version}
                             </span>
                           </div>
@@ -694,7 +694,7 @@ export const GuidelinesPage: React.FC = () => {
                       <td style={{ padding: '14px 16px', maxWidth: '320px' }}>
                         <p style={{ 
                           fontSize: '0.78rem', 
-                          color: 'var(--text-muted)', 
+                          color: 'var(--color-muted-slate)', 
                           margin: 0,
                           lineHeight: 1.45,
                           fontStyle: 'italic',
@@ -708,23 +708,23 @@ export const GuidelinesPage: React.FC = () => {
                       </td>
 
                       <td style={{ padding: '14px 16px' }}>
-                        <span style={{ fontSize: '0.8rem', color: 'var(--text-primary)', fontWeight: 600 }}>
+                        <span style={{ fontSize: '0.8rem', color: 'var(--color-deep-ink)', fontWeight: 600 }}>
                           {doc.approvedRulesCount} Active
                         </span>
                         {doc.proposedRulesCount > 0 && (
-                          <span style={{ fontSize: '0.74rem', color: 'var(--primary)', display: 'block' }}>
+                          <span style={{ fontSize: '0.74rem', color: 'var(--color-signal-coral)', display: 'block' }}>
                             {doc.proposedRulesCount} Proposed
                           </span>
                         )}
                       </td>
 
                       <td style={{ padding: '14px 16px' }}>
-                        <span className="badge badge-info" style={{ fontSize: '0.68rem', textTransform: 'capitalize' }}>
+                        <span className="badge badge-teal" style={{ fontSize: '0.68rem', textTransform: 'capitalize' }}>
                           {doc.status}
                         </span>
                       </td>
 
-                      <td style={{ padding: '14px 16px', fontSize: '0.78rem', color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>
+                      <td style={{ padding: '14px 16px', fontSize: '0.78rem', color: 'var(--color-muted-slate)', whiteSpace: 'nowrap' }}>
                         {doc.uploadedAt}
                       </td>
 
@@ -748,14 +748,14 @@ export const GuidelinesPage: React.FC = () => {
       )}
 
       {/* =========================================================================
-          CATEGORY 2: Approved CLAIMS
+          CATEGORY 2: APPROVED CLAIMS
           ========================================================================= */}
       {activeTab === 'claims' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {/* Claims Filter Bar */}
           <div className="card-panel" style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
             <div style={{ position: 'relative', flex: '1', minWidth: '220px', maxWidth: '380px' }}>
-              <Search size={15} color="var(--text-muted)" style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }} />
+              <Search size={15} color="var(--color-muted-slate)" style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }} />
               <input 
                 type="text" 
                 value={claimsSearch}
@@ -765,10 +765,10 @@ export const GuidelinesPage: React.FC = () => {
                   width: '100%', 
                   padding: '7px 12px 7px 32px', 
                   borderRadius: 'var(--radius-md)', 
-                  border: '1px solid var(--border)', 
+                  border: '1px solid var(--color-border-gray)', 
                   fontSize: '0.84rem', 
-                  backgroundColor: 'var(--surface-subtle)',
-                  color: 'var(--text-primary)'
+                  backgroundColor: 'var(--color-surface-subtle)',
+                  color: 'var(--color-deep-ink)'
                 }}
               />
             </div>
@@ -783,9 +783,9 @@ export const GuidelinesPage: React.FC = () => {
                     borderRadius: 'var(--radius-md)',
                     fontSize: '0.74rem',
                     fontWeight: claimsStatusFilter === st ? 700 : 500,
-                    backgroundColor: claimsStatusFilter === st ? 'var(--info)' : 'var(--surface-subtle)',
-                    color: claimsStatusFilter === st ? '#FFFFFF' : 'var(--text-muted)',
-                    border: '1px solid var(--border)',
+                    backgroundColor: claimsStatusFilter === st ? 'var(--color-evidence-teal)' : 'var(--color-surface-subtle)',
+                    color: claimsStatusFilter === st ? '#FFFFFF' : 'var(--color-muted-slate)',
+                    border: '1px solid var(--color-border-gray)',
                     cursor: 'pointer'
                   }}
                 >
@@ -798,9 +798,9 @@ export const GuidelinesPage: React.FC = () => {
           {/* Claims Table */}
           {filteredClaims.length === 0 ? (
             <div className="card-panel" style={{ textAlign: 'center', padding: '40px 20px' }}>
-              <Database size={36} color="var(--text-muted)" style={{ marginBottom: '10px', opacity: 0.7 }} />
-              <div style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '0.95rem' }}>No claims found</div>
-              <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', margin: '6px 0 16px' }}>
+              <Database size={36} color="var(--color-muted-slate)" style={{ marginBottom: '10px', opacity: 0.7 }} />
+              <div style={{ fontWeight: 600, color: 'var(--color-deep-ink)', fontSize: '0.95rem' }}>No claims found</div>
+              <p style={{ fontSize: '0.82rem', color: 'var(--color-muted-slate)', margin: '6px 0 16px' }}>
                 {claimsSearch || claimsStatusFilter !== 'ALL' 
                   ? 'No approved claims match your current filter settings.' 
                   : 'No verified claims currently authorized in this workspace.'}
@@ -813,45 +813,45 @@ export const GuidelinesPage: React.FC = () => {
             <div className="card-panel" style={{ padding: 0, overflow: 'hidden' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.85rem' }}>
                 <thead>
-                  <tr style={{ backgroundColor: 'var(--surface-subtle)', borderBottom: '1px solid var(--border)' }}>
-                    <th style={{ padding: '12px 20px', color: 'var(--text-primary)', fontWeight: 600 }}>Claim</th>
-                    <th style={{ padding: '12px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Supporting Evidence</th>
-                    <th style={{ padding: '12px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Validity Window</th>
-                    <th style={{ padding: '12px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Status</th>
-                    <th style={{ padding: '12px 20px', textAlign: 'right', color: 'var(--text-primary)', fontWeight: 600 }}>Action</th>
+                  <tr style={{ backgroundColor: 'var(--color-surface-subtle)', borderBottom: '1px solid var(--color-border-gray)' }}>
+                    <th style={{ padding: '12px 20px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Claim</th>
+                    <th style={{ padding: '12px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Supporting Evidence</th>
+                    <th style={{ padding: '12px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Validity Window</th>
+                    <th style={{ padding: '12px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Status</th>
+                    <th style={{ padding: '12px 20px', textAlign: 'right', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredClaims.map(claim => {
                     const statusStyles: Record<ClaimStatus, { label: string; class: string }> = {
-                      VERIFIED: { label: 'Verified', class: 'badge-success' },
-                      EXPIRING_SOON: { label: 'Expiring Soon', class: 'badge-warning' },
-                      EXPIRED: { label: 'Expired', class: 'badge-danger' },
+                      VERIFIED: { label: 'Verified', class: 'badge-verified' },
+                      EXPIRING_SOON: { label: 'Expiring Soon', class: 'badge-expiring' },
+                      EXPIRED: { label: 'Expired', class: 'badge-critical' },
                       NEEDS_VERIFICATION: { label: 'Needs Verification', class: 'badge-neutral' }
                     };
                     const badge = statusStyles[claim.status] || { label: claim.status, class: 'badge-neutral' };
 
                     return (
-                      <tr key={claim.id} style={{ borderBottom: '1px solid var(--border)' }}>
+                      <tr key={claim.id} style={{ borderBottom: '1px solid var(--color-border-subtle)' }}>
                         <td style={{ padding: '14px 20px', maxWidth: '340px' }}>
-                          <strong style={{ display: 'block', color: 'var(--text-primary)', fontSize: '0.88rem', marginBottom: '3px' }}>
+                          <strong style={{ display: 'block', color: 'var(--color-deep-ink)', fontSize: '0.88rem', marginBottom: '3px' }}>
                             &quot;{claim.claimText}&quot;
                           </strong>
-                          <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                          <span style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)' }}>
                             ID: {claim.id}
                           </span>
                         </td>
 
                         <td style={{ padding: '14px 16px' }}>
-                          <span style={{ display: 'block', color: 'var(--text-primary)', fontSize: '0.82rem' }}>
+                          <span style={{ display: 'block', color: 'var(--color-deep-ink)', fontSize: '0.82rem' }}>
                             {claim.sourceDoc} (p. {claim.sourcePage})
                           </span>
-                          <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                          <span style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)' }}>
                             Owner: {claim.owner}
                           </span>
                         </td>
 
-                        <td style={{ padding: '14px 16px', fontSize: '0.78rem', color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>
+                        <td style={{ padding: '14px 16px', fontSize: '0.78rem', color: 'var(--color-muted-slate)', whiteSpace: 'nowrap' }}>
                           {claim.validFrom} → {claim.validTo}
                         </td>
 
@@ -889,7 +889,7 @@ export const GuidelinesPage: React.FC = () => {
           {/* Rules Filter Bar */}
           <div className="card-panel" style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
             <div style={{ position: 'relative', flex: '1', minWidth: '220px', maxWidth: '380px' }}>
-              <Search size={15} color="var(--text-muted)" style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }} />
+              <Search size={15} color="var(--color-muted-slate)" style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }} />
               <input 
                 type="text" 
                 value={rulesSearch}
@@ -899,10 +899,10 @@ export const GuidelinesPage: React.FC = () => {
                   width: '100%', 
                   padding: '7px 12px 7px 32px', 
                   borderRadius: 'var(--radius-md)', 
-                  border: '1px solid var(--border)', 
+                  border: '1px solid var(--color-border-gray)', 
                   fontSize: '0.84rem', 
-                  backgroundColor: 'var(--surface-subtle)',
-                  color: 'var(--text-primary)'
+                  backgroundColor: 'var(--color-surface-subtle)',
+                  color: 'var(--color-deep-ink)'
                 }}
               />
             </div>
@@ -917,9 +917,9 @@ export const GuidelinesPage: React.FC = () => {
                     borderRadius: 'var(--radius-md)',
                     fontSize: '0.74rem',
                     fontWeight: rulesTypeFilter === t ? 700 : 500,
-                    backgroundColor: rulesTypeFilter === t ? 'var(--primary)' : 'var(--surface-subtle)',
-                    color: rulesTypeFilter === t ? '#FFFFFF' : 'var(--text-muted)',
-                    border: '1px solid var(--border)',
+                    backgroundColor: rulesTypeFilter === t ? 'var(--color-signal-coral)' : 'var(--color-surface-subtle)',
+                    color: rulesTypeFilter === t ? '#FFFFFF' : 'var(--color-muted-slate)',
+                    border: '1px solid var(--color-border-gray)',
                     cursor: 'pointer'
                   }}
                 >
@@ -932,9 +932,9 @@ export const GuidelinesPage: React.FC = () => {
           {/* Rules Table */}
           {filteredRules.length === 0 ? (
             <div className="card-panel" style={{ textAlign: 'center', padding: '40px 20px' }}>
-              <ShieldCheck size={36} color="var(--text-muted)" style={{ marginBottom: '10px', opacity: 0.7 }} />
-              <div style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '0.95rem' }}>No rules found</div>
-              <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', margin: '6px 0 16px' }}>
+              <ShieldCheck size={36} color="var(--color-muted-slate)" style={{ marginBottom: '10px', opacity: 0.7 }} />
+              <div style={{ fontWeight: 600, color: 'var(--color-deep-ink)', fontSize: '0.95rem' }}>No rules found</div>
+              <p style={{ fontSize: '0.82rem', color: 'var(--color-muted-slate)', margin: '6px 0 16px' }}>
                 {rulesSearch || rulesTypeFilter !== 'all' 
                   ? 'No terminology or language rules match your search.' 
                   : 'No rules configured yet.'}
@@ -947,23 +947,23 @@ export const GuidelinesPage: React.FC = () => {
             <div className="card-panel" style={{ padding: 0, overflow: 'hidden' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.85rem' }}>
                 <thead>
-                  <tr style={{ backgroundColor: 'var(--surface-subtle)', borderBottom: '1px solid var(--border)' }}>
-                    <th style={{ padding: '12px 20px', color: 'var(--text-primary)', fontWeight: 600 }}>Rule Name</th>
-                    <th style={{ padding: '12px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Prohibited / Target</th>
-                    <th style={{ padding: '12px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Preferred Alternative</th>
-                    <th style={{ padding: '12px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Severity</th>
-                    <th style={{ padding: '12px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Status</th>
-                    <th style={{ padding: '12px 20px', textAlign: 'right', color: 'var(--text-primary)', fontWeight: 600 }}>Action</th>
+                  <tr style={{ backgroundColor: 'var(--color-surface-subtle)', borderBottom: '1px solid var(--color-border-gray)' }}>
+                    <th style={{ padding: '12px 20px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Rule Name</th>
+                    <th style={{ padding: '12px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Prohibited / Target</th>
+                    <th style={{ padding: '12px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Preferred Alternative</th>
+                    <th style={{ padding: '12px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Severity</th>
+                    <th style={{ padding: '12px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Status</th>
+                    <th style={{ padding: '12px 20px', textAlign: 'right', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredRules.map(rule => (
-                    <tr key={rule.id} style={{ borderBottom: '1px solid var(--border)' }}>
+                    <tr key={rule.id} style={{ borderBottom: '1px solid var(--color-border-subtle)' }}>
                       <td style={{ padding: '14px 20px', maxWidth: '300px' }}>
-                        <strong style={{ display: 'block', color: 'var(--text-primary)', fontSize: '0.88rem' }}>
+                        <strong style={{ display: 'block', color: 'var(--color-deep-ink)', fontSize: '0.88rem' }}>
                           {rule.title}
                         </strong>
-                        <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                        <span style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)' }}>
                           {rule.explanation}
                         </span>
                       </td>
@@ -973,7 +973,7 @@ export const GuidelinesPage: React.FC = () => {
                           <code style={{ 
                             padding: '3px 7px', 
                             backgroundColor: 'rgba(241, 107, 80, 0.1)', 
-                            color: 'var(--primary)', 
+                            color: 'var(--color-signal-coral)', 
                             borderRadius: '4px', 
                             fontSize: '0.8rem',
                             fontWeight: 600
@@ -981,7 +981,7 @@ export const GuidelinesPage: React.FC = () => {
                             {rule.termOrPattern}
                           </code>
                         ) : (
-                          <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>—</span>
+                          <span style={{ color: 'var(--color-muted-slate)', fontSize: '0.75rem' }}>—</span>
                         )}
                       </td>
 
@@ -990,7 +990,7 @@ export const GuidelinesPage: React.FC = () => {
                           <code style={{ 
                             padding: '3px 7px', 
                             backgroundColor: 'rgba(22, 124, 120, 0.1)', 
-                            color: 'var(--info)', 
+                            color: 'var(--color-evidence-teal)', 
                             borderRadius: '4px', 
                             fontSize: '0.8rem',
                             fontWeight: 600
@@ -998,18 +998,18 @@ export const GuidelinesPage: React.FC = () => {
                             {rule.preferredAlternative}
                           </code>
                         ) : (
-                          <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>—</span>
+                          <span style={{ color: 'var(--color-muted-slate)', fontSize: '0.75rem' }}>—</span>
                         )}
                       </td>
 
                       <td style={{ padding: '14px 16px' }}>
-                        <span className={`badge ${rule.severity === 'critical' ? 'badge-danger' : rule.severity === 'warning' ? 'badge-warning' : 'badge-neutral'}`} style={{ fontSize: '0.65rem' }}>
+                        <span className={`badge ${rule.severity === 'critical' ? 'badge-critical' : rule.severity === 'warning' ? 'badge-expiring' : 'badge-neutral'}`} style={{ fontSize: '0.65rem' }}>
                           {rule.severity}
                         </span>
                       </td>
 
                       <td style={{ padding: '14px 16px' }}>
-                        <span className={`badge ${rule.status === 'approved' ? 'badge-info' : 'badge-neutral'}`} style={{ fontSize: '0.65rem', textTransform: 'capitalize' }}>
+                        <span className={`badge ${rule.status === 'approved' ? 'badge-teal' : 'badge-neutral'}`} style={{ fontSize: '0.65rem', textTransform: 'capitalize' }}>
                           {rule.status}
                         </span>
                       </td>
@@ -1054,22 +1054,22 @@ export const GuidelinesPage: React.FC = () => {
           <div className="card-panel" style={{ padding: 0, overflow: 'hidden' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.85rem' }}>
               <thead>
-                <tr style={{ backgroundColor: 'var(--surface-subtle)', borderBottom: '1px solid var(--border)' }}>
-                  <th style={{ padding: '12px 20px', color: 'var(--text-primary)', fontWeight: 600 }}>Disclaimer Name</th>
-                  <th style={{ padding: '12px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Required Disclaimer Text</th>
-                  <th style={{ padding: '12px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Required Scope</th>
-                  <th style={{ padding: '12px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Status</th>
-                  <th style={{ padding: '12px 20px', textAlign: 'right', color: 'var(--text-primary)', fontWeight: 600 }}>Action</th>
+                <tr style={{ backgroundColor: 'var(--color-surface-subtle)', borderBottom: '1px solid var(--color-border-gray)' }}>
+                  <th style={{ padding: '12px 20px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Disclaimer Name</th>
+                  <th style={{ padding: '12px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Required Disclaimer Text</th>
+                  <th style={{ padding: '12px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Required Scope</th>
+                  <th style={{ padding: '12px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Status</th>
+                  <th style={{ padding: '12px 20px', textAlign: 'right', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Action</th>
                 </tr>
               </thead>
               <tbody>
                 {preApprovedDisclaimers.map(disc => (
-                  <tr key={disc.id} style={{ borderBottom: '1px solid var(--border)' }}>
+                  <tr key={disc.id} style={{ borderBottom: '1px solid var(--color-border-subtle)' }}>
                     <td style={{ padding: '16px 20px', maxWidth: '240px' }}>
-                      <strong style={{ display: 'block', color: 'var(--text-primary)', fontSize: '0.88rem', marginBottom: '4px' }}>
+                      <strong style={{ display: 'block', color: 'var(--color-deep-ink)', fontSize: '0.88rem', marginBottom: '4px' }}>
                         {disc.title}
                       </strong>
-                      <span className="badge badge-info" style={{ fontSize: '0.68rem' }}>
+                      <span className="badge badge-teal" style={{ fontSize: '0.68rem' }}>
                         {disc.category}
                       </span>
                     </td>
@@ -1079,27 +1079,27 @@ export const GuidelinesPage: React.FC = () => {
                         style={{ 
                           padding: '10px 12px', 
                           borderRadius: 'var(--radius-sm)', 
-                          backgroundColor: 'var(--surface-subtle)',
-                          border: '1px solid var(--border)',
+                          backgroundColor: 'var(--color-surface-subtle)',
+                          border: '1px solid var(--color-border-subtle)',
                           fontSize: '0.82rem',
-                          color: 'var(--text-primary)',
+                          color: 'var(--color-deep-ink)',
                           lineHeight: 1.5,
                           fontStyle: 'italic'
                         }}
                       >
                         &quot;{disc.text}&quot;
                       </div>
-                      <div style={{ marginTop: '4px', fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                      <div style={{ marginTop: '4px', fontSize: '0.72rem', color: 'var(--color-muted-slate)' }}>
                         Rule Ref: {disc.ruleRef}
                       </div>
                     </td>
 
-                    <td style={{ padding: '16px 16px', maxWidth: '220px', fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                    <td style={{ padding: '16px 16px', maxWidth: '220px', fontSize: '0.78rem', color: 'var(--color-muted-slate)' }}>
                       {disc.mandatoryFor}
                     </td>
 
                     <td style={{ padding: '16px 16px' }}>
-                      <span className="badge badge-success" style={{ fontSize: '0.68rem' }}>
+                      <span className="badge badge-verified" style={{ fontSize: '0.68rem' }}>
                         {disc.status}
                       </span>
                     </td>
@@ -1129,10 +1129,10 @@ export const GuidelinesPage: React.FC = () => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           {/* Sub-Section 1: Official Logos */}
           <div className="card-panel" style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--border)', paddingBottom: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--color-border-subtle)', paddingBottom: '8px' }}>
               <div>
-                <strong style={{ fontSize: '0.96rem', color: 'var(--text-primary)' }}>Official Brand Logos & Marks</strong>
-                <span style={{ display: 'block', fontSize: '0.76rem', color: 'var(--text-muted)' }}>
+                <strong style={{ fontSize: '0.96rem', color: 'var(--color-deep-ink)' }}>Official Brand Logos & Marks</strong>
+                <span style={{ display: 'block', fontSize: '0.76rem', color: 'var(--color-muted-slate)' }}>
                   Approved vector logo assets for collateral, display cards, and verified publication seals.
                 </span>
               </div>
@@ -1140,15 +1140,15 @@ export const GuidelinesPage: React.FC = () => {
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '16px' }}>
               {/* Asset 1: Light Logo */}
-              <div style={{ padding: '16px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', backgroundColor: 'var(--surface-subtle)', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                <div style={{ height: '70px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#F7F5F0', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
+              <div style={{ padding: '16px', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border-gray)', backgroundColor: 'var(--color-surface-subtle)', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ height: '70px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#F7F5F0', borderRadius: 'var(--radius-sm)', border: '1px solid var(--color-border-subtle)' }}>
                   <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.25rem', color: '#14212B', letterSpacing: '-0.5px' }}>
-                    Brand<span style={{ color: 'var(--primary)' }}>Guard</span>
+                    Brand<span style={{ color: '#F16B50' }}>Guard</span>
                   </span>
                 </div>
                 <div>
-                  <strong style={{ fontSize: '0.86rem', display: 'block', color: 'var(--text-primary)' }}>Primary Logo (Light Canvas)</strong>
-                  <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>Vector SVG • Deep Ink on Warm Ivory</span>
+                  <strong style={{ fontSize: '0.86rem', display: 'block', color: 'var(--color-deep-ink)' }}>Primary Logo (Light Canvas)</strong>
+                  <span style={{ fontSize: '0.74rem', color: 'var(--color-muted-slate)' }}>Vector SVG • Deep Ink on Warm Ivory</span>
                 </div>
                 <button 
                   onClick={() => copyToClipboard('BrandGuard', 'Logo name')}
@@ -1161,15 +1161,15 @@ export const GuidelinesPage: React.FC = () => {
               </div>
 
               {/* Asset 2: Dark Logo */}
-              <div style={{ padding: '16px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', backgroundColor: 'var(--surface-subtle)', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div style={{ padding: '16px', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border-gray)', backgroundColor: 'var(--color-surface-subtle)', display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <div style={{ height: '70px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#14212B', borderRadius: 'var(--radius-sm)' }}>
                   <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.25rem', color: '#FFFFFF', letterSpacing: '-0.5px' }}>
-                    Brand<span style={{ color: 'var(--primary)' }}>Guard</span>
+                    Brand<span style={{ color: '#F16B50' }}>Guard</span>
                   </span>
                 </div>
                 <div>
-                  <strong style={{ fontSize: '0.86rem', display: 'block', color: 'var(--text-primary)' }}>Inverted Logo (Dark Canvas)</strong>
-                  <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>Vector SVG • White on Deep Ink</span>
+                  <strong style={{ fontSize: '0.86rem', display: 'block', color: 'var(--color-deep-ink)' }}>Inverted Logo (Dark Canvas)</strong>
+                  <span style={{ fontSize: '0.74rem', color: 'var(--color-muted-slate)' }}>Vector SVG • White on Deep Ink</span>
                 </div>
                 <button 
                   onClick={() => copyToClipboard('BrandGuard Dark', 'Dark logo asset info')}
@@ -1182,13 +1182,13 @@ export const GuidelinesPage: React.FC = () => {
               </div>
 
               {/* Asset 3: Monogram Mark */}
-              <div style={{ padding: '16px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', backgroundColor: 'var(--surface-subtle)', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                <div style={{ height: '70px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--info)', borderRadius: 'var(--radius-sm)' }}>
+              <div style={{ padding: '16px', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border-gray)', backgroundColor: 'var(--color-surface-subtle)', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ height: '70px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#167C78', borderRadius: 'var(--radius-sm)' }}>
                   <ShieldCheck size={32} color="#FFFFFF" />
                 </div>
                 <div>
-                  <strong style={{ fontSize: '0.86rem', display: 'block', color: 'var(--text-primary)' }}>Monogram Seal</strong>
-                  <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>Symbol Mark • Evidence Teal</span>
+                  <strong style={{ fontSize: '0.86rem', display: 'block', color: 'var(--color-deep-ink)' }}>Monogram Seal</strong>
+                  <span style={{ fontSize: '0.74rem', color: 'var(--color-muted-slate)' }}>Symbol Mark • Evidence Teal</span>
                 </div>
                 <button 
                   onClick={() => copyToClipboard('BrandGuard Seal', 'Monogram seal info')}
@@ -1204,26 +1204,26 @@ export const GuidelinesPage: React.FC = () => {
 
           {/* Sub-Section 2: Color Palette Tokens Table */}
           <div className="card-panel" style={{ padding: 0, overflow: 'hidden' }}>
-            <div style={{ padding: '14px 20px', borderBottom: '1px solid var(--border)', backgroundColor: 'var(--surface-subtle)' }}>
-              <strong style={{ fontSize: '0.96rem', color: 'var(--text-primary)' }}>Approved Brand Colors & Contrast Tokens</strong>
-              <span style={{ display: 'block', fontSize: '0.76rem', color: 'var(--text-muted)' }}>
+            <div style={{ padding: '14px 20px', borderBottom: '1px solid var(--color-border-gray)', backgroundColor: 'var(--color-surface-subtle)' }}>
+              <strong style={{ fontSize: '0.96rem', color: 'var(--color-deep-ink)' }}>Approved Brand Colors & Contrast Tokens</strong>
+              <span style={{ display: 'block', fontSize: '0.76rem', color: 'var(--color-muted-slate)' }}>
                 Tokens enforced deterministically during Image & Design Review against WCAG 2.1 AA (4.5:1) standards.
               </span>
             </div>
 
             <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.85rem' }}>
               <thead>
-                <tr style={{ backgroundColor: 'var(--surface-subtle)', borderBottom: '1px solid var(--border)' }}>
-                  <th style={{ padding: '10px 20px', color: 'var(--text-primary)', fontWeight: 600 }}>Color Swatch & Name</th>
-                  <th style={{ padding: '10px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Hex & CSS Variable</th>
-                  <th style={{ padding: '10px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>Intended Purpose</th>
-                  <th style={{ padding: '10px 16px', color: 'var(--text-primary)', fontWeight: 600 }}>WCAG Contrast</th>
-                  <th style={{ padding: '10px 20px', textAlign: 'right', color: 'var(--text-primary)', fontWeight: 600 }}>Action</th>
+                <tr style={{ backgroundColor: 'var(--color-surface-subtle)', borderBottom: '1px solid var(--color-border-gray)' }}>
+                  <th style={{ padding: '10px 20px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Color Swatch & Name</th>
+                  <th style={{ padding: '10px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Hex & CSS Variable</th>
+                  <th style={{ padding: '10px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Intended Purpose</th>
+                  <th style={{ padding: '10px 16px', color: 'var(--color-deep-ink)', fontWeight: 600 }}>WCAG Contrast</th>
+                  <th style={{ padding: '10px 20px', textAlign: 'right', color: 'var(--color-deep-ink)', fontWeight: 600 }}>Action</th>
                 </tr>
               </thead>
               <tbody>
                 {brandColorTokens.map(token => (
-                  <tr key={token.name} style={{ borderBottom: '1px solid var(--border)' }}>
+                  <tr key={token.name} style={{ borderBottom: '1px solid var(--color-border-subtle)' }}>
                     <td style={{ padding: '12px 20px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                         <div 
@@ -1232,31 +1232,31 @@ export const GuidelinesPage: React.FC = () => {
                             height: '32px', 
                             borderRadius: 'var(--radius-sm)', 
                             backgroundColor: token.hex, 
-                            border: '1px solid var(--border)',
+                            border: '1px solid var(--color-border-gray)',
                             flexShrink: 0
                           }} 
                         />
-                        <strong style={{ fontSize: '0.88rem', color: 'var(--text-primary)' }}>
+                        <strong style={{ fontSize: '0.88rem', color: 'var(--color-deep-ink)' }}>
                           {token.name}
                         </strong>
                       </div>
                     </td>
 
                     <td style={{ padding: '12px 16px' }}>
-                      <code style={{ fontSize: '0.82rem', color: 'var(--text-primary)', fontWeight: 600 }}>
+                      <code style={{ fontSize: '0.82rem', color: 'var(--color-deep-ink)', fontWeight: 600 }}>
                         {token.hex}
                       </code>
-                      <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                      <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--color-muted-slate)' }}>
                         {token.token}
                       </span>
                     </td>
 
-                    <td style={{ padding: '12px 16px', maxWidth: '300px', fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                    <td style={{ padding: '12px 16px', maxWidth: '300px', fontSize: '0.78rem', color: 'var(--color-muted-slate)' }}>
                       {token.role}
                     </td>
 
                     <td style={{ padding: '12px 16px' }}>
-                      <span className="badge badge-info" style={{ fontSize: '0.68rem' }}>
+                      <span className="badge badge-teal" style={{ fontSize: '0.68rem' }}>
                         {token.wcagRatio}
                       </span>
                     </td>
@@ -1298,45 +1298,45 @@ export const GuidelinesPage: React.FC = () => {
             className="card-panel" 
             style={{ 
               maxWidth: '560px', width: '100%', 
-              backgroundColor: 'var(--surface)',
+              backgroundColor: 'var(--color-surface-white)',
               boxShadow: 'var(--shadow-xl)',
               display: 'flex', flexDirection: 'column', gap: '16px'
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--border)', paddingBottom: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--color-border-subtle)', paddingBottom: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <FileText size={18} color="var(--info)" />
-                <strong style={{ fontSize: '1rem', color: 'var(--text-primary)' }}>Guideline Document Details</strong>
+                <FileText size={18} color="var(--color-evidence-teal)" />
+                <strong style={{ fontSize: '1rem', color: 'var(--color-deep-ink)' }}>Guideline Document Details</strong>
               </div>
-              <button onClick={() => setSelectedGuideline(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}>
+              <button onClick={() => setSelectedGuideline(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-muted-slate)' }}>
                 <X size={18} />
               </button>
             </div>
 
             <div>
-              <strong style={{ fontSize: '1.05rem', color: 'var(--text-primary)', display: 'block' }}>{selectedGuideline.title}</strong>
-              <span style={{ fontSize: '0.76rem', color: 'var(--text-muted)' }}>
+              <strong style={{ fontSize: '1.05rem', color: 'var(--color-deep-ink)', display: 'block' }}>{selectedGuideline.title}</strong>
+              <span style={{ fontSize: '0.76rem', color: 'var(--color-muted-slate)' }}>
                 {selectedGuideline.fileName} • {selectedGuideline.fileSize} • {selectedGuideline.pagesCount} Pages • Version {selectedGuideline.version}
               </span>
             </div>
 
             <div>
-              <label style={{ display: 'block', fontSize: '0.74rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '4px' }}>
+              <label style={{ display: 'block', fontSize: '0.74rem', fontWeight: 600, color: 'var(--color-muted-slate)', marginBottom: '4px' }}>
                 SAMPLE GUIDELINE PASSAGE
               </label>
-              <div style={{ padding: '12px', backgroundColor: 'var(--surface-subtle)', borderRadius: 'var(--radius-md)', fontSize: '0.85rem', fontStyle: 'italic', lineHeight: 1.5, border: '1px solid var(--border)', color: 'var(--text-primary)' }}>
+              <div style={{ padding: '12px', backgroundColor: 'var(--color-surface-subtle)', borderRadius: 'var(--radius-md)', fontSize: '0.85rem', fontStyle: 'italic', lineHeight: 1.5, border: '1px solid var(--color-border-gray)', color: 'var(--color-deep-ink)' }}>
                 &quot;{selectedGuideline.samplePassage}&quot;
               </div>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-              <div style={{ padding: '10px', backgroundColor: 'var(--surface-subtle)', borderRadius: 'var(--radius-sm)' }}>
-                <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'block' }}>Active Rules</span>
-                <strong style={{ fontSize: '1.2rem', color: 'var(--info)' }}>{selectedGuideline.approvedRulesCount}</strong>
+              <div style={{ padding: '10px', backgroundColor: 'var(--color-surface-subtle)', borderRadius: 'var(--radius-sm)' }}>
+                <span style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)', display: 'block' }}>Active Rules</span>
+                <strong style={{ fontSize: '1.2rem', color: 'var(--color-evidence-teal)' }}>{selectedGuideline.approvedRulesCount}</strong>
               </div>
-              <div style={{ padding: '10px', backgroundColor: 'var(--surface-subtle)', borderRadius: 'var(--radius-sm)' }}>
-                <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'block' }}>Proposed Rules</span>
-                <strong style={{ fontSize: '1.2rem', color: 'var(--primary)' }}>{selectedGuideline.proposedRulesCount}</strong>
+              <div style={{ padding: '10px', backgroundColor: 'var(--color-surface-subtle)', borderRadius: 'var(--radius-sm)' }}>
+                <span style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)', display: 'block' }}>Proposed Rules</span>
+                <strong style={{ fontSize: '1.2rem', color: 'var(--color-signal-coral)' }}>{selectedGuideline.proposedRulesCount}</strong>
               </div>
             </div>
 
@@ -1364,51 +1364,51 @@ export const GuidelinesPage: React.FC = () => {
             className="card-panel" 
             style={{ 
               maxWidth: '540px', width: '100%', 
-              backgroundColor: 'var(--surface)',
+              backgroundColor: 'var(--color-surface-white)',
               boxShadow: 'var(--shadow-xl)',
               display: 'flex', flexDirection: 'column', gap: '16px'
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--border)', paddingBottom: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--color-border-subtle)', paddingBottom: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Database size={18} color="var(--info)" />
-                <strong style={{ fontSize: '1rem', color: 'var(--text-primary)' }}>Approved Claim Record</strong>
+                <Database size={18} color="var(--color-evidence-teal)" />
+                <strong style={{ fontSize: '1rem', color: 'var(--color-deep-ink)' }}>Approved Claim Record</strong>
               </div>
-              <button onClick={() => setSelectedClaim(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}>
+              <button onClick={() => setSelectedClaim(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-muted-slate)' }}>
                 <X size={18} />
               </button>
             </div>
 
-            <div style={{ padding: '14px', backgroundColor: 'var(--surface-subtle)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
-              <span style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>
+            <div style={{ padding: '14px', backgroundColor: 'var(--color-surface-subtle)', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border-gray)' }}>
+              <span style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--color-muted-slate)', display: 'block', marginBottom: '4px' }}>
                 EXACT AUTHORIZED STATEMENT
               </span>
-              <div style={{ fontSize: '0.92rem', fontWeight: 600, color: 'var(--text-primary)', lineHeight: 1.5 }}>
+              <div style={{ fontSize: '0.92rem', fontWeight: 600, color: 'var(--color-deep-ink)', lineHeight: 1.5 }}>
                 &quot;{selectedClaim.claimText}&quot;
               </div>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', fontSize: '0.82rem' }}>
               <div>
-                <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.74rem' }}>Supporting Source</span>
-                <strong style={{ color: 'var(--text-primary)' }}>{selectedClaim.sourceDoc} (p. {selectedClaim.sourcePage})</strong>
+                <span style={{ color: 'var(--color-muted-slate)', display: 'block', fontSize: '0.74rem' }}>Supporting Source</span>
+                <strong style={{ color: 'var(--color-deep-ink)' }}>{selectedClaim.sourceDoc} (p. {selectedClaim.sourcePage})</strong>
               </div>
               <div>
-                <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.74rem' }}>Claim Owner</span>
-                <strong style={{ color: 'var(--text-primary)' }}>{selectedClaim.owner}</strong>
+                <span style={{ color: 'var(--color-muted-slate)', display: 'block', fontSize: '0.74rem' }}>Claim Owner</span>
+                <strong style={{ color: 'var(--color-deep-ink)' }}>{selectedClaim.owner}</strong>
               </div>
               <div>
-                <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.74rem' }}>Validity Range</span>
-                <span style={{ color: 'var(--text-primary)' }}>{selectedClaim.validFrom} → {selectedClaim.validTo}</span>
+                <span style={{ color: 'var(--color-muted-slate)', display: 'block', fontSize: '0.74rem' }}>Validity Range</span>
+                <span style={{ color: 'var(--color-deep-ink)' }}>{selectedClaim.validFrom} → {selectedClaim.validTo}</span>
               </div>
               <div>
-                <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.74rem' }}>Verification Status</span>
-                <span className="badge badge-success" style={{ fontSize: '0.7rem' }}>{selectedClaim.status}</span>
+                <span style={{ color: 'var(--color-muted-slate)', display: 'block', fontSize: '0.74rem' }}>Verification Status</span>
+                <span className="badge badge-verified" style={{ fontSize: '0.7rem' }}>{selectedClaim.status}</span>
               </div>
             </div>
 
             {selectedClaim.contextNotes && (
-              <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', backgroundColor: 'var(--surface-subtle)', padding: '10px', borderRadius: 'var(--radius-sm)' }}>
+              <div style={{ fontSize: '0.78rem', color: 'var(--color-muted-slate)', backgroundColor: 'var(--color-surface-subtle)', padding: '10px', borderRadius: 'var(--radius-sm)' }}>
                 <strong>Evidence Notes: </strong>{selectedClaim.contextNotes}
               </div>
             )}
@@ -1443,38 +1443,38 @@ export const GuidelinesPage: React.FC = () => {
             className="card-panel" 
             style={{ 
               maxWidth: '540px', width: '100%', 
-              backgroundColor: 'var(--surface)',
+              backgroundColor: 'var(--color-surface-white)',
               boxShadow: 'var(--shadow-xl)',
               display: 'flex', flexDirection: 'column', gap: '16px'
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--border)', paddingBottom: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--color-border-subtle)', paddingBottom: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <ShieldCheck size={18} color="var(--info)" />
-                <strong style={{ fontSize: '1rem', color: 'var(--text-primary)' }}>Brand Rule Inspection</strong>
+                <ShieldCheck size={18} color="var(--color-evidence-teal)" />
+                <strong style={{ fontSize: '1rem', color: 'var(--color-deep-ink)' }}>Brand Rule Inspection</strong>
               </div>
-              <button onClick={() => setSelectedRule(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}>
+              <button onClick={() => setSelectedRule(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-muted-slate)' }}>
                 <X size={18} />
               </button>
             </div>
 
             <div>
-              <strong style={{ fontSize: '1.05rem', color: 'var(--text-primary)', display: 'block' }}>{selectedRule.title}</strong>
-              <p style={{ fontSize: '0.84rem', color: 'var(--text-muted)', margin: '4px 0 0' }}>{selectedRule.explanation}</p>
+              <strong style={{ fontSize: '1.05rem', color: 'var(--color-deep-ink)', display: 'block' }}>{selectedRule.title}</strong>
+              <p style={{ fontSize: '0.84rem', color: 'var(--color-muted-slate)', margin: '4px 0 0' }}>{selectedRule.explanation}</p>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-              <div style={{ padding: '12px', backgroundColor: 'var(--surface-subtle)', borderRadius: 'var(--radius-md)' }}>
-                <span style={{ fontSize: '0.72rem', color: 'var(--primary)', display: 'block', fontWeight: 600 }}>TARGET / PROHIBITED</span>
-                <code style={{ fontSize: '0.88rem', color: 'var(--text-primary)', fontWeight: 600 }}>{selectedRule.termOrPattern || 'None'}</code>
+              <div style={{ padding: '12px', backgroundColor: 'var(--color-surface-subtle)', borderRadius: 'var(--radius-md)' }}>
+                <span style={{ fontSize: '0.72rem', color: 'var(--color-signal-coral)', display: 'block', fontWeight: 600 }}>TARGET / PROHIBITED</span>
+                <code style={{ fontSize: '0.88rem', color: 'var(--color-deep-ink)', fontWeight: 600 }}>{selectedRule.termOrPattern || 'None'}</code>
               </div>
-              <div style={{ padding: '12px', backgroundColor: 'var(--surface-subtle)', borderRadius: 'var(--radius-md)' }}>
-                <span style={{ fontSize: '0.72rem', color: 'var(--info)', display: 'block', fontWeight: 600 }}>PREFERRED ALTERNATIVE</span>
-                <code style={{ fontSize: '0.88rem', color: 'var(--text-primary)', fontWeight: 600 }}>{selectedRule.preferredAlternative || 'None'}</code>
+              <div style={{ padding: '12px', backgroundColor: 'var(--color-surface-subtle)', borderRadius: 'var(--radius-md)' }}>
+                <span style={{ fontSize: '0.72rem', color: 'var(--color-evidence-teal)', display: 'block', fontWeight: 600 }}>PREFERRED ALTERNATIVE</span>
+                <code style={{ fontSize: '0.88rem', color: 'var(--color-deep-ink)', fontWeight: 600 }}>{selectedRule.preferredAlternative || 'None'}</code>
               </div>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.76rem', color: 'var(--text-muted)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.76rem', color: 'var(--color-muted-slate)' }}>
               <span>Category: <strong>{selectedRule.category}</strong></span>
               <span>Source: <strong>{selectedRule.sourceDoc}</strong></span>
               <span>Severity: <strong>{selectedRule.severity}</strong></span>
@@ -1504,22 +1504,22 @@ export const GuidelinesPage: React.FC = () => {
             className="card-panel" 
             style={{ 
               maxWidth: '480px', width: '100%', 
-              backgroundColor: 'var(--surface)',
+              backgroundColor: 'var(--color-surface-white)',
               boxShadow: 'var(--shadow-xl)',
               display: 'flex', flexDirection: 'column', gap: '16px'
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--border)', paddingBottom: '12px' }}>
-              <strong style={{ fontSize: '1rem', color: 'var(--text-primary)' }}>Upload Brand Guideline Document</strong>
-              <button onClick={() => setShowUploadModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--color-border-subtle)', paddingBottom: '12px' }}>
+              <strong style={{ fontSize: '1rem', color: 'var(--color-deep-ink)' }}>Upload Brand Guideline Document</strong>
+              <button onClick={() => setShowUploadModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-muted-slate)' }}>
                 <X size={18} />
               </button>
             </div>
 
             <div 
               style={{ 
-                border: '2px dashed var(--info)', 
-                backgroundColor: 'var(--surface-subtle)',
+                border: '2px dashed var(--color-evidence-teal)', 
+                backgroundColor: 'var(--color-surface-subtle)',
                 borderRadius: 'var(--radius-md)',
                 textAlign: 'center',
                 padding: '30px 20px',
@@ -1532,11 +1532,11 @@ export const GuidelinesPage: React.FC = () => {
                 onChange={handleFileUpload}
                 style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer' }}
               />
-              <Upload size={32} color="var(--info)" style={{ marginBottom: '8px' }} />
-              <div style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+              <Upload size={32} color="var(--color-evidence-teal)" style={{ marginBottom: '8px' }} />
+              <div style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--color-deep-ink)' }}>
                 Click or drag & drop guideline manual
               </div>
-              <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: '4px 0 12px' }}>
+              <p style={{ fontSize: '0.78rem', color: 'var(--color-muted-slate)', margin: '4px 0 12px' }}>
                 Supports PDF, DOCX, and TXT brand manuals up to 25 MB
               </p>
               <span className="btn btn-secondary btn-sm" style={{ pointerEvents: 'none' }}>
@@ -1568,24 +1568,24 @@ export const GuidelinesPage: React.FC = () => {
             className="card-panel" 
             style={{ 
               maxWidth: '500px', width: '100%', 
-              backgroundColor: 'var(--surface)',
+              backgroundColor: 'var(--color-surface-white)',
               boxShadow: 'var(--shadow-xl)',
               display: 'flex', flexDirection: 'column', gap: '16px'
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--border)', paddingBottom: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--color-border-subtle)', paddingBottom: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Database size={18} color="var(--info)" />
-                <strong style={{ fontSize: '1rem', color: 'var(--text-primary)' }}>Add Approved Claim</strong>
+                <Database size={18} color="var(--color-evidence-teal)" />
+                <strong style={{ fontSize: '1rem', color: 'var(--color-deep-ink)' }}>Add Approved Claim</strong>
               </div>
-              <button onClick={() => setShowAddClaimModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}>
+              <button onClick={() => setShowAddClaimModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-muted-slate)' }}>
                 <X size={18} />
               </button>
             </div>
 
             <form onSubmit={handleAddClaimSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               <div>
-                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--text-primary)' }}>
+                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--color-deep-ink)' }}>
                   Exact Authorized Claim Statement *
                 </label>
                 <textarea 
@@ -1598,9 +1598,9 @@ export const GuidelinesPage: React.FC = () => {
                     width: '100%',
                     padding: '8px 12px',
                     borderRadius: 'var(--radius-md)',
-                    border: '1px solid var(--border)',
-                    backgroundColor: 'var(--surface-subtle)',
-                    color: 'var(--text-primary)',
+                    border: '1px solid var(--color-border-gray)',
+                    backgroundColor: 'var(--color-surface-subtle)',
+                    color: 'var(--color-deep-ink)',
                     fontSize: '0.85rem'
                   }}
                 />
@@ -1608,7 +1608,7 @@ export const GuidelinesPage: React.FC = () => {
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--text-primary)' }}>
+                  <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--color-deep-ink)' }}>
                     Source Document
                   </label>
                   <input 
@@ -1619,15 +1619,15 @@ export const GuidelinesPage: React.FC = () => {
                       width: '100%',
                       padding: '8px 10px',
                       borderRadius: 'var(--radius-md)',
-                      border: '1px solid var(--border)',
+                      border: '1px solid var(--color-border-gray)',
                       fontSize: '0.82rem',
-                      backgroundColor: 'var(--surface-subtle)',
-                      color: 'var(--text-primary)'
+                      backgroundColor: 'var(--color-surface-subtle)',
+                      color: 'var(--color-deep-ink)'
                     }}
                   />
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--text-primary)' }}>
+                  <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--color-deep-ink)' }}>
                     Page Number
                   </label>
                   <input 
@@ -1638,10 +1638,10 @@ export const GuidelinesPage: React.FC = () => {
                       width: '100%',
                       padding: '8px 10px',
                       borderRadius: 'var(--radius-md)',
-                      border: '1px solid var(--border)',
+                      border: '1px solid var(--color-border-gray)',
                       fontSize: '0.82rem',
-                      backgroundColor: 'var(--surface-subtle)',
-                      color: 'var(--text-primary)'
+                      backgroundColor: 'var(--color-surface-subtle)',
+                      color: 'var(--color-deep-ink)'
                     }}
                   />
                 </div>
@@ -1649,7 +1649,7 @@ export const GuidelinesPage: React.FC = () => {
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--text-primary)' }}>
+                  <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--color-deep-ink)' }}>
                     Claim Owner
                   </label>
                   <input 
@@ -1660,15 +1660,15 @@ export const GuidelinesPage: React.FC = () => {
                       width: '100%',
                       padding: '8px 10px',
                       borderRadius: 'var(--radius-md)',
-                      border: '1px solid var(--border)',
+                      border: '1px solid var(--color-border-gray)',
                       fontSize: '0.82rem',
-                      backgroundColor: 'var(--surface-subtle)',
-                      color: 'var(--text-primary)'
+                      backgroundColor: 'var(--color-surface-subtle)',
+                      color: 'var(--color-deep-ink)'
                     }}
                   />
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--text-primary)' }}>
+                  <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--color-deep-ink)' }}>
                     Expiration Date
                   </label>
                   <input 
@@ -1679,10 +1679,10 @@ export const GuidelinesPage: React.FC = () => {
                       width: '100%',
                       padding: '8px 10px',
                       borderRadius: 'var(--radius-md)',
-                      border: '1px solid var(--border)',
+                      border: '1px solid var(--color-border-gray)',
                       fontSize: '0.82rem',
-                      backgroundColor: 'var(--surface-subtle)',
-                      color: 'var(--text-primary)'
+                      backgroundColor: 'var(--color-surface-subtle)',
+                      color: 'var(--color-deep-ink)'
                     }}
                   />
                 </div>
@@ -1716,24 +1716,24 @@ export const GuidelinesPage: React.FC = () => {
             className="card-panel" 
             style={{ 
               maxWidth: '520px', width: '100%', 
-              backgroundColor: 'var(--surface)',
+              backgroundColor: 'var(--color-surface-white)',
               boxShadow: 'var(--shadow-xl)',
               display: 'flex', flexDirection: 'column', gap: '16px'
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--border)', paddingBottom: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--color-border-subtle)', paddingBottom: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <ShieldCheck size={18} color="var(--info)" />
-                <strong style={{ fontSize: '1rem', color: 'var(--text-primary)' }}>Add Brand Rule</strong>
+                <ShieldCheck size={18} color="var(--color-evidence-teal)" />
+                <strong style={{ fontSize: '1rem', color: 'var(--color-deep-ink)' }}>Add Brand Rule</strong>
               </div>
-              <button onClick={() => setShowAddRuleModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}>
+              <button onClick={() => setShowAddRuleModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-muted-slate)' }}>
                 <X size={18} />
               </button>
             </div>
 
             <form onSubmit={handleAddRuleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               <div>
-                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--text-primary)' }}>
+                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--color-deep-ink)' }}>
                   Rule Name *
                 </label>
                 <input 
@@ -1746,16 +1746,16 @@ export const GuidelinesPage: React.FC = () => {
                     width: '100%',
                     padding: '8px 10px',
                     borderRadius: 'var(--radius-md)',
-                    border: '1px solid var(--border)',
+                    border: '1px solid var(--color-border-gray)',
                     fontSize: '0.84rem',
-                    backgroundColor: 'var(--surface-subtle)',
-                    color: 'var(--text-primary)'
+                    backgroundColor: 'var(--color-surface-subtle)',
+                    color: 'var(--color-deep-ink)'
                   }}
                 />
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--text-primary)' }}>
+                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--color-deep-ink)' }}>
                   Guidance & Explanation
                 </label>
                 <textarea 
@@ -1767,17 +1767,17 @@ export const GuidelinesPage: React.FC = () => {
                     width: '100%',
                     padding: '8px 10px',
                     borderRadius: 'var(--radius-md)',
-                    border: '1px solid var(--border)',
+                    border: '1px solid var(--color-border-gray)',
                     fontSize: '0.84rem',
-                    backgroundColor: 'var(--surface-subtle)',
-                    color: 'var(--text-primary)'
+                    backgroundColor: 'var(--color-surface-subtle)',
+                    color: 'var(--color-deep-ink)'
                   }}
                 />
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--text-primary)' }}>
+                  <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--color-deep-ink)' }}>
                     Prohibited Term / Pattern
                   </label>
                   <input 
@@ -1789,15 +1789,15 @@ export const GuidelinesPage: React.FC = () => {
                       width: '100%',
                       padding: '8px 10px',
                       borderRadius: 'var(--radius-md)',
-                      border: '1px solid var(--border)',
+                      border: '1px solid var(--color-border-gray)',
                       fontSize: '0.82rem',
-                      backgroundColor: 'var(--surface-subtle)',
-                      color: 'var(--text-primary)'
+                      backgroundColor: 'var(--color-surface-subtle)',
+                      color: 'var(--color-deep-ink)'
                     }}
                   />
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--text-primary)' }}>
+                  <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--color-deep-ink)' }}>
                     Preferred Replacement
                   </label>
                   <input 
@@ -1809,10 +1809,10 @@ export const GuidelinesPage: React.FC = () => {
                       width: '100%',
                       padding: '8px 10px',
                       borderRadius: 'var(--radius-md)',
-                      border: '1px solid var(--border)',
+                      border: '1px solid var(--color-border-gray)',
                       fontSize: '0.82rem',
-                      backgroundColor: 'var(--surface-subtle)',
-                      color: 'var(--text-primary)'
+                      backgroundColor: 'var(--color-surface-subtle)',
+                      color: 'var(--color-deep-ink)'
                     }}
                   />
                 </div>
@@ -1820,7 +1820,7 @@ export const GuidelinesPage: React.FC = () => {
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--text-primary)' }}>
+                  <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--color-deep-ink)' }}>
                     Rule Type
                   </label>
                   <select 
@@ -1830,10 +1830,10 @@ export const GuidelinesPage: React.FC = () => {
                       width: '100%',
                       padding: '8px 10px',
                       borderRadius: 'var(--radius-md)',
-                      border: '1px solid var(--border)',
+                      border: '1px solid var(--color-border-gray)',
                       fontSize: '0.82rem',
-                      backgroundColor: 'var(--surface-subtle)',
-                      color: 'var(--text-primary)'
+                      backgroundColor: 'var(--color-surface-subtle)',
+                      color: 'var(--color-deep-ink)'
                     }}
                   >
                     <option value="prohibited_term">Prohibited Term</option>
@@ -1843,7 +1843,7 @@ export const GuidelinesPage: React.FC = () => {
                   </select>
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--text-primary)' }}>
+                  <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--color-deep-ink)' }}>
                     Severity
                   </label>
                   <select 
@@ -1853,10 +1853,10 @@ export const GuidelinesPage: React.FC = () => {
                       width: '100%',
                       padding: '8px 10px',
                       borderRadius: 'var(--radius-md)',
-                      border: '1px solid var(--border)',
+                      border: '1px solid var(--color-border-gray)',
                       fontSize: '0.82rem',
-                      backgroundColor: 'var(--surface-subtle)',
-                      color: 'var(--text-primary)'
+                      backgroundColor: 'var(--color-surface-subtle)',
+                      color: 'var(--color-deep-ink)'
                     }}
                   >
                     <option value="critical">Critical</option>

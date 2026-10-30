@@ -340,7 +340,7 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
                   ? '#ef4444' 
                   : '#167c78'
             }`,
-            color: 'var(--text-primary)',
+            color: 'var(--color-deep-ink)',
             fontSize: '0.84rem',
             display: 'flex',
             alignItems: 'center',
@@ -357,7 +357,7 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
           <button 
             type="button" 
             onClick={() => setActionNotification(null)}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-muted-slate)' }}
           >
             <X size={14} />
           </button>
@@ -374,8 +374,8 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
           className="card-panel" 
           style={{ 
             padding: '16px 20px', 
-            backgroundColor: 'var(--surface)',
-            borderLeft: `5px solid ${isCritical ? 'var(--danger)' : isApproved ? 'var(--info)' : 'var(--warning)'}`,
+            backgroundColor: 'var(--color-surface-white)',
+            borderLeft: `5px solid ${isCritical ? 'var(--color-error)' : isApproved ? 'var(--color-evidence-teal)' : 'var(--color-warning)'}`,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -384,14 +384,14 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
           }}
         >
           <div>
-            <span style={{ fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-muted)' }}>
+            <span style={{ fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--color-muted-slate)' }}>
               Compliance Verdict
             </span>
-            <div style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px', marginTop: '2px' }}>
+            <div style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--color-deep-ink)', display: 'flex', alignItems: 'center', gap: '8px', marginTop: '2px' }}>
               {isCritical ? (
-                <AlertTriangle size={20} color="var(--danger)" />
+                <AlertTriangle size={20} color="var(--color-error)" />
               ) : (
-                <CheckCircle2 size={20} color="var(--info)" />
+                <CheckCircle2 size={20} color="var(--color-evidence-teal)" />
               )}
               <span>{overallResult}</span>
             </div>
@@ -419,8 +419,8 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
               style={{
                 fontSize: '0.72rem',
                 gap: '5px',
-                borderColor: 'var(--info)',
-                color: 'var(--info)',
+                borderColor: 'var(--color-evidence-teal)',
+                color: 'var(--color-evidence-teal)',
                 fontWeight: 600
               }}
               title="Compare original vs revised versions with visual additions and deletions diff"
@@ -460,18 +460,18 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
             className="card-panel"
             style={{
               padding: '16px 20px',
-              backgroundColor: 'var(--surface)',
-              border: '1px solid var(--border)',
+              backgroundColor: 'var(--color-surface-white)',
+              border: '1px solid var(--color-border-gray)',
               display: 'flex',
               flexDirection: 'column',
               gap: '6px'
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--info)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--color-evidence-teal)' }}>
               <ShieldCheck size={16} />
               <strong style={{ fontSize: '0.88rem' }}>Executive Summary</strong>
             </div>
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-primary)', margin: 0, lineHeight: 1.5 }}>
+            <p style={{ fontSize: '0.85rem', color: 'var(--color-deep-ink)', margin: 0, lineHeight: 1.5 }}>
               {summaryNarration}
             </p>
           </div>
@@ -482,16 +482,16 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
           <div 
             style={{
               padding: '12px 16px',
-              backgroundColor: 'var(--surface-subtle)',
-              border: '1px solid var(--border)',
+              backgroundColor: 'var(--color-surface-subtle)',
+              border: '1px solid var(--color-border-gray)',
               borderRadius: 'var(--radius-md)',
               display: 'flex',
               alignItems: 'flex-start',
               gap: '10px'
             }}
           >
-            <Info size={16} color="var(--text-muted)" style={{ flexShrink: 0, marginTop: '2px' }} />
-            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', lineHeight: 1.45 }}>
+            <Info size={16} color="var(--color-muted-slate)" style={{ flexShrink: 0, marginTop: '2px' }} />
+            <div style={{ fontSize: '0.78rem', color: 'var(--color-muted-slate)', lineHeight: 1.45 }}>
               <strong>Scope Notice:</strong> {limitationNotice}
             </div>
           </div>
@@ -500,19 +500,19 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
         {/* Detailed Inspection Findings */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <strong style={{ fontSize: '0.95rem', color: 'var(--text-primary)' }}>
+            <strong style={{ fontSize: '0.95rem', color: 'var(--color-deep-ink)' }}>
               Detailed Inspection Findings
             </strong>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+            <span style={{ fontSize: '0.75rem', color: 'var(--color-muted-slate)' }}>
               Evidence-Linked Analysis & Versioning
             </span>
           </div>
 
           {findings.length === 0 ? (
-            <div className="card-panel" style={{ textAlign: 'center', padding: '36px', backgroundColor: 'var(--surface)' }}>
-              <CheckCircle2 size={36} color="var(--success)" style={{ marginBottom: '8px' }} />
-              <div style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '1rem' }}>No Compliance Issues Detected</div>
-              <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', margin: '4px 0 0' }}>
+            <div className="card-panel" style={{ textAlign: 'center', padding: '36px', backgroundColor: 'var(--color-surface-white)' }}>
+              <CheckCircle2 size={36} color="var(--color-success)" style={{ marginBottom: '8px' }} />
+              <div style={{ fontWeight: 600, color: 'var(--color-deep-ink)', fontSize: '1rem' }}>No Compliance Issues Detected</div>
+              <p style={{ fontSize: '0.82rem', color: 'var(--color-muted-slate)', margin: '4px 0 0' }}>
                 Content fully aligns with active brand rules, tone guidelines, and verified claim records.
               </p>
             </div>
@@ -521,7 +521,7 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
               const findingId = finding.id || `f-${idx}`;
               const isCrit = finding.severity === 'critical';
               const isWarn = finding.severity === 'warning';
-              const borderColor = isCrit ? 'var(--danger)' : isWarn ? 'var(--warning)' : 'var(--info)';
+              const borderColor = isCrit ? 'var(--color-error)' : isWarn ? 'var(--color-warning)' : 'var(--color-evidence-teal)';
 
               const status = findingStatuses[findingId] || 'open';
               const isAccepted = status === 'accepted';
@@ -542,8 +542,8 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
                       ? 'rgba(16, 185, 129, 0.03)' 
                       : isDismissed 
                         ? 'rgba(148, 163, 184, 0.05)' 
-                        : 'var(--surface)',
-                    borderLeft: `4px solid ${isAccepted ? '#10b981' : isDismissed ? 'var(--text-muted)' : borderColor}`,
+                        : 'var(--color-surface-white)',
+                    borderLeft: `4px solid ${isAccepted ? '#10b981' : isDismissed ? 'var(--color-muted-slate)' : borderColor}`,
                     display: 'flex',
                     flexDirection: 'column',
                     gap: '10px',
@@ -555,7 +555,7 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
                   <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
                       <span 
-                        className={`badge ${isCrit ? 'badge-danger' : isWarn ? 'badge-warning' : 'badge-info'}`}
+                        className={`badge ${isCrit ? 'badge-critical' : isWarn ? 'badge-expiring' : 'badge-teal'}`}
                         style={{ fontSize: '0.68rem', textTransform: 'uppercase' }}
                       >
                         {finding.severity}
@@ -565,7 +565,7 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
                           <Clock size={11} /> {finding.timestamp}
                         </span>
                       )}
-                      <strong style={{ fontSize: '0.92rem', color: 'var(--text-primary)' }}>
+                      <strong style={{ fontSize: '0.92rem', color: 'var(--color-deep-ink)' }}>
                         {finding.title}
                       </strong>
                     </div>
@@ -578,7 +578,7 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
                         </span>
                       )}
                       {isDismissed && (
-                        <span className="badge badge-neutral" style={{ fontSize: '0.72rem', gap: '4px', color: 'var(--text-muted)' }}>
+                        <span className="badge badge-neutral" style={{ fontSize: '0.72rem', gap: '4px', color: 'var(--color-muted-slate)' }}>
                           <X size={12} /> Dismissed
                         </span>
                       )}
@@ -591,7 +591,7 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
                   </div>
 
                   {/* Problem Explanation */}
-                  <p style={{ fontSize: '0.84rem', color: 'var(--text-primary)', margin: 0, lineHeight: 1.5 }}>
+                  <p style={{ fontSize: '0.84rem', color: 'var(--color-deep-ink)', margin: 0, lineHeight: 1.5 }}>
                     {finding.explanation}
                   </p>
 
@@ -603,8 +603,8 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
                         flexWrap: 'wrap', 
                         gap: '12px', 
                         fontSize: '0.75rem', 
-                        color: 'var(--text-muted)', 
-                        backgroundColor: 'var(--surface-subtle)', 
+                        color: 'var(--color-muted-slate)', 
+                        backgroundColor: 'var(--color-surface-subtle)', 
                         padding: '6px 10px', 
                         borderRadius: 'var(--radius-sm)' 
                       }}
@@ -642,7 +642,7 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
-                        <span style={{ fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--info)' }}>
+                        <span style={{ fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--color-evidence-teal)' }}>
                           AI-Suggested Correction / Compliant Replacement
                         </span>
                         
@@ -656,7 +656,7 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
                               style={{ padding: '2px 8px', fontSize: '0.7rem', gap: '4px' }}
                               title="Copy replacement text"
                             >
-                              {copiedId === findingId ? <Check size={11} color="var(--success)" /> : <Copy size={11} />}
+                              {copiedId === findingId ? <Check size={11} color="var(--color-success)" /> : <Copy size={11} />}
                               <span>{copiedId === findingId ? 'Copied' : 'Copy'}</span>
                             </button>
                           )}
@@ -670,7 +670,7 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
                             style={{ padding: '2px 8px', fontSize: '0.7rem', gap: '4px' }}
                             title="Generate or improve correction using company brand guidelines and claim records"
                           >
-                            {isGenerating ? <Loader2 size={11} className="animate-spin" /> : <Sparkles size={11} color="var(--info)" />}
+                            {isGenerating ? <Loader2 size={11} className="animate-spin" /> : <Sparkles size={11} color="var(--color-evidence-teal)" />}
                             <span>{activeCorrectionText ? 'Ask AI for Better Fix' : 'Generate AI Fix'}</span>
                           </button>
 
@@ -696,7 +696,7 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
                             type="button"
                             onClick={() => setDismissingFindingId(findingId)}
                             className="btn btn-secondary btn-sm"
-                            style={{ padding: '2px 8px', fontSize: '0.7rem', gap: '4px', color: 'var(--text-muted)' }}
+                            style={{ padding: '2px 8px', fontSize: '0.7rem', gap: '4px', color: 'var(--color-muted-slate)' }}
                             title="Dismiss finding without mutating content or creating versions"
                           >
                             <X size={11} />
@@ -730,7 +730,7 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
                               width: '100%',
                               padding: '8px 10px',
                               borderRadius: 'var(--radius-sm)',
-                              border: '1px solid var(--info)',
+                              border: '1px solid var(--color-evidence-teal)',
                               fontSize: '0.82rem',
                               fontFamily: 'inherit',
                               resize: 'vertical'
@@ -759,11 +759,11 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
                           </div>
                         </div>
                       ) : (
-                        <div style={{ fontSize: '0.84rem', color: 'var(--text-primary)', fontStyle: activeCorrectionText ? 'italic' : 'normal', lineHeight: 1.45 }}>
+                        <div style={{ fontSize: '0.84rem', color: 'var(--color-deep-ink)', fontStyle: activeCorrectionText ? 'italic' : 'normal', lineHeight: 1.45 }}>
                           {activeCorrectionText ? (
                             <>&ldquo;{activeCorrectionText}&rdquo;</>
                           ) : (
-                            <span style={{ color: 'var(--text-muted)', fontSize: '0.78rem' }}>
+                            <span style={{ color: 'var(--color-muted-slate)', fontSize: '0.78rem' }}>
                               No suggested replacement generated yet. Click &ldquo;Generate AI Fix&rdquo; to draft a rule-grounded revision.
                             </span>
                           )}
@@ -773,13 +773,13 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
                       {/* Review Chat Follow-up Tip */}
                       {onRequestFollowupChat && (
                         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '2px', borderTop: '1px dashed rgba(22, 124, 120, 0.2)', paddingTop: '6px' }}>
-                          <MessageSquare size={12} color="var(--text-muted)" />
-                          <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                          <MessageSquare size={12} color="var(--color-muted-slate)" />
+                          <span style={{ fontSize: '0.72rem', color: 'var(--color-muted-slate)' }}>
                             Need custom phrasing?{' '}
                             <button 
                               type="button"
                               onClick={() => onRequestFollowupChat(`Please provide a compliant alternative phrasing for finding "${finding.title}" that satisfies ${finding.ruleReference || 'brand guidelines'}.`)}
-                              style={{ background: 'none', border: 'none', padding: 0, color: 'var(--info)', textDecoration: 'underline', cursor: 'pointer', fontSize: '0.72rem' }}
+                              style={{ background: 'none', border: 'none', padding: 0, color: 'var(--color-evidence-teal)', textDecoration: 'underline', cursor: 'pointer', fontSize: '0.72rem' }}
                             >
                               Ask review assistant in chat
                             </button>
@@ -794,29 +794,29 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
                     <div 
                       style={{
                         padding: '12px',
-                        backgroundColor: 'var(--surface-subtle)',
+                        backgroundColor: 'var(--color-surface-subtle)',
                         borderRadius: 'var(--radius-md)',
-                        border: '1px solid var(--border)',
+                        border: '1px solid var(--color-border-gray)',
                         display: 'flex',
                         flexDirection: 'column',
                         gap: '8px'
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <strong style={{ fontSize: '0.8rem', color: 'var(--text-primary)' }}>
+                        <strong style={{ fontSize: '0.8rem', color: 'var(--color-deep-ink)' }}>
                           Dismiss Finding Without Content Modification
                         </strong>
                         <button 
                           type="button"
                           onClick={() => setDismissingFindingId(null)}
-                          style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}
+                          style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-muted-slate)' }}
                         >
                           <X size={14} />
                         </button>
                       </div>
 
                       <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                        <label style={{ fontSize: '0.74rem', fontWeight: 600, color: 'var(--text-muted)', minWidth: '80px' }}>
+                        <label style={{ fontSize: '0.74rem', fontWeight: 600, color: 'var(--color-muted-slate)', minWidth: '80px' }}>
                           Reason:
                         </label>
                         <select 
@@ -826,8 +826,8 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
                             padding: '4px 8px',
                             fontSize: '0.78rem',
                             borderRadius: 'var(--radius-sm)',
-                            border: '1px solid var(--border)',
-                            backgroundColor: 'var(--surface)',
+                            border: '1px solid var(--color-border-gray)',
+                            backgroundColor: 'white',
                             flex: 1
                           }}
                         >
@@ -840,7 +840,7 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
                       </div>
 
                       <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                        <label style={{ fontSize: '0.74rem', fontWeight: 600, color: 'var(--text-muted)', minWidth: '80px' }}>
+                        <label style={{ fontSize: '0.74rem', fontWeight: 600, color: 'var(--color-muted-slate)', minWidth: '80px' }}>
                           Audit Note:
                         </label>
                         <input 
@@ -852,8 +852,8 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
                             padding: '4px 8px',
                             fontSize: '0.78rem',
                             borderRadius: 'var(--radius-sm)',
-                            border: '1px solid var(--border)',
-                            backgroundColor: 'var(--surface)',
+                            border: '1px solid var(--color-border-gray)',
+                            backgroundColor: 'white',
                             flex: 1
                           }}
                         />
@@ -874,7 +874,7 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
                           disabled={isDismissing}
                           className="btn btn-sm"
                           style={{
-                            backgroundColor: 'var(--text-muted)',
+                            backgroundColor: 'var(--color-muted-slate)',
                             color: 'white',
                             fontSize: '0.72rem',
                             padding: '2px 10px',
@@ -910,8 +910,8 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
         className="card-panel"
         style={{
           padding: '20px',
-          backgroundColor: 'var(--surface)',
-          border: '1px solid var(--border)',
+          backgroundColor: 'var(--color-surface-white)',
+          border: '1px solid var(--color-border-gray)',
           position: 'sticky',
           top: '20px',
           display: 'flex',
@@ -920,10 +920,10 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
         }}
       >
         <div>
-          <h3 style={{ fontSize: '1.05rem', margin: '0 0 6px', color: 'var(--text-primary)' }}>
+          <h3 style={{ fontSize: '1.05rem', margin: '0 0 6px', color: 'var(--color-deep-ink)' }}>
             Key Findings
           </h3>
-          <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: 0 }}>
+          <p style={{ fontSize: '0.78rem', color: 'var(--color-muted-slate)', margin: 0 }}>
             Executive priority summary of critical risks and required changes.
           </p>
         </div>
@@ -935,27 +935,27 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
             alignItems: 'center', 
             justifyContent: 'space-between',
             padding: '8px 12px',
-            backgroundColor: 'var(--surface-subtle)',
+            backgroundColor: 'var(--color-surface-subtle)',
             borderRadius: 'var(--radius-sm)',
-            border: '1px solid var(--border)'
+            border: '1px solid var(--color-border-subtle)'
           }}
         >
-          <span style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+          <span style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--color-deep-ink)' }}>
             Total Findings: {findings.length}
           </span>
           <div style={{ display: 'flex', gap: '4px' }}>
             {criticalCount > 0 && (
-              <span className="badge badge-danger" style={{ fontSize: '0.65rem' }}>
+              <span className="badge badge-critical" style={{ fontSize: '0.65rem' }}>
                 {criticalCount} Critical
               </span>
             )}
             {warningCount > 0 && (
-              <span className="badge badge-warning" style={{ fontSize: '0.65rem' }}>
+              <span className="badge badge-expiring" style={{ fontSize: '0.65rem' }}>
                 {warningCount} Warning
               </span>
             )}
             {advisoryCount > 0 && (
-              <span className="badge badge-info" style={{ fontSize: '0.65rem' }}>
+              <span className="badge badge-teal" style={{ fontSize: '0.65rem' }}>
                 {advisoryCount} Advisory
               </span>
             )}
@@ -965,7 +965,7 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
         {/* Concise Bullet Points (Prioritizing High / Critical Issues First) */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {prioritizedKeyFindings.length === 0 ? (
-            <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>
+            <div style={{ fontSize: '0.82rem', color: 'var(--color-muted-slate)', fontStyle: 'italic' }}>
               No critical risks or policy exceptions detected.
             </div>
           ) : (
@@ -980,7 +980,7 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
                     gap: '8px',
                     fontSize: '0.82rem',
                     lineHeight: 1.45,
-                    color: 'var(--text-primary)'
+                    color: 'var(--color-deep-ink)'
                   }}
                 >
                   <div 
@@ -988,7 +988,7 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
                       width: '6px',
                       height: '6px',
                       borderRadius: '50%',
-                      backgroundColor: isHigh ? 'var(--danger)' : 'var(--primary)',
+                      backgroundColor: isHigh ? 'var(--color-error)' : 'var(--color-signal-coral)',
                       marginTop: '6px',
                       flexShrink: 0
                     }}
@@ -1001,7 +1001,7 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
         </div>
 
         {/* Phase 8: Quick Action to Compare Version Diff */}
-        <div style={{ borderTop: '1px solid var(--border)', paddingTop: '12px' }}>
+        <div style={{ borderTop: '1px solid var(--color-border-subtle)', paddingTop: '12px' }}>
           <button 
             type="button"
             onClick={() => setIsCompareModalOpen(true)}
@@ -1013,14 +1013,14 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
               fontSize: '0.82rem',
               fontWeight: 600,
               gap: '6px',
-              color: 'var(--info)',
-              borderColor: 'var(--info)'
+              color: 'var(--color-evidence-teal)',
+              borderColor: 'var(--color-evidence-teal)'
             }}
           >
             <GitCompare size={15} />
             <span>View Version Diff & History</span>
           </button>
-          <span style={{ display: 'block', textAlign: 'center', fontSize: '0.68rem', color: 'var(--text-muted)', marginTop: '4px' }}>
+          <span style={{ display: 'block', textAlign: 'center', fontSize: '0.68rem', color: 'var(--color-muted-slate)', marginTop: '4px' }}>
             Inspect additions, deletions, & addressed issues
           </span>
         </div>
@@ -1030,11 +1030,11 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
           <div 
             style={{ 
               padding: '8px 10px', 
-              backgroundColor: 'var(--danger-subtle)', 
+              backgroundColor: 'var(--color-error-subtle)', 
               borderRadius: 'var(--radius-sm)', 
-              border: '1px solid var(--danger)',
+              border: '1px solid var(--color-error)',
               fontSize: '0.74rem',
-              color: 'var(--danger)',
+              color: 'var(--color-error)',
               display: 'flex',
               alignItems: 'center',
               gap: '6px'
@@ -1046,7 +1046,7 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
         )}
 
         {/* Prominent PDF Download Button */}
-        <div style={{ borderTop: '1px solid var(--border)', paddingTop: '12px' }}>
+        <div style={{ borderTop: '1px solid var(--color-border-subtle)', paddingTop: '12px' }}>
           <button 
             type="button"
             onClick={handleDownloadPdf}
@@ -1076,7 +1076,7 @@ export const AnalysisResultsLayout: React.FC<AnalysisResultsLayoutProps> = ({
               </>
             )}
           </button>
-          <span style={{ display: 'block', textAlign: 'center', fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: '6px' }}>
+          <span style={{ display: 'block', textAlign: 'center', fontSize: '0.7rem', color: 'var(--color-muted-slate)', marginTop: '6px' }}>
             Multi-page certified report with severity, evidence citations, & replacement text
           </span>
         </div>

@@ -27,6 +27,7 @@ export function App() {
 
           {/* Authentication & Account Selection */}
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/brandguard" element={<Navigate to="/app/dashboard?tour=true" replace />} />
 
           {/* Authenticated Application */}
           <Route path="/app" element={<AppLayout />}>
